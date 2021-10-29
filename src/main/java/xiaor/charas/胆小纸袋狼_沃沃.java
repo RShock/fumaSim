@@ -13,11 +13,6 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
     }
 
     @Override
-    public void skill(Chara acceptor) {
-
-    }
-
-    @Override
     public void defense(Chara acceptor) {
 
     }
@@ -44,7 +39,7 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
         double[] multi = {0.96, 1.18, 1.41, 1.63, 1.86};
         return messagePack -> {
             TriggerManager.getInstance().registerSkillAttack(this, 2.00);
-            TriggerManager.getInstance().registerSelfAttackInc(this, multi[level]);
+            TriggerManager.getInstance().registerSelfAttackInc(this, Trigger.AFTER_SKILL_CAL, multi[level]);
             return true;
         };
     }

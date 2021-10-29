@@ -4,6 +4,7 @@ import xiaor.charas.胆小纸袋狼_沃沃;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static xiaor.Trigger.ATTACK;
 
@@ -35,7 +36,19 @@ public class GameBoard {
         enemyChara.add(chara);
     }
 
-    public void run(String s) {
-        ourChara.get(0).attack(enemyChara.get(0));
+    public void run(String originS) {
+        int our = 1,their = 1;
+        char mode = 'a';
+        String[] split = originS.split("\\s+");
+        for (String s : split) {
+            our = s.charAt(0) - '0' -1;
+            their = s.charAt(2) - '0' -1;
+            mode = s.charAt(1);
+            if(mode == 'a') {
+                ourChara.get(our).attack(enemyChara.get(their));
+            }else{
+                ourChara.get(our).skill(enemyChara.get(their));
+            }
+        }
     }
 }

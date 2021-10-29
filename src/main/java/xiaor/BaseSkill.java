@@ -11,6 +11,14 @@ public class BaseSkill implements Skill{
     private Trigger trigger;
     private Function<MessagePack, Boolean> check;
     private Function<MessagePack, Boolean> cast;
+    private SkillType type;
+    private int time;   //持续时间
+
+    public BaseSkill(Trigger trigger, Function<MessagePack, Boolean> check, Function<MessagePack, Boolean> cast) {
+        this.trigger = trigger;
+        this.check = check;
+        this.cast = cast;
+    }
 
     @Override
     public Trigger getTrigger() {
@@ -24,6 +32,9 @@ public class BaseSkill implements Skill{
 
     @Override
     public boolean cast(MessagePack pack) {
+        if(type == SkillType.ONCE){
+            type = SkillType.DISABLED;
+        }
         return cast.apply(pack);
     }
 }

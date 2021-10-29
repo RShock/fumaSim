@@ -2,8 +2,6 @@ package xiaor;
 
 import java.util.HashMap;
 
-import static xiaor.DamageBuffType.攻击力增加;
-
 public class DamageCal {
     private final MessagePack pack;
     private HashMap<DamageBuffType, Double> damageBuffMap;
@@ -16,6 +14,9 @@ public class DamageCal {
     public boolean changeDamage(DamageBuffType type, double percent){
         if(damageBuffMap.containsKey(type)) {
             damageBuffMap.put(type, damageBuffMap.get(type) + percent);
+        }else
+        {
+            damageBuffMap.put(type, percent);
         }
         return true;
     }
@@ -28,16 +29,20 @@ public class DamageCal {
         int lifeRemain = pack.acceptor.getLife() - finalDamage;
         pack.acceptor.setLife(lifeRemain);
         System.out.println("life remain:" + lifeRemain);
+        damageBuffMap.clear();
     }
 
     public boolean normalAttack(double percent) {
         TriggerManager.getInstance().sendMessage(Trigger.ATTACK_DAMAGE_CAL, MessagePack.builder().damageCal(this).build());
         finalDamage(percent);
+
         return true;
     }
 
     public int getCurrentAttack() {
-        TriggerManager.getInstance().sendMessage(Trigger.ATTACK_CAL, MessagePack.builder().damageCal(this).build());
+        TriggerManager.getInstance().sendMessage(Trigger.ATTACK_CAL, MessagePack.builder()
+                .caster(pack.caster)
+                .damageCal(this).build());
         double baseAtk = pack.caster.getAttack();
         int finalAtk = damageBuffMap.entrySet().stream()
                 .filter(s -> !s.getKey().equals(DamageBuffType.攻击力数值增加))
@@ -46,11 +51,13 @@ public class DamageCal {
         if(damageBuffMap.containsKey(DamageBuffType.攻击力数值增加)) {
             finalAtk += damageBuffMap.get(DamageBuffType.攻击力数值增加);
         }
+        damageBuffMap.clear();
         return finalAtk;
     }
     public boolean skillAttack(double percent) {
         TriggerManager.getInstance().sendMessage(Trigger.SKILL_DAMAGE_CAL, MessagePack.builder().damageCal(this).build());
         finalDamage(percent);
+        TriggerManager.getInstance().sendMessage(Trigger.AFTER_SKILL_CAL, pack);
         return true;
     }
 }
