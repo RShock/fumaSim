@@ -1,6 +1,7 @@
 package xiaor;
 
-import lombok.Getter;
+
+import java.util.function.Function;
 
 public interface Chara {
     default void attack(Chara acceptor){
@@ -19,12 +20,18 @@ public interface Chara {
         TriggerManager.getInstance().sendMessage(Trigger.SKILL, pack);
     }
 
+    default boolean self(MessagePack pack) {
+        return pack.caster == this;
+    }
+
     void defense(Chara acceptor);
 
-    void initSkills(GameBoard board);
+    void initSkills();
 
     int getAttack();
     int getLife();
 
     void setLife(int lifeRemain);
+
+    Function<MessagePack, Boolean> getSkill(int level);
 }

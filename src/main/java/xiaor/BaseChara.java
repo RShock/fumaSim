@@ -24,4 +24,6 @@ public abstract class BaseChara implements Chara {
 
     private Element element;
 
+    private int skillLevel;
+
 }

@@ -12,5 +12,5 @@ public class MessagePack {
 
     public Chara acceptor;
 
-    public AttackDamageCal attackDamageCal;
+    public DamageCal damageCal;
 }

@@ -17,8 +17,6 @@ public class GameBoard {
     private GameBoard() {
         ourChara = new ArrayList<>();
         enemyChara = new ArrayList<>();
-        TriggerManager.getInstance().registerSkill(
-                new BaseSkill(ATTACK, pack->true, pack-> new AttackDamageCal(pack).handle()));
     }
 
     private int turn;
