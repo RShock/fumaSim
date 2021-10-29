@@ -22,7 +22,9 @@ public class AttackDamageCal {
         int finalDamage = damageBuffMap.values().stream().map(aDouble -> aDouble + 1)
                 .reduce(baseDamage, (a, b) -> (a * b)).intValue();
         System.out.println("damage:" + finalDamage);
-
+        int lifeRemain = pack.acceptor.getLife() - finalDamage;
+        pack.acceptor.setLife(lifeRemain);
+        System.out.println("life remain:" + lifeRemain);
     }
 
     public boolean handle() {

@@ -1,7 +1,9 @@
 package xiaor;
 
+import lombok.Getter;
+
 public interface Chara {
-    default void attack(GameBoard board, Chara acceptor){
+    default void attack(Chara acceptor){
         MessagePack pack = MessagePack.builder()
                 .acceptor(acceptor)
                 .caster(this)
@@ -22,4 +24,7 @@ public interface Chara {
     void initSkills(GameBoard board);
 
     int getAttack();
+    int getLife();
+
+    void setLife(int lifeRemain);
 }

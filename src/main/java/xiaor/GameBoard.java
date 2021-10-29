@@ -36,4 +36,8 @@ public class GameBoard {
     public void addEnemyChara(Chara chara) {
         enemyChara.add(chara);
     }
+
+    public void run(String s) {
+        ourChara.get(0).attack(enemyChara.get(0));
+    }
 }
