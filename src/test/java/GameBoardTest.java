@@ -43,4 +43,18 @@ class GameBoardTest {
         assertEquals(104, wowo2.getLife());
         //第一回合开大打200 第二回合不开大打196
     }
+
+    @Test
+    void should_Wowo_leader_much_stronger() {
+        GameBoard board = GameBoard.getInstance();
+        胆小纸袋狼_沃沃 wowo = new 胆小纸袋狼_沃沃("沃沃1号");
+        wowo.setAttack(100);
+        wowo.setLeader(true);
+        胆小纸袋狼_沃沃 wowo2 = new 胆小纸袋狼_沃沃("沃沃2号");
+        wowo2.setLife(500);
+        board.addOurChara(wowo);
+        board.addEnemyChara(wowo2);
+        board.run("1d1 1a1");
+        assertEquals(104, wowo2.getLife());
+    }
 }

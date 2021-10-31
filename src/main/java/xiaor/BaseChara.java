@@ -1,14 +1,13 @@
 package xiaor;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public abstract class BaseChara implements Chara {
     private int charaId;
 
@@ -24,6 +23,16 @@ public abstract class BaseChara implements Chara {
 
     private Element element;
 
-    private int skillLevel;
+    private int skillLevel = 1;
+
+    private boolean isLeader = false;
+
+    public BaseChara(String name) {
+        this.name = name;
+    }
+
+    public String toString() {
+        return name;
+    }
 
 }

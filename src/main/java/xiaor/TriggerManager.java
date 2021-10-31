@@ -3,6 +3,7 @@ package xiaor;
 import java.util.ArrayList;
 import java.util.List;
 
+import static xiaor.Common.INFI;
 import static xiaor.Trigger.*;
 
 public class TriggerManager {
@@ -19,7 +20,14 @@ public class TriggerManager {
     }
 
     public boolean registerSkill(Skill skill) {
+        System.out.println("＋新增：" + skill);
         skills.add(skill);
+        return true;
+    }
+
+    public boolean registerBuff(Buff buff) {
+        System.out.println("＋新增buff: " + buff);
+        skills.add(buff);
         return true;
     }
 
@@ -28,30 +36,54 @@ public class TriggerManager {
         for (int i = 0; i < skills.size(); i++) {
             if (!skills.get(i).getTrigger().equals(trigger)) continue;
             if (!skills.get(i).check(pack)) continue;
+            System.out.println("※触发" + trigger + " -> " + skills.get(i).toString());
             skills.get(i).cast(pack);
         }
     }
 
-    public void registerNormalAttack(Chara caster, double percent) {
-        registerSkill(new BaseSkill(ATTACK, pack -> pack.caster.equals(caster),
-                pack -> new DamageCal(pack).normalAttack(percent)));
+    public void registerNormalAttack(Chara caster, String name, double percent) {
+        registerSkill(new BaseSkill(name, 普通攻击, pack -> pack.caster.equals(caster),
+                pack -> new DamageCal(pack).normalAttack(percent), INFI));
     }
 
-    public void registerSkillAttack(Chara caster, double multi) {
-        registerSkill(new BaseSkill(SKILL, pack -> pack.caster.equals(caster),
-                pack -> new DamageCal(pack).skillAttack(multi)));
+    public void registerSkillAttack(Chara caster, String name, double multi) {
+        registerSkill(new BaseSkill(name, SKILL, pack -> pack.getCaster().equals(caster),
+                pack -> new DamageCal(pack).skillAttack(multi), INFI));
     }
 
-    public void registerSelfAttackInc(Chara caster, Trigger trigger, double inc) {
-        Skill incAtkSkill = new BaseSkill(ATTACK_CAL, pack -> pack.caster.equals(caster),
-                pack -> pack.getDamageCal().changeDamage(DamageBuffType.攻击力增加, inc));
+    public void registerSelfAttackInc(Chara caster, String buffName, Trigger trigger, double inc) {
+        registerAttackInc(caster, caster, buffName, trigger, inc, INFI);
+    }
 
-        BaseSkill skill = BaseSkill.builder()
-                .trigger(trigger).check(pack -> pack.caster.equals(caster))
-                .cast(pack -> registerSkill(incAtkSkill))
-                .type(SkillType.ONCE)       //增加攻击力只持续1次
+    public void registerSelfAttackInc(Chara caster, String buffName, Trigger trigger, double inc, int during) {
+        registerAttackInc(caster, caster, buffName, trigger, inc, during);
+    }
+
+    public void registerAttackInc(Chara caster, Chara acceptor, String buffName, Trigger trigger, double inc) {
+        registerAttackInc(caster, acceptor, buffName, trigger, inc, 50);
+    }
+
+    public void registerAttackInc(Chara caster, Chara acceptor, String buffName, Trigger trigger, double inc, int during) {
+        Buff atkIncBuff = Buff.builder()
+                .caster(caster)
+                .acceptor(acceptor)
+                .buffName(buffName)
+                .time(during)
+                .type(SkillType.CONTINUIOUS)
+                .trigger(攻击力计算)
+                .check(pack -> pack.getCaster().equals(caster))
+                .cast(pack -> pack.getDamageCal().changeDamage(BuffType.攻击力增加, inc))
                 .build();
 
-        registerSkill(skill);
+        Buff buff = Buff.builder()
+                .trigger(trigger).check(pack -> pack.caster.equals(acceptor))
+                .cast(pack -> registerBuff(atkIncBuff))
+                .type(SkillType.ONCE)       //增加攻击力只持续1次
+                .buffName(caster + "要在" + trigger + "场合使用" + atkIncBuff)
+                .caster(caster)
+                .acceptor(acceptor)
+                .build();
+
+        registerBuff(buff);
     }
 }

@@ -1,13 +1,11 @@
 package xiaor;
 
-import xiaor.charas.胆小纸袋狼_沃沃;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
-import static xiaor.Trigger.ATTACK;
-
+@Getter
 public class GameBoard {
     private static GameBoard gameBoard= new GameBoard();
 
@@ -37,6 +35,7 @@ public class GameBoard {
     }
 
     public void run(String originS) {
+        TriggerManager.getInstance().sendMessage(Trigger.START_OF_GAME, new MessagePack());
         int our = 1,their = 1;
         char mode = 'a';
         String[] split = originS.split("\\s+");

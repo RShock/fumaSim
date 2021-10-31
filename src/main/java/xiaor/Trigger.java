@@ -1,11 +1,12 @@
 package xiaor;
 
 public enum Trigger {
-    ATTACK,
+    普通攻击,
     SKILL,
 
-    ATTACK_DAMAGE_CAL, SKILL_DAMAGE_CAL, ATTACK_CAL, BEFORE_ATTACK,
-    AFTER_SKILL_CAL             //大招后buff结算
+    ATTACK_DAMAGE_CAL, SKILL_DAMAGE_CAL, 攻击力计算, BEFORE_ATTACK,
+    技能释放结束后             //大招后buff结算
+    ,
 
-    ;
+    START_OF_GAME;
 }

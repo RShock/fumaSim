@@ -9,7 +9,7 @@ public interface Chara {
                 .acceptor(acceptor)
                 .caster(this)
                 .build();
-        TriggerManager.getInstance().sendMessage(Trigger.ATTACK, pack);
+        TriggerManager.getInstance().sendMessage(Trigger.普通攻击, pack);
     }
 
     default void skill(Chara acceptor){
