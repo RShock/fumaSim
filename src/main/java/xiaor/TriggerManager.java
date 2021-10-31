@@ -71,19 +71,17 @@ public class TriggerManager {
                 .time(during)
                 .type(SkillType.CONTINUIOUS)
                 .trigger(攻击力计算)
-                .check(pack -> pack.getCaster().equals(caster))
+                .check(pack -> pack.checkCaster(acceptor))
                 .cast(pack -> pack.getDamageCal().changeDamage(BuffType.攻击力增加, inc))
                 .build();
 
-        Buff buff = Buff.builder()
-                .trigger(trigger).check(pack -> pack.caster.equals(acceptor))
+        Skill skill = BaseSkill.builder()
+                .trigger(trigger).check(pack -> true)
                 .cast(pack -> registerBuff(atkIncBuff))
                 .type(SkillType.ONCE)       //增加攻击力只持续1次
-                .buffName(caster + "要在" + trigger + "场合使用" + atkIncBuff)
-                .caster(caster)
-                .acceptor(acceptor)
+                .name(caster + "要在" + trigger + "场合使用" + atkIncBuff)
                 .build();
 
-        registerBuff(buff);
+        registerSkill(skill);
     }
 }

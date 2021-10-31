@@ -20,25 +20,23 @@ class GameBoardTest {
     @Test
     void should_Wowo_attack() {
         GameBoard board = GameBoard.getInstance();
-        胆小纸袋狼_沃沃 wowo = new 胆小纸袋狼_沃沃();
-        胆小纸袋狼_沃沃 wowo2 = new 胆小纸袋狼_沃沃();
-        wowo.setAttack(100);
-        wowo2.setLife(101);
+        胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.builder().name("沃沃1").attack(100).build();
+        胆小纸袋狼_沃沃 wowo2 = 胆小纸袋狼_沃沃.builder().name("沃沃2").life(500).build();
         board.addOurChara(wowo);
         board.addEnemyChara(wowo2);
+        board.initSkills();
         board.run("1a1");
-        assertEquals(1, wowo2.getLife());
+        assertEquals(400, wowo2.getLife());
     }
 
     @Test
     void should_Wowo_skill_and_attack() {
         GameBoard board = GameBoard.getInstance();
-        胆小纸袋狼_沃沃 wowo = new 胆小纸袋狼_沃沃();
-        胆小纸袋狼_沃沃 wowo2 = new 胆小纸袋狼_沃沃();
-        wowo.setAttack(100);
-        wowo2.setLife(500);
+        胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.builder().name("沃沃1").attack(100).build();
+        胆小纸袋狼_沃沃 wowo2 = 胆小纸袋狼_沃沃.builder().name("沃沃2").life(500).build();
         board.addOurChara(wowo);
         board.addEnemyChara(wowo2);
+        board.initSkills();
         board.run("1d1 1a1");
         assertEquals(104, wowo2.getLife());
         //第一回合开大打200 第二回合不开大打196
@@ -47,13 +45,11 @@ class GameBoardTest {
     @Test
     void should_Wowo_leader_much_stronger() {
         GameBoard board = GameBoard.getInstance();
-        胆小纸袋狼_沃沃 wowo = new 胆小纸袋狼_沃沃("沃沃1号");
-        wowo.setAttack(100);
-        wowo.setLeader(true);
-        胆小纸袋狼_沃沃 wowo2 = new 胆小纸袋狼_沃沃("沃沃2号");
-        wowo2.setLife(500);
+        胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.builder().isLeader(true).attack(100).name("沃沃1号").build();
+        胆小纸袋狼_沃沃 wowo2 = 胆小纸袋狼_沃沃.builder().life(500).name("沃沃2号").build();
         board.addOurChara(wowo);
         board.addEnemyChara(wowo2);
+        board.initSkills();
         board.run("1d1 1a1");
         assertEquals(104, wowo2.getLife());
     }

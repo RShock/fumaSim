@@ -8,5 +8,5 @@ public enum Trigger {
     技能释放结束后             //大招后buff结算
     ,
 
-    START_OF_GAME;
+    游戏开始时;
 }

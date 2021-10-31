@@ -35,7 +35,7 @@ public class GameBoard {
     }
 
     public void run(String originS) {
-        TriggerManager.getInstance().sendMessage(Trigger.START_OF_GAME, new MessagePack());
+        TriggerManager.getInstance().sendMessage(Trigger.游戏开始时, new MessagePack());
         int our = 1,their = 1;
         char mode = 'a';
         String[] split = originS.split("\\s+");
@@ -49,5 +49,9 @@ public class GameBoard {
                 ourChara.get(our).skill(enemyChara.get(their));
             }
         }
+    }
+
+    public void initSkills() {
+        ourChara.forEach(Chara::initSkills);
     }
 }

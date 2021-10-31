@@ -13,4 +13,8 @@ public class MessagePack {
     public Chara acceptor;
 
     public DamageCal damageCal;
+
+    public boolean checkCaster(Chara caster) {
+        return caster.equals(this.caster);
+    }
 }
