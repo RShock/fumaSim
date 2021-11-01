@@ -51,7 +51,7 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
                     Trigger.游戏开始时,0.2);
             GameBoard.getInstance().getOurChara().forEach(chara -> {
                 TriggerManager.getInstance().registerAttackInc(this, chara,
-                        this.toString() + "_队长技能_队员攻击+40%", Trigger.游戏开始时, 0.4);
+                        this + "_队长技能_队员攻击+40%", Trigger.游戏开始时, 0.4);
             });
         }
 
@@ -66,7 +66,8 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
             TriggerManager.getInstance().registerSkillAttack(this, this + "的必杀！", 2.00,
                     pack -> {
                         TriggerManager.getInstance().addAtkIncImi(this, this,
-                                this.toString() + "大招_攻击加成_羁绊"+level, multi[level], 6);
+                                this.toString() + "大招_攻击加成_羁绊"+level, multi[level], 6,
+                                pack2 ->this.setMoved());
                         return true;
                     });
 

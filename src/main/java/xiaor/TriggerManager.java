@@ -96,7 +96,7 @@ public class TriggerManager {
         registerSkill(skill);
     }
 
-    public void addAtkIncImi(Chara caster, Chara acceptor, String buffName, double inc, int during) {
+    public void addAtkIncImi(Chara caster, Chara acceptor, String buffName, double inc, int during, Function<Package, Boolean> callBack) {
         Buff atkIncBuff = Buff.builder()
                 .caster(caster)
                 .acceptor(acceptor)

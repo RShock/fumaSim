@@ -50,4 +50,14 @@ public abstract class BaseChara implements Chara {
 
     public abstract void initSkills();
 
+    public boolean setMoved() {
+        this.isMoved = true;
+        return true;
+    }
+
+    public boolean setUnMoved() {
+        this.isMoved = false;
+        return true;
+    }
+
 }
