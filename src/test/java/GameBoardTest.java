@@ -1,4 +1,5 @@
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import xiaor.GameBoard;
 import xiaor.charas.木桩;
@@ -7,6 +8,8 @@ import xiaor.charas.胆小纸袋狼_沃沃;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameBoardTest {
+
+    GameBoard board = GameBoard.getInstance();
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
@@ -18,9 +21,13 @@ class GameBoardTest {
         GameBoard.getInstance().addOurChara(wowo);
     }
 
+    @BeforeEach
+    void resetBoard() {
+        board.resetBoard();
+    }
+
     @Test
     void should_Wowo_attack() {
-        GameBoard board = GameBoard.getInstance();
         胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.builder().name("沃沃1").attack(100).build();
         胆小纸袋狼_沃沃 wowo2 = 胆小纸袋狼_沃沃.builder().name("沃沃2").life(500).build();
         board.addOurChara(wowo);
@@ -32,7 +39,6 @@ class GameBoardTest {
 
     @Test
     void should_Wowo_skill_and_attack() {
-        GameBoard board = GameBoard.getInstance();
         胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.builder().name("沃沃1").attack(100).build();
         胆小纸袋狼_沃沃 wowo2 = 胆小纸袋狼_沃沃.builder().name("沃沃2").life(500).build();
         board.addOurChara(wowo);
@@ -45,7 +51,6 @@ class GameBoardTest {
 
     @Test
     void should_Wowo_leader_much_stronger() {
-        GameBoard board = GameBoard.getInstance();
         胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.builder().isLeader(true).attack(100).name("沃沃1号").build();
         胆小纸袋狼_沃沃 wowo2 = 胆小纸袋狼_沃沃.builder().life(500).name("沃沃2号").build();
         board.addOurChara(wowo);
@@ -57,13 +62,12 @@ class GameBoardTest {
 
     @Test
     void 沃沃队长技普攻击测试() {
-        GameBoard board = GameBoard.getInstance();
         胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.builder().isLeader(true).attack(100).name("沃沃").build();
         木桩 deadman = 木桩.builder().life(500).name("木桩").build();
         board.addOurChara(wowo);
         board.addEnemyChara(deadman);
         board.initSkills();
         board.run("1a1");
-        assertEquals(360, deadman.getLife());
+        assertEquals(340, deadman.getLife());
     }
 }

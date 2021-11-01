@@ -2,6 +2,7 @@ package xiaor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import static xiaor.Common.INFI;
 import static xiaor.Trigger.*;
@@ -9,7 +10,7 @@ import static xiaor.Trigger.*;
 public class TriggerManager {
     public List<Skill> skills;
 
-    private static final TriggerManager triggerManager = new TriggerManager();
+    private static TriggerManager triggerManager = new TriggerManager();
 
     private TriggerManager() {
         skills = new ArrayList<>();
@@ -17,6 +18,10 @@ public class TriggerManager {
 
     public static TriggerManager getInstance() {
         return triggerManager;
+    }
+
+    public void reset() {
+        triggerManager = new TriggerManager();
     }
 
     public boolean registerSkill(Skill skill) {
@@ -42,13 +47,19 @@ public class TriggerManager {
     }
 
     public void registerNormalAttack(Chara caster, String name, double percent) {
-        registerSkill(new BaseSkill(name, 普通攻击, pack -> pack.caster.equals(caster),
+        registerSkill(new BaseSkill(name, 普通攻击, pack -> pack.checkCaster(caster),
                 pack -> new DamageCal(pack).normalAttack(percent), INFI));
     }
 
-    public void registerSkillAttack(Chara caster, String name, double multi) {
-        registerSkill(new BaseSkill(name, SKILL, pack -> pack.getCaster().equals(caster),
-                pack -> new DamageCal(pack).skillAttack(multi), INFI));
+    public void registerSkillAttack(Chara caster, String name, double multi, Function<MessagePack, Boolean> callback) {
+        BaseSkill atkSkill = BaseSkill.builder().name(name).trigger(SKILL).check(pack -> pack.checkCaster(caster))
+                .cast(pack -> {
+                    new DamageCal(pack).skillAttack(multi);
+                    return callback.apply(pack);
+                })
+                .time(INFI)
+                .build();
+        registerSkill(atkSkill);
     }
 
     public void registerSelfAttackInc(Chara caster, String buffName, Trigger trigger, double inc) {
@@ -84,4 +95,19 @@ public class TriggerManager {
 
         registerSkill(skill);
     }
+
+    public void addAtkIncImi(Chara caster, Chara acceptor, String buffName, double inc, int during) {
+        Buff atkIncBuff = Buff.builder()
+                .caster(caster)
+                .acceptor(acceptor)
+                .buffName(buffName)
+                .time(during)
+                .type(SkillType.CONTINUIOUS)
+                .trigger(攻击力计算)
+                .check(pack -> pack.checkCaster(acceptor))
+                .cast(pack -> pack.getDamageCal().changeDamage(BuffType.攻击力增加, inc))
+                .build();
+        registerBuff(atkIncBuff);
+    }
+
 }

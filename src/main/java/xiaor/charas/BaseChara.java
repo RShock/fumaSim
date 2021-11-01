@@ -2,7 +2,6 @@ package xiaor.charas;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import xiaor.Buff;
 import xiaor.Chara;
 import xiaor.Element;
 import xiaor.Skill;
@@ -24,7 +23,7 @@ public abstract class BaseChara implements Chara {
 
     private int life;
 
-    private List<Buff> buffs;
+    private boolean isMoved;
 
     private Element element;
 

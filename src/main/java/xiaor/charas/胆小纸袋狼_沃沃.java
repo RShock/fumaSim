@@ -54,16 +54,22 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
                         this.toString() + "_队长技能_队员攻击+40%", Trigger.游戏开始时, 0.4);
             });
         }
+
+        //3星技能 3连爪击
+
     }
 
     @Override
     public Function<MessagePack, Boolean> getSkill(int level) {
         double[] multi = {0, 0.96, 1.18, 1.41, 1.63, 1.86};
         return messagePack -> {
-            TriggerManager.getInstance().registerSkillAttack(this, this + "的必杀！", 2.00);
-            TriggerManager.getInstance().registerSelfAttackInc(this, 
-                    this.toString() + "大招_攻击加成_羁绊"+level,
-                    Trigger.技能释放结束后, multi[level]);
+            TriggerManager.getInstance().registerSkillAttack(this, this + "的必杀！", 2.00,
+                    pack -> {
+                        TriggerManager.getInstance().addAtkIncImi(this, this,
+                                this.toString() + "大招_攻击加成_羁绊"+level, multi[level], 6);
+                        return true;
+                    });
+
             return true;
         };
     }

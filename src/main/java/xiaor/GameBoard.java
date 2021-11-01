@@ -16,6 +16,7 @@ public class GameBoard {
     private GameBoard() {
         ourChara = new ArrayList<>();
         enemyChara = new ArrayList<>();
+//        TriggerManager.getInstance().registerSkill(Trigger.)
     }
 
     private int turn;
@@ -53,5 +54,11 @@ public class GameBoard {
 
     public void initSkills() {
         ourChara.forEach(Chara::initSkills);
+    }
+
+    public void resetBoard() {
+        ourChara = new ArrayList<>();
+        enemyChara = new ArrayList<>();
+        TriggerManager.getInstance().reset();
     }
 }
