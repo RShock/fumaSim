@@ -1,12 +1,14 @@
 package xiaor.charas;
 
+import lombok.experimental.SuperBuilder;
 import xiaor.Chara;
 import xiaor.MessagePack;
 
 import java.util.function.Function;
 
 
-public class 木桩_水属性 extends BaseChara {
+@SuperBuilder(toBuilder = true)
+public class 木桩 extends BaseChara {
 
     @Override
     public void defense(Chara acceptor) {

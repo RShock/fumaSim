@@ -51,7 +51,7 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
                     Trigger.游戏开始时,0.2);
             GameBoard.getInstance().getOurChara().forEach(chara -> {
                 TriggerManager.getInstance().registerAttackInc(this, chara,
-                        this.toString() + "_队长技能_队员攻击+40%", Trigger.游戏开始时, 0.2);
+                        this.toString() + "_队长技能_队员攻击+40%", Trigger.游戏开始时, 0.4);
             });
         }
     }
