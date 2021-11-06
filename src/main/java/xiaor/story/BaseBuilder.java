@@ -9,38 +9,47 @@ import java.util.function.Function;
  * 将触发器模式转为函数式流写法
  */
 public class BaseBuilder implements BuilderInterface{
-    List<Function<MessagePack, Boolean>> callBacks;
-    BaseBuilder preBuilder;
-    BaseBuilder nextBuilder;
+    public int thenId;
+    public Chara caster;
+    public List<Chara> acceptor;
+    public Trigger trigger;
+    public int lasted;
+    public String name;
+    public BaseBuilder preBuilder;
+    public BaseBuilder nextBuilder;
 
     public BaseBuilder() {
-        preBuilder = this;
+        this.preBuilder = this;
     }
 
-    public BaseBuilder(BaseBuilder preBuilder) {
-        this.preBuilder = preBuilder;
-        preBuilder.nextBuilder = this;
+    public BaseBuilder(BaseBuilder builder) {
+        this.preBuilder = builder;
+        this.caster = builder.caster;
+        this.acceptor = builder.acceptor;
+        builder.nextBuilder = this;
     }
 
 
-//    public BaseBuilder then(Function<MessagePack,Boolean> callBack) {
-//        callBacks.add(callBack);
-//    }
-
-    public IncAtkBuilder incAtk() {
-        return new IncAtkBuilder(this);
+    public BuffBuilder increaseAtk(double multi) {
+        BuffBuilder buffBuilder = new BuffBuilder(multi, this);
+        return buffBuilder;
     }
 
-//    public Skill buildSkillAttack() {
-//        callBack
-//
-//        if(story.acceptor == null || story.name == null || story.multi == 0)throw new RuntimeException("不完整的Story");
-//        TriggerManager.getInstance().registerSkillAttack(story.castor, story.name, story.multi,);
-//        return
-//    }
+    public ThenBuilder then() {
+        return new ThenBuilder(this);
+    }
 
     @Override
     public void build() {
+        if(preBuilder != this)
+            preBuilder.build();
+        else{
+            buildThis();
+        }
+    }
 
+    @Override
+    public BaseBuilder buildThis() {
+        return nextBuilder.buildThis();
     }
 }

@@ -1,11 +1,9 @@
 package xiaor;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.util.UUID;
 import java.util.function.Function;
 
 @SuperBuilder(toBuilder = true)
@@ -15,7 +13,7 @@ public class BaseSkill implements Skill{
     private Trigger trigger;
     private Function<MessagePack, Boolean> check;
     private Function<MessagePack, Boolean> cast;
-    private SkillType type;
+    private SkillTime type;
     private int time;   //持续时间
     private String name; //名字
 
@@ -40,8 +38,8 @@ public class BaseSkill implements Skill{
 
     @Override
     public boolean cast(MessagePack pack) {
-        if(type == SkillType.ONCE){
-            type = SkillType.DISABLED;
+        if(type == SkillTime.ONCE){
+            type = SkillTime.DISABLED;
         }
         return cast.apply(pack);
     }

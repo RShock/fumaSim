@@ -3,10 +3,12 @@ package xiaor.charas;
 
 import lombok.experimental.SuperBuilder;
 import xiaor.*;
+import xiaor.story.SkillAtkBuilder;
 
 import java.util.function.Function;
 
 import static xiaor.Common.INFI;
+import static xiaor.story.SkillAtkBuilder.SkillType.必杀;
 
 @SuperBuilder(toBuilder = true)
 public class 胆小纸袋狼_沃沃 extends BaseChara {
@@ -30,17 +32,18 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
 
     @Override
     public void initSkills() {
-        //必杀
-        TriggerManager.getInstance().registerSkill(
-                BaseSkill.builder()
-                        .trigger(Trigger.SKILL)
-                        .check(this::self)
-                        .name(this + "记住了必杀")
-                        .time(INFI)
-                        .cast(pack ->
-                                getSkill(getSkillLevel()).apply(pack)
-                        )
-                        .build());
+        double[] multi = {0, 0.96, 1.18, 1.41, 1.63, 1.86};
+
+        SkillAtkBuilder.createSkill(this)
+                .type(必杀)
+                .damageMulti(2)
+                .toCurrentEnemy()
+                .then()
+                .increaseAtk(multi[getSkillLevel()])
+                .toSelf()
+                .lasted(6)
+                .name(this+"必杀附带普攻增加")
+                .build();
 
         //普攻技能
         TriggerManager.getInstance().registerNormalAttack(this, this + "记住了普攻", 1.00);
@@ -57,22 +60,6 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
 
         //3星技能 3连爪击
 
-    }
-
-    @Override
-    public Function<MessagePack, Boolean> getSkill(int level) {
-        double[] multi = {0, 0.96, 1.18, 1.41, 1.63, 1.86};
-        return messagePack -> {
-            TriggerManager.getInstance().registerSkillAttack(this, this + "的必杀！", 2.00,
-                    pack -> {
-                        TriggerManager.getInstance().addAtkIncImi(this, this,
-                                this.toString() + "大招_攻击加成_羁绊"+level, multi[level], 6,
-                                pack2 ->this.setMoved());
-                        return true;
-                    });
-
-            return true;
-        };
     }
 
     @Override

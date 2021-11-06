@@ -33,5 +33,5 @@ public interface Chara {
 
     void setLife(int lifeRemain);
 
-    Function<MessagePack, Boolean> getSkill(int level);
+//    Function<MessagePack, Boolean> getSkill(int level);
 }

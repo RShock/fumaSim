@@ -1,5 +1,7 @@
 package xiaor;
 
+import xiaor.story.BuffType;
+
 import java.util.HashMap;
 
 public class DamageCal {
