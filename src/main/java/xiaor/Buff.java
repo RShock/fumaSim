@@ -13,7 +13,6 @@ import java.util.function.Function;
 @AllArgsConstructor
 @Getter
 public class Buff extends BaseSkill{
-    String buffName;
     Chara caster;
     Chara acceptor;
 
@@ -29,6 +28,9 @@ public class Buff extends BaseSkill{
 //    }
 
     public String toString() {
-        return buffName + '[' + caster + "->" + acceptor + ']';
+        String tempS;
+        if(caster == acceptor)tempS = caster + "给自己";
+        else tempS =  caster + "->" + acceptor;
+        return name + '[' + tempS + "] 持续" + time +"回合";
     }
 }

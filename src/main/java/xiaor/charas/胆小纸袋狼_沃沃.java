@@ -6,6 +6,7 @@ import xiaor.*;
 import xiaor.story.DamageBuilder;
 import xiaor.story.SkillBuilder;
 
+import static xiaor.Common.INFI;
 import static xiaor.TriggerEnum.游戏开始时;
 import static xiaor.TriggerEnum.释放必杀后;
 import static xiaor.story.DamageBuilder.DamageType.必杀伤害;
@@ -16,15 +17,14 @@ import static xiaor.story.SkillType.*;
 public class 胆小纸袋狼_沃沃 extends BaseChara {
 
     public 胆小纸袋狼_沃沃() {
-        super("沃沃", false);
+        this("沃沃");
     }
 
     public 胆小纸袋狼_沃沃(String name) {
-        super(name);
-    }
-
-    public 胆小纸袋狼_沃沃(String name, boolean isLeader) {
-        super(name, isLeader);
+        super();
+        this.name = name;
+        this.element = Element.风属性;
+        this.isLeader = false;
     }
 
     @Override
@@ -42,10 +42,10 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
                 .damageMulti(2)
                 .to(GameBoard.getCurrentEnemy())
                 .then()
-                .increaseAtk(multi[getSkillLevel()])
+                .increaseNormalAtk(multi[getSkillLevel()])
                 .toSelf()
                 .lasted(6)
-                .name(this + "必杀附带普攻增加")
+                .name(this + "必杀附带普攻增加"+ multi[getSkillLevel()]*100 + "%")
                 .build();
 
         SkillBuilder.createDamageSkill(this)
@@ -59,21 +59,24 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
         if (isLeader()) {
             SkillBuilder.createSkill(this)
                     .type(队长技能)
+                    .lasted(INFI)
                     .when(游戏开始时)
-                    .increaseAtk(0.2)
-                    .name(this + "自己攻击力增加20%")
+                    .name("沃沃的队长技能")
+                    .increaseNormalAtk(0.2)
+                    .name(this + "自己普攻攻击力增加20%")
                     .toSelf()
                     .and()
-                    .increaseAtk(0.4)
-                    .name(this + "全队攻击力增加40%")
+                    .increaseNormalAtk(0.4)
+                    .name(this + "全队普攻攻击力增加40%")
                     .toAlly()
                     .build();
         }
 
-        //3连爪击
+        //3星技能 3连爪击
         if (star >= 3) {
             SkillBuilder.createSkill(this)
                     .type(三星技能)
+                    .lasted(6)
                     .whenSelf(释放必杀后)
                     .damageMulti(0.3)
                     .damageType(普通伤害)
@@ -88,19 +91,6 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
                     .to(GameBoard.selectTarget(5))
                     .build();
         }
-
-
-//        //队长技能
-//        if(isLeader()) {
-//            TriggerManager.getInstance().registerSelfAttackInc(this, this + "_队长技能_自身攻击+20%",
-//                    游戏开始时,0.2);
-//            GameBoard.getInstance().getOurChara().forEach(chara -> {
-//                TriggerManager.getInstance().registerAttackInc(this, chara,
-//                        this + "_队长技能_队员攻击+40%", 游戏开始时, 0.4);
-//            });
-//        }
-
-        //3星技能 3连爪击
 
     }
 

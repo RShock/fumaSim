@@ -1,14 +1,13 @@
 package xiaor;
 
-import xiaor.story.BuffType;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static xiaor.Common.INFI;
-import static xiaor.TriggerEnum.*;
-
 public class TriggerManager {
+    public static Boolean SKILL_LOG = false;
+
+    public static Boolean BUFF_LOG = true;
+
     public List<Skill> skills;
 
     private int IDGen = 0;
@@ -45,27 +44,27 @@ public class TriggerManager {
         return true;
     }
 
-    public boolean respondMessage(TriggerEnum trigger, MessagePack pack) {
+    public boolean _sendMessage(TriggerEnum trigger, MessagePack pack) {
         boolean isRespond = false;
         //普通for循环防止迭代器问题
         for (int i = 0; i < skills.size(); i++) {
             if (!skills.get(i).getTrigger().equals(trigger)) continue;
             if (!skills.get(i).check(pack)) continue;
             isRespond = true;
-            System.out.println("※触发" + trigger + " -> " + skills.get(i).toString());
+            System.out.println("※触发 " + trigger + " -> " + skills.get(i).toString());
             skills.get(i).cast(pack);
         }
         return isRespond;
     }
 
     public static boolean registerSkill(Skill skill) {
-        System.out.println("＋新增：" + skill);
+        if (SKILL_LOG) System.out.println("＋新增：" + skill);
         getInstance().addSkill(skill);
         return true;
     }
 
     public static boolean sendMessage(TriggerEnum trigger, MessagePack pack) {
-        return getInstance().respondMessage(trigger, pack);
+        return getInstance()._sendMessage(trigger, pack);
     }
 
     private boolean addSkill(Skill skill) {

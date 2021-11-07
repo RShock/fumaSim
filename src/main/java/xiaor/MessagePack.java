@@ -23,4 +23,12 @@ public class MessagePack {
     public static MessagePack newIdPack(int id) {
         return MessagePack.builder().id(id).build();
     }
+
+    public static MessagePack damagePack(DamageCal damageCal) {
+        return MessagePack.builder()
+                .damageCal(damageCal)
+                .caster(damageCal.pack.caster)
+                .acceptor(damageCal.pack.acceptor)
+                .build();
+    }
 }

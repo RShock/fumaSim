@@ -1,6 +1,7 @@
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import xiaor.Element;
 import xiaor.GameBoard;
 import xiaor.charas.木桩;
 import xiaor.charas.胆小纸袋狼_沃沃;
@@ -57,7 +58,7 @@ class GameBoardTest {
         board.addEnemyChara(dummy);
         board.initSkills();
         board.run("1d1 1a1");
-        assertEquals(-304, dummy.getLife());
+        assertEquals(-184, dummy.getLife());
     }
 
     @Test
@@ -69,5 +70,16 @@ class GameBoardTest {
         board.initSkills();
         board.run("1a1");
         assertEquals(340, deadman.getLife());
+    }
+
+    @Test
+    void 沃沃大战矮子王测试() {
+        胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.builder().isLeader(true).attack(48991).name("沃沃").skillLevel(2).element(Element.风属性).build();
+        木桩 矮子王 = 木桩.builder().life(2341894).name("矮子王").element(Element.水属性).build();
+        board.addOurChara(wowo);
+        board.addEnemyChara(矮子王);
+        board.initSkills();
+        board.run("1a1 1a1 1q1 1a1 1a1");
+        assertEquals(1183459, 矮子王.getLife(), 100);
     }
 }

@@ -5,6 +5,8 @@ import xiaor.*;
 import java.util.Collections;
 import java.util.function.Function;
 
+import static xiaor.Common.INFI;
+
 public class SkillBuilder extends BaseBuilder {
     public Function<Package, Boolean> check;
     public Function<Package, Boolean> cast;
@@ -44,7 +46,7 @@ public class SkillBuilder extends BaseBuilder {
     }
 
     public static DamageBuilder createDamageSkill(Chara caster) {
-        return new DamageBuilder().caster(caster);
+        return new DamageBuilder().caster(caster).lasted(INFI);
     }
 
     public static SkillBuilder createSkill(Chara caster) {
@@ -57,4 +59,8 @@ public class SkillBuilder extends BaseBuilder {
     }
 
 
+    public SkillBuilder lasted(int lasted) {
+        this.lasted = lasted;
+        return this;
+    }
 }

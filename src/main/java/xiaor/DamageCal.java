@@ -5,8 +5,8 @@ import xiaor.story.BuffType;
 import java.util.HashMap;
 
 public class DamageCal {
-    private final MessagePack pack;
-    private HashMap<BuffType, Double> damageBuffMap;
+    public final MessagePack pack;
+    public HashMap<BuffType, Double> damageBuffMap;
 
     public DamageCal(MessagePack pack) {
         damageBuffMap = new HashMap<>();
@@ -36,7 +36,7 @@ public class DamageCal {
 
     //普攻
     public boolean normalAttack(double percent) {
-        TriggerManager.getInstance().sendMessage(TriggerEnum.ATTACK_DAMAGE_CAL, MessagePack.builder().damageCal(this).build());
+        TriggerManager.sendMessage(TriggerEnum.普攻伤害计算, MessagePack.damagePack(this));
         finalDamage(percent);
 
         return true;
@@ -44,9 +44,7 @@ public class DamageCal {
 
     //计算基本攻击力
     public int getCurrentAttack() {
-        TriggerManager.getInstance().sendMessage(TriggerEnum.攻击力计算, MessagePack.builder()
-                .caster(pack.caster)
-                .damageCal(this).build());
+        TriggerManager.sendMessage(TriggerEnum.攻击力计算, MessagePack.damagePack(this));
         double baseAtk = pack.caster.getAttack();
         int finalAtk = damageBuffMap.entrySet().stream()
                 .filter(s -> !s.getKey().equals(BuffType.攻击力数值增加))
@@ -61,9 +59,9 @@ public class DamageCal {
     }
 
     public boolean skillAttack(double percent) {
-        TriggerManager.getInstance().sendMessage(TriggerEnum.SKILL_DAMAGE_CAL, MessagePack.builder().damageCal(this).build());
+        TriggerManager.sendMessage(TriggerEnum.技能伤害计算, MessagePack.damagePack(this));
         finalDamage(percent);
-        TriggerManager.getInstance().sendMessage(TriggerEnum.释放必杀后, pack);
+        TriggerManager.sendMessage(TriggerEnum.释放必杀后, pack);
         return true;
     }
 }

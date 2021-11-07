@@ -31,5 +31,9 @@ public interface Chara {
 
     void setLife(int lifeRemain);
 
+    Element getElement();
+
+    int counter(Chara acceptor);
+
 //    Function<MessagePack, Boolean> getSkill(int level);
 }

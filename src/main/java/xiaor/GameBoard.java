@@ -1,7 +1,7 @@
 package xiaor;
 
 import lombok.Getter;
-import xiaor.story.BuffBuilder;
+import xiaor.story.BuffType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +74,24 @@ public class GameBoard {
 
     public void initSkills() {
         ourChara.forEach(Chara::initSkills);
+        Skill skill = BaseSkill.builder().name("属性克制").trigger(TriggerEnum.普攻伤害计算)
+                .check(pack -> {
+                    if(pack.damageCal == null)return false;
+                    return pack.damageCal.pack.caster.counter(pack.damageCal.pack.acceptor) == 1;
+                }).cast(pack -> {
+                    pack.getDamageCal().changeDamage(BuffType.属性克制, 0.5);
+                    return true;
+                }).build();
+        TriggerManager.registerSkill(skill);
+        skill = BaseSkill.builder().name("属性克制").trigger(TriggerEnum.技能伤害计算)
+                .check(pack -> {
+                    if(pack.damageCal == null)return false;
+                    return pack.damageCal.pack.caster.counter(pack.damageCal.pack.acceptor) == 1;
+                }).cast(pack -> {
+                    pack.getDamageCal().changeDamage(BuffType.属性克制, 0.5);
+                    return true;
+                }).build();
+        TriggerManager.registerSkill(skill);
     }
 
     public void resetBoard() {

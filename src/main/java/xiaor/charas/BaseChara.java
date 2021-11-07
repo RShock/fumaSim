@@ -4,39 +4,48 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import xiaor.Chara;
 import xiaor.Element;
-import xiaor.MessagePack;
 import xiaor.Skill;
 
 import java.util.List;
-import java.util.function.Function;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @SuperBuilder(toBuilder = true)
 public abstract class BaseChara implements Chara {
-    private int charaId;
+    protected int charaId;
 
-    private String name;
+    protected String name;
 
-    private List<Skill> skills;
+    protected List<Skill> skills;
 
-    private int attack;
+    protected int attack;
 
-    private int life;
+    protected int life;
 
-    private boolean isMoved;
+    protected boolean isMoved;
 
     @Builder.Default
     protected int star = 3;
 
-    private Element element;
+    public BaseChara() {
+        isLeader = false;
+    }
+
+    public Element getElement() {
+        return element;
+    }
+
+    protected Element element;
+
+    public int counter(Chara chara) {
+        return Element.counter(element, chara.getElement());
+    }
 
     @Builder.Default
     private int skillLevel = 1;
 
     @Builder.Default
-    private boolean isLeader = false;
+    protected boolean isLeader = false;
 
     public BaseChara(String name, Boolean isLeader) {
         this.name = name;

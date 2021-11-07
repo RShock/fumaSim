@@ -67,7 +67,6 @@ public class ThenBuilder extends BaseBuilder {
                 TriggerManager.registerSkill(tempSkill);
             }
         }
-
         return this;
     }
 

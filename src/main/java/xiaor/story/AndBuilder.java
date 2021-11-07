@@ -5,5 +5,7 @@ public class AndBuilder extends ThenBuilder {
         super(builder);
         this.thenId = builder.preBuilder.thenId;
         this.trigger = builder.preBuilder.trigger;
+        this.name = builder.preBuilder.name;
+        this.lasted = builder.preBuilder.lasted;
     }
 }

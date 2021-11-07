@@ -32,11 +32,16 @@ public class BaseBuilder implements BuilderInterface{
         this.acceptor = builder.acceptor;
         this.type = builder.type;
         this.thenId = TriggerManager.getNewID();
+        this.lasted = builder.lasted;
         builder.nextBuilder = this;
     }
 
     public BuffBuilder increaseAtk(double multi) {
-        return new BuffBuilder(this).multi(multi);
+        return new BuffBuilder(this).multi(multi).buffType(BuffType.攻击力百分比增加);
+    }
+
+    public BuffBuilder increaseNormalAtk(double multi) {
+        return new BuffBuilder(this).multi(multi).buffType(BuffType.普攻伤害增加);
     }
 
     public ThenBuilder then() {

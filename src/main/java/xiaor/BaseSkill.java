@@ -14,8 +14,8 @@ public class BaseSkill implements Skill{
     private Function<MessagePack, Boolean> check;
     private Function<MessagePack, Boolean> cast;
     private SkillTime type;
-    private int time;   //持续时间
-    private String name; //名字
+    protected int time;   //持续时间
+    protected String name; //名字
 
     public BaseSkill(String name, TriggerEnum trigger, Function<MessagePack, Boolean> check, Function<MessagePack, Boolean> cast
     , int time) {

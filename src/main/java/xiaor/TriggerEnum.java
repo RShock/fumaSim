@@ -4,7 +4,7 @@ public enum TriggerEnum {
     普通攻击,
     大招,
 
-    ATTACK_DAMAGE_CAL, SKILL_DAMAGE_CAL, 攻击力计算, BEFORE_ATTACK,
+    普攻伤害计算, 技能伤害计算, 攻击力计算, BEFORE_ATTACK,
     释放必杀后             //大招后buff结算
     ,
 

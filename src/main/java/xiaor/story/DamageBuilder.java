@@ -24,6 +24,11 @@ public class DamageBuilder extends BaseBuilder{
         super();
     }
 
+    public DamageBuilder lasted(int lasted) {
+        this.lasted = lasted;
+        return this;
+    }
+
     public enum DamageType {
         普通伤害,
         必杀伤害
@@ -66,7 +71,7 @@ public class DamageBuilder extends BaseBuilder{
                             callNext();
                             return true;
                         })
-                        .time(INFI)
+                        .time(lasted)
                         .build();
 
             }
@@ -83,7 +88,7 @@ public class DamageBuilder extends BaseBuilder{
                             callNext();
                             return true;
                         })
-                        .time(INFI)
+                        .time(lasted)
                         .build();
             }
             default -> throw new RuntimeException("未定义技能类型");
