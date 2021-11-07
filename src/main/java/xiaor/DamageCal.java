@@ -63,7 +63,7 @@ public class DamageCal {
     public boolean skillAttack(double percent) {
         TriggerManager.getInstance().sendMessage(TriggerEnum.SKILL_DAMAGE_CAL, MessagePack.builder().damageCal(this).build());
         finalDamage(percent);
-        TriggerManager.getInstance().sendMessage(TriggerEnum.技能释放结束后, pack);
+        TriggerManager.getInstance().sendMessage(TriggerEnum.释放必杀后, pack);
         return true;
     }
 }

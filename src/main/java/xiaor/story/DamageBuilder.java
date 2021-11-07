@@ -1,7 +1,10 @@
 package xiaor.story;
 
 import org.junit.platform.commons.util.StringUtils;
-import xiaor.*;
+import xiaor.BaseSkill;
+import xiaor.Chara;
+import xiaor.DamageCal;
+import xiaor.TriggerManager;
 
 import java.util.Collections;
 
@@ -11,6 +14,20 @@ import static xiaor.TriggerEnum.普通攻击;
 
 public class DamageBuilder extends BaseBuilder{
     public double multi;
+    public DamageType damageType;
+
+    public DamageBuilder(BaseBuilder builder) {
+        super(builder);
+    }
+
+    public DamageBuilder() {
+        super();
+    }
+
+    public enum DamageType {
+        普通伤害,
+        必杀伤害
+    }
 
     public DamageBuilder damageMulti(double multi) {
         this.multi = multi;
@@ -22,6 +39,11 @@ public class DamageBuilder extends BaseBuilder{
         return this;
     }
 
+    public DamageBuilder damageType(DamageType type) {
+        this.damageType = type;
+        return this;
+    }
+
     public DamageBuilder caster(Chara caster) {
         this.caster = caster;
         return this;
@@ -30,8 +52,8 @@ public class DamageBuilder extends BaseBuilder{
     @Override
     public BaseBuilder buildThis() {
         BaseSkill atkSkill;
-        switch (type) {
-            case 必杀 -> {
+        switch (damageType) {
+            case 必杀伤害 -> {
                 if(StringUtils.isBlank(name)) {
                     name = caster + "_必杀技";
                 }
@@ -48,7 +70,7 @@ public class DamageBuilder extends BaseBuilder{
                         .build();
 
             }
-            case 普攻 -> {
+            case 普通伤害 -> {
                 if(StringUtils.isBlank(name)) {
                     name = caster + "_普通攻击";
                 }

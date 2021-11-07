@@ -3,6 +3,7 @@ package xiaor.story;
 import xiaor.*;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * 将触发器模式转为函数式流写法
@@ -17,6 +18,7 @@ public class BaseBuilder implements BuilderInterface{
     public BaseBuilder preBuilder;
     public BaseBuilder nextBuilder;
     public SkillType type;
+    protected Function<MessagePack, Boolean> checker;
 
 
     public BaseBuilder() {
@@ -44,7 +46,11 @@ public class BaseBuilder implements BuilderInterface{
     public AndBuilder and() {
         return new AndBuilder(this);
     }
-    
+
+    public DamageBuilder damageMulti(double multi) {
+        return new DamageBuilder(this).damageMulti(multi);
+    }
+
     @Override
     public void build() {
         if(preBuilder != this)
@@ -65,5 +71,9 @@ public class BaseBuilder implements BuilderInterface{
 
     public void callNext() {
         TriggerManager.sendMessage(TriggerEnum.内部事件,MessagePack.newIdPack(thenId));
+    }
+
+    public ThenBuilder whenSelf(TriggerEnum trigger) {
+        return new ThenBuilder(this).when(trigger).checker(pack -> caster.self(pack));
     }
 }

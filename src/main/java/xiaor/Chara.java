@@ -7,7 +7,7 @@ public interface Chara {
                 .acceptor(acceptor)
                 .caster(this)
                 .build();
-        TriggerManager.getInstance().sendMessage(TriggerEnum.普通攻击, pack);
+        TriggerManager.sendMessage(TriggerEnum.普通攻击, pack);
     }
 
     default void skill(Chara acceptor){
@@ -15,7 +15,7 @@ public interface Chara {
                 .acceptor(acceptor)
                 .caster(this)
                 .build();
-        TriggerManager.getInstance().sendMessage(TriggerEnum.大招, pack);
+        TriggerManager.sendMessage(TriggerEnum.大招, pack);
     }
 
     default boolean self(MessagePack pack) {

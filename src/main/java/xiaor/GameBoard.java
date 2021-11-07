@@ -5,6 +5,7 @@ import xiaor.story.BuffBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Getter
 public class GameBoard {
@@ -28,6 +29,20 @@ public class GameBoard {
 
     public static List<Chara> getAlly() {
         return getInstance().getOurChara();
+    }
+
+    public static Chara selectTarget(int i) {
+        return getInstance()._selectTarget(i);
+    }
+
+    private Chara _selectTarget(int i) {
+        i--;
+        if(enemyChara.size() <= i){
+            Random random = new Random();
+            int n = random.nextInt(enemyChara.size());
+            return enemyChara.get(n);
+        }
+        else return enemyChara.get(i);
     }
 
     //private List<Skill> boardSkill; //场地魔法

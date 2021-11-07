@@ -3,9 +3,13 @@ package xiaor.charas;
 
 import lombok.experimental.SuperBuilder;
 import xiaor.*;
+import xiaor.story.DamageBuilder;
 import xiaor.story.SkillBuilder;
 
 import static xiaor.TriggerEnum.游戏开始时;
+import static xiaor.TriggerEnum.释放必杀后;
+import static xiaor.story.DamageBuilder.DamageType.必杀伤害;
+import static xiaor.story.DamageBuilder.DamageType.普通伤害;
 import static xiaor.story.SkillType.*;
 
 @SuperBuilder(toBuilder = true)
@@ -34,6 +38,7 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
 
         SkillBuilder.createDamageSkill(this)
                 .type(必杀)
+                .damageType(必杀伤害)
                 .damageMulti(2)
                 .to(GameBoard.getCurrentEnemy())
                 .then()
@@ -45,6 +50,7 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
 
         SkillBuilder.createDamageSkill(this)
                 .type(普攻)
+                .damageType(普通伤害)
                 .damageMulti(1)
                 .name(this + "记住了普攻")
                 .to(GameBoard.getCurrentEnemy())
@@ -68,20 +74,19 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
         if (star >= 3) {
             SkillBuilder.createSkill(this)
                     .type(三星技能)
-                    .when(self(释放必杀后))
+                    .whenSelf(释放必杀后)
                     .damageMulti(0.3)
-                    .spType(沃沃的追击)
-                    .to(GB.selectedTarget(1))
+                    .damageType(普通伤害)
+                    .to(GameBoard.selectTarget(1))
                     .and()
                     .damageMulti(0.3)
-                    .spType(沃沃的追击)
-                    .to(GB.selectedTarget(2))
+                    .damageType(普通伤害)
+                    .to(GameBoard.selectTarget(2))
                     .and()
                     .damageMulti(0.3)
-                    .spType(沃沃的追击)
-                    .to(GB.selectedTarget(5))
+                    .damageType(普通伤害)
+                    .to(GameBoard.selectTarget(5))
                     .build();
-
         }
 
 

@@ -45,7 +45,7 @@ class GameBoardTest {
         board.addEnemyChara(wowo2);
         board.initSkills();
         board.run("1d1 1a1");
-        assertEquals(104, wowo2.getLife());
+        assertEquals(-70, wowo2.getLife());
         //第一回合开大打200 第二回合不开大打196
     }
 
@@ -57,7 +57,7 @@ class GameBoardTest {
         board.addEnemyChara(dummy);
         board.initSkills();
         board.run("1d1 1a1");
-        assertEquals(-76, dummy.getLife());
+        assertEquals(-304, dummy.getLife());
     }
 
     @Test

@@ -2,6 +2,8 @@ package xiaor.story;
 
 import xiaor.*;
 
+import java.util.function.Function;
+
 import static xiaor.TriggerEnum.内部事件;
 
 public class ThenBuilder extends BaseBuilder {
@@ -16,6 +18,11 @@ public class ThenBuilder extends BaseBuilder {
 
     public ThenBuilder when(TriggerEnum trigger) {
         this.trigger = trigger;
+        return this;
+    }
+
+    protected ThenBuilder checker(Function<MessagePack, Boolean> checker) {
+        this.checker = checker;
         return this;
     }
 
@@ -63,4 +70,5 @@ public class ThenBuilder extends BaseBuilder {
 
         return this;
     }
+
 }

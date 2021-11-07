@@ -4,9 +4,11 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import xiaor.Chara;
 import xiaor.Element;
+import xiaor.MessagePack;
 import xiaor.Skill;
 
 import java.util.List;
+import java.util.function.Function;
 
 @Getter
 @Setter
@@ -62,5 +64,8 @@ public abstract class BaseChara implements Chara {
         this.isMoved = false;
         return true;
     }
-
+//
+//    public static Function<MessagePack, Boolean> selfChecker(Chara chara) {
+//        return pack -> chara.equals(pack.caster);
+//    }
 }
