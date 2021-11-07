@@ -54,7 +54,7 @@ public abstract class BaseChara implements Chara {
     }
 
     public String toString() {
-        return name+"("+skillLevel+"绊)";
+        return name;
     }
 
     public BaseChara(String name) {

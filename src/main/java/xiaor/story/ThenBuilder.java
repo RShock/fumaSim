@@ -36,13 +36,12 @@ public class ThenBuilder extends BaseBuilder {
         switch (trigger) {
             case 内部事件 -> {
                 Skill tempSkill = BaseSkill.builder()
-                        .time(1)
+                        .time(lasted)
                         .name("tempSKill " + preId)
                         .type(SkillTime.CONTINUIOUS)
                         .trigger(内部事件)
                         .check(pack -> pack.id == preId)
                         .cast(pack -> {
-                            System.out.println("内部事件then触发:" + preId);
                             nextBuilder.buildThis();
                             callNext();
                             return true;
@@ -52,7 +51,7 @@ public class ThenBuilder extends BaseBuilder {
             }
             default -> {
                 Skill tempSkill = BaseSkill.builder()
-                        .time(1)
+                        .time(lasted)
                         .name(name)
                         .type(SkillTime.CONTINUIOUS)
                         .trigger(trigger)

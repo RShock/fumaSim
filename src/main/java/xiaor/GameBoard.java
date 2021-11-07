@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static xiaor.Common.INFI;
+
 @Getter
 public class GameBoard {
     private static GameBoard gameBoard = new GameBoard();
@@ -74,7 +76,8 @@ public class GameBoard {
 
     public void initSkills() {
         ourChara.forEach(Chara::initSkills);
-        Skill skill = BaseSkill.builder().name("属性克制").trigger(TriggerEnum.普攻伤害计算)
+        Skill skill = BaseSkill.builder().name("【系统级规则】属性克制 优势方+50%伤害").trigger(TriggerEnum.普攻伤害计算)
+                .time(INFI)
                 .check(pack -> {
                     if(pack.damageCal == null)return false;
                     return pack.damageCal.pack.caster.counter(pack.damageCal.pack.acceptor) == 1;
@@ -83,7 +86,8 @@ public class GameBoard {
                     return true;
                 }).build();
         TriggerManager.registerSkill(skill);
-        skill = BaseSkill.builder().name("属性克制").trigger(TriggerEnum.技能伤害计算)
+        skill = BaseSkill.builder().name("【系统级规则】属性克制 优势方+50%伤害").trigger(TriggerEnum.技能伤害计算)
+                .time(INFI)
                 .check(pack -> {
                     if(pack.damageCal == null)return false;
                     return pack.damageCal.pack.caster.counter(pack.damageCal.pack.acceptor) == 1;

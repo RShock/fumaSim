@@ -23,8 +23,9 @@ public class DamageCal {
         return true;
     }
 
-    public void finalDamage(double percent) {
+    public void finalDamage(double percent, TriggerEnum triggerEnum) {
         double baseDamage = getCurrentAttack() * percent;
+        TriggerManager.sendMessage(triggerEnum, MessagePack.damagePack(this));
         int finalDamage = damageBuffMap.values().stream().map(aDouble -> aDouble + 1)
                 .reduce(baseDamage, (a, b) -> (a * b)).intValue();
         System.out.println(pack.caster + "对" + pack.acceptor + "造成了" + finalDamage + "伤害");
@@ -36,9 +37,7 @@ public class DamageCal {
 
     //普攻
     public boolean normalAttack(double percent) {
-        TriggerManager.sendMessage(TriggerEnum.普攻伤害计算, MessagePack.damagePack(this));
-        finalDamage(percent);
-
+        finalDamage(percent, TriggerEnum.普攻伤害计算);
         return true;
     }
 
@@ -46,6 +45,7 @@ public class DamageCal {
     public int getCurrentAttack() {
         TriggerManager.sendMessage(TriggerEnum.攻击力计算, MessagePack.damagePack(this));
         double baseAtk = pack.caster.getAttack();
+
         int finalAtk = damageBuffMap.entrySet().stream()
                 .filter(s -> !s.getKey().equals(BuffType.攻击力数值增加))
                 .map(s -> s.getValue() + 1)
@@ -54,13 +54,12 @@ public class DamageCal {
             finalAtk += damageBuffMap.get(BuffType.攻击力数值增加);
         }
         damageBuffMap.clear();
-        System.out.println(pack.caster + "当前攻击力是" + finalAtk);
+        System.out.println(pack.caster + "基础攻击力是" + finalAtk);
         return finalAtk;
     }
 
     public boolean skillAttack(double percent) {
-        TriggerManager.sendMessage(TriggerEnum.技能伤害计算, MessagePack.damagePack(this));
-        finalDamage(percent);
+        finalDamage(percent, TriggerEnum.技能伤害计算);
         TriggerManager.sendMessage(TriggerEnum.释放必杀后, pack);
         return true;
     }

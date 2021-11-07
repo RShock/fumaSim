@@ -1,10 +1,7 @@
 package xiaor.story;
 
 import org.junit.platform.commons.util.StringUtils;
-import xiaor.BaseSkill;
-import xiaor.Chara;
-import xiaor.DamageCal;
-import xiaor.TriggerManager;
+import xiaor.*;
 
 import java.util.Collections;
 
@@ -60,7 +57,7 @@ public class DamageBuilder extends BaseBuilder{
         switch (damageType) {
             case 必杀伤害 -> {
                 if(StringUtils.isBlank(name)) {
-                    name = caster + "_必杀技";
+                    name = caster + "的必杀技，倍率" + Tools.toPercent(multi);
                 }
                 atkSkill = BaseSkill.builder()
                         .name(name)

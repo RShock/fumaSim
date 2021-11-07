@@ -45,14 +45,14 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
                 .increaseNormalAtk(multi[getSkillLevel()])
                 .toSelf()
                 .lasted(6)
-                .name(this + "必杀附带普攻增加"+ multi[getSkillLevel()]*100 + "%")
+                .name(this + "必杀附带普攻增加"+ Tools.toPercent(multi[getSkillLevel()]))
                 .build();
 
         SkillBuilder.createDamageSkill(this)
                 .type(普攻)
                 .damageType(普通伤害)
                 .damageMulti(1)
-                .name(this + "记住了普攻")
+                .name(this + "的基础攻击")
                 .to(GameBoard.getCurrentEnemy())
                 .build();
 
@@ -61,7 +61,7 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
                     .type(队长技能)
                     .lasted(INFI)
                     .when(游戏开始时)
-                    .name("沃沃的队长技能")
+                    .name("激活沃沃的队长技能")
                     .increaseNormalAtk(0.2)
                     .name(this + "自己普攻攻击力增加20%")
                     .toSelf()
@@ -78,6 +78,7 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
                     .type(三星技能)
                     .lasted(6)
                     .whenSelf(释放必杀后)
+                    .name("沃沃对125号位追击")
                     .damageMulti(0.3)
                     .damageType(普通伤害)
                     .to(GameBoard.selectTarget(1))
