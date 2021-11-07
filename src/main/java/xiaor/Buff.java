@@ -16,21 +16,13 @@ public class Buff extends BaseSkill{
     Chara caster;
     Chara acceptor;
 
-//    public Buff(Trigger trigger, Function<MessagePack, Boolean> check, Function<MessagePack, Boolean> cast, SkillType type, int time, String buffName, Chara caster, Chara acceptor) {
-//        super(trigger, check, cast, type, time);
-//        this.buffName = buffName;
-//        this.caster = caster;
-//        this.acceptor = acceptor;
-//    }
-
-//    public Buff(Trigger trigger, Function<MessagePack, Boolean> check, Function<MessagePack, Boolean> cast) {
-//        super(trigger, check, cast);
-//    }
-
     public String toString() {
         String tempS;
         if(caster == acceptor)tempS = caster + "给自己";
         else tempS =  caster + "->" + acceptor;
-        return name + '[' + tempS + "] 持续" + time +"回合";
+        if(time > 50){
+            return "%s[%s] (永久)".formatted(name, tempS);
+        }
+        return "%s[%s] 持续%d回合".formatted(name, tempS, time);
     }
 }

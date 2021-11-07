@@ -45,6 +45,8 @@ public class BaseSkill implements Skill{
     }
 
     public String toString() {
-        return name +  " " + "持续" + time + "回合";
+        if(time > 50)
+            return "%s (永久)".formatted(name);
+        return "%s 持续%d回合".formatted(name, time);
     }
 }

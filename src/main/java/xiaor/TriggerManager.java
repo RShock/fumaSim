@@ -8,6 +8,8 @@ public class TriggerManager {
 
     public static Boolean BUFF_LOG = true;
 
+    public static Boolean PRIVATE_MSG = false;
+
     public List<Skill> skills;
 
     private int IDGen = 0;
@@ -51,7 +53,9 @@ public class TriggerManager {
             if (!skills.get(i).getTrigger().equals(trigger)) continue;
             if (!skills.get(i).check(pack)) continue;
             isRespond = true;
-            System.out.println("※触发 " + trigger + " -> " + skills.get(i).toString());
+            if(trigger != TriggerEnum.内部事件 || PRIVATE_MSG) {
+                System.out.println(trigger + "，触发 " + skills.get(i).toString());
+            }
             skills.get(i).cast(pack);
         }
         return isRespond;
