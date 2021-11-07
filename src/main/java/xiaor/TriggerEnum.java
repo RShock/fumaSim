@@ -1,8 +1,8 @@
 package xiaor;
 
-public enum Trigger {
+public enum TriggerEnum {
     普通攻击,
-    SKILL,
+    大招,
 
     ATTACK_DAMAGE_CAL, SKILL_DAMAGE_CAL, 攻击力计算, BEFORE_ATTACK,
     技能释放结束后             //大招后buff结算

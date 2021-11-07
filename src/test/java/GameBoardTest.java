@@ -29,12 +29,12 @@ class GameBoardTest {
     @Test
     void 沃沃尝试攻击() {
         胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.builder().name("沃沃1").attack(100).build();
-        胆小纸袋狼_沃沃 wowo2 = 胆小纸袋狼_沃沃.builder().name("沃沃2").life(500).build();
+        木桩 dummy = 木桩.builder().life(500).name("活动假人").build();
         board.addOurChara(wowo);
-        board.addEnemyChara(wowo2);
+        board.addEnemyChara(dummy);
         board.initSkills();
         board.run("1a1");
-        assertEquals(400, wowo2.getLife());
+        assertEquals(400, dummy.getLife());
     }
 
     @Test

@@ -10,15 +10,15 @@ import java.util.function.Function;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BaseSkill implements Skill{
-    private Trigger trigger;
+    private TriggerEnum trigger;
     private Function<MessagePack, Boolean> check;
     private Function<MessagePack, Boolean> cast;
     private SkillTime type;
     private int time;   //持续时间
     private String name; //名字
 
-    public BaseSkill(String name, Trigger trigger, Function<MessagePack, Boolean> check, Function<MessagePack, Boolean> cast
-    ,int time) {
+    public BaseSkill(String name, TriggerEnum trigger, Function<MessagePack, Boolean> check, Function<MessagePack, Boolean> cast
+    , int time) {
         this.name = name;
         this.trigger = trigger;
         this.check = check;
@@ -27,7 +27,7 @@ public class BaseSkill implements Skill{
     }
 
     @Override
-    public Trigger getTrigger() {
+    public TriggerEnum getTrigger() {
         return trigger;
     }
 

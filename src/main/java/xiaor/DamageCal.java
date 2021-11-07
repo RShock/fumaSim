@@ -36,7 +36,7 @@ public class DamageCal {
 
     //普攻
     public boolean normalAttack(double percent) {
-        TriggerManager.getInstance().sendMessage(Trigger.ATTACK_DAMAGE_CAL, MessagePack.builder().damageCal(this).build());
+        TriggerManager.getInstance().sendMessage(TriggerEnum.ATTACK_DAMAGE_CAL, MessagePack.builder().damageCal(this).build());
         finalDamage(percent);
 
         return true;
@@ -44,7 +44,7 @@ public class DamageCal {
 
     //计算基本攻击力
     public int getCurrentAttack() {
-        TriggerManager.getInstance().sendMessage(Trigger.攻击力计算, MessagePack.builder()
+        TriggerManager.getInstance().sendMessage(TriggerEnum.攻击力计算, MessagePack.builder()
                 .caster(pack.caster)
                 .damageCal(this).build());
         double baseAtk = pack.caster.getAttack();
@@ -61,9 +61,9 @@ public class DamageCal {
     }
 
     public boolean skillAttack(double percent) {
-        TriggerManager.getInstance().sendMessage(Trigger.SKILL_DAMAGE_CAL, MessagePack.builder().damageCal(this).build());
+        TriggerManager.getInstance().sendMessage(TriggerEnum.SKILL_DAMAGE_CAL, MessagePack.builder().damageCal(this).build());
         finalDamage(percent);
-        TriggerManager.getInstance().sendMessage(Trigger.技能释放结束后, pack);
+        TriggerManager.getInstance().sendMessage(TriggerEnum.技能释放结束后, pack);
         return true;
     }
 }

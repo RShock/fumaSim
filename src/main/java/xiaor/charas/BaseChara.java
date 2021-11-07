@@ -25,6 +25,9 @@ public abstract class BaseChara implements Chara {
 
     private boolean isMoved;
 
+    @Builder.Default
+    protected int star = 3;
+
     private Element element;
 
     @Builder.Default

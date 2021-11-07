@@ -1,15 +1,13 @@
 package xiaor;
 
 
-import java.util.function.Function;
-
 public interface Chara {
     default void attack(Chara acceptor){
         MessagePack pack = MessagePack.builder()
                 .acceptor(acceptor)
                 .caster(this)
                 .build();
-        TriggerManager.getInstance().sendMessage(Trigger.普通攻击, pack);
+        TriggerManager.getInstance().sendMessage(TriggerEnum.普通攻击, pack);
     }
 
     default void skill(Chara acceptor){
@@ -17,7 +15,7 @@ public interface Chara {
                 .acceptor(acceptor)
                 .caster(this)
                 .build();
-        TriggerManager.getInstance().sendMessage(Trigger.SKILL, pack);
+        TriggerManager.getInstance().sendMessage(TriggerEnum.大招, pack);
     }
 
     default boolean self(MessagePack pack) {

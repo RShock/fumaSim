@@ -2,7 +2,7 @@ package xiaor;
 
 public interface Skill {
     //Todo skill type
-    public Trigger getTrigger();
+    public TriggerEnum getTrigger();
 
     boolean check(MessagePack pack);
 

@@ -1,6 +1,7 @@
 package xiaor;
 
 import lombok.Getter;
+import xiaor.story.BuffBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,10 @@ public class GameBoard {
 
     private List<Chara> ourChara;
 
+    public static List<Chara> getAlly() {
+        return getInstance().getOurChara();
+    }
+
     //private List<Skill> boardSkill; //场地魔法
 
     public void addOurChara(Chara chara) {
@@ -36,7 +41,7 @@ public class GameBoard {
     }
 
     public void run(String originS) {
-        TriggerManager.getInstance().sendMessage(Trigger.游戏开始时, new MessagePack());
+        TriggerManager.getInstance().sendMessage(TriggerEnum.游戏开始时, new MessagePack());
         int our = 1, their = 1;
         char mode = 'a';
         String[] split = originS.split("\\s+");
