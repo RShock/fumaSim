@@ -1,7 +1,9 @@
-package xiaor;
+package xiaor.skill;
+
+import xiaor.MessagePack;
+import xiaor.TriggerEnum;
 
 public interface Skill {
-    //Todo skill type
     public TriggerEnum getTrigger();
 
     boolean check(MessagePack pack);

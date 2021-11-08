@@ -76,9 +76,9 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
         if (star >= 3) {
             SkillBuilder.createSkill(this)
                     .type(三星技能)
-                    .lasted(6)
                     .whenSelf(释放必杀后)
-                    .name("沃沃对125号位追击")
+                    .name(this+"对125号位追击")
+                    .lasted(6)
                     .damageMulti(0.3)
                     .damageType(普通伤害)
                     .to(GameBoard.selectTarget(1))
@@ -90,6 +90,19 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
                     .damageMulti(0.3)
                     .damageType(普通伤害)
                     .to(GameBoard.selectTarget(5))
+                    .build();
+        }
+
+        //五星技能 月夜狼嚎
+        if(star >= 5) {
+            SkillBuilder.createSkill(this)
+                    .type(五星技能)
+                    .whenSelf(释放必杀后)
+                    .name(this+"造成伤害增加20%（最多2层）")
+                    .increaseDamage(0.2)
+                    .lasted(INFI)
+                    .level(1)
+                    .maxLevel(2)
                     .build();
         }
 

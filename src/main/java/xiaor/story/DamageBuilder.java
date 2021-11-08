@@ -2,10 +2,10 @@ package xiaor.story;
 
 import org.junit.platform.commons.util.StringUtils;
 import xiaor.*;
+import xiaor.skill.BaseSkill;
 
 import java.util.Collections;
 
-import static xiaor.Common.INFI;
 import static xiaor.TriggerEnum.大招;
 import static xiaor.TriggerEnum.普通攻击;
 
@@ -99,7 +99,7 @@ public class DamageBuilder extends BaseBuilder{
     }
 
     public DamageBuilder to(Chara currentEnemy) {
-        this.acceptor = Collections.singletonList(currentEnemy);
+        this.acceptors = Collections.singletonList(currentEnemy);
         return this;
     }
 

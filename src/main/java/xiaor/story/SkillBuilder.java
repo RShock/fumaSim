@@ -26,7 +26,7 @@ public class SkillBuilder extends BaseBuilder {
     }
 
     public SkillBuilder acceptor(Chara acceptor) {
-        this.acceptor = Collections.singletonList(acceptor);
+        this.acceptors = Collections.singletonList(acceptor);
         return this;
     }
 

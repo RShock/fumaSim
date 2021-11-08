@@ -1,18 +1,16 @@
-package xiaor;
+package xiaor.skill;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import java.util.function.Function;
+import xiaor.Chara;
 
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Buff extends BaseSkill{
+public class Buff extends BaseSkill {
     Chara caster;
     Chara acceptor;
 

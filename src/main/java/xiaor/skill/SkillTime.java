@@ -1,4 +1,4 @@
-package xiaor;
+package xiaor.skill;
 
 public enum SkillTime {
     CONTINUIOUS,

@@ -1,6 +1,9 @@
 package xiaor.story;
 
 import xiaor.*;
+import xiaor.skill.BaseSkill;
+import xiaor.skill.Skill;
+import xiaor.skill.SkillTime;
 
 import java.util.function.Function;
 
@@ -69,4 +72,8 @@ public class ThenBuilder extends BaseBuilder {
         return this;
     }
 
+    public ThenBuilder lasted(int lasted) {
+        this.lasted = lasted;
+        return this;
+    }
 }

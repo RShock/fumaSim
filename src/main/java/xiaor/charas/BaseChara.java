@@ -4,7 +4,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import xiaor.Chara;
 import xiaor.Element;
-import xiaor.Skill;
+import xiaor.skill.Skill;
 
 import java.util.List;
 

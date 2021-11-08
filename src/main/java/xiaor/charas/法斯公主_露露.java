@@ -19,7 +19,7 @@ import static xiaor.story.SkillType.*;
 public class 法斯公主_露露 extends BaseChara {
 
     public 法斯公主_露露() {
-        this("沃沃");
+        this("露露");
     }
 
     public 法斯公主_露露(String name) {
@@ -36,64 +36,8 @@ public class 法斯公主_露露 extends BaseChara {
 
     @Override
     public void initSkills() {
-        double[] multi = {0, 0.96, 1.18, 1.41, 1.63, 1.86};
+        double[] multi = {0, 0.69, 0.73, 0.76, 0.80, 0.80};
 
-        SkillBuilder.createDamageSkill(this)
-                .type(必杀)
-                .damageType(必杀伤害)
-                .damageMulti(2)
-                .to(GameBoard.getCurrentEnemy())
-                .then()
-                .increaseNormalAtk(multi[getSkillLevel()])
-                .toSelf()
-                .lasted(6)
-                .name(this + "必杀附带普攻增加"+ Tools.toPercent(multi[getSkillLevel()]))
-                .build();
-
-        SkillBuilder.createDamageSkill(this)
-                .type(普攻)
-                .damageType(普通伤害)
-                .damageMulti(1)
-                .name(this + "的基础攻击")
-                .to(GameBoard.getCurrentEnemy())
-                .build();
-
-        if (isLeader()) {
-            SkillBuilder.createSkill(this)
-                    .type(队长技能)
-                    .lasted(INFI)
-                    .when(游戏开始时)
-                    .name("激活沃沃的队长技能")
-                    .increaseNormalAtk(0.2)
-                    .name(this + "自己普攻攻击力增加20%")
-                    .toSelf()
-                    .and()
-                    .increaseNormalAtk(0.4)
-                    .name(this + "全队普攻攻击力增加40%")
-                    .toAlly()
-                    .build();
-        }
-
-        //3星技能 3连爪击
-        if (star >= 3) {
-            SkillBuilder.createSkill(this)
-                    .type(三星技能)
-                    .lasted(6)
-                    .whenSelf(释放必杀后)
-                    .name("沃沃对125号位追击")
-                    .damageMulti(0.3)
-                    .damageType(普通伤害)
-                    .to(GameBoard.selectTarget(1))
-                    .and()
-                    .damageMulti(0.3)
-                    .damageType(普通伤害)
-                    .to(GameBoard.selectTarget(2))
-                    .and()
-                    .damageMulti(0.3)
-                    .damageType(普通伤害)
-                    .to(GameBoard.selectTarget(5))
-                    .build();
-        }
 
     }
 

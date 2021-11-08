@@ -1,6 +1,8 @@
 package xiaor;
 
 import lombok.Getter;
+import xiaor.skill.BaseSkill;
+import xiaor.skill.Skill;
 import xiaor.story.BuffType;
 
 import java.util.ArrayList;

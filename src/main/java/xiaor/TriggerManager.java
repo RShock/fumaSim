@@ -1,5 +1,8 @@
 package xiaor;
 
+import xiaor.skill.Buff;
+import xiaor.skill.Skill;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +16,6 @@ public class TriggerManager {
     public List<Skill> skills;
 
     private int IDGen = 0;
-
-    public static int getNewID() {
-        return getInstance().getIDGen();
-    }
 
     public int getIDGen() {
         return IDGen++;

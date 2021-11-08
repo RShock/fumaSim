@@ -1,21 +1,25 @@
-package xiaor;
+package xiaor.skill;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import xiaor.MessagePack;
+import xiaor.TriggerEnum;
+import xiaor.skill.Skill;
+import xiaor.skill.SkillTime;
 
 import java.util.function.Function;
 
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseSkill implements Skill{
-    private TriggerEnum trigger;
-    private Function<MessagePack, Boolean> check;
-    private Function<MessagePack, Boolean> cast;
-    private SkillTime type;
-    protected int time;   //持续时间
-    protected String name; //名字
+public class BaseSkill implements Skill {
+    TriggerEnum trigger;
+    Function<MessagePack, Boolean> check;
+    Function<MessagePack, Boolean> cast;
+    SkillTime type;
+    int time;   //持续时间
+    String name; //名字
 
     public BaseSkill(String name, TriggerEnum trigger, Function<MessagePack, Boolean> check, Function<MessagePack, Boolean> cast
     , int time) {

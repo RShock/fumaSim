@@ -11,7 +11,7 @@ import java.util.function.Function;
 public class BaseBuilder implements BuilderInterface{
     public int thenId;
     public Chara caster;
-    public List<Chara> acceptor;
+    public List<Chara> acceptors;
     public TriggerEnum trigger;
     public int lasted;
     public String name;
@@ -23,15 +23,15 @@ public class BaseBuilder implements BuilderInterface{
 
     public BaseBuilder() {
         this.preBuilder = this;
-        this.thenId = TriggerManager.getNewID();
+        this.thenId = Tools.getNewID();
     }
 
     public BaseBuilder(BaseBuilder builder) {
         this.preBuilder = builder;
         this.caster = builder.caster;
-        this.acceptor = builder.acceptor;
+        this.acceptors = builder.acceptors;
         this.type = builder.type;
-        this.thenId = TriggerManager.getNewID();
+        this.thenId = Tools.getNewID();
         this.lasted = builder.lasted;
         builder.nextBuilder = this;
     }
@@ -80,5 +80,9 @@ public class BaseBuilder implements BuilderInterface{
 
     public ThenBuilder whenSelf(TriggerEnum trigger) {
         return new ThenBuilder(this).when(trigger).checker(pack -> caster.self(pack));
+    }
+
+    public BuffBuilder increaseDamage(double multi) {
+        return new BuffBuilder(this).multi(multi).buffType(BuffType.造成伤害增加);
     }
 }
