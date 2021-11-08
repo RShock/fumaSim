@@ -9,4 +9,5 @@ public interface Skill {
     boolean check(MessagePack pack);
 
     boolean cast(MessagePack pack);
+
 }

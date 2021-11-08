@@ -15,7 +15,7 @@ public class MessagePack {
     public DamageCal damageCal; //用于伤害计算
 
     public int id;          //用于内部事件的id
-    public String level;    //用于可堆叠buff计算的层数
+    public int level;    //用于可堆叠buff计算的层数
 
     public boolean checkCaster(Chara caster) {
         return caster.equals(this.caster);

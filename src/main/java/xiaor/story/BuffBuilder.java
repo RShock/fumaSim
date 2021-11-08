@@ -3,6 +3,7 @@ package xiaor.story;
 import xiaor.*;
 import xiaor.skill.Buff;
 import xiaor.skill.SkillTime;
+import xiaor.skill.UniqueBuff;
 
 import java.util.Collections;
 
@@ -79,13 +80,22 @@ public class BuffBuilder extends BaseBuilder {
     public BaseBuilder buildThis() {
         for (Chara acceptor : acceptors) {
             Buff buff;
-            Buff.BuffBuilder<?, ?> tempBuff = Buff.builder()
+            Buff.BuffBuilder<?, ?> tempBuff;
+            if (isUnique) {
+                tempBuff = UniqueBuff.builder()
+                        .maxLevel(maxLevel)
+                        .incLv(level);
+            } else {
+                tempBuff = Buff.builder();
+            }
+            tempBuff = tempBuff
                     .caster(caster)
                     .acceptor(acceptor)
                     .name(name)
                     .time(lasted)
                     .type(SkillTime.CONTINUIOUS)
                     .check(pack -> pack.checkCaster(caster));
+
             switch (buffType) {
                 case 攻击力百分比增加 -> {
                     buff = tempBuff.trigger(攻击力计算)

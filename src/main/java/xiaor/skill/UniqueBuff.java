@@ -13,13 +13,25 @@ import xiaor.MessagePack;
 public class UniqueBuff extends Buff{
 
     public String uniqueId;
-    public String maxLevel;
-    public String currentLevel;
-
+    public int maxLevel;
+    public int currentLevel;
+    public int incLv;   //添加时buff添加几层
 
     @Override
     public boolean cast(MessagePack pack) {
         pack.level = currentLevel;
         return cast.apply(pack);
+    }
+
+    public void add(UniqueBuff buff) {
+        currentLevel = Math.min(currentLevel+buff.incLv, maxLevel);
+    }
+
+    @Override
+    public String toString() {
+        String tempS;
+        if(caster == acceptor)tempS = caster + "给自己";
+        else tempS =  caster + "->" + acceptor;
+        return "%s[%s] 当前层数%d 最高层数%d".formatted(name, tempS, currentLevel, maxLevel);
     }
 }

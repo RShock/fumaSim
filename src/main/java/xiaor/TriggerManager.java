@@ -2,6 +2,7 @@ package xiaor;
 
 import xiaor.skill.Buff;
 import xiaor.skill.Skill;
+import xiaor.skill.UniqueBuff;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +40,16 @@ public class TriggerManager {
         return TriggerManager.getInstance().addBuff(buff);
     }
 
-    private boolean addBuff(Buff buff) {
-        System.out.println("＋新增buff: " + buff);
-        skills.add(buff);
+    private boolean addBuff(Buff newBuff) {
+        //可堆叠buff特殊处理
+        if(newBuff instanceof UniqueBuff) {
+            skills.stream().filter(skill -> skill instanceof UniqueBuff)
+                    .filter(buff -> ((UniqueBuff) buff).uniqueId.equals(((UniqueBuff) newBuff).uniqueId))
+                    .findFirst()
+                    .ifPresent(buff -> ((UniqueBuff) buff).add(((UniqueBuff)newBuff)));
+        }
+        System.out.println("＋新增buff: " + newBuff);
+        skills.add(newBuff);
         return true;
     }
 
