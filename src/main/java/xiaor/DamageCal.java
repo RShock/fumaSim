@@ -26,6 +26,7 @@ public class DamageCal {
     public void finalDamage(double percent, TriggerEnum triggerEnum) {
         double baseDamage = getCurrentAttack() * percent;
         TriggerManager.sendMessage(triggerEnum, MessagePack.damagePack(this));
+        TriggerManager.sendMessage(TriggerEnum.伤害计算, MessagePack.damagePack(this));
         int finalDamage = damageBuffMap.values().stream().map(aDouble -> aDouble + 1)
                 .reduce(baseDamage, (a, b) -> (a * b)).intValue();
         System.out.println(pack.caster + "对" + pack.acceptor + "造成了" + finalDamage + "伤害");

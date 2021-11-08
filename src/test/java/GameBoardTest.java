@@ -82,4 +82,15 @@ class GameBoardTest {
         board.run("1a1 1a1 1q1 1a1 1a1");
         assertEquals(1183459, 矮子王.getLife(), 100);
     }
+
+    @Test
+    void 五星沃沃的大招再攻击() {
+        胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.builder().star(5).attack(100).name("沃沃").build();
+        木桩 dummy = 木桩.builder().life(500).name("活动假人").build();
+        board.addOurChara(wowo);
+        board.addEnemyChara(dummy);
+        board.initSkills();
+        board.run("1d1 1a1");
+        assertEquals(-145, dummy.getLife());
+    }
 }

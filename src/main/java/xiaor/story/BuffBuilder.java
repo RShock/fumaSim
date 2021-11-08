@@ -9,6 +9,7 @@ import java.util.Collections;
 
 import static xiaor.TriggerEnum.*;
 import static xiaor.story.BuffType.攻击力百分比增加;
+import static xiaor.story.BuffType.造成伤害增加;
 
 public class BuffBuilder extends BaseBuilder {
     public double multi;
@@ -78,28 +79,20 @@ public class BuffBuilder extends BaseBuilder {
 
     @Override
     public BaseBuilder buildThis() {
+        if (acceptors == null) {
+            throw new RuntimeException("技能%s的接收对象未定义".formatted(name));
+        }
         for (Chara acceptor : acceptors) {
             Buff buff;
-            Buff.BuffBuilder<?, ?> tempBuff;
-            if (isUnique) {
-                tempBuff = UniqueBuff.builder()
-                        .maxLevel(maxLevel)
-                        .incLv(level);
-            } else {
-                tempBuff = Buff.builder();
-            }
-            tempBuff = tempBuff
-                    .caster(caster)
-                    .acceptor(acceptor)
-                    .name(name)
-                    .time(lasted)
-                    .type(SkillTime.CONTINUIOUS)
-                    .check(pack -> pack.checkCaster(caster));
+            Buff.BuffBuilder<?, ?> tempBuff = getTempBuffBuilder(acceptor);
 
             switch (buffType) {
                 case 攻击力百分比增加 -> {
                     buff = tempBuff.trigger(攻击力计算)
                             .cast(pack -> {
+                                if(pack.level > 1){
+                                    pack.getDamageCal().changeDamage(攻击力百分比增加, multi* pack.level);
+                                }
                                 pack.getDamageCal().changeDamage(攻击力百分比增加, multi);
                                 callNext();
                                 return true;
@@ -115,8 +108,17 @@ public class BuffBuilder extends BaseBuilder {
                             })
                             .build();
                 }
+                case 造成伤害增加 -> {
+                    buff = tempBuff.trigger(伤害计算)
+                            .cast(pack -> {
+                                pack.getDamageCal().changeDamage(造成伤害增加, multi);
+                                callNext();
+                                return true;
+                            })
+                            .build();
+                }
                 default -> {
-                    throw new RuntimeException("未支持的buff类型");
+                    throw new RuntimeException("未支持的buff类型" + buffType);
                 }
             }
             TriggerManager.registerBuff(buff);
@@ -138,5 +140,26 @@ public class BuffBuilder extends BaseBuilder {
     public BuffBuilder maxLevel(int max) {
         this.maxLevel = max;
         return this;
+    }
+
+    protected Buff.BuffBuilder getTempBuffBuilder(Chara acceptor) {
+        Buff.BuffBuilder<?, ?> tempBuff;
+        if (isUnique) {
+            tempBuff = UniqueBuff.builder()
+                    .maxLevel(maxLevel)
+                    .incLv(level)
+                    .currentLevel(level)
+                    .uniqueId(uniqueId);
+        } else {
+            tempBuff = Buff.builder();
+        }
+        tempBuff = tempBuff
+                .caster(caster)
+                .acceptor(acceptor)
+                .name(name)
+                .time(lasted)
+                .type(SkillTime.CONTINUIOUS)
+                .check(pack -> pack.checkCaster(caster));
+        return tempBuff;
     }
 }

@@ -6,6 +6,7 @@ import xiaor.skill.UniqueBuff;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TriggerManager {
     public static Boolean SKILL_LOG = false;
@@ -42,11 +43,19 @@ public class TriggerManager {
 
     private boolean addBuff(Buff newBuff) {
         //可堆叠buff特殊处理
-        if(newBuff instanceof UniqueBuff) {
-            skills.stream().filter(skill -> skill instanceof UniqueBuff)
-                    .filter(buff -> ((UniqueBuff) buff).uniqueId.equals(((UniqueBuff) newBuff).uniqueId))
-                    .findFirst()
-                    .ifPresent(buff -> ((UniqueBuff) buff).add(((UniqueBuff)newBuff)));
+        if(newBuff instanceof UniqueBuff newUniqueBuff) {
+            System.out.println("＋新增可堆叠buff: " + newBuff);
+            Optional<UniqueBuff> first = skills.stream().filter(skill -> skill instanceof UniqueBuff)
+                    .map(skill -> (UniqueBuff)skill)
+                    .filter(buff -> buff.uniqueId == newUniqueBuff.uniqueId)
+                    .findFirst();
+            if(first.isPresent()){
+                first.get().add(newUniqueBuff);
+                System.out.println("堆叠成功，当前层数" + first.get().currentLevel);
+            }else{
+                skills.add(newBuff);
+            }
+            return true;
         }
         System.out.println("＋新增buff: " + newBuff);
         skills.add(newBuff);
