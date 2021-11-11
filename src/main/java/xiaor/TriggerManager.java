@@ -17,7 +17,7 @@ public class TriggerManager {
 
     public List<Skill> skills;
 
-    private int IDGen = 0;
+    private int IDGen = 10000;
 
     public int getIDGen() {
         return IDGen++;

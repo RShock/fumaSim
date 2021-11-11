@@ -35,5 +35,7 @@ public interface Chara {
 
     int counter(Chara acceptor);
 
+    int getSkillLevel();
+
 //    Function<MessagePack, Boolean> getSkill(int level);
 }

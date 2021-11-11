@@ -9,6 +9,9 @@ import xiaor.story.BuffType;
 import xiaor.story.SkillBuilder;
 
 import static xiaor.Common.INFI;
+import static xiaor.story.DamageBuilder.DamageType.必杀伤害;
+import static xiaor.story.DamageBuilder.DamageType.普通伤害;
+import static xiaor.story.SkillType.普攻;
 
 @SuperBuilder(toBuilder = true)
 public class 复生公主_千鹤 extends BaseChara {
@@ -31,24 +34,33 @@ public class 复生公主_千鹤 extends BaseChara {
 
     @Override
     public void initSkills() {
-        double[] multi = {0, 0.69, 0.73, 0.76, 0.80, 0.80};
-        //使目标受到的风属性伤害增加12（2层）  再以攻击力330%对目标造成伤害 CD4
+        //使目标受到的风属性伤害增加$1（2层）  再以攻击力$2对目标造成伤害 CD4
         SkillBuilder.createBuffSkill(this)
-                .to(GameBoard.getCurrentEnemy())
-                .multi(0.12)
+                .when()
+                .multi(new double[]{0.0, 0.12, 0.12, 0.12, 0.15, 0.18})
                 .name(this + "必杀附带的易伤")
+                .to(GameBoard.getCurrentEnemy())
                 .level(1)
                 .maxLevel(2)
                 .lasted(INFI)
                 .buffType(BuffType.受到风属性伤害增加)
                 .then()
-                .damageMulti(3.3)
+                .damageMulti(new double[]{0.0, 3.3, 3.76, 4.22, 4.22, 4.22})
+                .damageType(必杀伤害)
                 .name(this + "的必杀伤害")
                 .to(GameBoard.getCurrentEnemy())
                 .build();
         //普通攻击
+        SkillBuilder.createDamageSkill(this)
+                .type(普攻)
+                .damageType(普通伤害)
+                .damageMulti(1)
+                .name(this + "的基础攻击")
+                .to(GameBoard.getCurrentEnemy())
+                .build();
 
         //队长技 使自身攻击力+90% 必杀技伤害增加+30%
+
 
         //使自身受到伤害减少15% 但是受到火属性伤害增加30%（不做）
 
