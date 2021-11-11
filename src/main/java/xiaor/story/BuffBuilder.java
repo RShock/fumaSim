@@ -6,6 +6,8 @@ import xiaor.skill.SkillTime;
 import xiaor.skill.UniqueBuff;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static xiaor.TriggerEnum.*;
 import static xiaor.story.BuffType.攻击力百分比增加;
@@ -16,14 +18,10 @@ public class BuffBuilder extends BaseBuilder {
     protected BuffType buffType;
 
     //这四个参数用于可堆叠buff
-    private int uniqueId;
-    private int level;
-    private boolean isUnique;
-    private int maxLevel;
-
-    public BuffBuilder(BaseBuilder preBuilder) {
-        super(preBuilder);
-    }
+    protected int uniqueId;
+    protected int level;
+    protected boolean isUnique;
+    protected int maxLevel;
 
     public BuffBuilder() {
         super();
@@ -159,7 +157,16 @@ public class BuffBuilder extends BaseBuilder {
                 .name(name)
                 .time(lasted)
                 .type(SkillTime.CONTINUIOUS)
-                .check(pack -> pack.checkCaster(caster));
+                .check(pack -> pack.checkCaster(acceptor)); //对于buff来说，监测对象是acceptor
         return tempBuff;
+    }
+
+    public BuffBuilder to(List<Chara> acceptors) {
+        this.acceptors = acceptors;
+        return this;
+    }
+
+    public BuffBuilder to(Chara acceptor) {
+        return to(Collections.singletonList(acceptor));
     }
 }

@@ -4,6 +4,11 @@ package xiaor.charas;
 import lombok.experimental.SuperBuilder;
 import xiaor.Chara;
 import xiaor.Element;
+import xiaor.GameBoard;
+import xiaor.story.BuffType;
+import xiaor.story.SkillBuilder;
+
+import static xiaor.Common.INFI;
 
 @SuperBuilder(toBuilder = true)
 public class 复生公主_千鹤 extends BaseChara {
@@ -28,7 +33,19 @@ public class 复生公主_千鹤 extends BaseChara {
     public void initSkills() {
         double[] multi = {0, 0.69, 0.73, 0.76, 0.80, 0.80};
         //使目标受到的风属性伤害增加12（2层）  再以攻击力330%对目标造成伤害 CD4
-
+        SkillBuilder.createBuffSkill(this)
+                .to(GameBoard.getCurrentEnemy())
+                .multi(0.12)
+                .name(this + "必杀附带的易伤")
+                .level(1)
+                .maxLevel(2)
+                .lasted(INFI)
+                .buffType(BuffType.受到风属性伤害增加)
+                .then()
+                .damageMulti(3.3)
+                .name(this + "的必杀伤害")
+                .to(GameBoard.getCurrentEnemy())
+                .build();
         //普通攻击
 
         //队长技 使自身攻击力+90% 必杀技伤害增加+30%
@@ -40,16 +57,6 @@ public class 复生公主_千鹤 extends BaseChara {
         //5星被动 必杀时，触发使我方全体风属性角色必杀技伤害增加15%（最多2层）效果
 
         //6潜 使得自身必杀技伤害增加10%
-
-        //普攻时，触发“以攻击力25%对我方HP最低者进行治疗" hp最低应该是百分比（吃必杀技加成）
-
-        //攻击时，触发”以自身攻击力20%使我方全体攻击力增加(1回合）“（右侧效应）
-        // 这里要做CD消退
-        // 必杀时，触发使我方全体必杀技伤害增加25%（1回合）
-
-        //防御减伤
-
-        //免疫沉默
 
 
     }
