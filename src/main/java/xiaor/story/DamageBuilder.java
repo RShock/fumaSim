@@ -36,6 +36,10 @@ public class DamageBuilder extends BaseBuilder{
         return this;
     }
 
+    public DamageBuilder damageMulti(double[] doubles) {
+        return this.damageMulti(doubles[caster.getSkillLevel()]);
+    }
+
     public DamageBuilder type(SkillType type) {
         this.type = type;
         return this;

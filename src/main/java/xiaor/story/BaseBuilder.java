@@ -9,7 +9,8 @@ import java.util.function.Function;
  * 将触发器模式转为函数式流写法
  */
 public class BaseBuilder implements BuilderInterface {
-    public int thenId;
+    public int preId;
+    public int nextId;
     public Chara caster;
     public List<Chara> acceptors;
     public TriggerEnum trigger;
@@ -23,7 +24,7 @@ public class BaseBuilder implements BuilderInterface {
 
     public BaseBuilder() {
         this.preBuilder = this;
-        this.thenId = Tools.getNewID();
+        this.nextId = Tools.getNewID();
     }
 
     public BaseBuilder(BaseBuilder builder) {
@@ -31,8 +32,10 @@ public class BaseBuilder implements BuilderInterface {
         this.caster = builder.caster;
         this.acceptors = builder.acceptors;
         this.type = builder.type;
-        this.thenId = Tools.getNewID();
+        this.nextId = Tools.getNewID();
+        this.preId = builder.nextId;
         this.lasted = builder.lasted;
+        this.trigger = TriggerEnum.内部事件;
         builder.nextBuilder = this;
     }
 
@@ -75,7 +78,7 @@ public class BaseBuilder implements BuilderInterface {
     }
 
     public void callNext() {
-        TriggerManager.sendMessage(TriggerEnum.内部事件, MessagePack.newIdPack(thenId));
+        TriggerManager.sendMessage(TriggerEnum.内部事件, MessagePack.newIdPack(nextId));
     }
 
     public ThenBuilder whenSelf(TriggerEnum trigger) {
@@ -86,7 +89,11 @@ public class BaseBuilder implements BuilderInterface {
         return new BuffBuilder(this).multi(multi).buffType(BuffType.造成伤害增加);
     }
 
-    public DamageBuilder damageMulti(double[] doubles) {
-        return new DamageBuilder(this).damageMulti(doubles[caster.getSkillLevel()]);
+    public BuffBuilder addNewBuff(BuffType type) {
+        return new BuffBuilder(this).buffType(type);
+    }
+
+    public DamageBuilder addNewDamage(DamageBuilder.DamageType type) {
+        return new DamageBuilder(this).damageType(type);
     }
 }

@@ -32,4 +32,8 @@ public class MessagePack {
                 .acceptor(damageCal.pack.acceptor)
                 .build();
     }
+
+    public Boolean checkAccepter(Chara acceptor) {
+        return acceptor.equals(this.acceptor);
+    }
 }

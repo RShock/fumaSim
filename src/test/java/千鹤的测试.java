@@ -46,8 +46,8 @@ class 千鹤的测试 {
         board.addEnemyChara(dummy);
         board.initSkills();
         board.run("1d1 1a1");
-        assertEquals(-70, dummy.getLife());
-        //第一回合开大打330 第二回合不开大打112
+        assertEquals(19, dummy.getLife());
+        //第一回合开大打330*1.12 第二回合不开大打112
     }
 //
 //    @Test

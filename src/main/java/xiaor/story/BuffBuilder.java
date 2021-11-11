@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static xiaor.TriggerEnum.*;
-import static xiaor.story.BuffType.攻击力百分比增加;
-import static xiaor.story.BuffType.造成伤害增加;
+import static xiaor.story.BuffType.*;
 
 public class BuffBuilder extends BaseBuilder {
     public double multi;
@@ -114,6 +113,18 @@ public class BuffBuilder extends BaseBuilder {
                     buff = tempBuff.trigger(伤害计算)
                             .cast(pack -> {
                                 pack.getDamageCal().changeDamage(造成伤害增加, multi);
+                                callNext();
+                                return true;
+                            })
+                            .build();
+                }
+                case 受到风属性伤害增加 -> {
+                    buff = tempBuff.trigger(伤害计算)
+                            .check(pack ->
+                                    pack.checkAccepter(acceptor) && caster.getElement().equals(Element.风属性)
+                            )
+                            .cast(pack -> {
+                                pack.getDamageCal().changeDamage(受到风属性伤害增加, multi);
                                 callNext();
                                 return true;
                             })

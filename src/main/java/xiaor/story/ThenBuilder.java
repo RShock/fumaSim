@@ -9,13 +9,16 @@ import java.util.function.Function;
 
 import static xiaor.TriggerEnum.内部事件;
 
+/**
+ * 前面的代码执行之后才能激活后面的代码
+  */
 public class ThenBuilder extends BaseBuilder {
 
     private final int preId;
 
     public ThenBuilder(BaseBuilder builder) {
         super(builder);
-        this.preId = builder.thenId;
+        this.preId = builder.nextId;
         this.trigger = TriggerEnum.内部事件;
     }
 
