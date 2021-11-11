@@ -27,6 +27,10 @@ public class BuffBuilder extends BaseBuilder {
         super();
     }
 
+    public BuffBuilder(BaseBuilder preBuilder) {
+        super(preBuilder);
+    }
+
     public BuffBuilder(Chara caster) {
         this.caster = caster;
     }
