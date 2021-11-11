@@ -36,7 +36,6 @@ public class 复生公主_千鹤 extends BaseChara {
     public void initSkills() {
         //使目标受到的风属性伤害增加$1（2层）  再以攻击力$2对目标造成伤害 CD4
         SkillBuilder.createBuffSkill(this)
-                .when()
                 .multi(new double[]{0.0, 0.12, 0.12, 0.12, 0.15, 0.18})
                 .name(this + "必杀附带的易伤")
                 .to(GameBoard.getCurrentEnemy())

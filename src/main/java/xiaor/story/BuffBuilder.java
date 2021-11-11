@@ -173,4 +173,9 @@ public class BuffBuilder extends BaseBuilder {
     public BuffBuilder to(Chara acceptor) {
         return to(Collections.singletonList(acceptor));
     }
+
+    public BuffBuilder multi(double[] doubles) {
+        this.multi = doubles[caster.getSkillLevel()];
+        return this;
+    }
 }

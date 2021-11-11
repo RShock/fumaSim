@@ -8,7 +8,7 @@ import java.util.function.Function;
 /**
  * 将触发器模式转为函数式流写法
  */
-public class BaseBuilder implements BuilderInterface{
+public class BaseBuilder implements BuilderInterface {
     public int thenId;
     public Chara caster;
     public List<Chara> acceptors;
@@ -58,9 +58,9 @@ public class BaseBuilder implements BuilderInterface{
 
     @Override
     public void build() {
-        if(preBuilder != this)
+        if (preBuilder != this)
             preBuilder.build();
-        else{
+        else {
             buildThis();
         }
     }
@@ -75,7 +75,7 @@ public class BaseBuilder implements BuilderInterface{
     }
 
     public void callNext() {
-        TriggerManager.sendMessage(TriggerEnum.内部事件,MessagePack.newIdPack(thenId));
+        TriggerManager.sendMessage(TriggerEnum.内部事件, MessagePack.newIdPack(thenId));
     }
 
     public ThenBuilder whenSelf(TriggerEnum trigger) {
@@ -84,5 +84,9 @@ public class BaseBuilder implements BuilderInterface{
 
     public BuffBuilder increaseDamage(double multi) {
         return new BuffBuilder(this).multi(multi).buffType(BuffType.造成伤害增加);
+    }
+
+    public DamageBuilder damageMulti(double[] doubles) {
+        return new DamageBuilder(this).damageMulti(doubles[caster.getSkillLevel()]);
     }
 }
