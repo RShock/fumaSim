@@ -101,6 +101,14 @@ public class BuffAction extends ActionBuilder {
                                 })
                                 .build();
                     }
+                    case 必杀技伤害增加 -> {
+                        buff = tempBuff.trigger(技能伤害计算)
+                                .cast(pack -> {
+                                    pack.getDamageCal().changeDamage(必杀技伤害增加, multi);
+                                    return true;
+                                })
+                                .build();
+                    }
                     case 受到风属性伤害增加 -> {
                         buff = tempBuff.trigger(伤害计算)
                                 .check(pack ->
@@ -159,6 +167,11 @@ public class BuffAction extends ActionBuilder {
 
     public BuffAction toCurrentEnemy() {
         this.acceptors = Collections.singletonList(GameBoard.getCurrentEnemy());
+        return this;
+    }
+
+    public BuffAction to(List<Chara> chara) {
+        this.acceptors = chara;
         return this;
     }
 }

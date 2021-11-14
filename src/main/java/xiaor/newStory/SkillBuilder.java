@@ -6,6 +6,8 @@ import xiaor.newStory.trigger.Trigger;
 import xiaor.newStory.trigger.TriggerBuilder;
 import xiaor.newStory.when.WhenBuilder;
 
+import java.util.Optional;
+
 public class SkillBuilder {
     private final SkillType skillType;
     private final Chara caster; //技能释放者

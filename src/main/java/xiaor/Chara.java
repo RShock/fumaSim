@@ -37,5 +37,6 @@ public interface Chara {
 
     int getSkillLevel();
 
+    boolean isLeader();
 //    Function<MessagePack, Boolean> getSkill(int level);
 }

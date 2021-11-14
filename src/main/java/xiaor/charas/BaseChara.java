@@ -24,6 +24,8 @@ public abstract class BaseChara implements Chara {
 
     protected boolean isMoved;
 
+    protected boolean is6;  //是否6潜
+
     @Builder.Default
     protected int star = 3;
 

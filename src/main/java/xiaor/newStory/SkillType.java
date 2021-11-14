@@ -6,5 +6,5 @@ public enum SkillType {
     队长技能,
     三星技能,
     五星技能,
-    潜力技能1
+    六潜技能
 }
