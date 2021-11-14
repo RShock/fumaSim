@@ -118,6 +118,7 @@ public class BuffAction extends ActionBuilder {
                 }
 
                 TriggerManager.registerBuff(buff);
+                callNext(action.getActionId());
             }
             return true;
         });
@@ -153,6 +154,11 @@ public class BuffAction extends ActionBuilder {
 
     public BuffAction maxLevel(int maxLevel) {
         this.maxLevel = level;
+        return this;
+    }
+
+    public BuffAction toCurrentEnemy() {
+        this.acceptors = Collections.singletonList(GameBoard.getCurrentEnemy());
         return this;
     }
 }

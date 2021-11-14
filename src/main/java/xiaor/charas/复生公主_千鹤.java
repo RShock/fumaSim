@@ -4,6 +4,22 @@ package xiaor.charas;
 import lombok.experimental.SuperBuilder;
 import xiaor.Chara;
 import xiaor.Element;
+import xiaor.GameBoard;
+import xiaor.Tools;
+import xiaor.newStory.SkillBuilder;
+import xiaor.newStory.SkillType;
+import xiaor.newStory.action.BuffAction;
+import xiaor.newStory.action.BuffType;
+import xiaor.newStory.action.DamageAction;
+import xiaor.newStory.trigger.SelfTrigger;
+
+import static xiaor.Common.INFI;
+import static xiaor.GameBoard.getCurrentEnemy;
+import static xiaor.TriggerEnum.释放大招;
+import static xiaor.TriggerEnum.释放普攻;
+import static xiaor.newStory.SkillType.普攻;
+import static xiaor.newStory.action.DamageAction.DamageType.必杀伤害;
+import static xiaor.newStory.action.DamageAction.DamageType.普通伤害;
 
 @SuperBuilder(toBuilder = true)
 public class 复生公主_千鹤 extends BaseChara {
@@ -26,7 +42,26 @@ public class 复生公主_千鹤 extends BaseChara {
 
     @Override
     public void initSkills() {
+        double[] multi1 = {0.0, 3.3, 3.76, 4.22, 4.22, 4.22}; //必杀倍率
+        double[] multi2 = {0.0, 0.12, 0.12, 0.12, 0.15, 0.18}; //风属性易伤倍率
+
         //使目标受到的风属性伤害增加$1（2层）  再以攻击力$2对目标造成伤害 CD4
+        SkillBuilder.createNewSkill(this, SkillType.必杀)
+                .when(SelfTrigger.act(this, 释放大招))
+                .act(BuffAction.create(this, BuffType.受到风属性伤害增加)
+                        .multi(multi2).toCurrentEnemy().level(1).maxLevel(2)
+                        .name(this+"必杀前给目标增加" + Tools.toPercent(multi2[getSkillLevel()]) + "的风属性易伤")
+                        .lastedTurn(INFI).build())
+                .and()
+                .act(DamageAction.create(this, 必杀伤害)
+                        .multi(multi1).to(getCurrentEnemy()).build())
+                .build();
+
+        SkillBuilder.createNewSkill(this, 普攻)
+                .when(SelfTrigger.act(this, 释放普攻))
+                .act(DamageAction.create(this, 普通伤害).build())
+                .build();
+
 //        SkillBuilder2.createSkill(this)
 //                .whenSelf(TriggerEnum.释放大招)
 //                .name(this+"的大招")

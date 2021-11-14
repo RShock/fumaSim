@@ -43,7 +43,7 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
 
         SkillBuilder.createNewSkill(this, 必杀)
                 .when(SelfTrigger.act(this, 释放大招))
-                .act(DamageAction.create(必杀伤害)
+                .act(DamageAction.create(this, 必杀伤害)
                         .multi(2.0).to(getCurrentEnemy()).build())
                 .then()
                 .act(
@@ -55,7 +55,7 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
 
         SkillBuilder.createNewSkill(this, 普攻)
                 .when(SelfTrigger.act(this, 释放普攻))
-                .act(DamageAction.create(普通伤害).build())
+                .act(DamageAction.create(this, 普通伤害).build())
                 .build();
 
         if (isLeader()) {
@@ -84,11 +84,11 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
                             SkillBuilder.createNewSkill(this, 三星技能)
                                     .when(SelfTrigger.act(this, 释放普攻后))
                                     .lastedTurn(6)
-                                    .act(DamageAction.create(追击普通伤害).multi(0.3).to(GameBoard.selectTarget(1)).build())
+                                    .act(DamageAction.create(this, 追击普通伤害).multi(0.3).to(GameBoard.selectTarget(1)).build())
                                     .and()
-                                    .act(DamageAction.create(追击普通伤害).multi(0.3).to(GameBoard.selectTarget(2)).build())
+                                    .act(DamageAction.create(this, 追击普通伤害).multi(0.3).to(GameBoard.selectTarget(2)).build())
                                     .and()
-                                    .act(DamageAction.create(追击普通伤害).multi(0.3).to(GameBoard.selectTarget(5)).build())
+                                    .act(DamageAction.create(this, 追击普通伤害).multi(0.3).to(GameBoard.selectTarget(5)).build())
                                     .toAction()
                     )
                     .build();

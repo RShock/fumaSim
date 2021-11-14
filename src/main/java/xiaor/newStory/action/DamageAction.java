@@ -14,6 +14,12 @@ public class DamageAction extends ActionBuilder {
 
     public double multi;    //伤害倍率
 
+    public Chara caster;
+
+    public DamageAction multi(double[] multi) {
+        return this.multi(multi[caster.getSkillLevel()]);
+    }
+
     public enum DamageType {
         普通伤害,
         必杀伤害,
@@ -21,10 +27,11 @@ public class DamageAction extends ActionBuilder {
 
     }
 
-    public static DamageAction create(DamageType damageType) {
+    public static DamageAction create(Chara chara, DamageType damageType) {
         DamageAction damageAction = new DamageAction();
         damageAction.damageType = damageType;
         damageAction.multi = 1.0;   //默认倍率1.0
+        damageAction.caster = chara;
         return damageAction;
     }
 
