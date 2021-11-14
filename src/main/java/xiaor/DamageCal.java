@@ -1,6 +1,6 @@
 package xiaor;
 
-import xiaor.story.BuffType;
+import xiaor.newStory.action.BuffType;
 
 import java.util.HashMap;
 
@@ -39,6 +39,7 @@ public class DamageCal {
     //普攻
     public boolean normalAttack(double percent) {
         finalDamage(percent, TriggerEnum.普攻伤害计算);
+        TriggerManager.sendMessage(TriggerEnum.释放普攻后, pack);
         return true;
     }
 
@@ -59,9 +60,15 @@ public class DamageCal {
         return finalAtk;
     }
 
-    public boolean skillAttack(double percent) {
-        finalDamage(percent, TriggerEnum.技能伤害计算);
+    public boolean skillAttack(double multi) {
+        finalDamage(multi, TriggerEnum.技能伤害计算);
         TriggerManager.sendMessage(TriggerEnum.释放必杀后, pack);
+        return true;
+    }
+
+    public boolean appendNormalAttack(double multi) {
+        finalDamage(multi, TriggerEnum.普攻伤害计算);
+        TriggerManager.sendMessage(TriggerEnum.释放追击普攻后, pack);
         return true;
     }
 }

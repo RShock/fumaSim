@@ -1,4 +1,4 @@
-package xiaor.story;
+package xiaor.newStory;
 
 public enum SkillType {
     必杀,

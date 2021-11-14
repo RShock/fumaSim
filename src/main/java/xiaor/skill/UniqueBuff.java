@@ -12,7 +12,7 @@ import xiaor.MessagePack;
 @Getter
 public class UniqueBuff extends Buff{
 
-    public int uniqueId;
+    public String uniqueId;
     public int maxLevel;
     public int currentLevel;
     public int incLv;   //添加时buff添加几层

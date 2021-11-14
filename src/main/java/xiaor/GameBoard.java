@@ -3,7 +3,7 @@ package xiaor;
 import lombok.Getter;
 import xiaor.skill.BaseSkill;
 import xiaor.skill.Skill;
-import xiaor.story.BuffType;
+import xiaor.newStory.action.BuffType;
 
 import java.util.ArrayList;
 import java.util.List;

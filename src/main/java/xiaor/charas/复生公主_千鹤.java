@@ -4,15 +4,6 @@ package xiaor.charas;
 import lombok.experimental.SuperBuilder;
 import xiaor.Chara;
 import xiaor.Element;
-import xiaor.GameBoard;
-import xiaor.TriggerEnum;
-import xiaor.story.BuffType;
-import xiaor.story.SkillBuilder;
-
-import static xiaor.Common.INFI;
-import static xiaor.story.DamageBuilder.DamageType.必杀伤害;
-import static xiaor.story.DamageBuilder.DamageType.普通伤害;
-import static xiaor.story.SkillType.普攻;
 
 @SuperBuilder(toBuilder = true)
 public class 复生公主_千鹤 extends BaseChara {
@@ -36,30 +27,30 @@ public class 复生公主_千鹤 extends BaseChara {
     @Override
     public void initSkills() {
         //使目标受到的风属性伤害增加$1（2层）  再以攻击力$2对目标造成伤害 CD4
-        SkillBuilder.createSkill(this)
-                .whenSelf(TriggerEnum.大招)
-                .name(this+"的大招")
-                .addNewBuff(BuffType.受到风属性伤害增加)
-                .multi(new double[]{0.0, 0.12, 0.12, 0.12, 0.15, 0.18})
-                .name(this + "必杀附带的易伤")
-                .to(GameBoard.getCurrentEnemy())
-                .level(1)
-                .maxLevel(2)
-                .lasted(INFI)
-                .then()
-                .addNewDamage(必杀伤害)
-                .damageMulti(new double[]{0.0, 3.3, 3.76, 4.22, 4.22, 4.22})
-                .name(this + "的必杀伤害")
-                .to(GameBoard.getCurrentEnemy())
-                .build();
-        //普通攻击
-        SkillBuilder.createDamageSkill(this)
-                .type(普攻)
-                .damageType(普通伤害)
-                .damageMulti(1)
-                .name(this + "的基础攻击")
-                .to(GameBoard.getCurrentEnemy())
-                .build();
+//        SkillBuilder2.createSkill(this)
+//                .whenSelf(TriggerEnum.释放大招)
+//                .name(this+"的大招")
+//                .addNewBuff(BuffType.受到风属性伤害增加)
+//                .multi(new double[]{0.0, 0.12, 0.12, 0.12, 0.15, 0.18})
+//                .name(this + "必杀附带的易伤")
+//                .to(GameBoard.getCurrentEnemy())
+//                .level(1)
+//                .maxLevel(2)
+//                .lasted(INFI)
+//                .then()
+//                .addNewDamage(必杀伤害)
+//                .damageMulti(new double[]{0.0, 3.3, 3.76, 4.22, 4.22, 4.22})
+//                .name(this + "的必杀伤害")
+//                .to(GameBoard.getCurrentEnemy())
+//                .build();
+//        //普通攻击
+//        SkillBuilder2.createDamageSkill(this)
+//                .type(普攻)
+//                .damageType(普通伤害)
+//                .damageMulti(1)
+//                .name(this + "的基础攻击")
+//                .to(GameBoard.getCurrentEnemy())
+//                .build();
 
         //队长技 使自身攻击力+90% 必杀技伤害增加+30%
 

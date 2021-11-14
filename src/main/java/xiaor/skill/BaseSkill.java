@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import xiaor.MessagePack;
 import xiaor.TriggerEnum;
-import xiaor.skill.Skill;
-import xiaor.skill.SkillTime;
 
 import java.util.function.Function;
 
@@ -17,7 +15,7 @@ public class BaseSkill implements Skill {
     TriggerEnum trigger;
     Function<MessagePack, Boolean> check;
     Function<MessagePack, Boolean> cast;
-    SkillTime type;
+    SkillTime skillTime;
     int time;   //持续时间
     String name; //名字
 
@@ -42,8 +40,8 @@ public class BaseSkill implements Skill {
 
     @Override
     public boolean cast(MessagePack pack) {
-        if(type == SkillTime.ONCE){
-            type = SkillTime.DISABLED;
+        if(skillTime == SkillTime.仅生效一次){
+            skillTime = SkillTime.已经失效;
         }
         return cast.apply(pack);
     }

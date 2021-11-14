@@ -4,16 +4,6 @@ package xiaor.charas;
 import lombok.experimental.SuperBuilder;
 import xiaor.Chara;
 import xiaor.Element;
-import xiaor.GameBoard;
-import xiaor.Tools;
-import xiaor.story.SkillBuilder;
-
-import static xiaor.Common.INFI;
-import static xiaor.TriggerEnum.游戏开始时;
-import static xiaor.TriggerEnum.释放必杀后;
-import static xiaor.story.DamageBuilder.DamageType.必杀伤害;
-import static xiaor.story.DamageBuilder.DamageType.普通伤害;
-import static xiaor.story.SkillType.*;
 
 @SuperBuilder(toBuilder = true)
 public class 法斯公主_露露 extends BaseChara {

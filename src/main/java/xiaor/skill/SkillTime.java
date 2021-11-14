@@ -1,7 +1,7 @@
 package xiaor.skill;
 
 public enum SkillTime {
-    CONTINUIOUS,
-    ONCE,   //立刻生效后消失
-    DISABLED    //已失效
+    持续的,
+    仅生效一次,   //立刻生效后消失
+    已经失效    //已失效
 }

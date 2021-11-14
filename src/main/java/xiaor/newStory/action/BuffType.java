@@ -1,4 +1,4 @@
-package xiaor.story;
+package xiaor.newStory.action;
 
 public enum BuffType {
     伤害增加,
