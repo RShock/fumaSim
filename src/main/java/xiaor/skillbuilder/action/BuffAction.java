@@ -1,16 +1,19 @@
-package xiaor.newStory.action;
+package xiaor.skillbuilder.action;
 
 import xiaor.*;
+import xiaor.charas.Chara;
 import xiaor.skill.Buff;
 import xiaor.skill.SkillTime;
 import xiaor.skill.UniqueBuff;
+import xiaor.tools.Tools;
+import xiaor.tools.TriggerManager;
 
 import java.util.Collections;
 import java.util.List;
 
-import static xiaor.TriggerEnum.*;
-import static xiaor.TriggerEnum.伤害计算;
-import static xiaor.newStory.action.BuffType.*;
+import static xiaor.tools.TriggerEnum.*;
+import static xiaor.tools.TriggerEnum.伤害计算;
+import static xiaor.skillbuilder.action.BuffType.*;
 
 public class BuffAction extends ActionBuilder {
 
@@ -29,6 +32,7 @@ public class BuffAction extends ActionBuilder {
         BuffAction buffAction = new BuffAction();
         buffAction.buffType = type;
         buffAction.caster = castor;
+        buffAction.level = 1;
         return buffAction;
     }
 
@@ -77,10 +81,7 @@ public class BuffAction extends ActionBuilder {
                     case 攻击力百分比增加 -> {
                         buff = tempBuff.trigger(攻击力计算)
                                 .cast(pack -> {
-                                    if(pack.level > 1){
-                                        pack.getDamageCal().changeDamage(攻击力百分比增加, multi* pack.level);
-                                    }
-                                    pack.getDamageCal().changeDamage(攻击力百分比增加, multi);
+                                    pack.getDamageCal().changeDamage(攻击力百分比增加, multi*pack.level);
                                     return true;
                                 })
                                 .build();
@@ -88,7 +89,7 @@ public class BuffAction extends ActionBuilder {
                     case 普攻伤害增加 -> {
                         buff = tempBuff.trigger(普攻伤害计算)
                                 .cast(pack -> {
-                                    pack.getDamageCal().changeDamage(BuffType.普攻伤害增加, multi);
+                                    pack.getDamageCal().changeDamage(BuffType.普攻伤害增加, multi*pack.level);
                                     return true;
                                 })
                                 .build();
@@ -96,7 +97,7 @@ public class BuffAction extends ActionBuilder {
                     case 造成伤害增加 -> {
                         buff = tempBuff.trigger(伤害计算)
                                 .cast(pack -> {
-                                    pack.getDamageCal().changeDamage(造成伤害增加, multi);
+                                    pack.getDamageCal().changeDamage(造成伤害增加, multi*pack.level);
                                     return true;
                                 })
                                 .build();
@@ -104,7 +105,7 @@ public class BuffAction extends ActionBuilder {
                     case 必杀技伤害增加 -> {
                         buff = tempBuff.trigger(技能伤害计算)
                                 .cast(pack -> {
-                                    pack.getDamageCal().changeDamage(必杀技伤害增加, multi);
+                                    pack.getDamageCal().changeDamage(必杀技伤害增加, multi*pack.level);
                                     return true;
                                 })
                                 .build();
@@ -115,7 +116,7 @@ public class BuffAction extends ActionBuilder {
                                         pack.checkAccepter(acceptor) && caster.getElement().equals(Element.风属性)
                                 )
                                 .cast(pack -> {
-                                    pack.getDamageCal().changeDamage(受到风属性伤害增加, multi);
+                                    pack.getDamageCal().changeDamage(受到风属性伤害增加, multi*pack.level);
                                     return true;
                                 })
                                 .build();
@@ -161,7 +162,7 @@ public class BuffAction extends ActionBuilder {
     }
 
     public BuffAction maxLevel(int maxLevel) {
-        this.maxLevel = level;
+        this.maxLevel = maxLevel;
         return this;
     }
 

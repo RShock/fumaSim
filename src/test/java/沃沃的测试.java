@@ -45,7 +45,7 @@ class 沃沃的测试 {
         board.addOurChara(wowo);
         board.addEnemyChara(wowo2);
         board.initSkills();
-        board.run("1d1 1a1");
+        board.run("1q1 1a1");
         assertEquals(-70, wowo2.getLife());
         //第一回合开大打200 第二回合不开大打196
     }
@@ -57,7 +57,7 @@ class 沃沃的测试 {
         board.addOurChara(wowo);
         board.addEnemyChara(dummy);
         board.initSkills();
-        board.run("1d1 1a1");
+        board.run("1q1 1a1");
         assertEquals(-184, dummy.getLife());
     }
 
@@ -90,7 +90,18 @@ class 沃沃的测试 {
         board.addOurChara(wowo);
         board.addEnemyChara(dummy);
         board.initSkills();
-        board.run("1d1 1a1");
+        board.run("1q1 1a1");
         assertEquals(-145, dummy.getLife());
+    }
+
+    @Test
+    void 沃沃buff的消退() {
+        胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.builder().attack(100).name("沃沃").build();
+        木桩 dummy = 木桩.builder().life(50000).name("活动假人").build();
+        board.addOurChara(wowo);
+        board.addEnemyChara(dummy);
+        board.initSkills();
+        board.run("1q1 1a1 1a1 1a1 1a1 1a1 1a1 1a1 1a1 1a1 1a1 1a1");
+        assertEquals(47350, dummy.getLife());
     }
 }

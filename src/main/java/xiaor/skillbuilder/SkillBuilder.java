@@ -1,12 +1,10 @@
-package xiaor.newStory;
+package xiaor.skillbuilder;
 
-import xiaor.Chara;
-import xiaor.TriggerEnum;
-import xiaor.newStory.trigger.Trigger;
-import xiaor.newStory.trigger.TriggerBuilder;
-import xiaor.newStory.when.WhenBuilder;
-
-import java.util.Optional;
+import xiaor.charas.Chara;
+import xiaor.tools.TriggerEnum;
+import xiaor.skillbuilder.trigger.Trigger;
+import xiaor.skillbuilder.trigger.TriggerBuilder;
+import xiaor.skillbuilder.when.WhenBuilder;
 
 public class SkillBuilder {
     private final SkillType skillType;

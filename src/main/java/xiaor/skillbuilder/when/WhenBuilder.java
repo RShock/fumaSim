@@ -1,14 +1,14 @@
-package xiaor.newStory.when;
+package xiaor.skillbuilder.when;
 
 import lombok.NoArgsConstructor;
-import xiaor.TriggerManager;
-import xiaor.newStory.action.Action;
-import xiaor.newStory.action.ActionBuilder;
-import xiaor.newStory.trigger.InternalEventTrigger;
-import xiaor.newStory.trigger.Trigger;
+import xiaor.tools.TriggerManager;
+import xiaor.skillbuilder.action.Action;
+import xiaor.skillbuilder.action.ActionBuilder;
+import xiaor.skillbuilder.trigger.InternalEventTrigger;
+import xiaor.skillbuilder.trigger.Trigger;
 import xiaor.skill.BaseSkill;
 import xiaor.skill.SkillTime;
-import xiaor.newStory.SkillType;
+import xiaor.skillbuilder.SkillType;
 
 import static xiaor.Common.INFI;
 
@@ -29,6 +29,7 @@ public class WhenBuilder {
     }
 
     public WhenBuilder act(Action action) {
+        if(this.action != null)throw new RuntimeException("重复赋值act,建议中间加上and");
         this.action = action;
         return this;
     }
@@ -66,6 +67,7 @@ public class WhenBuilder {
         fillAction();
         WhenBuilder whenBuilder = new WhenBuilder();
         whenBuilder.trigger = trigger;
+        whenBuilder.turn = turn;
         whenBuilder.name = name;
         whenBuilder.preBuilder = this;
         return whenBuilder;

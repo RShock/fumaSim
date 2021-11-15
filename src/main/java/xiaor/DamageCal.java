@@ -1,6 +1,9 @@
 package xiaor;
 
-import xiaor.newStory.action.BuffType;
+import xiaor.skillbuilder.action.BuffType;
+import xiaor.tools.Tools;
+import xiaor.tools.TriggerEnum;
+import xiaor.tools.TriggerManager;
 
 import java.util.HashMap;
 
@@ -29,7 +32,7 @@ public class DamageCal {
         TriggerManager.sendMessage(TriggerEnum.伤害计算, MessagePack.damagePack(this));
         int finalDamage = damageBuffMap.values().stream().map(aDouble -> aDouble + 1)
                 .reduce(baseDamage, (a, b) -> (a * b)).intValue();
-        System.out.println(pack.caster + "对" + pack.acceptor + "造成了" + finalDamage + "伤害");
+        Tools.log(Tools.LogColor.BLUE, pack.caster + "对" + pack.acceptor + "造成了" + finalDamage + "伤害");
         int lifeRemain = pack.acceptor.getLife() - finalDamage;
         pack.acceptor.setLife(lifeRemain);
         System.out.println(pack.acceptor + "剩余" + lifeRemain);

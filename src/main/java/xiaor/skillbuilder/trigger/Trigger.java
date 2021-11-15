@@ -1,9 +1,9 @@
-package xiaor.newStory.trigger;
+package xiaor.skillbuilder.trigger;
 
 import lombok.Getter;
 import lombok.Setter;
 import xiaor.MessagePack;
-import xiaor.TriggerEnum;
+import xiaor.tools.TriggerEnum;
 
 import java.util.function.Function;
 

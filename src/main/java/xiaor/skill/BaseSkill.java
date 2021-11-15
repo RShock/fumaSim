@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import xiaor.MessagePack;
-import xiaor.TriggerEnum;
+import xiaor.tools.TriggerEnum;
 
 import java.util.function.Function;
+
+import static xiaor.Common.INFI;
 
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
@@ -35,15 +37,32 @@ public class BaseSkill implements Skill {
 
     @Override
     public boolean check(MessagePack pack) {
+        if(skillTime == SkillTime.已经失效){
+            return false;
+        }
         return check.apply(pack);
     }
 
     @Override
     public boolean cast(MessagePack pack) {
+        if(skillTime == SkillTime.已经失效) {
+            return false;
+        }
         if(skillTime == SkillTime.仅生效一次){
             skillTime = SkillTime.已经失效;
         }
         return cast.apply(pack);
+    }
+
+    @Override
+    public void decrease() {
+        if(time == INFI) {
+            return;
+        }
+        else time--;
+        if(time == 0) {
+            skillTime = SkillTime.已经失效;
+        }
     }
 
     public String toString() {

@@ -1,6 +1,7 @@
 package xiaor;
 
 import lombok.*;
+import xiaor.charas.Chara;
 
 @AllArgsConstructor
 @Builder

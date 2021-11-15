@@ -2,26 +2,24 @@ package xiaor.charas;
 
 
 import lombok.experimental.SuperBuilder;
-import xiaor.Chara;
 import xiaor.Element;
 import xiaor.GameBoard;
-import xiaor.Tools;
-import xiaor.newStory.SkillBuilder;
-import xiaor.newStory.SkillType;
-import xiaor.newStory.action.BuffAction;
-import xiaor.newStory.action.BuffType;
-import xiaor.newStory.action.DamageAction;
-import xiaor.newStory.trigger.SelfTrigger;
+import xiaor.tools.Tools;
+import xiaor.skillbuilder.SkillBuilder;
+import xiaor.skillbuilder.action.BuffAction;
+import xiaor.skillbuilder.action.BuffType;
+import xiaor.skillbuilder.action.DamageAction;
+import xiaor.skillbuilder.trigger.SelfTrigger;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static xiaor.Common.INFI;
 import static xiaor.GameBoard.getCurrentEnemy;
-import static xiaor.TriggerEnum.*;
-import static xiaor.newStory.SkillType.*;
-import static xiaor.newStory.action.DamageAction.DamageType.必杀伤害;
-import static xiaor.newStory.action.DamageAction.DamageType.普通伤害;
+import static xiaor.tools.TriggerEnum.*;
+import static xiaor.skillbuilder.SkillType.*;
+import static xiaor.skillbuilder.action.DamageAction.DamageType.必杀伤害;
+import static xiaor.skillbuilder.action.DamageAction.DamageType.普通伤害;
 
 @SuperBuilder(toBuilder = true)
 public class 复生公主_千鹤 extends BaseChara {
@@ -35,11 +33,6 @@ public class 复生公主_千鹤 extends BaseChara {
         this.name = name;
         this.element = Element.风属性;
         this.isLeader = false;
-    }
-
-    @Override
-    public void defense(Chara acceptor) {
-
     }
 
     @Override
@@ -72,6 +65,7 @@ public class 复生公主_千鹤 extends BaseChara {
                             .multi(0.9).toSelf().lastedTurn(INFI)
                             .name(this + "使自身攻击力+90%")
                             .build())
+                    .and()
                     .act(BuffAction.create(this, BuffType.必杀技伤害增加)
                             .multi(0.3).toSelf().lastedTurn(INFI)
                             .name(this + "必杀技伤害增加+30%")
@@ -98,15 +92,13 @@ public class 复生公主_千鹤 extends BaseChara {
 
         //6潜 使得自身必杀技伤害增加10%
         if (is6) {
-            if (isLeader()) {
-                SkillBuilder.createNewSkill(this, 六潜技能)
-                        .when(游戏开始时)
-                        .act(BuffAction.create(this, BuffType.必杀技伤害增加)
-                                .multi(0.1).toSelf().lastedTurn(INFI)
-                                .name(this + "使自身攻击力+90%")
-                                .build())
-                        .build();
-            }
+            SkillBuilder.createNewSkill(this, 六潜技能)
+                    .when(游戏开始时)
+                    .act(BuffAction.create(this, BuffType.必杀技伤害增加)
+                            .multi(0.1).toSelf().lastedTurn(INFI)
+                            .name(this + "自身必杀技伤害+10%")
+                            .build())
+                    .build();
         }
     }
 

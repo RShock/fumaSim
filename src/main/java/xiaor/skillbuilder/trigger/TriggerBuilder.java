@@ -1,6 +1,6 @@
-package xiaor.newStory.trigger;
+package xiaor.skillbuilder.trigger;
 
-import xiaor.TriggerEnum;
+import xiaor.tools.TriggerEnum;
 
 public class TriggerBuilder {
     public static Trigger when(TriggerEnum triggerEnum) {

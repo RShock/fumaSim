@@ -1,6 +1,6 @@
-package xiaor.newStory.action;
+package xiaor.skillbuilder.action;
 
-import xiaor.Chara;
+import xiaor.charas.Chara;
 import xiaor.DamageCal;
 
 import java.util.Collections;

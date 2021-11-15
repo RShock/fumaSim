@@ -1,6 +1,6 @@
-package xiaor.newStory.trigger;
+package xiaor.skillbuilder.trigger;
 
-import xiaor.TriggerEnum;
+import xiaor.tools.TriggerEnum;
 
 /**
  * 内部事件构造工厂

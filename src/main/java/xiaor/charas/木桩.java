@@ -1,10 +1,7 @@
 package xiaor.charas;
 
 import lombok.experimental.SuperBuilder;
-import xiaor.Chara;
 import xiaor.MessagePack;
-
-import java.util.function.Function;
 
 
 @SuperBuilder(toBuilder = true)
@@ -27,11 +24,6 @@ public class 木桩 extends BaseChara {
     @Override
     public boolean self(MessagePack pack) {
         return super.self(pack);
-    }
-
-    @Override
-    public void defense(Chara acceptor) {
-
     }
 
     @Override

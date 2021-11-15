@@ -1,7 +1,7 @@
 package xiaor.skill;
 
 import xiaor.MessagePack;
-import xiaor.TriggerEnum;
+import xiaor.tools.TriggerEnum;
 
 public interface Skill {
     public TriggerEnum getTrigger();
@@ -9,5 +9,8 @@ public interface Skill {
     boolean check(MessagePack pack);
 
     boolean cast(MessagePack pack);
+
+    //随着时间流逝Buff消退
+    void decrease();
 
 }

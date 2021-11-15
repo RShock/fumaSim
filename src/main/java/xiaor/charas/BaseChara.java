@@ -2,7 +2,6 @@ package xiaor.charas;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import xiaor.Chara;
 import xiaor.Element;
 import xiaor.skill.Skill;
 
@@ -25,6 +24,14 @@ public abstract class BaseChara implements Chara {
     protected boolean isMoved;
 
     protected boolean is6;  //是否6潜
+
+    protected CharaStatus status;   //角色状态
+
+    public enum CharaStatus {
+        DEAD,
+        ACTIVE,
+        INACTIVE
+    }
 
     @Builder.Default
     protected int star = 3;
@@ -75,8 +82,4 @@ public abstract class BaseChara implements Chara {
         this.isMoved = false;
         return true;
     }
-//
-//    public static Function<MessagePack, Boolean> selfChecker(Chara chara) {
-//        return pack -> chara.equals(pack.caster);
-//    }
 }

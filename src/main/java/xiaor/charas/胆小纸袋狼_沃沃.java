@@ -2,21 +2,20 @@ package xiaor.charas;
 
 
 import lombok.experimental.SuperBuilder;
-import xiaor.Chara;
 import xiaor.Element;
 import xiaor.GameBoard;
-import xiaor.Tools;
-import xiaor.newStory.SkillBuilder;
-import xiaor.newStory.action.BuffAction;
-import xiaor.newStory.action.DamageAction;
-import xiaor.newStory.trigger.SelfTrigger;
-import xiaor.newStory.action.BuffType;
+import xiaor.tools.Tools;
+import xiaor.skillbuilder.SkillBuilder;
+import xiaor.skillbuilder.action.BuffAction;
+import xiaor.skillbuilder.action.DamageAction;
+import xiaor.skillbuilder.trigger.SelfTrigger;
+import xiaor.skillbuilder.action.BuffType;
 
 import static xiaor.Common.INFI;
 import static xiaor.GameBoard.getCurrentEnemy;
-import static xiaor.TriggerEnum.*;
-import static xiaor.newStory.action.DamageAction.DamageType.*;
-import static xiaor.newStory.SkillType.*;
+import static xiaor.tools.TriggerEnum.*;
+import static xiaor.skillbuilder.action.DamageAction.DamageType.*;
+import static xiaor.skillbuilder.SkillType.*;
 
 @SuperBuilder(toBuilder = true)
 public class 胆小纸袋狼_沃沃 extends BaseChara {
@@ -30,11 +29,6 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
         this.name = name;
         this.element = Element.风属性;
         this.isLeader = false;
-    }
-
-    @Override
-    public void defense(Chara acceptor) {
-
     }
 
     @Override
@@ -107,6 +101,11 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
                                     .build()
                     )
                     .build();
+        }
+
+        //六潜技能
+        if(is6) {
+//            SkillBuilder.createNewSkill(this, 六潜技能)
         }
     }
 

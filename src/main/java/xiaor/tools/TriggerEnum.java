@@ -1,4 +1,4 @@
-package xiaor;
+package xiaor.tools;
 
 public enum TriggerEnum {
     释放普攻,
@@ -9,5 +9,5 @@ public enum TriggerEnum {
     ,释放普攻后,
     释放追击普攻后,
 
-    游戏开始时,内部事件;
+    游戏开始时,内部事件, 角色行动结束, 释放防御, 回合结束;
 }

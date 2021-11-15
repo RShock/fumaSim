@@ -1,5 +1,7 @@
-package xiaor;
+package xiaor.tools;
 
+import lombok.Getter;
+import xiaor.MessagePack;
 import xiaor.skill.Buff;
 import xiaor.skill.Skill;
 import xiaor.skill.UniqueBuff;
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Getter
 public class TriggerManager {
     public static Boolean SKILL_LOG = false;
 
@@ -15,7 +18,7 @@ public class TriggerManager {
 
     public static Boolean PRIVATE_MSG = false;
 
-    public List<Skill> skills;
+    private List<Skill> skills;
 
     private int IDGen = 10000;
 

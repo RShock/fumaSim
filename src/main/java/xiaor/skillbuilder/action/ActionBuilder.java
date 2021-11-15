@@ -1,10 +1,9 @@
-package xiaor.newStory.action;
+package xiaor.skillbuilder.action;
 
 import lombok.Getter;
 import xiaor.MessagePack;
-import xiaor.Tools;
-import xiaor.TriggerEnum;
-import xiaor.TriggerManager;
+import xiaor.tools.TriggerEnum;
+import xiaor.tools.TriggerManager;
 
 @Getter
 public class ActionBuilder {

@@ -10,6 +10,9 @@ import xiaor.MessagePack;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+/**
+ * 可叠加buff 一般是无法消失的
+ */
 public class UniqueBuff extends Buff{
 
     public String uniqueId;
@@ -20,7 +23,7 @@ public class UniqueBuff extends Buff{
     @Override
     public boolean cast(MessagePack pack) {
         pack.level = currentLevel;
-        return cast.apply(pack);
+        return super._cast(pack);
     }
 
     public void add(UniqueBuff buff) {

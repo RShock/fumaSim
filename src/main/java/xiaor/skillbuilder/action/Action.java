@@ -1,9 +1,9 @@
-package xiaor.newStory.action;
+package xiaor.skillbuilder.action;
 
 import lombok.Getter;
 import lombok.Setter;
 import xiaor.MessagePack;
-import xiaor.Tools;
+import xiaor.tools.Tools;
 
 import java.util.function.Function;
 
