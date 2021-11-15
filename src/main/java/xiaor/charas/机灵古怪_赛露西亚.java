@@ -1,0 +1,121 @@
+package xiaor.charas;
+
+
+import lombok.experimental.SuperBuilder;
+import xiaor.Element;
+import xiaor.GameBoard;
+import xiaor.skillbuilder.SkillBuilder;
+import xiaor.skillbuilder.action.BuffAction;
+import xiaor.skillbuilder.action.BuffType;
+import xiaor.skillbuilder.action.DamageAction;
+import xiaor.skillbuilder.trigger.SelfTrigger;
+import xiaor.tools.Tools;
+
+import static xiaor.Common.INFI;
+import static xiaor.GameBoard.getCurrentEnemy;
+import static xiaor.skillbuilder.SkillType.*;
+import static xiaor.skillbuilder.action.DamageAction.DamageType.*;
+import static xiaor.tools.TriggerEnum.*;
+
+@SuperBuilder(toBuilder = true)
+public class 机灵古怪_赛露西亚 extends BaseChara {
+
+    public 机灵古怪_赛露西亚() {
+        this("小精灵王");
+    }
+
+    public 机灵古怪_赛露西亚(String name) {
+        super();
+        this.name = name;
+        this.element = Element.风属性;
+        this.isLeader = false;
+    }
+
+    @Override
+    public void initSkills() {
+        double[] multi = {0, 3.3, 3.76, 4.22, 4.68, 5.14}; //宝具倍率
+
+        //2宝前
+        //以自身攻击力376%对目标造成伤害,再使自身攻击力增加30%（3回合） cd4
+        //5宝
+        //使自身攻击力增加30%（3回合），且目标受到机灵古怪赛鲁西亚伤害增加15% 再以自身攻击力514%对目标造成伤害
+        if (getSkillLevel() <= 2) {
+            SkillBuilder.createNewSkill(this, 必杀)
+                    .when(SelfTrigger.act(this, 释放大招))
+                    .act(DamageAction.create(this, 必杀伤害)
+                            .multi(multi).to(getCurrentEnemy()).build())
+                    .and()
+                    .act(
+                            BuffAction.create(this, BuffType.攻击力百分比增加)
+                                    .multi(0.3).toSelf().lastedTurn(3)
+                                    .name(this + "攻击力+30%（来自大招）")
+                                    .build())
+                    .build();
+        }
+        //2宝后
+        //使自身攻击力增加30%（3回合），再以自身攻击力422%对目标造成伤害，cd4
+        else if (getSkillLevel() <= 4) {
+            SkillBuilder.createNewSkill(this, 必杀)
+                    .when(SelfTrigger.act(this, 释放大招))
+                    .act(
+                            BuffAction.create(this, BuffType.攻击力百分比增加)
+                                    .multi(0.3).toSelf().lastedTurn(3)
+                                    .name(this + "攻击力+30%（来自大招）")
+                                    .build())
+                    .and()
+                    .act(DamageAction.create(this, 必杀伤害)
+                            .multi(multi).to(getCurrentEnemy()).build())
+                    .build();
+        }else {
+            SkillBuilder.createNewSkill(this, 必杀)
+                    .when(SelfTrigger.act(this, 释放大招))
+                    .act(
+                            BuffAction.create(this, BuffType.攻击力百分比增加)
+                                    .multi(0.3).toSelf().lastedTurn(3)
+                                    .name(this + "攻击力+30%（来自大招）")
+                                    .build())
+                    .and()
+                    .act(
+                            BuffAction.create(this, BuffType.受到伤害增加)
+                                    .multi(0.15).toCurrentEnemy().lastedTurn(3)
+                                    .name(this + "受到伤害+15%(来自大招)")
+                                    .build())
+                    .and()
+                    .act(DamageAction.create(this, 必杀伤害)
+                            .multi(multi).to(getCurrentEnemy()).build())
+                    .build();
+        }
+
+        //普通攻击
+        SkillBuilder.createNewSkill(this, 普攻)
+                .when(SelfTrigger.act(this, 释放普攻))
+                .act(DamageAction.create(this, 普通伤害).build())
+                .build();
+        //队长技
+        //使全体风属性角色最大hp增加35% 且获得队伍中有5名风属性角色时 发动 受到治疗回复量增加25% 攻击力增加100%效果
+        //第一回合时，触发 以激灵古怪赛鲁西亚攻击力40%使我方全体风属性角色攻击力增加50回合效果
+        //使精灵王赛鲁西亚获得必杀技最大CD减少2回合 以及 必杀后 触发目标受到伤害增加20% 3回合 效果
+
+        //被动
+        //普攻时，触发 使目标受到我方攻击者伤害增加6%(最多4层) 且受到精灵王赛露西亚上海藏家6%（最多4层）效果
+
+        //3星被动
+        //普攻时，触发使目标受到普攻伤害增加7.5%（最多4层）效果
+
+        //5星被动
+        //必杀时，触发使我方全体风属性队员造成伤害增加15%（最多2层）效果
+
+        //6潜被动
+        //使自身攻击+10%
+
+        //六潜技能
+        if (is6) {
+//            SkillBuilder.createNewSkill(this, 六潜技能)
+        }
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+}

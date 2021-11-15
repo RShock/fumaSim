@@ -39,7 +39,7 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
                 .when(SelfTrigger.act(this, 释放大招))
                 .act(DamageAction.create(this, 必杀伤害)
                         .multi(2.0).to(getCurrentEnemy()).build())
-                .then()
+                .and()
                 .act(
                         BuffAction.create(this, BuffType.普攻伤害增加)
                                 .multi(multi).toSelf().lastedTurn(6)

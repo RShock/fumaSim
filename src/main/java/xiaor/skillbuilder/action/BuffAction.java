@@ -121,6 +121,17 @@ public class BuffAction extends ActionBuilder {
                                 })
                                 .build();
                     }
+                    case 受到伤害增加 -> {
+                        buff = tempBuff.trigger(伤害计算)
+                                .check(pack ->
+                                        pack.checkAccepter(acceptor)
+                                )
+                                .cast(pack -> {
+                                    pack.getDamageCal().changeDamage(受到伤害增加, multi*pack.level);
+                                    return true;
+                                })
+                                .build();
+                    }
                     default -> {
                         throw new RuntimeException("未支持的buff类型" + buffType);
                     }
