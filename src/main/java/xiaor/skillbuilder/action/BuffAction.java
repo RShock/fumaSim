@@ -132,6 +132,19 @@ public class BuffAction extends ActionBuilder {
                                 })
                                 .build();
                     }
+                    case 攻击力数值增加 -> {
+                        //数值增加时，倍率需要乘以自身攻击力
+                        //存在右侧效应（右侧角色收到加成更多）
+                      buff = tempBuff.trigger(攻击力计算)
+                              .check(pack ->
+                                      pack.checkAccepter(acceptor)
+                              ).cast(pack -> {
+                                  DamageCal damageCal = new DamageCal(MessagePack.builder().caster(acceptor).build());
+                                  pack.getDamageCal().changeDamage(攻击力数值增加, multi*damageCal.getCurrentAttack());
+                                  return true;
+                              })
+                              .build();
+                    }
                     default -> {
                         throw new RuntimeException("未支持的buff类型" + buffType);
                     }
@@ -184,6 +197,13 @@ public class BuffAction extends ActionBuilder {
 
     public BuffAction to(List<Chara> chara) {
         this.acceptors = chara;
+        return this;
+    }
+
+    //特殊机制 以自身攻击力做...
+    //存在右侧效应
+    public BuffAction asSelfAttack() {
+
         return this;
     }
 }

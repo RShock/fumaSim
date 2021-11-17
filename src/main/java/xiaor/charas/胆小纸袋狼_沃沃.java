@@ -71,11 +71,11 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
         }
 
         if (star >= 3) {
-            SkillBuilder.createNewSkill(this, 三星技能)
+            SkillBuilder.createNewSkill(this, 三星被动)
                     .when(SelfTrigger.act(this, 释放必杀后))
                     .name(this + "三星技能 释放必杀后 普攻对125号位追击")
                     .act(
-                            SkillBuilder.createNewSkill(this, 三星技能)
+                            SkillBuilder.createNewSkill(this, 三星被动)
                                     .when(SelfTrigger.act(this, 释放普攻后))
                                     .lastedTurn(6)
                                     .act(DamageAction.create(this, 追击普通伤害).multi(0.3).to(GameBoard.selectTarget(1)).build())
@@ -90,7 +90,7 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
 //
         //五星技能 月夜狼嚎
         if(star >= 5) {
-            SkillBuilder.createNewSkill(this, 五星技能)
+            SkillBuilder.createNewSkill(this, 五星被动)
                     .when(释放必杀后)
                     .act(
                             BuffAction.create(this, BuffType.造成伤害增加)

@@ -1,6 +1,7 @@
 package xiaor.skillbuilder.when;
 
 import lombok.NoArgsConstructor;
+import xiaor.skillbuilder.trigger.SelfTrigger;
 import xiaor.tools.TriggerManager;
 import xiaor.skillbuilder.action.Action;
 import xiaor.skillbuilder.action.ActionBuilder;
@@ -9,6 +10,9 @@ import xiaor.skillbuilder.trigger.Trigger;
 import xiaor.skill.BaseSkill;
 import xiaor.skill.SkillTime;
 import xiaor.skillbuilder.SkillType;
+
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import static xiaor.Common.INFI;
 
@@ -93,5 +97,11 @@ public class WhenBuilder {
             //when事件为空，这种情况一般是要触发then事件,但是删掉then用when也能起到同样作用
             action = ActionBuilder.getEmptyAction();
         }
+    }
+
+    //额外修改checker 特殊情况使用
+    public WhenBuilder check(Supplier<Boolean> checker) {
+        this.trigger.checker = (pack -> checker.get());
+        return this;
     }
 }

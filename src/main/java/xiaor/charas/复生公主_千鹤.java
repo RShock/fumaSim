@@ -79,7 +79,7 @@ public class 复生公主_千鹤 extends BaseChara {
 
         //5星被动 必杀时，触发使我方全体风属性角色必杀技伤害增加15%（最多2层）效果
         if (star >= 5) {
-            SkillBuilder.createNewSkill(this, 五星技能)
+            SkillBuilder.createNewSkill(this, 五星被动)
                     .when(释放必杀后)
                     .name(this + "释放必杀后，使我方全体风属性角色必杀技伤害增加15%（最多2层）")
                     .act(BuffAction.create(this, BuffType.必杀技伤害增加)
@@ -92,7 +92,7 @@ public class 复生公主_千鹤 extends BaseChara {
 
         //6潜 使得自身必杀技伤害增加10%
         if (is6) {
-            SkillBuilder.createNewSkill(this, 六潜技能)
+            SkillBuilder.createNewSkill(this, 六潜被动)
                     .when(游戏开始时)
                     .act(BuffAction.create(this, BuffType.必杀技伤害增加)
                             .multi(0.1).toSelf().lastedTurn(INFI)

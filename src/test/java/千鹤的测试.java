@@ -58,19 +58,18 @@ class 千鹤的测试 {
         board.addEnemyChara(dummy);
         board.initSkills();
         board.run("1a1 1a1 1d1 1d1 1a1 1a1");
-        assertEquals(19, dummy.getLife());
-        //第一回合开大打330*1.12 第二回合不开大打112
+        assertEquals(100, dummy.getLife());
     }
 
     @Test
     void 千鹤队长的大招() {
         复生公主_千鹤 千鹤 = 复生公主_千鹤.builder().name("千鹤").isLeader(true).attack(100).is6(true).skillLevel(1).element(Element.风属性).skillLevel(1).build();
-        木桩 dummy = 木桩.builder().life(500).name("活动假人").build();
+        木桩 dummy = 木桩.builder().life(0).name("活动假人").build();
         board.addOurChara(千鹤);
         board.addEnemyChara(dummy);
         board.initSkills();
         board.run("1q1");
-        assertEquals(19, dummy.getLife());
+        assertEquals(-983, dummy.getLife());
     }
 
     @Test
