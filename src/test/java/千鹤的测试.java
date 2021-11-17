@@ -29,8 +29,8 @@ class 千鹤的测试 {
 
     @Test
     void 千鹤尝试攻击() {
-        复生公主_千鹤 千鹤 = 复生公主_千鹤.builder().name("千鹤").attack(100).build();
-        木桩 dummy = 木桩.builder().life(500).name("活动假人").build();
+        复生公主_千鹤 千鹤 = 复生公主_千鹤.init("攻击力100");
+        木桩 dummy = 木桩.init("生命500");
         board.addOurChara(千鹤);
         board.addEnemyChara(dummy);
         board.initSkills();
@@ -40,8 +40,8 @@ class 千鹤的测试 {
 
     @Test
     void 千鹤先大招再攻击() {
-        复生公主_千鹤 千鹤 = 复生公主_千鹤.builder().name("千鹤").attack(100).element(Element.风属性).skillLevel(1).build();
-        木桩 dummy = 木桩.builder().life(500).name("活动假人").build();
+        复生公主_千鹤 千鹤 = 复生公主_千鹤.init("攻击力100 星3 绊1 潜5");
+        木桩 dummy = 木桩.init("生命500");
         board.addOurChara(千鹤);
         board.addEnemyChara(dummy);
         board.initSkills();
@@ -52,8 +52,8 @@ class 千鹤的测试 {
 
     @Test
     void 千鹤连普通拳() {
-        复生公主_千鹤 千鹤 = 复生公主_千鹤.builder().name("千鹤").attack(100).element(Element.风属性).skillLevel(1).build();
-        木桩 dummy = 木桩.builder().life(500).name("活动假人").build();
+        复生公主_千鹤 千鹤 = 复生公主_千鹤.init("攻击力100 星3 绊1 潜5");
+        木桩 dummy = 木桩.init("生命500");
         board.addOurChara(千鹤);
         board.addEnemyChara(dummy);
         board.initSkills();
@@ -63,8 +63,8 @@ class 千鹤的测试 {
 
     @Test
     void 千鹤队长的大招() {
-        复生公主_千鹤 千鹤 = 复生公主_千鹤.builder().name("千鹤").isLeader(true).attack(100).is6(true).skillLevel(1).element(Element.风属性).skillLevel(1).build();
-        木桩 dummy = 木桩.builder().life(0).name("活动假人").build();
+        复生公主_千鹤 千鹤 = 复生公主_千鹤.init("攻击力100 队长 星3 绊1 潜6");
+        木桩 dummy = 木桩.init("生命0");
         board.addOurChara(千鹤);
         board.addEnemyChara(dummy);
         board.initSkills();
@@ -74,9 +74,9 @@ class 千鹤的测试 {
 
     @Test
     void 千鹤沃沃联手大战精灵王测试() {
-        胆小纸袋狼_沃沃 沃沃 = 胆小纸袋狼_沃沃.builder().attack(204650).name("沃沃").skillLevel(2).element(Element.风属性).build();
-        复生公主_千鹤 千鹤 = 复生公主_千鹤.builder().name("千鹤").isLeader(true).attack(361418).is6(true).skillLevel(1).element(Element.风属性).skillLevel(1).build();
-        木桩 精灵王 = 木桩.builder().life(11821290).name("精灵王").element(Element.风属性).build();
+        复生公主_千鹤 千鹤 = 复生公主_千鹤.init("攻击力361418 队长 星3 绊1 潜6");
+        胆小纸袋狼_沃沃 沃沃 = 胆小纸袋狼_沃沃.init("攻击力204650 星3 绊2 潜5");
+        木桩 精灵王 = 木桩.init("生命11821290");
         board.addOurChara(千鹤);
         board.addOurChara(沃沃);
         board.addEnemyChara(精灵王);
@@ -87,9 +87,9 @@ class 千鹤的测试 {
 
     @Test
     void 沃沃千鹤联手大战精灵王测试() {
-        胆小纸袋狼_沃沃 沃沃 = 胆小纸袋狼_沃沃.builder().attack(204650).isLeader(true).name("沃沃").skillLevel(2).element(Element.风属性).build();
-        复生公主_千鹤 千鹤 = 复生公主_千鹤.builder().name("千鹤").attack(361418).is6(true).skillLevel(1).element(Element.风属性).skillLevel(1).build();
-        木桩 精灵王 = 木桩.builder().life(11821290).name("精灵王").element(Element.风属性).build();
+        复生公主_千鹤 千鹤 = 复生公主_千鹤.init("攻击力361418 星3 绊1 潜6");
+        胆小纸袋狼_沃沃 沃沃 = 胆小纸袋狼_沃沃.init("攻击力204650 队长 星3 绊2 潜5");
+        木桩 精灵王 = 木桩.init("生命11821290");
         board.addOurChara(沃沃);
         board.addOurChara(千鹤);
         board.addEnemyChara(精灵王);

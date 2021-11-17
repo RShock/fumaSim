@@ -20,19 +20,14 @@ import static xiaor.skillbuilder.SkillType.*;
 import static xiaor.skillbuilder.action.DamageAction.DamageType.必杀伤害;
 import static xiaor.skillbuilder.action.DamageAction.DamageType.普通伤害;
 
-@SuperBuilder(toBuilder = true)
 public class 复生公主_千鹤 extends Chara {
-
-    public 复生公主_千鹤() {
-        this("千鹤");
-    }
-
-    public 复生公主_千鹤(String name) {
-        super();
-        this.name = name;
-        this.element = Element.风属性;
-        this.role = Role.攻击者;
-        this.isLeader = false;
+    public static 复生公主_千鹤 init(String s) {
+        复生公主_千鹤 千鹤 = new 复生公主_千鹤();
+        千鹤.name = "千鹤";
+        千鹤.element = Element.风属性;
+        千鹤.role = Role.攻击者;
+        baseInit(千鹤, s);
+        return 千鹤;
     }
 
     @Override

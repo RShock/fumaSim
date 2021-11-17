@@ -16,19 +16,15 @@ import static xiaor.tools.TriggerEnum.*;
 import static xiaor.skillbuilder.action.DamageAction.DamageType.*;
 import static xiaor.skillbuilder.SkillType.*;
 
-@SuperBuilder(toBuilder = true)
 public class 胆小纸袋狼_沃沃 extends Chara {
 
-    public 胆小纸袋狼_沃沃() {
-        this("沃沃");
-    }
-
-    public 胆小纸袋狼_沃沃(String name) {
-        super();
-        this.name = name;
-        this.element = Element.风属性;
-        this.role = Role.攻击者;
-        this.isLeader = false;
+    public static 胆小纸袋狼_沃沃 init(String s) {
+        胆小纸袋狼_沃沃 沃沃 = new 胆小纸袋狼_沃沃();
+        沃沃.name = "沃沃";
+        沃沃.element = Element.风属性;
+        沃沃.role = Role.攻击者;
+        baseInit(沃沃, s);
+        return 沃沃;
     }
 
     @Override

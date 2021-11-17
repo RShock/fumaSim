@@ -4,11 +4,12 @@ import lombok.experimental.SuperBuilder;
 import xiaor.MessagePack;
 
 
-@SuperBuilder(toBuilder = true)
 public class 木桩 extends Chara {
-
-    public 木桩() {
-        super("木桩", false);
+    public static 木桩 init(String s) {
+        木桩 木桩 = new 木桩();
+        木桩.name = "木桩";
+        baseInit(木桩, s);
+        return 木桩;
     }
 
     @Override

@@ -8,10 +8,11 @@ import xiaor.tools.TriggerEnum;
 import xiaor.tools.TriggerManager;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Getter
 @Setter
-@SuperBuilder(toBuilder = true)
 public abstract class Chara{
     protected int charaId;
 
@@ -54,9 +55,6 @@ public abstract class Chara{
         isLeader = false;
     }
 
-    public Element getElement() {
-        return element;
-    }
 
     protected Element element;
 
@@ -65,7 +63,7 @@ public abstract class Chara{
     }
 
     @Builder.Default
-    private int skillLevel = 1;
+    protected int skillLevel = 1;
 
     @Builder.Default
     protected boolean isLeader = false;
@@ -129,4 +127,44 @@ public abstract class Chara{
         return pack.caster == this;
     }
 
+
+    protected static void baseInit(Chara chara, String s) {
+        chara.isLeader = false;
+        chara.is6 = true;
+        chara.star = 5;
+        chara.skillLevel = 5;
+        String[] split = s.split("\\s+");
+        for (String s1 : split) {
+            if(s1.startsWith("攻击力")){
+                chara.attack = getNumFromString(s1);
+            }
+            if(s1.startsWith("星")){
+                chara.star = getNumFromString(s1);
+            }
+            if(s1.contains("绊")){
+                chara.skillLevel = getNumFromString(s1);
+            }
+            if(s1.startsWith("潜")){
+                chara.is6 = getNumFromString(s1) >= 6;
+            }
+            if(s1.startsWith("队长")){
+                chara.isLeader = true;
+            }
+            if(s1.startsWith("生命")){
+                chara.life = getNumFromString(s1);
+            }
+            if(s1.startsWith("水属性")){
+                chara.element = Element.水属性;
+            }
+            if(s1.startsWith("风属性")){
+                chara.element = Element.风属性;
+            }
+        }
+    }
+
+    public static int getNumFromString(String s) {
+        Pattern p = Pattern.compile("[^0-9]");
+        Matcher m = p.matcher(s);
+        return Integer.parseInt(m.replaceAll("").trim());
+    }
 }

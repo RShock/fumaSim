@@ -19,18 +19,14 @@ import static xiaor.skillbuilder.SkillType.*;
 import static xiaor.skillbuilder.action.DamageAction.DamageType.*;
 import static xiaor.tools.TriggerEnum.*;
 
-@SuperBuilder(toBuilder = true)
 public class 机灵古怪_赛露西亚 extends Chara {
-
-    public 机灵古怪_赛露西亚() {
-        this("小精灵王");
-    }
-
-    public 机灵古怪_赛露西亚(String name) {
-        super();
-        this.name = name;
-        this.element = Element.风属性;
-        this.isLeader = false;
+    public static 机灵古怪_赛露西亚 init(String s) {
+        机灵古怪_赛露西亚 小精灵王 = new 机灵古怪_赛露西亚();
+        小精灵王.name = "小精灵王";
+        小精灵王.element = Element.风属性;
+        小精灵王.role = Role.攻击者;
+        baseInit(小精灵王, s);
+        return 小精灵王;
     }
 
     @Override

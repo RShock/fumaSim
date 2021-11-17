@@ -1,22 +1,17 @@
 package xiaor.charas;
 
 
-import lombok.experimental.SuperBuilder;
 
-@SuperBuilder(toBuilder = true)
 public class 法斯公主_露露 extends Chara {
 
-    public 法斯公主_露露() {
-        this("露露");
+    public static 法斯公主_露露 init(String s) {
+        法斯公主_露露 露露 = new 法斯公主_露露();
+        露露.name = "露露";
+        露露.element = Element.风属性;
+        露露.role = Role.治疗者;
+        baseInit(露露, s);
+        return 露露;
     }
-
-    public 法斯公主_露露(String name) {
-        super();
-        this.name = name;
-        this.element = Element.风属性;
-        this.isLeader = false;
-    }
-
     @Override
     public void initSkills() {
         double[] multi = {0, 0.69, 0.73, 0.76, 0.80, 0.80};

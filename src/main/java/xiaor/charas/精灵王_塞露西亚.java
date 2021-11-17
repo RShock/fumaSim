@@ -1,20 +1,15 @@
 package xiaor.charas;
 
 
-import lombok.experimental.SuperBuilder;
-
-@SuperBuilder(toBuilder = true)
 public class 精灵王_塞露西亚 extends Chara {
 
-    public 精灵王_塞露西亚() {
-        this("精灵王");
-    }
-
-    public 精灵王_塞露西亚(String name) {
-        super();
-        this.name = name;
-        this.element = Element.风属性;
-        this.isLeader = false;
+    public static 精灵王_塞露西亚 init(String s) {
+        精灵王_塞露西亚 精灵王 = new 精灵王_塞露西亚();
+        精灵王.name = "精灵王";
+        精灵王.element = Element.风属性;
+        精灵王.role = Role.攻击者;
+        baseInit(精灵王, s);
+        return 精灵王;
     }
 
     @Override
