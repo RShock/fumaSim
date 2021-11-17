@@ -1,4 +1,4 @@
-package xiaor;
+package xiaor.charas;
 
 public enum Element {
     水属性,

@@ -2,7 +2,6 @@ package xiaor.charas;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import xiaor.Element;
 import xiaor.skill.Skill;
 
 import java.util.List;
@@ -26,6 +25,8 @@ public abstract class BaseChara implements Chara {
     protected boolean is6;  //是否6潜
 
     protected CharaStatus status;   //角色状态
+
+    protected Role role; //角色职业
 
     public enum CharaStatus {
         DEAD,
@@ -81,5 +82,13 @@ public abstract class BaseChara implements Chara {
     public boolean setUnMoved() {
         this.isMoved = false;
         return true;
+    }
+
+    public boolean is(Role role) {
+        return role == this.role;
+    }
+
+    public boolean is(Class<? extends BaseChara> chara) {
+        return chara.isInstance(this);
     }
 }

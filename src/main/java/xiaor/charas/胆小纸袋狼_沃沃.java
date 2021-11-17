@@ -2,7 +2,6 @@ package xiaor.charas;
 
 
 import lombok.experimental.SuperBuilder;
-import xiaor.Element;
 import xiaor.GameBoard;
 import xiaor.tools.Tools;
 import xiaor.skillbuilder.SkillBuilder;
@@ -28,6 +27,7 @@ public class 胆小纸袋狼_沃沃 extends BaseChara {
         super();
         this.name = name;
         this.element = Element.风属性;
+        this.role = Role.攻击者;
         this.isLeader = false;
     }
 

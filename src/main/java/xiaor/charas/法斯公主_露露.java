@@ -2,7 +2,6 @@ package xiaor.charas;
 
 
 import lombok.experimental.SuperBuilder;
-import xiaor.Element;
 
 @SuperBuilder(toBuilder = true)
 public class 法斯公主_露露 extends BaseChara {

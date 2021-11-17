@@ -1,11 +1,8 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import xiaor.Element;
 import xiaor.GameBoard;
-import xiaor.charas.复生公主_千鹤;
 import xiaor.charas.木桩;
 import xiaor.charas.机灵古怪_赛露西亚;
-import xiaor.charas.胆小纸袋狼_沃沃;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -47,7 +44,7 @@ class 小精灵王的测试 {
         board.addEnemyChara(dummy);
         board.initSkills();
         board.run("1q1 1a1");
-        assertEquals(-460, dummy.getLife());
+        assertEquals(-450, dummy.getLife());
     }
 
     @Test

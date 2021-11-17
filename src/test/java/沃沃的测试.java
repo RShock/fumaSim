@@ -1,7 +1,7 @@
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import xiaor.Element;
+import xiaor.charas.Element;
 import xiaor.GameBoard;
 import xiaor.charas.木桩;
 import xiaor.charas.胆小纸袋狼_沃沃;

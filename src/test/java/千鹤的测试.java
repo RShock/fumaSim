@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import xiaor.Element;
+import xiaor.charas.Element;
 import xiaor.GameBoard;
 import xiaor.charas.复生公主_千鹤;
 import xiaor.charas.木桩;

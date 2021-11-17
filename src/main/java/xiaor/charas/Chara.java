@@ -1,7 +1,6 @@
 package xiaor.charas;
 
 
-import xiaor.Element;
 import xiaor.MessagePack;
 import xiaor.tools.TriggerEnum;
 import xiaor.tools.TriggerManager;
@@ -59,5 +58,9 @@ public interface Chara {
     int getSkillLevel();
 
     boolean isLeader();
+
+    boolean is(Role role);
+
+    boolean is(Class<? extends BaseChara> chara);
 //    Function<MessagePack, Boolean> getSkill(int level);
 }

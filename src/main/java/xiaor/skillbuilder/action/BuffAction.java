@@ -2,6 +2,8 @@ package xiaor.skillbuilder.action;
 
 import xiaor.*;
 import xiaor.charas.Chara;
+import xiaor.charas.Element;
+import xiaor.charas.精灵王_塞露西亚;
 import xiaor.skill.Buff;
 import xiaor.skill.SkillTime;
 import xiaor.skill.UniqueBuff;
@@ -11,6 +13,7 @@ import xiaor.tools.TriggerManager;
 import java.util.Collections;
 import java.util.List;
 
+import static xiaor.charas.Role.攻击者;
 import static xiaor.tools.TriggerEnum.*;
 import static xiaor.tools.TriggerEnum.伤害计算;
 import static xiaor.skillbuilder.action.BuffType.*;
@@ -144,6 +147,36 @@ public class BuffAction extends ActionBuilder {
                                   return true;
                               })
                               .build();
+                    }
+                    case 受到普攻伤害增加 -> {
+                        buff = tempBuff.trigger(普攻伤害计算)
+                                .check(pack ->
+                                        pack.checkAccepter(acceptor)
+                                ).cast(pack -> {
+                                    pack.getDamageCal().changeDamage(BuffType.受到普攻伤害增加, multi*pack.level);
+                                    return true;
+                                })
+                                .build();
+                    }
+                    case 受到攻击者伤害增加 -> {
+                        buff = tempBuff.trigger(伤害计算)
+                                .check(pack ->
+                                        pack.checkAccepter(acceptor) && caster.is(攻击者)
+                                ).cast(pack -> {
+                                    pack.getDamageCal().changeDamage(受到攻击者伤害增加, multi*pack.level);
+                                    return true;
+                                })
+                                .build();
+                    }
+                    case 受到精灵王伤害增加 -> {
+                        buff = tempBuff.trigger(伤害计算)
+                                .check(pack ->
+                                        pack.checkAccepter(acceptor) && caster.is(精灵王_塞露西亚.class)
+                                ).cast(pack -> {
+                                    pack.getDamageCal().changeDamage(受到精灵王伤害增加, multi*pack.level);
+                                    return true;
+                                })
+                                .build();
                     }
                     default -> {
                         throw new RuntimeException("未支持的buff类型" + buffType);

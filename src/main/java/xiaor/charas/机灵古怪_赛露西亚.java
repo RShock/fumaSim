@@ -2,7 +2,6 @@ package xiaor.charas;
 
 
 import lombok.experimental.SuperBuilder;
-import xiaor.Element;
 import xiaor.GameBoard;
 import xiaor.skillbuilder.SkillBuilder;
 import xiaor.skillbuilder.action.BuffAction;
@@ -12,7 +11,6 @@ import xiaor.skillbuilder.trigger.SelfTrigger;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static xiaor.Common.INFI;
@@ -148,21 +146,30 @@ public class 机灵古怪_赛露西亚 extends BaseChara {
                 .build();
         //3星被动
         //普攻时，触发使目标受到普攻伤害增加7.5%（最多4层）效果
+        SkillBuilder.createNewSkill(this, 三星被动)
+                .when(释放普攻后)
+                .act(
+                        BuffAction.create(this, BuffType.受到普攻伤害增加)
+                                .multi(0.075).toCurrentEnemy()
+                                .level(1).maxLevel(4)
+                                .name(this + "受到普攻伤害增加7.5%（最多4层）")
+                                .build())
+                .build();
 
         //5星被动
         //必杀时，触发使我方全体风属性队员造成伤害增加15%（最多2层）效果
 
         //6潜被动
         //使自身攻击+10%
-
-        //六潜技能
         if (is6) {
-//            SkillBuilder.createNewSkill(this, 六潜技能)
+            SkillBuilder.createNewSkill(this, 六潜被动)
+                    .when(游戏开始时)
+                    .act(BuffAction.create(this, BuffType.攻击力百分比增加)
+                            .multi(0.1).toSelf().lastedTurn(INFI)
+                            .name(this + "自身攻击+10%")
+                            .build())
+                    .build();
         }
-    }
-
-    private Supplier<Boolean> is精灵王exist() {
-        return () -> GameBoard.getAlly().stream().anyMatch(chara -> chara instanceof 精灵王_塞露西亚);
     }
 
     private Optional<Chara> find精灵王() {

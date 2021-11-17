@@ -85,6 +85,7 @@ public class DamageCal {
         buffMap.put(BuffType.受到风属性伤害增加, InternalBuffType.属性易伤);
         buffMap.put(BuffType.属性克制, InternalBuffType.属性克制);
         buffMap.put(BuffType.必杀技伤害增加, InternalBuffType.杂项);
+        buffMap.put(BuffType.受到普攻伤害增加, InternalBuffType.杂项);
         return buffMap;
     }
 
