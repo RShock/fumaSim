@@ -20,7 +20,7 @@ import static xiaor.skillbuilder.action.DamageAction.DamageType.*;
 import static xiaor.tools.TriggerEnum.*;
 
 @SuperBuilder(toBuilder = true)
-public class 机灵古怪_赛露西亚 extends BaseChara {
+public class 机灵古怪_赛露西亚 extends Chara {
 
     public 机灵古怪_赛露西亚() {
         this("小精灵王");

@@ -17,7 +17,7 @@ import static xiaor.skillbuilder.action.DamageAction.DamageType.*;
 import static xiaor.skillbuilder.SkillType.*;
 
 @SuperBuilder(toBuilder = true)
-public class 胆小纸袋狼_沃沃 extends BaseChara {
+public class 胆小纸袋狼_沃沃 extends Chara {
 
     public 胆小纸袋狼_沃沃() {
         this("沃沃");

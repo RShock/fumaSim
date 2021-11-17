@@ -4,7 +4,7 @@ package xiaor.charas;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder(toBuilder = true)
-public class 精灵王_塞露西亚 extends BaseChara {
+public class 精灵王_塞露西亚 extends Chara {
 
     public 精灵王_塞露西亚() {
         this("精灵王");

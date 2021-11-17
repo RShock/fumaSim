@@ -5,7 +5,7 @@ import xiaor.MessagePack;
 
 
 @SuperBuilder(toBuilder = true)
-public class 木桩 extends BaseChara {
+public class 木桩 extends Chara {
 
     public 木桩() {
         super("木桩", false);

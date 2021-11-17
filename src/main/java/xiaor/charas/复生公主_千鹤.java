@@ -21,7 +21,7 @@ import static xiaor.skillbuilder.action.DamageAction.DamageType.必杀伤害;
 import static xiaor.skillbuilder.action.DamageAction.DamageType.普通伤害;
 
 @SuperBuilder(toBuilder = true)
-public class 复生公主_千鹤 extends BaseChara {
+public class 复生公主_千鹤 extends Chara {
 
     public 复生公主_千鹤() {
         this("千鹤");
