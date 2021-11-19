@@ -38,10 +38,24 @@ public class DamageCal {
                 .stream()
                 .mapToDouble(entries -> entries.stream().mapToDouble(Map.Entry::getValue).sum())
                 .reduce(baseDamage, (a, b) -> (a * (1 + b)));
-        Tools.log(Tools.LogColor.BLUE, pack.caster + "对" + pack.acceptor + "造成了" + finalDamage + "伤害");
-        int lifeRemain = pack.acceptor.getLife() - finalDamage;
+        int currentLife = pack.acceptor.getLife();
+        int currentES = pack.acceptor.getShield();
+        int lifeRemain = pack.acceptor.getLife();
+        if(currentES != 0) {
+            if(finalDamage > currentES) {
+                Tools.log(Tools.LogColor.BLUE, "%s对%s造成了%d(%d)伤害".formatted(pack.caster, pack.acceptor, finalDamage-currentES, currentES));
+                lifeRemain -= finalDamage-currentES;
+                pack.acceptor.setShield(0);
+            }else{
+                Tools.log(Tools.LogColor.BLUE, "%s对%s造成了0(%d)伤害".formatted(pack.caster, pack.acceptor, finalDamage));
+                pack.acceptor.setShield(currentES - finalDamage);
+            }
+        }else{
+            Tools.log(Tools.LogColor.BLUE, "%s对%s造成了%d伤害".formatted(pack.caster, pack.acceptor, finalDamage));
+            lifeRemain -= finalDamage;
+        }
         pack.acceptor.setLife(lifeRemain);
-        System.out.println(pack.acceptor + "剩余" + lifeRemain);
+        Tools.log(Tools.LogColor.GREEN, pack.acceptor + "剩余" + lifeRemain);
         damageBuffMap.clear();
     }
 

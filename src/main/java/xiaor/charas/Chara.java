@@ -32,6 +32,8 @@ public abstract class Chara{
 
     protected Role role; //角色职业
 
+    protected int shield;   //护盾
+
     public void defend(Chara acceptor){
         MessagePack pack = MessagePack.builder()
                 .acceptor(acceptor)

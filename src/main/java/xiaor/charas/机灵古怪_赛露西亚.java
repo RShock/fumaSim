@@ -32,6 +32,18 @@ public class 机灵古怪_赛露西亚 extends Chara {
     @Override
     public void initSkills() {
         double[] multi = {0, 3.3, 3.76, 4.22, 4.68, 5.14}; //宝具倍率
+        //结算比队长技能早这样队长技能吃到10%加攻
+        //6潜被动
+        //使自身攻击+10%
+        if (is6) {
+            SkillBuilder.createNewSkill(this, 六潜被动)
+                    .when(游戏开始时)
+                    .act(BuffAction.create(this, BuffType.攻击力百分比增加)
+                            .multi(0.1).toSelf().lastedTurn(INFI)
+                            .name(this + "自身攻击+10%")
+                            .build())
+                    .build();
+        }
 
         //2宝前
         //以自身攻击力376%对目标造成伤害,再使自身攻击力增加20%（3回合） cd4
@@ -113,7 +125,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
                     .build();
             Optional<Chara> 精灵王 = find精灵王();
             精灵王.ifPresent(chara -> SkillBuilder.createNewSkill(chara, 他人给予技能)
-                    .when(释放必杀后)
+                    .when(SelfTrigger.act(this, 释放必杀后))
                     .act(
                             BuffAction.create(chara, BuffType.受到伤害增加)
                                     .multi(0.2).toCurrentEnemy().lastedTurn(3)
@@ -125,7 +137,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
         //被动
         //普攻时，触发 使目标受到我方攻击者伤害增加6%(最多4层) 且受到精灵王赛露西亚伤害增加6%（最多4层）效果
         SkillBuilder.createNewSkill(this, 被动)
-                .when(释放普攻后)
+                .when(SelfTrigger.act(this, 释放普攻后))
                 .act(
                         BuffAction.create(this, BuffType.受到攻击者伤害增加)
                                 .multi(0.06).toCurrentEnemy()
@@ -143,7 +155,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
         //3星被动
         //普攻时，触发使目标受到普攻伤害增加7.5%（最多4层）效果
         SkillBuilder.createNewSkill(this, 三星被动)
-                .when(释放普攻后)
+                .when(SelfTrigger.act(this, 释放普攻后))
                 .act(
                         BuffAction.create(this, BuffType.受到普攻伤害增加)
                                 .multi(0.075).toCurrentEnemy()
@@ -155,17 +167,6 @@ public class 机灵古怪_赛露西亚 extends Chara {
         //5星被动
         //必杀时，触发使我方全体风属性队员造成伤害增加15%（最多2层）效果
 
-        //6潜被动
-        //使自身攻击+10%
-        if (is6) {
-            SkillBuilder.createNewSkill(this, 六潜被动)
-                    .when(游戏开始时)
-                    .act(BuffAction.create(this, BuffType.攻击力百分比增加)
-                            .multi(0.1).toSelf().lastedTurn(INFI)
-                            .name(this + "自身攻击+10%")
-                            .build())
-                    .build();
-        }
     }
 
     private Optional<Chara> find精灵王() {

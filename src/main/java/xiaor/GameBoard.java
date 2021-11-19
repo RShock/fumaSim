@@ -81,6 +81,7 @@ public class GameBoard {
 
     public void initSkills() {
         ourChara.forEach(Chara::initSkills);
+        enemyChara.forEach(Chara::initSkills);
         Skill skill = BaseSkill.builder().name("【系统级规则】属性克制 优势方+50%伤害").trigger(TriggerEnum.普攻伤害计算)
                 .time(INFI)
                 .check(pack -> {

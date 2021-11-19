@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import xiaor.MessagePack;
 import xiaor.charas.Chara;
+import xiaor.skillbuilder.action.BuffType;
 
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
@@ -14,6 +15,7 @@ import xiaor.charas.Chara;
 public class Buff extends BaseSkill {
     Chara caster;
     Chara acceptor;
+    BuffType buffType;
 
     @Override
     public boolean cast(MessagePack pack) {

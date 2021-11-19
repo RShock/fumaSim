@@ -65,6 +65,9 @@ public class TriggerManager {
         return true;
     }
 
+    public static List<Skill> getSkill() {
+        return getInstance().skills;
+    }
     public boolean _sendMessage(TriggerEnum trigger, MessagePack pack) {
         boolean isRespond = false;
         //普通for循环防止迭代器问题
