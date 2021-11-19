@@ -1,0 +1,27 @@
+name: Java CI with Maven
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Build with Maven
+      #run: mvn -B package --file pom.xml
+      run: mvn --batch-mode --update-snapshots verify
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+    #- name: Test with Maven
+      #run:  mvn -Dtest="test/*Test" test
+      #run: mvn '-Dtest=test.*Test' test
