@@ -1,7 +1,6 @@
 package xiaor.charas;
 
 
-import lombok.experimental.SuperBuilder;
 import xiaor.GameBoard;
 import xiaor.tools.Tools;
 import xiaor.skillbuilder.SkillBuilder;
@@ -32,7 +31,7 @@ public class 胆小纸袋狼_沃沃 extends Chara {
         double[] multi = {0, 0.96, 1.18, 1.41, 1.63, 1.86}; //攻击力增加buff
 
         SkillBuilder.createNewSkill(this, 必杀)
-                .when(SelfTrigger.act(this, 释放大招))
+                .when(SelfTrigger.act(this, 释放必杀))
                 .act(DamageAction.create(this, 必杀伤害)
                         .multi(2.0).to(getCurrentEnemy()).build())
                 .and()

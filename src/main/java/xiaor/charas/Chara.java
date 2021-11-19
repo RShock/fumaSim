@@ -1,7 +1,6 @@
 package xiaor.charas;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import xiaor.MessagePack;
 import xiaor.skill.Skill;
 import xiaor.tools.TriggerEnum;
@@ -120,7 +119,7 @@ public abstract class Chara{
                 .acceptor(acceptor)
                 .caster(this)
                 .build();
-        TriggerManager.sendMessage(TriggerEnum.释放大招, pack);
+        TriggerManager.sendMessage(TriggerEnum.释放必杀, pack);
         setStatus(Chara.CharaStatus.INACTIVE);
         TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
     }

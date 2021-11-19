@@ -1,7 +1,6 @@
 package xiaor.charas;
 
 
-import lombok.experimental.SuperBuilder;
 import xiaor.GameBoard;
 import xiaor.skillbuilder.SkillBuilder;
 import xiaor.skillbuilder.action.BuffAction;
@@ -51,7 +50,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
         //使自身攻击力增加30%（3回合），且目标受到机灵古怪赛鲁西亚伤害增加15% 再以自身攻击力514%对目标造成伤害
         if (getSkillLevel() <= 2) {
             SkillBuilder.createNewSkill(this, 必杀)
-                    .when(SelfTrigger.act(this, 释放大招))
+                    .when(SelfTrigger.act(this, 释放必杀))
                     .act(DamageAction.create(this, 必杀伤害)
                             .multi(multi).to(getCurrentEnemy()).build())
                     .and()
@@ -66,7 +65,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
         //使自身攻击力增加30%（3回合），再以自身攻击力422%对目标造成伤害，cd4
         else if (getSkillLevel() <= 4) {
             SkillBuilder.createNewSkill(this, 必杀)
-                    .when(SelfTrigger.act(this, 释放大招))
+                    .when(SelfTrigger.act(this, 释放必杀))
                     .act(
                             BuffAction.create(this, BuffType.攻击力百分比增加)
                                     .multi(0.3).toSelf().lastedTurn(3)
@@ -78,7 +77,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
                     .build();
         } else {
             SkillBuilder.createNewSkill(this, 必杀)
-                    .when(SelfTrigger.act(this, 释放大招))
+                    .when(SelfTrigger.act(this, 释放必杀))
                     .act(
                             BuffAction.create(this, BuffType.攻击力百分比增加)
                                     .multi(0.3).toSelf().lastedTurn(3)

@@ -40,6 +40,7 @@ public class DamageAction extends ActionBuilder {
         return this;
     }
 
+    // TODO 群体攻击？
     public DamageAction to(Chara enemy) {
         this.target = Collections.singletonList(enemy);
         return this;

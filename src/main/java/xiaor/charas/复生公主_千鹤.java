@@ -1,7 +1,6 @@
 package xiaor.charas;
 
 
-import lombok.experimental.SuperBuilder;
 import xiaor.GameBoard;
 import xiaor.tools.Tools;
 import xiaor.skillbuilder.SkillBuilder;
@@ -37,7 +36,7 @@ public class 复生公主_千鹤 extends Chara {
 
         //使目标受到的风属性伤害增加$1（2层）  再以攻击力$2对目标造成伤害 CD4
         SkillBuilder.createNewSkill(this, 必杀)
-                .when(SelfTrigger.act(this, 释放大招))
+                .when(SelfTrigger.act(this, 释放必杀))
                 .act(BuffAction.create(this, BuffType.受到风属性伤害增加)
                         .multi(multi2).toCurrentEnemy().level(1).maxLevel(2)
                         .name(this + "必杀前给目标增加" + Tools.toPercent(multi2[getSkillLevel()]) + "的风属性易伤")
