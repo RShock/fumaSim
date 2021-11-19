@@ -108,6 +108,7 @@ public class GameBoard {
                 .check(pack -> true)
                 .cast(pack -> {
                     Tools.log(Tools.LogColor.RED, "第1回合开始");
+                    TriggerManager.sendMessage(TriggerEnum.回合开始, null);
                     GameBoard.getAlly().forEach(chara -> chara.setStatus(Chara.CharaStatus.ACTIVE));
                     GlobalDataManager.putIntData(KeyEnum.GAMETURN, 1);
                     return true;
@@ -120,6 +121,7 @@ public class GameBoard {
                 .cast(pack -> {
                     TriggerManager.sendMessage(TriggerEnum.回合结束, null);
                     Tools.log(Tools.LogColor.RED, "第" + (getIntData(KeyEnum.GAMETURN) + 1) + "回合开始");
+                    TriggerManager.sendMessage(TriggerEnum.回合开始, null);
                     GameBoard.getAlly().forEach(chara -> chara.setStatus(Chara.CharaStatus.ACTIVE));
                     GlobalDataManager.putIntData(KeyEnum.GAMETURN, getIntData(KeyEnum.GAMETURN) + 1);
                     return true;
