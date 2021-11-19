@@ -1,3 +1,5 @@
+![fumaSim](https://github.com/RShock/fumaSim/actions/workflows/maven.yml/badge.svg?branch=main)
+
 # 布魔SIM
 
 布魔sim致力于模拟游戏《天下布魔》中角色的输出，目前正处于开发的第一步：模拟风队的伤害。
