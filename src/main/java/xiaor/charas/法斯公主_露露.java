@@ -50,7 +50,7 @@ public class 法斯公主_露露 extends Chara {
                 .build();
 
         // 必杀时，触发使我方全体必杀技伤害增加25%（1回合）
-        if(is6) {
+        if(star >= 5) {
             SkillBuilder.createNewSkill(this, SkillType.五星被动)
                     .when(SelfTrigger.act(this, 释放必杀后))
                     .act(BuffAction.create(this, BuffType.必杀技伤害增加).multi(0.25).toAlly().lastedTurn(1).build())

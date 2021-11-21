@@ -80,8 +80,6 @@ public class GameBoard {
     }
 
     public void initSkills() {
-        ourChara.forEach(Chara::initSkills);
-        enemyChara.forEach(Chara::initSkills);
         Skill skill = BaseSkill.builder().name("【系统级规则】属性克制 优势方+50%伤害").trigger(TriggerEnum.普攻伤害计算)
                 .time(INFI)
                 .check(pack -> {
@@ -107,10 +105,10 @@ public class GameBoard {
                 .time(INFI)
                 .check(pack -> true)
                 .cast(pack -> {
+                    GlobalDataManager.putIntData(KeyEnum.GAMETURN, 1);
                     Tools.log(Tools.LogColor.RED, "第1回合开始");
                     TriggerManager.sendMessage(TriggerEnum.回合开始, null);
                     GameBoard.getAlly().forEach(chara -> chara.setStatus(Chara.CharaStatus.ACTIVE));
-                    GlobalDataManager.putIntData(KeyEnum.GAMETURN, 1);
                     return true;
                 }).build();
         TriggerManager.registerSkill(skill);
@@ -119,11 +117,11 @@ public class GameBoard {
                 .time(INFI)
                 .check(pack -> GameBoard.getAlly().stream().noneMatch(chara -> chara.getStatus().equals(Chara.CharaStatus.ACTIVE)))
                 .cast(pack -> {
+                    GlobalDataManager.putIntData(KeyEnum.GAMETURN, getIntData(KeyEnum.GAMETURN) + 1);
                     TriggerManager.sendMessage(TriggerEnum.回合结束, null);
-                    Tools.log(Tools.LogColor.RED, "第" + (getIntData(KeyEnum.GAMETURN) + 1) + "回合开始");
+                    Tools.log(Tools.LogColor.RED, "第" + (getIntData(KeyEnum.GAMETURN)) + "回合开始");
                     TriggerManager.sendMessage(TriggerEnum.回合开始, null);
                     GameBoard.getAlly().forEach(chara -> chara.setStatus(Chara.CharaStatus.ACTIVE));
-                    GlobalDataManager.putIntData(KeyEnum.GAMETURN, getIntData(KeyEnum.GAMETURN) + 1);
                     return true;
                 }).build();
         TriggerManager.registerSkill(skill);
@@ -136,6 +134,8 @@ public class GameBoard {
                     return true;
                 }).build();
         TriggerManager.registerSkill(skill);
+        ourChara.forEach(Chara::initSkills);
+        enemyChara.forEach(Chara::initSkills);
     }
 
     public void resetBoard() {

@@ -10,10 +10,6 @@ class 小精灵王的测试 {
     GameBoard board = GameBoard.getInstance();
 
     @BeforeEach
-    void setUp() {
-    }
-
-    @BeforeEach
     void resetBoard() {
         board.resetBoard();
     }

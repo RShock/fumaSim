@@ -160,7 +160,7 @@ public class BuffAction extends ActionBuilder {
                     case 受到攻击者伤害增加 -> {
                         buff = tempBuff.trigger(伤害计算)
                                 .check(pack ->
-                                        pack.checkAccepter(acceptor) && caster.is(攻击者)
+                                        pack.checkAccepter(acceptor) && pack.caster.is(攻击者)
                                 ).cast(pack -> {
                                     pack.getDamageCal().changeDamage(受到攻击者伤害增加, multi * pack.level);
                                     return true;
@@ -170,7 +170,7 @@ public class BuffAction extends ActionBuilder {
                     case 受到精灵王伤害增加 -> {
                         buff = tempBuff.trigger(伤害计算)
                                 .check(pack ->
-                                        pack.checkAccepter(acceptor) && caster.is(精灵王_塞露西亚.class)
+                                        pack.checkAccepter(acceptor) && pack.caster.is(精灵王_塞露西亚.class)
                                 ).cast(pack -> {
                                     pack.getDamageCal().changeDamage(受到精灵王伤害增加, multi * pack.level);
                                     return true;
