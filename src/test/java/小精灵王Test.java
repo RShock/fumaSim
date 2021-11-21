@@ -5,7 +5,7 @@ import xiaor.charas.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class 小精灵王的测试 {
+class 小精灵王Test {
 
     GameBoard board = GameBoard.getInstance();
 

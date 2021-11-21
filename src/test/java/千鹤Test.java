@@ -8,7 +8,7 @@ import xiaor.charas.胆小纸袋狼_沃沃;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class 千鹤的测试 {
+class 千鹤Test {
 
     GameBoard board = GameBoard.getInstance();
 

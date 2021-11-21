@@ -8,7 +8,7 @@ import xiaor.charas.胆小纸袋狼_沃沃;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class 沃沃的测试 {
+class 沃沃Test {
 
     GameBoard board = GameBoard.getInstance();
 
