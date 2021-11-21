@@ -31,11 +31,13 @@ public class 风队Test {
         board.addEnemyChara(诺诺可);
 
         board.initSkills();
-        board.run("1a1 2a1 3a1 4a1 5d1 " +
-                "1a1 2a1 3a1 4a1 5d1 " +
-                "1a1 2a1 3a1 5q1 4q1 " +
-                "1a1 2a1 3a1 4a1 5d1 " +
-                "1q1");
+        board.run("""
+                1a1 2a1 3a1 4a1 5d1
+                1a1 2a1 3a1 4a1 5d1
+                1a1 2a1 3a1 5q1 4q1
+                1a1 2a1 3a1 4a1 5d1
+                1q1
+                """);
         assertEquals(-820408, 诺诺可.getLife(), 10);
     }
 }
