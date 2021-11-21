@@ -18,7 +18,7 @@ public class TriggerManager {
 
     public static Boolean PRIVATE_MSG = false;
 
-    private List<Skill> skills;
+    private final List<Skill> skills;
 
     private int IDGen = 10000;
 
@@ -50,7 +50,7 @@ public class TriggerManager {
             System.out.println("＋新增可堆叠buff: " + newBuff);
             Optional<UniqueBuff> first = skills.stream().filter(skill -> skill instanceof UniqueBuff)
                     .map(skill -> (UniqueBuff)skill)
-                    .filter(buff -> buff.uniqueId == newUniqueBuff.uniqueId)
+                    .filter(buff -> buff.uniqueId.equals(newUniqueBuff.uniqueId))
                     .findFirst();
             if(first.isPresent()){
                 first.get().add(newUniqueBuff);

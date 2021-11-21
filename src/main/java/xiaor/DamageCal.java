@@ -38,7 +38,6 @@ public class DamageCal {
                 .stream()
                 .mapToDouble(entries -> entries.stream().mapToDouble(Map.Entry::getValue).sum())
                 .reduce(baseDamage, (a, b) -> (a * (1 + b)));
-        int currentLife = pack.acceptor.getLife();
         int currentES = pack.acceptor.getShield();
         int lifeRemain = pack.acceptor.getLife();
         if(currentES != 0) {

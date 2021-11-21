@@ -82,60 +82,48 @@ public class BuffAction extends ActionBuilder {
                 Buff.BuffBuilder<?, ?> tempBuff = getTempBuffBuilder(acceptor);
 
                 switch (buffType) {
-                    case 攻击力百分比增加 -> {
-                        buff = tempBuff.trigger(攻击力计算)
-                                .cast(pack -> {
-                                    pack.getDamageCal().changeDamage(攻击力百分比增加, multi * pack.level);
-                                    return true;
-                                })
-                                .build();
-                    }
-                    case 普攻伤害增加 -> {
-                        buff = tempBuff.trigger(普攻伤害计算)
-                                .cast(pack -> {
-                                    pack.getDamageCal().changeDamage(BuffType.普攻伤害增加, multi * pack.level);
-                                    return true;
-                                })
-                                .build();
-                    }
-                    case 造成伤害增加 -> {
-                        buff = tempBuff.trigger(伤害计算)
-                                .cast(pack -> {
-                                    pack.getDamageCal().changeDamage(造成伤害增加, multi * pack.level);
-                                    return true;
-                                })
-                                .build();
-                    }
-                    case 必杀技伤害增加 -> {
-                        buff = tempBuff.trigger(技能伤害计算)
-                                .cast(pack -> {
-                                    pack.getDamageCal().changeDamage(必杀技伤害增加, multi * pack.level);
-                                    return true;
-                                })
-                                .build();
-                    }
-                    case 受到风属性伤害增加 -> {
-                        buff = tempBuff.trigger(伤害计算)
-                                .check(pack ->
-                                        pack.checkAccepter(acceptor) && caster.getElement().equals(Element.风属性)
-                                )
-                                .cast(pack -> {
-                                    pack.getDamageCal().changeDamage(受到风属性伤害增加, multi * pack.level);
-                                    return true;
-                                })
-                                .build();
-                    }
-                    case 受到伤害增加 -> {
-                        buff = tempBuff.trigger(伤害计算)
-                                .check(pack ->
-                                        pack.checkAccepter(acceptor)
-                                )
-                                .cast(pack -> {
-                                    pack.getDamageCal().changeDamage(受到伤害增加, multi * pack.level);
-                                    return true;
-                                })
-                                .build();
-                    }
+                    case 攻击力百分比增加 -> buff = tempBuff.trigger(攻击力计算)
+                            .cast(pack -> {
+                                pack.getDamageCal().changeDamage(攻击力百分比增加, multi * pack.level);
+                                return true;
+                            })
+                            .build();
+                    case 普攻伤害增加 -> buff = tempBuff.trigger(普攻伤害计算)
+                            .cast(pack -> {
+                                pack.getDamageCal().changeDamage(BuffType.普攻伤害增加, multi * pack.level);
+                                return true;
+                            })
+                            .build();
+                    case 造成伤害增加 -> buff = tempBuff.trigger(伤害计算)
+                            .cast(pack -> {
+                                pack.getDamageCal().changeDamage(造成伤害增加, multi * pack.level);
+                                return true;
+                            })
+                            .build();
+                    case 必杀技伤害增加 -> buff = tempBuff.trigger(技能伤害计算)
+                            .cast(pack -> {
+                                pack.getDamageCal().changeDamage(必杀技伤害增加, multi * pack.level);
+                                return true;
+                            })
+                            .build();
+                    case 受到风属性伤害增加 -> buff = tempBuff.trigger(伤害计算)
+                            .check(pack ->
+                                    pack.checkAccepter(acceptor) && caster.getElement().equals(Element.风属性)
+                            )
+                            .cast(pack -> {
+                                pack.getDamageCal().changeDamage(受到风属性伤害增加, multi * pack.level);
+                                return true;
+                            })
+                            .build();
+                    case 受到伤害增加 -> buff = tempBuff.trigger(伤害计算)
+                            .check(pack ->
+                                    pack.checkAccepter(acceptor)
+                            )
+                            .cast(pack -> {
+                                pack.getDamageCal().changeDamage(受到伤害增加, multi * pack.level);
+                                return true;
+                            })
+                            .build();
                     case 攻击力数值增加 -> {
                         //数值增加时，倍率需要乘以自身攻击力
                         //存在右侧效应（右侧角色收到加成更多）
@@ -147,39 +135,31 @@ public class BuffAction extends ActionBuilder {
                         }).name(name + "具体数值为" + incAtk)
                                 .build();
                     }
-                    case 受到普攻伤害增加 -> {
-                        buff = tempBuff.trigger(普攻伤害计算)
-                                .check(pack ->
-                                        pack.checkAccepter(acceptor)
-                                ).cast(pack -> {
-                                    pack.getDamageCal().changeDamage(BuffType.受到普攻伤害增加, multi * pack.level);
-                                    return true;
-                                })
-                                .build();
-                    }
-                    case 受到攻击者伤害增加 -> {
-                        buff = tempBuff.trigger(伤害计算)
-                                .check(pack ->
-                                        pack.checkAccepter(acceptor) && pack.caster.is(攻击者)
-                                ).cast(pack -> {
-                                    pack.getDamageCal().changeDamage(受到攻击者伤害增加, multi * pack.level);
-                                    return true;
-                                })
-                                .build();
-                    }
-                    case 受到精灵王伤害增加 -> {
-                        buff = tempBuff.trigger(伤害计算)
-                                .check(pack ->
-                                        pack.checkAccepter(acceptor) && pack.caster.is(精灵王_塞露西亚.class)
-                                ).cast(pack -> {
-                                    pack.getDamageCal().changeDamage(受到精灵王伤害增加, multi * pack.level);
-                                    return true;
-                                })
-                                .build();
-                    }
-                    default -> {
-                        throw new RuntimeException("未支持的buff类型" + buffType);
-                    }
+                    case 受到普攻伤害增加 -> buff = tempBuff.trigger(普攻伤害计算)
+                            .check(pack ->
+                                    pack.checkAccepter(acceptor)
+                            ).cast(pack -> {
+                                pack.getDamageCal().changeDamage(BuffType.受到普攻伤害增加, multi * pack.level);
+                                return true;
+                            })
+                            .build();
+                    case 受到攻击者伤害增加 -> buff = tempBuff.trigger(伤害计算)
+                            .check(pack ->
+                                    pack.checkAccepter(acceptor) && pack.caster.is(攻击者)
+                            ).cast(pack -> {
+                                pack.getDamageCal().changeDamage(受到攻击者伤害增加, multi * pack.level);
+                                return true;
+                            })
+                            .build();
+                    case 受到精灵王伤害增加 -> buff = tempBuff.trigger(伤害计算)
+                            .check(pack ->
+                                    pack.checkAccepter(acceptor) && pack.caster.is(精灵王_塞露西亚.class)
+                            ).cast(pack -> {
+                                pack.getDamageCal().changeDamage(受到精灵王伤害增加, multi * pack.level);
+                                return true;
+                            })
+                            .build();
+                    default -> throw new RuntimeException("未支持的buff类型" + buffType);
                 }
 
                 TriggerManager.registerBuff(buff);
@@ -191,7 +171,7 @@ public class BuffAction extends ActionBuilder {
     }
 
 
-    protected Buff.BuffBuilder getTempBuffBuilder(Chara acceptor) {
+    protected Buff.BuffBuilder<? , ?> getTempBuffBuilder(Chara acceptor) {
         Buff.BuffBuilder<?, ?> tempBuff;
         if (isUnique) {
             tempBuff = UniqueBuff.builder()
@@ -230,13 +210,6 @@ public class BuffAction extends ActionBuilder {
 
     public BuffAction to(List<Chara> chara) {
         this.acceptors = chara;
-        return this;
-    }
-
-    //特殊机制 以自身攻击力做...
-    //存在右侧效应
-    public BuffAction asSelfAttack() {
-
         return this;
     }
 }

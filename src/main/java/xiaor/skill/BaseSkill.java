@@ -21,15 +21,6 @@ public class BaseSkill implements Skill {
     int time;   //持续时间
     String name; //名字
 
-    public BaseSkill(String name, TriggerEnum trigger, Function<MessagePack, Boolean> check, Function<MessagePack, Boolean> cast
-    , int time) {
-        this.name = name;
-        this.trigger = trigger;
-        this.check = check;
-        this.cast = cast;
-        this.time = time;
-    }
-
     @Override
     public TriggerEnum getTrigger() {
         return trigger;

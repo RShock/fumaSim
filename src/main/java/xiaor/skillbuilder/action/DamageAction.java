@@ -49,27 +49,21 @@ public class DamageAction extends ActionBuilder {
     public Action build() {
         Action action = new Action();
         switch (damageType) {
-            case 必杀伤害 -> {
-                action.setAction(pack -> {
-                    new DamageCal(pack).skillAttack(multi);
-                    callNext(action.getActionId());
-                    return true;
-                });
-            }
-            case 普通伤害 -> {
-                action.setAction(pack -> {
-                    new DamageCal(pack).normalAttack(multi);
-                    callNext(action.getActionId());
-                    return true;
-                });
-            }
-            case 追击普通伤害 -> {
-                action.setAction(pack -> {
-                    new DamageCal(pack).appendNormalAttack(multi);
-                    callNext(action.getActionId());
-                    return true;
-                });
-            }
+            case 必杀伤害 -> action.setAction(pack -> {
+                new DamageCal(pack).skillAttack(multi);
+                callNext(action.getActionId());
+                return true;
+            });
+            case 普通伤害 -> action.setAction(pack -> {
+                new DamageCal(pack).normalAttack(multi);
+                callNext(action.getActionId());
+                return true;
+            });
+            case 追击普通伤害 -> action.setAction(pack -> {
+                new DamageCal(pack).appendNormalAttack(multi);
+                callNext(action.getActionId());
+                return true;
+            });
             default -> throw new RuntimeException("未定义技能类型");
         }
         return action;

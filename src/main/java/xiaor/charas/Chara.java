@@ -86,16 +86,6 @@ public abstract class Chara{
 
     public abstract void initSkills();
 
-    public boolean setMoved() {
-        this.isMoved = true;
-        return true;
-    }
-
-    public boolean setUnMoved() {
-        this.isMoved = false;
-        return true;
-    }
-
     public boolean is(Role role) {
         return role == this.role;
     }

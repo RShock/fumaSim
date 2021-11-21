@@ -2,7 +2,6 @@ package xiaor;
 
 import lombok.Getter;
 import xiaor.charas.Chara;
-import xiaor.charas.Chara;
 import xiaor.skill.BaseSkill;
 import xiaor.skill.Skill;
 import xiaor.skillbuilder.action.BuffType;

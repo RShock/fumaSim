@@ -13,7 +13,7 @@ public class Tools {
 
 
     public enum LogColor {
-        RESET, RED, GREEN, YELLOW, BLUE, PURPLE, CYAN, WHITE, GREY
+        RED, GREEN, YELLOW, BLUE, PURPLE, CYAN, WHITE, GREY
     }
     public static void log(LogColor color,String str) {
         String ansiColor = "";

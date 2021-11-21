@@ -10,7 +10,7 @@ import xiaor.MessagePack;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-/**
+/*
  * 可叠加buff 一般是无法消失的
  */
 public class UniqueBuff extends Buff{

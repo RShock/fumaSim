@@ -4,7 +4,7 @@ import xiaor.MessagePack;
 import xiaor.tools.TriggerEnum;
 
 public interface Skill {
-    public TriggerEnum getTrigger();
+    TriggerEnum getTrigger();
 
     boolean check(MessagePack pack);
 

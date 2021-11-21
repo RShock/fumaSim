@@ -7,13 +7,9 @@ import java.util.Optional;
  * 全局变量类，任何方法都可以在这里申请与读取动态变量
  */
 public class GlobalDataManager {
-    private HashMap<String, String> data = new HashMap<>();
-    private HashMap<String, Integer> intData = new HashMap<>();
-    private static GlobalDataManager manager = new GlobalDataManager();
-
-    public static GlobalDataManager getInstance() {
-        return manager;
-    }
+    private final HashMap<String, String> data = new HashMap<>();
+    private final HashMap<String, Integer> intData = new HashMap<>();
+    private static final GlobalDataManager manager = new GlobalDataManager();
 
     public static Integer getIntData(KeyEnum key) {
         return manager.intData.get(key.toString());
