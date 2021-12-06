@@ -74,7 +74,7 @@ public class BuffAction extends ActionBuilder {
     public Action build() {
         Action action = new Action();
         if (acceptors == null) {
-            throw new RuntimeException("技能%s的接收对象未定义".formatted(name));
+            throw new RuntimeException("技能%s的接收对象未定义,是不是没有加toSelf?".formatted(name));
         }
         action.setAction(pack2 -> {
             for (Chara acceptor : acceptors) {
@@ -159,6 +159,15 @@ public class BuffAction extends ActionBuilder {
                                 return true;
                             })
                             .build();
+                    case 属性相克效果增减 -> buff = tempBuff.trigger(伤害计算)
+                            .check(pack ->
+                                    pack.checkAccepter(acceptor)
+                            )
+                            .cast(pack -> {
+                                pack.getDamageCal().changeDamage(属性相克效果增减, multi);
+                                return true;
+                            })
+                            .build();
                     default -> throw new RuntimeException("未支持的buff类型" + buffType);
                 }
 
@@ -171,7 +180,7 @@ public class BuffAction extends ActionBuilder {
     }
 
 
-    protected Buff.BuffBuilder<? , ?> getTempBuffBuilder(Chara acceptor) {
+    protected Buff.BuffBuilder<?, ?> getTempBuffBuilder(Chara acceptor) {
         Buff.BuffBuilder<?, ?> tempBuff;
         if (isUnique) {
             tempBuff = UniqueBuff.builder()

@@ -99,6 +99,26 @@ public class GameBoard {
                     return true;
                 }).build();
         TriggerManager.registerSkill(skill);
+        skill = BaseSkill.builder().name("【系统级规则】属性克制 劣势方-25%伤害").trigger(TriggerEnum.普攻伤害计算)
+                .time(INFI)
+                .check(pack -> {
+                    if (pack.damageCal == null) return false;
+                    return pack.damageCal.pack.caster.counter(pack.damageCal.pack.acceptor) == -1;
+                }).cast(pack -> {
+                    pack.getDamageCal().changeDamage(BuffType.属性克制, -0.25);
+                    return true;
+                }).build();
+        TriggerManager.registerSkill(skill);
+        skill = BaseSkill.builder().name("【系统级规则】属性克制 劣势方-25%伤害").trigger(TriggerEnum.技能伤害计算)
+                .time(INFI)
+                .check(pack -> {
+                    if (pack.damageCal == null) return false;
+                    return pack.damageCal.pack.caster.counter(pack.damageCal.pack.acceptor) == -1;
+                }).cast(pack -> {
+                    pack.getDamageCal().changeDamage(BuffType.属性克制, -0.25);
+                    return true;
+                }).build();
+        TriggerManager.registerSkill(skill);
         //游戏开始前其实还有第0回合，不过暂时先把游戏开始当作整个系统启动的第一事件吧
         skill = BaseSkill.builder().name("【系统级规则】第一回合").trigger(TriggerEnum.游戏开始时)
                 .time(INFI)

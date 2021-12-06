@@ -89,4 +89,17 @@ class 小精灵王Test {
                 """);
         assertEquals(2871426, 诺诺可.getLife(), 10);
     }
+
+    @Test
+    void 死斗伊吹朱点() {
+        机灵古怪_赛露西亚 小精灵王 = 机灵古怪_赛露西亚.init("攻击力560316 羁绊2 星4 潜力6 队长");
+        完美靶子伊吹 伊吹 = 完美靶子伊吹.init("");
+        board.addOurChara(小精灵王);
+        board.addEnemyChara(伊吹);
+        board.initSkills();
+        board.run("""
+                1a1
+                """);
+        assertEquals(203959968, 伊吹.getLife(), 10);
+    }
 }

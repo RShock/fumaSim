@@ -33,11 +33,24 @@ public class DamageCal {
         TriggerManager.sendMessage(triggerEnum, MessagePack.damagePack(this));
         TriggerManager.sendMessage(TriggerEnum.伤害计算, MessagePack.damagePack(this));
         int finalDamage = (int)damageBuffMap.entrySet().stream()
+                .filter(entry -> buffTypeMap.get(entry.getKey()) != InternalBuffType.属性克制)
                 .collect(Collectors.groupingBy(entry -> buffTypeMap.get(entry.getKey())))
                 .values()
                 .stream()
                 .mapToDouble(entries -> entries.stream().mapToDouble(Map.Entry::getValue).sum())
                 .reduce(baseDamage, (a, b) -> (a * (1 + b)));
+
+        //属性克制特殊逻辑
+        double 属性克制 = 1;
+        if(damageBuffMap.containsKey(BuffType.属性克制)) {
+            属性克制 = damageBuffMap.get(BuffType.属性克制);
+        }
+        double 属性相克效果增减 = 0;
+        if(damageBuffMap.containsKey(BuffType.属性相克效果增减)) {
+            属性相克效果增减 = damageBuffMap.get(BuffType.属性相克效果增减);
+        }
+        finalDamage *= (1 + 属性克制 * (1-属性相克效果增减));
+
         int currentES = pack.acceptor.getShield();
         int lifeRemain = pack.acceptor.getLife();
         if(currentES != 0) {
@@ -99,6 +112,7 @@ public class DamageCal {
         buffMap.put(BuffType.属性克制, InternalBuffType.属性克制);
         buffMap.put(BuffType.必杀技伤害增加, InternalBuffType.杂项);
         buffMap.put(BuffType.受到普攻伤害增加, InternalBuffType.杂项);
+        buffMap.put(BuffType.属性相克效果增减, InternalBuffType.属性克制);
         return buffMap;
     }
 

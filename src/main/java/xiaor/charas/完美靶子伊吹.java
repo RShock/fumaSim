@@ -1,0 +1,40 @@
+package xiaor.charas;
+
+import xiaor.skillbuilder.SkillBuilder;
+import xiaor.skillbuilder.SkillType;
+import xiaor.skillbuilder.action.BuffAction;
+import xiaor.skillbuilder.action.BuffType;
+import xiaor.skillbuilder.trigger.SelfTrigger;
+import xiaor.tools.TriggerEnum;
+
+public class 完美靶子伊吹 extends Chara {
+    Double 必杀伤害加成;
+
+    public static 完美靶子伊吹 init(String s) {
+        完美靶子伊吹 伊吹 = new 完美靶子伊吹();
+        伊吹.name = "伊吹";
+        伊吹.element = Element.火属性;
+        伊吹.role = Role.攻击者;
+        伊吹.life = 204337481;
+//        伊吹.attack =  1441837;
+        baseInit(伊吹, s);
+        return 伊吹;
+    }
+
+    @Override
+    public void initSkills() {
+        //受伤减少50%
+        SkillBuilder.createNewSkill(this, SkillType.被动)
+                .when(TriggerEnum.游戏开始时)
+                .act(BuffAction.create(this, BuffType.受到伤害增加)
+                        .multi(-0.5).toSelf().build())
+                .build();
+
+        //属性相克效果减少50%
+        SkillBuilder.createNewSkill(this, SkillType.被动)
+                .when(TriggerEnum.游戏开始时)
+                .act(BuffAction.create(this, BuffType.属性相克效果增减)
+                        .multi(0.5).toSelf().build())
+                .build();
+    }
+}
