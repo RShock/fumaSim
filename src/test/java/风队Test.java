@@ -40,4 +40,32 @@ public class 风队Test {
                 """);
         assertEquals(-820408, 诺诺可.getLife(), 10);
     }
+
+    @Test
+    void 风队全队集合测试2() {
+        机灵古怪_赛露西亚 小精灵王 = 机灵古怪_赛露西亚.init("攻击力560316 羁绊2 星4 潜力6 队长");
+        法斯公主_露露 露露 = 法斯公主_露露.init("攻击力675452 星5 绊5 潜6");
+        精灵王_塞露西亚 精灵王 = 精灵王_塞露西亚.init("攻击力542380 星4 绊5 潜6");
+        胆小纸袋狼_沃沃 沃沃 = 胆小纸袋狼_沃沃.init("攻击力406104 星3 绊2 潜5");
+        复生公主_千鹤 千鹤 = 复生公主_千鹤.init("攻击力395839 星3 绊2 潜6");
+
+        完美靶子伊吹 伊吹 = 完美靶子伊吹.init("");
+        board.addOurChara(小精灵王);
+        board.addOurChara(露露);
+        board.addOurChara(精灵王);
+        board.addOurChara(沃沃);
+        board.addOurChara(千鹤);
+        board.addEnemyChara(伊吹);
+
+        board.initSkills();
+        board.run("""
+                1a1 2a1 3a1 4a1 5d1
+                1a1 2a1 3a1 4a1 5d1
+                1a1 2a1 3a1 4q1 5q1
+                1a1 2a1 3a1 4a1 5d1
+                1q1 2q1 3q1 4a1 5a1
+                1a1 2a1 3a1 4a1 5q1
+                """);
+        assertEquals(133244413, 伊吹.getLife(), 10);
+    }
 }

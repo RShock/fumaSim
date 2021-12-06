@@ -27,14 +27,14 @@ public class 完美靶子伊吹 extends Chara {
         SkillBuilder.createNewSkill(this, SkillType.被动)
                 .when(TriggerEnum.游戏开始时)
                 .act(BuffAction.create(this, BuffType.受到伤害增加)
-                        .multi(-0.5).toSelf().build())
+                        .multi(-0.5).toSelf().name("受伤减少50%").build())
                 .build();
 
         //属性相克效果减少50%
         SkillBuilder.createNewSkill(this, SkillType.被动)
                 .when(TriggerEnum.游戏开始时)
                 .act(BuffAction.create(this, BuffType.属性相克效果增减)
-                        .multi(0.5).toSelf().build())
+                        .multi(0.5).toSelf().name("属性相克效果减少50%").build())
                 .build();
     }
 }

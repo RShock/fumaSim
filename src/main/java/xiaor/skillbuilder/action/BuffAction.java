@@ -13,6 +13,7 @@ import xiaor.tools.TriggerManager;
 import java.util.Collections;
 import java.util.List;
 
+import static xiaor.Common.INFI;
 import static xiaor.charas.Role.攻击者;
 import static xiaor.tools.TriggerEnum.*;
 import static xiaor.tools.TriggerEnum.伤害计算;
@@ -163,6 +164,7 @@ public class BuffAction extends ActionBuilder {
                             .check(pack ->
                                     pack.checkAccepter(acceptor)
                             )
+                            .time(INFI)
                             .cast(pack -> {
                                 pack.getDamageCal().changeDamage(属性相克效果增减, multi);
                                 return true;

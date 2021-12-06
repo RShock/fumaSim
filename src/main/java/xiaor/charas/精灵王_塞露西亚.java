@@ -9,6 +9,7 @@ import xiaor.skillbuilder.action.BuffType;
 import xiaor.skillbuilder.action.DamageAction;
 import xiaor.skillbuilder.trigger.SelfTrigger;
 import xiaor.tools.GlobalDataManager;
+import xiaor.tools.Tools;
 import xiaor.tools.TriggerEnum;
 
 import static xiaor.Common.INFI;
@@ -42,6 +43,7 @@ public class 精灵王_塞露西亚 extends Chara {
                         .multi(multi).to(GameBoard.getCurrentEnemy()).build())
                 .and()
                 .act(BuffAction.create(this, BuffType.攻击力百分比增加)
+                        .name("精灵王大招全体增攻"+ Tools.toPercent(multi2[getSkillLevel()]))
                         .multi(multi2).toAlly().build())
                 .build();
 

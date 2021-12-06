@@ -124,11 +124,11 @@ public class 机灵古怪_赛露西亚 extends Chara {
                     .build();
             Optional<Chara> 精灵王 = find精灵王();
             精灵王.ifPresent(chara -> SkillBuilder.createNewSkill(chara, 他人给予技能)
-                    .when(SelfTrigger.act(this, 释放必杀后))
+                    .when(SelfTrigger.act(chara, 释放必杀后))
                     .act(
                             BuffAction.create(chara, BuffType.受到伤害增加)
                                     .multi(0.2).toCurrentEnemy().lastedTurn(3)
-                                    .name(this + "给" + chara + "必杀后 触发目标受到伤害增加20% 3回合")
+                                    .name(this + "送的buff：" + chara + "必杀后 触发目标受到伤害增加20% 3回合")
                                     .build())
                     .build());
         }
@@ -141,14 +141,14 @@ public class 机灵古怪_赛露西亚 extends Chara {
                         BuffAction.create(this, BuffType.受到攻击者伤害增加)
                                 .multi(0.06).toCurrentEnemy()
                                 .level(1).maxLevel(4)
-                                .name(this + "受到攻击者伤害增加6%（最多4层）")
+                                .name(this + "给对方受到攻击者伤害增加6%（最多4层）")
                                 .build())
                 .and()
                 .act(
                         BuffAction.create(this, BuffType.受到精灵王伤害增加)
                                 .multi(0.06).toCurrentEnemy()
                                 .level(1).maxLevel(4)
-                                .name(this + "受到精灵王伤害增加6%（最多4层）")
+                                .name(this + "给对方受到精灵王伤害增加6%（最多4层）")
                                 .build())
                 .build();
         //3星被动
