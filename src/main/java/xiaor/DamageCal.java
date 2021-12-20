@@ -4,6 +4,7 @@ import xiaor.skillbuilder.action.BuffType;
 import xiaor.tools.Tools;
 import xiaor.tools.TriggerEnum;
 import xiaor.tools.TriggerManager;
+import xiaor.tools.record.DamageRecorder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,24 +50,28 @@ public class DamageCal {
         if(damageBuffMap.containsKey(BuffType.属性相克效果增减)) {
             属性相克效果增减 = damageBuffMap.get(BuffType.属性相克效果增减);
         }
-        finalDamage *= (1 + 属性克制 * (1-属性相克效果增减));
+        finalDamage *= (属性克制 * (1-属性相克效果增减));
 
         int currentES = pack.acceptor.getShield();
         int lifeRemain = pack.acceptor.getLife();
+        String msg;
         if(currentES != 0) {
             if(finalDamage > currentES) {
-                Tools.log(Tools.LogColor.BLUE, "%s对%s造成了%d(%d)伤害".formatted(pack.caster, pack.acceptor, finalDamage-currentES, currentES));
+                msg = "%s对%s造成了%d(%d)伤害".formatted(pack.caster, pack.acceptor, finalDamage-currentES, currentES);
                 lifeRemain -= finalDamage-currentES;
                 pack.acceptor.setShield(0);
             }else{
-                Tools.log(Tools.LogColor.BLUE, "%s对%s造成了0(%d)伤害".formatted(pack.caster, pack.acceptor, finalDamage));
+                msg = "%s对%s造成了0(%d)伤害".formatted(pack.caster, pack.acceptor, finalDamage);
                 pack.acceptor.setShield(currentES - finalDamage);
             }
         }else{
-            Tools.log(Tools.LogColor.BLUE, "%s对%s造成了%d伤害".formatted(pack.caster, pack.acceptor, finalDamage));
+            msg = "%s对%s造成了%d伤害".formatted(pack.caster, pack.acceptor, finalDamage);
             lifeRemain -= finalDamage;
         }
+        Tools.log(Tools.LogColor.BLUE, msg);
         pack.acceptor.setLife(lifeRemain);
+        TriggerManager.sendMessage(TriggerEnum.造成伤害, MessagePack.builder().result(
+                new DamageRecorder.DamageRecord(triggerEnum, msg, pack.caster, pack.acceptor, finalDamage)).build());
         Tools.log(Tools.LogColor.GREEN, pack.acceptor + "剩余" + lifeRemain);
         damageBuffMap.clear();
     }

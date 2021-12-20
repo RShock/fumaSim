@@ -6,6 +6,7 @@ import xiaor.skill.BaseSkill;
 import xiaor.skill.Skill;
 import xiaor.skillbuilder.action.BuffType;
 import xiaor.tools.*;
+import xiaor.tools.record.DamageRecorder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,11 +67,14 @@ public class GameBoard {
         String[] split = originS.split("\\s+");
         for (String s : split) {
             our = s.charAt(0) - '0' - 1;
-            their = s.charAt(2) - '0' - 1;
+            if(s.length() == 2)
+                their = 0;
+            else
+                their = s.charAt(2) - '0' - 1;
             mode = s.charAt(1);
-            if (mode == 'a') {
+            if (mode == 'a' || mode == 'A') {
                 ourChara.get(our).attack(enemyChara.get(their));
-            } else if (mode == 'd') {
+            } else if (mode == 'd'|| mode == 'D') {
                 ourChara.get(our).defend(enemyChara.get(their));
             } else {
                 ourChara.get(our).skill(enemyChara.get(their));
@@ -155,12 +159,14 @@ public class GameBoard {
         TriggerManager.registerSkill(skill);
         ourChara.forEach(Chara::initSkills);
         enemyChara.forEach(Chara::initSkills);
+        DamageRecorder.init();
     }
 
     public void resetBoard() {
         ourChara = new ArrayList<>();
         enemyChara = new ArrayList<>();
         TriggerManager.getInstance().reset();
+        DamageRecorder.getInstance().clear();
     }
 
     public static Chara getCurrentEnemy() {

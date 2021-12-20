@@ -1,19 +1,15 @@
 package xiaor.charas;
 
-import xiaor.skill.Skill;
 import xiaor.skill.UniqueBuff;
 import xiaor.skillbuilder.SkillBuilder;
 import xiaor.skillbuilder.SkillType;
 import xiaor.skillbuilder.action.Action;
 import xiaor.skillbuilder.action.BuffType;
-import xiaor.tools.GlobalDataManager;
 import xiaor.tools.Tools;
 import xiaor.tools.TriggerEnum;
 import xiaor.tools.TriggerManager;
 
 import java.util.Optional;
-
-import static xiaor.tools.KeyEnum.GAMETURN;
 
 public class 五十四层boss_诺诺可 extends Chara {
     Double 必杀伤害加成;
@@ -51,7 +47,7 @@ public class 五十四层boss_诺诺可 extends Chara {
             this.shield += shieldInc;
             return true;
         });
-        SkillBuilder.createNewSkill(this, SkillType.被动)
+        SkillBuilder.createNewSkill(this, SkillType.一星被动)
                 .when(TriggerEnum.回合结束)
                 .act(action)
                 .build();

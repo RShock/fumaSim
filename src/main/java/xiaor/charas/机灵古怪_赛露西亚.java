@@ -49,7 +49,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
         //5宝
         //使自身攻击力增加30%（3回合），且目标受到机灵古怪赛鲁西亚伤害增加15% 再以自身攻击力514%对目标造成伤害
         if (getSkillLevel() <= 2) {
-            SkillBuilder.createNewSkill(this, 必杀)
+            SkillBuilder.createNewSkill(this, 必杀技)
                     .when(SelfTrigger.act(this, 释放必杀))
                     .act(DamageAction.create(this, 必杀伤害)
                             .multi(multi).to(getCurrentEnemy()).build())
@@ -64,7 +64,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
         //2宝后
         //使自身攻击力增加30%（3回合），再以自身攻击力422%对目标造成伤害，cd4
         else if (getSkillLevel() <= 4) {
-            SkillBuilder.createNewSkill(this, 必杀)
+            SkillBuilder.createNewSkill(this, 必杀技)
                     .when(SelfTrigger.act(this, 释放必杀))
                     .act(
                             BuffAction.create(this, BuffType.攻击力百分比增加)
@@ -76,7 +76,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
                             .multi(multi).to(getCurrentEnemy()).build())
                     .build();
         } else {
-            SkillBuilder.createNewSkill(this, 必杀)
+            SkillBuilder.createNewSkill(this, 必杀技)
                     .when(SelfTrigger.act(this, 释放必杀))
                     .act(
                             BuffAction.create(this, BuffType.攻击力百分比增加)
@@ -135,7 +135,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
 
         //被动
         //普攻时，触发 使目标受到我方攻击者伤害增加6%(最多4层) 且受到精灵王赛露西亚伤害增加6%（最多4层）效果
-        SkillBuilder.createNewSkill(this, 被动)
+        SkillBuilder.createNewSkill(this, 一星被动)
                 .when(SelfTrigger.act(this, 释放普攻后))
                 .act(
                         BuffAction.create(this, BuffType.受到攻击者伤害增加)

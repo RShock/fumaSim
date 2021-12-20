@@ -8,7 +8,7 @@ import xiaor.skillbuilder.action.BuffType;
 import xiaor.skillbuilder.action.DamageAction;
 import xiaor.skillbuilder.trigger.SelfTrigger;
 
-import static xiaor.skillbuilder.SkillType.必杀;
+import static xiaor.skillbuilder.SkillType.必杀技;
 import static xiaor.skillbuilder.SkillType.普攻;
 import static xiaor.skillbuilder.action.DamageAction.DamageType.必杀伤害;
 import static xiaor.skillbuilder.action.DamageAction.DamageType.普通伤害;
@@ -28,7 +28,7 @@ public class 法斯公主_露露 extends Chara {
     public void initSkills() {
         double[] multi = {0, 0.69, 0.73, 0.76, 0.80, 0.80};
         //以攻击力200%对我方全体进行治疗，并获得”每回合以攻击力x%进行治疗（5回合）"效果 CD5->4
-        SkillBuilder.createNewSkill(this, 必杀)
+        SkillBuilder.createNewSkill(this, 必杀技)
                 .when(SelfTrigger.act(this, 释放必杀))
                 .act(DamageAction.create(this, 必杀伤害).multi(0.0).build())
                 .build();

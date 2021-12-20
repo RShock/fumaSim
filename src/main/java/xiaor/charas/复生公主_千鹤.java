@@ -35,7 +35,7 @@ public class 复生公主_千鹤 extends Chara {
         double[] multi2 = {0.0, 0.12, 0.12, 0.12, 0.15, 0.18}; //风属性易伤倍率
 
         //使目标受到的风属性伤害增加$1（2层）  再以攻击力$2对目标造成伤害 CD4
-        SkillBuilder.createNewSkill(this, 必杀)
+        SkillBuilder.createNewSkill(this, 必杀技)
                 .when(SelfTrigger.act(this, 释放必杀))
                 .act(BuffAction.create(this, BuffType.受到风属性伤害增加)
                         .multi(multi2).toCurrentEnemy().level(1).maxLevel(2)

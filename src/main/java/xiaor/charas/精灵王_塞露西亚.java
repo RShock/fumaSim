@@ -37,7 +37,7 @@ public class 精灵王_塞露西亚 extends Chara {
         double[] multi2 = {0, 0.15, 0.15, 0.15, 0.2, 0.25}; //全体增攻
 
         //大招 以攻击力x对目标造成伤害，并使得我方全体攻击力增加y（3回合）
-        SkillBuilder.createNewSkill(this, 必杀)
+        SkillBuilder.createNewSkill(this, 必杀技)
                 .when((SelfTrigger.act(this, 释放必杀)))
                 .act(DamageAction.create(this, 必杀伤害)
                         .multi(multi).to(GameBoard.getCurrentEnemy()).build())
@@ -57,7 +57,7 @@ public class 精灵王_塞露西亚 extends Chara {
         //不做
 
         //普攻时，触发使我方全体普攻伤害增加7.5%（1回合）效果
-        SkillBuilder.createNewSkill(this, SkillType.被动)
+        SkillBuilder.createNewSkill(this, SkillType.一星被动)
                 .when(SelfTrigger.act(this, TriggerEnum.释放普攻后))
                 .act(BuffAction.create(this, BuffType.普攻伤害增加).multi(0.075).lastedTurn(1)
                         .toAlly().name("普攻时，触发使我方全体普攻伤害增加7.5%（1回合）")

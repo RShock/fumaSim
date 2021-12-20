@@ -30,7 +30,7 @@ public class 胆小纸袋狼_沃沃 extends Chara {
     public void initSkills() {
         double[] multi = {0, 0.96, 1.18, 1.41, 1.63, 1.86}; //攻击力增加buff
 
-        SkillBuilder.createNewSkill(this, 必杀)
+        SkillBuilder.createNewSkill(this, 必杀技)
                 .when(SelfTrigger.act(this, 释放必杀))
                 .act(DamageAction.create(this, 必杀伤害)
                         .multi(2.0).to(getCurrentEnemy()).build())

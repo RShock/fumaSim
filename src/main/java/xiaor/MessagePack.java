@@ -2,6 +2,7 @@ package xiaor;
 
 import lombok.*;
 import xiaor.charas.Chara;
+import xiaor.tools.record.DamageRecorder;
 
 @AllArgsConstructor
 @Builder
@@ -14,6 +15,7 @@ public class MessagePack {
     public Chara acceptor;
 
     public DamageCal damageCal; //用于伤害计算
+    public DamageRecorder.DamageRecord result; //用于伤害计算完毕后的记录
 
     public int id;          //用于内部事件的id
     public int level;    //用于可堆叠buff计算的层数

@@ -1,7 +1,6 @@
 package xiaor.skillbuilder.action;
 
 public enum BuffType {
-    //添加伤害buff类别记得去damageCal标注实际大类
     普攻伤害增加,
     攻击力百分比增加,
     受到伤害增加,
