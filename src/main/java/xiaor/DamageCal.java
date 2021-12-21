@@ -42,7 +42,7 @@ public class DamageCal {
                 .reduce(baseDamage, (a, b) -> (a * (1 + b)));
 
         //属性克制特殊逻辑
-        double 属性克制 = 1;
+        double 属性克制 = 0;
         if(damageBuffMap.containsKey(BuffType.属性克制)) {
             属性克制 = damageBuffMap.get(BuffType.属性克制);
         }
@@ -50,7 +50,7 @@ public class DamageCal {
         if(damageBuffMap.containsKey(BuffType.属性相克效果增减)) {
             属性相克效果增减 = damageBuffMap.get(BuffType.属性相克效果增减);
         }
-        finalDamage *= (属性克制 * (1-属性相克效果增减));
+        finalDamage *= (1+属性克制 * (1-属性相克效果增减));
 
         int currentES = pack.acceptor.getShield();
         int lifeRemain = pack.acceptor.getLife();
