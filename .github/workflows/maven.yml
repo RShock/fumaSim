@@ -20,4 +20,4 @@ jobs:
       #run: mvn -B package --file pom.xml
       run: mvn --batch-mode --update-snapshots verify
     - name: Test with Maven
-      run:  mvn test
+      run:  mvn test -DshowLog=false

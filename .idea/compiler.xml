@@ -10,5 +10,11 @@
         <module name="布魔sim" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="16" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="布魔sim" options="" />
+    </option>
   </component>
 </project>

@@ -5,6 +5,7 @@ import xiaor.GameBoard;
 import xiaor.charas.Chara;
 import xiaor.skill.BaseSkill;
 import xiaor.skill.Skill;
+import xiaor.tools.Tools;
 import xiaor.tools.TriggerEnum;
 import xiaor.tools.TriggerManager;
 
@@ -56,7 +57,7 @@ public class DamageRecorder {
         Map<Chara, List<DamageRecord>> collect = records.stream().collect(Collectors.groupingBy(record -> record.caster));
         collect.forEach((key, value) -> {
             int sum = value.stream().mapToInt(DamageRecord::num).sum();
-            System.out.printf("%s造成了%d点伤害%n", key, sum);
+            Tools.log("%s造成了%d点伤害%n".formatted(key, sum));
         });
     }
 

@@ -11,11 +11,14 @@ public class Tools {
 
     public static final String RESET = "\033[0m";
 
+    private static final boolean SHOULD_LOG = !"false".equals(System.getProperty("showLog"));
+
 
     public enum LogColor {
         RED, GREEN, YELLOW, BLUE, PURPLE, CYAN, WHITE, GREY
     }
     public static void log(LogColor color,String str) {
+        if(!SHOULD_LOG)return;
         String ansiColor = "";
         switch (color) {
             case WHITE -> ansiColor = "\033[0;30m";   // WHITE
@@ -29,5 +32,10 @@ public class Tools {
         }   // Regular Colors
 
         System.out.println(ansiColor + str + RESET);
+    }
+
+    public static void log(String str) {
+        if(!SHOULD_LOG)return;
+        System.out.println(str);
     }
 }

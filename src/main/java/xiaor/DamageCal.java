@@ -135,7 +135,7 @@ public class DamageCal {
             finalAtk += damageBuffMap.get(BuffType.攻击力数值增加);
         }
         damageBuffMap.clear();
-        System.out.println(pack.caster + "基础攻击力是" + finalAtk);
+        Tools.log("%s基础攻击力是%d".formatted(pack.caster, finalAtk));
         return finalAtk;
     }
 

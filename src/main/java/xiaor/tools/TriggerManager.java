@@ -47,20 +47,20 @@ public class TriggerManager {
     private boolean addBuff(Buff newBuff) {
         //可堆叠buff特殊处理
         if(newBuff instanceof UniqueBuff newUniqueBuff) {
-            System.out.println("＋新增可堆叠buff: " + newBuff);
+            Tools.log("＋新增可堆叠buff: " + newBuff);
             Optional<UniqueBuff> first = skills.stream().filter(skill -> skill instanceof UniqueBuff)
                     .map(skill -> (UniqueBuff)skill)
                     .filter(buff -> buff.uniqueId.equals(newUniqueBuff.uniqueId))
                     .findFirst();
             if(first.isPresent()){
                 first.get().add(newUniqueBuff);
-                System.out.println("堆叠成功，当前层数" + first.get().currentLevel);
+                Tools.log("堆叠成功，当前层数" + first.get().currentLevel);
             }else{
                 skills.add(newBuff);
             }
             return true;
         }
-        System.out.println("＋新增buff: " + newBuff);
+        Tools.log("＋新增buff: " + newBuff);
         skills.add(newBuff);
         return true;
     }
@@ -76,7 +76,7 @@ public class TriggerManager {
             if (!skills.get(i).check(pack)) continue;
             isRespond = true;
             if(trigger != TriggerEnum.内部事件 || PRIVATE_MSG) {
-                System.out.println(trigger + "，触发 " + skills.get(i).toString());
+                Tools.log(trigger + "，触发 " + skills.get(i).toString());
             }
             skills.get(i).cast(pack);
         }
@@ -84,7 +84,7 @@ public class TriggerManager {
     }
 
     public static boolean registerSkill(Skill skill) {
-        if (SKILL_LOG) System.out.println("＋新增：" + skill);
+        if (SKILL_LOG) Tools.log("＋新增：" + skill);
         getInstance().addSkill(skill);
         return true;
     }
