@@ -53,7 +53,7 @@ public class 复生公主_千鹤 extends Chara {
 
         //队长技 使自身攻击力+90% 必杀技伤害增加+30%
         if (isLeader()) {
-            SkillBuilder.createNewSkill(this, 队长技能)
+            SkillBuilder.createNewSkill(this, 队长技)
                     .when(游戏开始时)
                     .act(BuffAction.create(this, BuffType.攻击力百分比增加)
                             .multi(0.9).toSelf().lastedTurn(INFI)
@@ -85,7 +85,7 @@ public class 复生公主_千鹤 extends Chara {
         }
 
         //6潜 使得自身必杀技伤害增加10%
-        if (is6) {
+        if (is6()) {
             SkillBuilder.createNewSkill(this, 六潜被动)
                     .when(游戏开始时)
                     .act(BuffAction.create(this, BuffType.必杀技伤害增加)

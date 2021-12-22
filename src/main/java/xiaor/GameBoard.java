@@ -2,6 +2,7 @@ package xiaor;
 
 import lombok.Getter;
 import xiaor.charas.Chara;
+import xiaor.excel.ExcelReader;
 import xiaor.skill.BaseSkill;
 import xiaor.skill.Skill;
 import xiaor.skillbuilder.action.BuffType;
@@ -26,7 +27,6 @@ public class GameBoard {
     private GameBoard() {
         ourChara = new ArrayList<>();
         enemyChara = new ArrayList<>();
-//        TriggerManager.getInstance().registerSkill(Trigger.)
     }
 
     private List<Chara> enemyChara;
@@ -50,8 +50,6 @@ public class GameBoard {
         } else return enemyChara.get(i);
     }
 
-    //private List<Skill> boardSkill; //场地魔法
-
     public void addOurChara(Chara chara) {
         ourChara.add(chara);
     }
@@ -61,6 +59,7 @@ public class GameBoard {
     }
 
     public void run(String originS) {
+        TriggerManager.sendMessage(TriggerEnum.被动光环, new MessagePack());
         TriggerManager.sendMessage(TriggerEnum.游戏开始时, new MessagePack());
         int our, their;
         char mode;

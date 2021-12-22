@@ -82,7 +82,7 @@ public class 精灵王_塞露西亚 extends Chara {
         }
 
         //6潜  使自身普攻伤害增加10%
-        if (is6) {
+        if (is6()) {
             SkillBuilder.createNewSkill(this, 六潜被动)
                     .when(游戏开始时)
                     .act(BuffAction.create(this, BuffType.普攻伤害增加)

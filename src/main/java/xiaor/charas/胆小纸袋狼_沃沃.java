@@ -48,7 +48,7 @@ public class 胆小纸袋狼_沃沃 extends Chara {
                 .build();
 
         if (isLeader()) {
-            SkillBuilder.createNewSkill(this, 队长技能)
+            SkillBuilder.createNewSkill(this, 队长技)
                     .when(游戏开始时)
                     .act(
                             BuffAction.create(this, BuffType.普攻伤害增加)
@@ -99,7 +99,7 @@ public class 胆小纸袋狼_沃沃 extends Chara {
         }
 
         //六潜技能
-        if(is6) {
+        if(is6()) {
 //            SkillBuilder.createNewSkill(this, 六潜技能)
         }
     }

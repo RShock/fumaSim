@@ -2,32 +2,37 @@ package xiaor.excel.vo;
 
 import com.poiji.annotation.ExcelCell;
 import com.poiji.annotation.ExcelRow;
+import xiaor.charas.Element;
+import xiaor.charas.ImportedChara;
+import xiaor.charas.Role;
+
+import java.util.List;
 
 public class CharaExcelVo {
     @ExcelRow
-    private int rowIndex;
+    public int rowIndex;
 
     @ExcelCell(0)
-    private String charaName;
+    public String charaName;
 
     @ExcelCell(1)
-    private String charaId;
+    public int charaId;
 
     @ExcelCell(2)
-    private String charaElement;
+    public String charaElement;
 
     @ExcelCell(3)
-    private String charaType;
+    public String charaRole;
 
     @ExcelCell(4)
-    private String charaType2;
+    public String charaType;   //限定or常驻
 
     @ExcelCell(5)
-    private String rare;
+    public String rare;
 
     @ExcelCell(6)
-    private int attack;
+    public int attack;
 
     @ExcelCell(7)
-    private int defense;
+    public int defense;
 }

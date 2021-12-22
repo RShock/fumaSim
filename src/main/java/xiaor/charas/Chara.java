@@ -17,15 +17,13 @@ public abstract class Chara{
 
     protected String name;
 
-    protected List<Skill> skills;
-
     protected int attack;
 
     protected int life;
 
     protected boolean isMoved;
 
-    protected boolean is6;  //是否6潜
+    protected int potential;
 
     protected CharaStatus status;   //角色状态
 
@@ -33,22 +31,13 @@ public abstract class Chara{
 
     protected int shield;   //护盾
 
-    public void defend(Chara acceptor){
-        MessagePack pack = MessagePack.builder()
-                .acceptor(acceptor)
-                .caster(this)
-                .build();
-        TriggerManager.sendMessage(TriggerEnum.释放防御, pack);
-        setStatus(Chara.CharaStatus.INACTIVE);
-        TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
-    }
+
 
     public enum CharaStatus {
         DEAD,
         ACTIVE,
-        INACTIVE
+        INACTIVE;
     }
-
     @Builder.Default
     protected int star = 3;
 
@@ -56,12 +45,7 @@ public abstract class Chara{
         isLeader = false;
     }
 
-
     protected Element element;
-
-    public int counter(Chara chara) {
-        return Element.counter(element, chara.getElement());
-    }
 
     @Builder.Default
     protected int skillLevel = 1;
@@ -73,6 +57,27 @@ public abstract class Chara{
         this.name = name;
         this.isLeader = isLeader;
         initSkills();
+    }
+
+    public void defend(Chara acceptor){
+        MessagePack pack = MessagePack.builder()
+                .acceptor(acceptor)
+                .caster(this)
+                .build();
+        TriggerManager.sendMessage(TriggerEnum.释放防御, pack);
+        setStatus(Chara.CharaStatus.INACTIVE);
+        TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
+    }
+
+    public boolean is6() {
+        return potential>=6;
+    }
+
+    public boolean is12() {
+        return potential>=12;
+    }
+    public int counter(Chara chara) {
+        return Element.counter(element, chara.getElement());
     }
 
     public String toString() {
@@ -121,7 +126,7 @@ public abstract class Chara{
 
     protected static void baseInit(Chara chara, String s) {
         chara.isLeader = false;
-        chara.is6 = true;
+        chara.potential = 12;
         chara.star = 5;
         chara.skillLevel = 5;
         String[] split = s.split("\\s+");
@@ -136,7 +141,7 @@ public abstract class Chara{
                 chara.skillLevel = getNumFromString(s1);
             }
             if(s1.startsWith("潜")){
-                chara.is6 = getNumFromString(s1) >= 6;
+                chara.potential = getNumFromString(s1);
             }
             if(s1.startsWith("队长")){
                 chara.isLeader = true;
@@ -149,6 +154,9 @@ public abstract class Chara{
             }
             if(s1.startsWith("风属性")){
                 chara.element = Element.风属性;
+            }
+            if(s1.startsWith("光属性")){
+                chara.element = Element.光属性;
             }
         }
     }

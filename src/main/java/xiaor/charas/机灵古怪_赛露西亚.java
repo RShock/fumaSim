@@ -34,9 +34,9 @@ public class 机灵古怪_赛露西亚 extends Chara {
         //结算比队长技能早这样队长技能吃到10%加攻
         //6潜被动
         //使自身攻击+10%
-        if (is6) {
+        if (is6()) {
             SkillBuilder.createNewSkill(this, 六潜被动)
-                    .when(游戏开始时)
+                    .when(被动光环)
                     .act(BuffAction.create(this, BuffType.攻击力百分比增加)
                             .multi(0.1).toSelf().lastedTurn(INFI)
                             .name(this + "自身攻击+10%")
@@ -105,7 +105,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
         //第一回合时，触发 以激灵古怪赛鲁西亚攻击力40%使我方全体风属性角色攻击力增加50回合效果
         //使精灵王赛鲁西亚获得必杀技最大CD减少2回合 以及 必杀后 触发目标受到伤害增加20% 3回合 效果
         if (isLeader) {
-            SkillBuilder.createNewSkill(this, 队长技能)
+            SkillBuilder.createNewSkill(this, 队长技)
                     .when(游戏开始时)
                     .check(() -> GameBoard.getAlly().stream().filter(chara -> chara.getElement() == Element.风属性).count() == 5)
                     .act(
@@ -114,7 +114,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
                                     .name(this + "给全员攻击力+100%（来自队长技）")
                                     .build())
                     .build();
-            SkillBuilder.createNewSkill(this, 队长技能)
+            SkillBuilder.createNewSkill(this, 队长技)
                     .when(游戏开始时)
                     .act(
                             BuffAction.create(this, BuffType.攻击力数值增加)
