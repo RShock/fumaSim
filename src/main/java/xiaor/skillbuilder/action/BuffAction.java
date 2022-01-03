@@ -3,6 +3,7 @@ package xiaor.skillbuilder.action;
 import xiaor.*;
 import xiaor.charas.Chara;
 import xiaor.charas.Element;
+import xiaor.charas.机灵古怪_赛露西亚;
 import xiaor.charas.精灵王_塞露西亚;
 import xiaor.skill.Buff;
 import xiaor.skill.SkillTime;
@@ -83,9 +84,9 @@ public class BuffAction extends ActionBuilder {
                 Buff.BuffBuilder<?, ?> tempBuff = getTempBuffBuilder(acceptor);
 
                 switch (buffType) {
-                    case 攻击力百分比增加 -> buff = tempBuff.trigger(攻击力计算)
+                    case 攻击力 -> buff = tempBuff.trigger(攻击力计算)
                             .cast(pack -> {
-                                pack.getDamageCal().changeDamage(攻击力百分比增加, multi * pack.level);
+                                pack.getDamageCal().changeDamage(攻击力, multi * pack.level);
                                 return true;
                             })
                             .build();
@@ -157,6 +158,14 @@ public class BuffAction extends ActionBuilder {
                                     pack.checkAccepter(acceptor) && pack.caster.is(精灵王_塞露西亚.class)
                             ).cast(pack -> {
                                 pack.getDamageCal().changeDamage(受到精灵王伤害增加, multi * pack.level);
+                                return true;
+                            })
+                            .build();
+                    case 受到小精灵王伤害增加 -> buff = tempBuff.trigger(伤害计算)
+                            .check(pack ->
+                                    pack.checkAccepter(acceptor) && pack.caster.is(机灵古怪_赛露西亚.class)
+                            ).cast(pack -> {
+                                pack.getDamageCal().changeDamage(受到小精灵王伤害增加, multi * pack.level);
                                 return true;
                             })
                             .build();

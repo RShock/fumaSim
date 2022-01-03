@@ -11,7 +11,9 @@ public class ImportedChara extends Chara implements Cloneable{
     private List<SkillExcelVo> uninitedSkills;  //skill需要等到角色正式使用时再初始化
     @Override
     public void initSkills() {
-
+        uninitedSkills.forEach(
+                skill -> SkillParser.addSkill(this, skill)
+        );
     }
 
     public List<SkillExcelVo> getUninitedSkills() {
@@ -38,7 +40,7 @@ public class ImportedChara extends Chara implements Cloneable{
         importedChara.setName(charaVo.charaName);
         importedChara.setRole(Enum.valueOf(Role.class, charaVo.charaRole));
         importedChara.setUninitedSkills(
-                skillVos.stream().filter(vo -> vo.getOwner() == charaVo.charaId).collect(Collectors.toList()));
+                skillVos.stream().filter(vo -> vo.getSkillId()/1000 == charaVo.charaId).collect(Collectors.toList()));
         return importedChara;
     }
 

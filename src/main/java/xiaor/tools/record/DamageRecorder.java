@@ -35,7 +35,7 @@ public class DamageRecorder {
     }
 
     public static void init() {
-        Skill skill = BaseSkill.builder().name("【系统级规则】伤害记录器").trigger(TriggerEnum.造成伤害)
+        Skill skill = BaseSkill.builder().name("【系统规则】伤害记录器").trigger(TriggerEnum.造成伤害)
                 .time(INFI)
                 .check(pack -> true)
                 .cast(pack -> {

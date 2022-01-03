@@ -42,9 +42,9 @@ public class 精灵王_塞露西亚 extends Chara {
                 .act(DamageAction.create(this, 必杀伤害)
                         .multi(multi).to(GameBoard.getCurrentEnemy()).build())
                 .and()
-                .act(BuffAction.create(this, BuffType.攻击力百分比增加)
+                .act(BuffAction.create(this, BuffType.攻击力)
                         .name("精灵王大招全体增攻"+ Tools.toPercent(multi2[getSkillLevel()]))
-                        .multi(multi2).toAlly().build())
+                        .multi(multi2).lastedTurn(3).toAlly().build())
                 .build();
 
         //普通攻击
@@ -75,7 +75,7 @@ public class 精灵王_塞露西亚 extends Chara {
             SkillBuilder.createNewSkill(this, SkillType.五星被动)
                     .when(TriggerEnum.回合开始)
                     .check(() -> GlobalDataManager.getIntData(GAMETURN) % 3 == 1 && GlobalDataManager.getIntData(GAMETURN) != 1)
-                    .act(BuffAction.create(this, BuffType.攻击力百分比增加).multi(0.2)
+                    .act(BuffAction.create(this, BuffType.攻击力).multi(0.2)
                             .name("每过3回合触发全体攻击力+20%")
                             .lastedTurn(1).toAlly().build())
                     .build();

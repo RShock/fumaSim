@@ -65,6 +65,7 @@ public class GameBoard {
         char mode;
         String[] split = originS.split("\\s+");
         for (String s : split) {
+            if(s.equals(""))continue;
             our = s.charAt(0) - '0' - 1;
             if(s.length() == 2)
                 their = 0;
@@ -82,7 +83,7 @@ public class GameBoard {
     }
 
     public void initSkills() {
-        Skill skill = BaseSkill.builder().name("【系统级规则】属性克制 优势方+50%伤害").trigger(TriggerEnum.普攻伤害计算)
+        Skill skill = BaseSkill.builder().name("【系统规则】属性克制 优势方+50%伤害").trigger(TriggerEnum.普攻伤害计算)
                 .time(INFI)
                 .check(pack -> {
                     if (pack.damageCal == null) return false;
@@ -92,7 +93,7 @@ public class GameBoard {
                     return true;
                 }).build();
         TriggerManager.registerSkill(skill);
-        skill = BaseSkill.builder().name("【系统级规则】属性克制 优势方+50%伤害").trigger(TriggerEnum.技能伤害计算)
+        skill = BaseSkill.builder().name("【系统规则】属性克制 优势方+50%伤害").trigger(TriggerEnum.技能伤害计算)
                 .time(INFI)
                 .check(pack -> {
                     if (pack.damageCal == null) return false;
@@ -102,7 +103,7 @@ public class GameBoard {
                     return true;
                 }).build();
         TriggerManager.registerSkill(skill);
-        skill = BaseSkill.builder().name("【系统级规则】属性克制 劣势方-25%伤害").trigger(TriggerEnum.普攻伤害计算)
+        skill = BaseSkill.builder().name("【系统规则】属性克制 劣势方-25%伤害").trigger(TriggerEnum.普攻伤害计算)
                 .time(INFI)
                 .check(pack -> {
                     if (pack.damageCal == null) return false;
@@ -112,7 +113,7 @@ public class GameBoard {
                     return true;
                 }).build();
         TriggerManager.registerSkill(skill);
-        skill = BaseSkill.builder().name("【系统级规则】属性克制 劣势方-25%伤害").trigger(TriggerEnum.技能伤害计算)
+        skill = BaseSkill.builder().name("【系统规则】属性克制 劣势方-25%伤害").trigger(TriggerEnum.技能伤害计算)
                 .time(INFI)
                 .check(pack -> {
                     if (pack.damageCal == null) return false;
@@ -123,7 +124,7 @@ public class GameBoard {
                 }).build();
         TriggerManager.registerSkill(skill);
         //游戏开始前其实还有第0回合，不过暂时先把游戏开始当作整个系统启动的第一事件吧
-        skill = BaseSkill.builder().name("【系统级规则】第一回合").trigger(TriggerEnum.游戏开始时)
+        skill = BaseSkill.builder().name("【系统规则】第一回合").trigger(TriggerEnum.游戏开始时)
                 .time(INFI)
                 .check(pack -> true)
                 .cast(pack -> {
@@ -135,7 +136,7 @@ public class GameBoard {
                 }).build();
         TriggerManager.registerSkill(skill);
         //目前设计 回合结束后默认没敌人的回合 继续是我方回合
-        skill = BaseSkill.builder().name("【系统级规则】角色行动完进入下一回合").trigger(TriggerEnum.角色行动结束)
+        skill = BaseSkill.builder().name("【系统规则】角色行动完进入下一回合").trigger(TriggerEnum.角色行动结束)
                 .time(INFI)
                 .check(pack -> GameBoard.getAlly().stream().noneMatch(chara -> chara.getStatus().equals(Chara.CharaStatus.ACTIVE)))
                 .cast(pack -> {
@@ -148,7 +149,7 @@ public class GameBoard {
                 }).build();
         TriggerManager.registerSkill(skill);
         //buff消退：回合结束时所有非永久buff都会消退1层
-        skill = BaseSkill.builder().name("【系统级规则】回合结束时所有非永久buff都会消退1层").trigger(TriggerEnum.回合结束)
+        skill = BaseSkill.builder().name("【系统规则】回合结束时所有非永久buff都会消退1层").trigger(TriggerEnum.回合结束)
                 .time(INFI)
                 .check(pack -> GameBoard.getAlly().stream().noneMatch(chara -> chara.getStatus().equals(Chara.CharaStatus.ACTIVE)))
                 .cast(pack -> {

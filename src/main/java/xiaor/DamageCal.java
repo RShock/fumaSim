@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static xiaor.DamageCal.InternalBuffType.*;
+
 public class DamageCal {
     public final MessagePack pack;
     public HashMap<BuffType, Double> damageBuffMap;
@@ -34,7 +36,7 @@ public class DamageCal {
         TriggerManager.sendMessage(triggerEnum, MessagePack.damagePack(this));
         TriggerManager.sendMessage(TriggerEnum.伤害计算, MessagePack.damagePack(this));
         int finalDamage = (int)damageBuffMap.entrySet().stream()
-                .filter(entry -> buffTypeMap.get(entry.getKey()) != InternalBuffType.属性克制)
+                .filter(entry -> buffTypeMap.get(entry.getKey()) != 属性克制)
                 .collect(Collectors.groupingBy(entry -> buffTypeMap.get(entry.getKey())))
                 .values()
                 .stream()
@@ -107,18 +109,19 @@ public class DamageCal {
 
     private static HashMap<BuffType, InternalBuffType> getBuffTypeMap() {
         HashMap<BuffType, InternalBuffType> buffMap = new HashMap<>();
-        buffMap.put(BuffType.攻击力数值增加, InternalBuffType.基本攻击力计算);
-        buffMap.put(BuffType.普攻伤害增加, InternalBuffType.杂项);
-        buffMap.put(BuffType.攻击力百分比增加, InternalBuffType.基本攻击力计算);
-        buffMap.put(BuffType.造成伤害增加, InternalBuffType.造成伤害增加);
-        buffMap.put(BuffType.受到伤害增加, InternalBuffType.易伤);
-        buffMap.put(BuffType.受到攻击者伤害增加, InternalBuffType.杂项);
-        buffMap.put(BuffType.受到精灵王伤害增加, InternalBuffType.杂项);
-        buffMap.put(BuffType.受到风属性伤害增加, InternalBuffType.属性易伤);
-        buffMap.put(BuffType.属性克制, InternalBuffType.属性克制);
-        buffMap.put(BuffType.必杀技伤害增加, InternalBuffType.杂项);
-        buffMap.put(BuffType.受到普攻伤害增加, InternalBuffType.杂项);
-        buffMap.put(BuffType.属性相克效果增减, InternalBuffType.属性克制);
+        buffMap.put(BuffType.攻击力数值增加, 基本攻击力计算);
+        buffMap.put(BuffType.普攻伤害增加, 杂项);
+        buffMap.put(BuffType.攻击力, 基本攻击力计算);
+        buffMap.put(BuffType.造成伤害增加, 造成伤害增加);
+        buffMap.put(BuffType.受到伤害增加, 易伤);
+        buffMap.put(BuffType.受到攻击者伤害增加, 杂项);
+        buffMap.put(BuffType.受到精灵王伤害增加, 杂项);
+        buffMap.put(BuffType.受到小精灵王伤害增加, 杂项);
+        buffMap.put(BuffType.受到风属性伤害增加, 属性易伤);
+        buffMap.put(BuffType.属性克制, 属性克制);
+        buffMap.put(BuffType.必杀技伤害增加, 杂项);
+        buffMap.put(BuffType.受到普攻伤害增加, 杂项);
+        buffMap.put(BuffType.属性相克效果增减, 属性克制);
         return buffMap;
     }
 

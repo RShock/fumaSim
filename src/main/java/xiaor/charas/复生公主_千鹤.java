@@ -55,7 +55,7 @@ public class 复生公主_千鹤 extends Chara {
         if (isLeader()) {
             SkillBuilder.createNewSkill(this, 队长技)
                     .when(游戏开始时)
-                    .act(BuffAction.create(this, BuffType.攻击力百分比增加)
+                    .act(BuffAction.create(this, BuffType.攻击力)
                             .multi(0.9).toSelf().lastedTurn(INFI)
                             .name(this + "使自身攻击力+90%")
                             .build())

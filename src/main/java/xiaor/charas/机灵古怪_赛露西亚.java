@@ -37,7 +37,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
         if (is6()) {
             SkillBuilder.createNewSkill(this, 六潜被动)
                     .when(被动光环)
-                    .act(BuffAction.create(this, BuffType.攻击力百分比增加)
+                    .act(BuffAction.create(this, BuffType.攻击力)
                             .multi(0.1).toSelf().lastedTurn(INFI)
                             .name(this + "自身攻击+10%")
                             .build())
@@ -55,7 +55,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
                             .multi(multi).to(getCurrentEnemy()).build())
                     .and()
                     .act(
-                            BuffAction.create(this, BuffType.攻击力百分比增加)
+                            BuffAction.create(this, BuffType.攻击力)
                                     .multi(0.2).toSelf().lastedTurn(3)
                                     .name(this + "攻击力+20%（来自大招）")
                                     .build())
@@ -67,7 +67,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
             SkillBuilder.createNewSkill(this, 必杀技)
                     .when(SelfTrigger.act(this, 释放必杀))
                     .act(
-                            BuffAction.create(this, BuffType.攻击力百分比增加)
+                            BuffAction.create(this, BuffType.攻击力)
                                     .multi(0.3).toSelf().lastedTurn(3)
                                     .name(this + "攻击力+30%（来自大招）")
                                     .build())
@@ -79,13 +79,13 @@ public class 机灵古怪_赛露西亚 extends Chara {
             SkillBuilder.createNewSkill(this, 必杀技)
                     .when(SelfTrigger.act(this, 释放必杀))
                     .act(
-                            BuffAction.create(this, BuffType.攻击力百分比增加)
+                            BuffAction.create(this, BuffType.攻击力)
                                     .multi(0.3).toSelf().lastedTurn(3)
                                     .name(this + "攻击力+30%（来自大招）")
                                     .build())
                     .and()
                     .act(
-                            BuffAction.create(this, BuffType.受到伤害增加)
+                            BuffAction.create(this, BuffType.受到小精灵王伤害增加)
                                     .multi(0.15).toCurrentEnemy().lastedTurn(3)
                                     .name(this + "受到伤害+15%(来自大招)")
                                     .build())
@@ -109,7 +109,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
                     .when(游戏开始时)
                     .check(() -> GameBoard.getAlly().stream().filter(chara -> chara.getElement() == Element.风属性).count() == 5)
                     .act(
-                            BuffAction.create(this, BuffType.攻击力百分比增加)
+                            BuffAction.create(this, BuffType.攻击力)
                                     .multi(1).toAlly().lastedTurn(INFI)
                                     .name(this + "给全员攻击力+100%（来自队长技）")
                                     .build())
@@ -148,7 +148,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
                         BuffAction.create(this, BuffType.受到精灵王伤害增加)
                                 .multi(0.06).toCurrentEnemy()
                                 .level(1).maxLevel(4)
-                                .name(this + "给对方受到精灵王伤害增加6%（最多4层）")
+                                .name("对方受到精灵王伤害增加6%（最多4层）")
                                 .build())
                 .build();
         //3星被动
@@ -159,7 +159,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
                         BuffAction.create(this, BuffType.受到普攻伤害增加)
                                 .multi(0.075).toCurrentEnemy()
                                 .level(1).maxLevel(4)
-                                .name(this + "受到普攻伤害增加7.5%（最多4层）")
+                                .name("对方受到普攻伤害增加7.5%（最多4层）")
                                 .build())
                 .build();
 

@@ -13,10 +13,6 @@ class 千鹤Test {
     GameBoard board = GameBoard.getInstance();
 
     @BeforeEach
-    void setUp() {
-    }
-
-    @BeforeEach
     void resetBoard() {
         board.resetBoard();
     }
