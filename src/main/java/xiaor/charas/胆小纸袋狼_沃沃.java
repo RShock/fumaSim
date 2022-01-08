@@ -88,7 +88,7 @@ public class 胆小纸袋狼_沃沃 extends Chara {
             SkillBuilder.createNewSkill(this, 五星被动)
                     .when(释放必杀后)
                     .act(
-                            BuffAction.create(this, BuffType.造成伤害增加)
+                            BuffAction.create(this, BuffType.造成伤害)
                                     .multi(0.2).toSelf().lastedTurn(INFI)
                                     .name(this + "造成伤害增加20%（最多2层）")
                                     .level(1)

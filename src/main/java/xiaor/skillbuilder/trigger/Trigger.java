@@ -20,15 +20,4 @@ public class Trigger {
     public Function<MessagePack, Boolean> checker;
     TriggerEnum triggerType;
 
-    public List<Supplier<Boolean>> additionCheckers = new ArrayList<>();
-
-    public Function<MessagePack, Boolean> getChecker() {
-        if(additionCheckers.stream().allMatch(Supplier::get))return checker;
-        return (pack) -> false;
-    }
-
-    public void append(Supplier<Boolean> additionChecker) {
-        additionCheckers.add(additionChecker);
-    }
-
 }

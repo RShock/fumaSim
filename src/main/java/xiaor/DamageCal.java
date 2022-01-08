@@ -49,8 +49,8 @@ public class DamageCal {
             属性克制 = damageBuffMap.get(BuffType.属性克制);
         }
         double 属性相克效果增减 = 0;
-        if(damageBuffMap.containsKey(BuffType.属性相克效果增减)) {
-            属性相克效果增减 = damageBuffMap.get(BuffType.属性相克效果增减);
+        if(damageBuffMap.containsKey(BuffType.属性相克效果)) {
+            属性相克效果增减 = damageBuffMap.get(BuffType.属性相克效果);
         }
         finalDamage *= (1+属性克制 * (1-属性相克效果增减));
 
@@ -109,19 +109,19 @@ public class DamageCal {
 
     private static HashMap<BuffType, InternalBuffType> getBuffTypeMap() {
         HashMap<BuffType, InternalBuffType> buffMap = new HashMap<>();
-        buffMap.put(BuffType.攻击力数值增加, 基本攻击力计算);
+        buffMap.put(BuffType.攻击力数值, 基本攻击力计算);
         buffMap.put(BuffType.普攻伤害增加, 杂项);
         buffMap.put(BuffType.攻击力, 基本攻击力计算);
-        buffMap.put(BuffType.造成伤害增加, 造成伤害增加);
+        buffMap.put(BuffType.造成伤害, 造成伤害增加);
         buffMap.put(BuffType.受到伤害增加, 易伤);
-        buffMap.put(BuffType.受到攻击者伤害增加, 杂项);
-        buffMap.put(BuffType.受到精灵王伤害增加, 杂项);
-        buffMap.put(BuffType.受到小精灵王伤害增加, 杂项);
-        buffMap.put(BuffType.受到风属性伤害增加, 属性易伤);
+        buffMap.put(BuffType.受到攻击者伤害, 杂项);
+        buffMap.put(BuffType.受到精灵王伤害, 杂项);
+        buffMap.put(BuffType.受到小精灵王伤害, 杂项);
+        buffMap.put(BuffType.受到风属性伤害, 属性易伤);
         buffMap.put(BuffType.属性克制, 属性克制);
-        buffMap.put(BuffType.必杀技伤害增加, 杂项);
-        buffMap.put(BuffType.受到普攻伤害增加, 杂项);
-        buffMap.put(BuffType.属性相克效果增减, 属性克制);
+        buffMap.put(BuffType.必杀技伤害, 杂项);
+        buffMap.put(BuffType.受到普攻伤害, 杂项);
+        buffMap.put(BuffType.属性相克效果, 属性克制);
         return buffMap;
     }
 
@@ -131,11 +131,11 @@ public class DamageCal {
         double baseAtk = pack.caster.getAttack();
 
         int finalAtk = damageBuffMap.entrySet().stream()
-                .filter(s -> !s.getKey().equals(BuffType.攻击力数值增加))
+                .filter(s -> !s.getKey().equals(BuffType.攻击力数值))
                 .map(s -> s.getValue() + 1)
                 .reduce(baseAtk, (a, b) -> (a * b)).intValue();
-        if(damageBuffMap.containsKey(BuffType.攻击力数值增加)) {
-            finalAtk += damageBuffMap.get(BuffType.攻击力数值增加);
+        if(damageBuffMap.containsKey(BuffType.攻击力数值)) {
+            finalAtk += damageBuffMap.get(BuffType.攻击力数值);
         }
         damageBuffMap.clear();
         Tools.log("%s基础攻击力是%d".formatted(pack.caster, finalAtk));

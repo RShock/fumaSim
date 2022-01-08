@@ -17,7 +17,7 @@ public class BaseSkill implements Skill {
     TriggerEnum trigger;
     Function<MessagePack, Boolean> check;
     Function<MessagePack, Boolean> cast;
-    SkillTime skillTime;
+    SkillStatus skillStatus;
     int time;   //持续时间
     String name; //名字
 
@@ -28,7 +28,7 @@ public class BaseSkill implements Skill {
 
     @Override
     public boolean check(MessagePack pack) {
-        if(skillTime == SkillTime.已经失效){
+        if(skillStatus == SkillStatus.已经失效 || skillStatus == SkillStatus.未发动){
             return false;
         }
         return check.apply(pack);
@@ -36,11 +36,11 @@ public class BaseSkill implements Skill {
 
     @Override
     public boolean cast(MessagePack pack) {
-        if(skillTime == SkillTime.已经失效) {
+        if(skillStatus == SkillStatus.已经失效) {
             return false;
         }
-        if(skillTime == SkillTime.仅生效一次){
-            skillTime = SkillTime.已经失效;
+        if(skillStatus == SkillStatus.仅生效一次){
+            skillStatus = SkillStatus.已经失效;
         }
         return cast.apply(pack);
     }
@@ -52,7 +52,7 @@ public class BaseSkill implements Skill {
         }
         else time--;
         if(time == 0) {
-            skillTime = SkillTime.已经失效;
+            skillStatus = SkillStatus.已经失效;
         }
     }
 

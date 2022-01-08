@@ -2,12 +2,16 @@ package xiaor.excel.vo;
 
 import com.poiji.annotation.ExcelCell;
 import com.poiji.annotation.ExcelRow;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import xiaor.charas.Element;
 import xiaor.charas.ImportedChara;
 import xiaor.charas.Role;
 
 import java.util.List;
 
+@Data
 public class CharaExcelVo {
     @ExcelRow
     public int rowIndex;
@@ -35,4 +39,6 @@ public class CharaExcelVo {
 
     @ExcelCell(7)
     public int defense;
+
+    private List<SkillExcelVo> skillExcelVos;
 }

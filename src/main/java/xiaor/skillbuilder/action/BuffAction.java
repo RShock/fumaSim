@@ -6,13 +6,15 @@ import xiaor.charas.Element;
 import xiaor.charas.机灵古怪_赛露西亚;
 import xiaor.charas.精灵王_塞露西亚;
 import xiaor.skill.Buff;
-import xiaor.skill.SkillTime;
+import xiaor.skill.SkillStatus;
+import xiaor.skill.SwitchBuff;
 import xiaor.skill.UniqueBuff;
 import xiaor.tools.Tools;
 import xiaor.tools.TriggerManager;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static xiaor.Common.INFI;
 import static xiaor.charas.Role.攻击者;
@@ -27,11 +29,13 @@ public class BuffAction extends ActionBuilder {
     private Chara caster;
     private List<Chara> acceptors;
     private int turn;
-    private boolean isUnique;
+    private boolean isUniqueBuff;
     private String uniqueId;
     protected int level;
     protected int maxLevel;
     private String name;
+    private boolean isSwitchBuff = false;
+    private List<Supplier<Boolean>> additionalCheckers;
 
     public static BuffAction create(Chara castor, BuffType type) {
         BuffAction buffAction = new BuffAction();
@@ -67,7 +71,7 @@ public class BuffAction extends ActionBuilder {
     }
 
     public BuffAction level(int level) {
-        this.isUnique = true;
+        this.isUniqueBuff = true;
         this.uniqueId = "Buff: " + Tools.getNewID();
         this.level = level;
         return this;
@@ -96,24 +100,24 @@ public class BuffAction extends ActionBuilder {
                                 return true;
                             })
                             .build();
-                    case 造成伤害增加 -> buff = tempBuff.trigger(伤害计算)
+                    case 造成伤害 -> buff = tempBuff.trigger(伤害计算)
                             .cast(pack -> {
-                                pack.getDamageCal().changeDamage(造成伤害增加, multi * pack.level);
+                                pack.getDamageCal().changeDamage(BuffType.造成伤害, multi * pack.level);
                                 return true;
                             })
                             .build();
-                    case 必杀技伤害增加 -> buff = tempBuff.trigger(技能伤害计算)
+                    case 必杀技伤害 -> buff = tempBuff.trigger(技能伤害计算)
                             .cast(pack -> {
-                                pack.getDamageCal().changeDamage(必杀技伤害增加, multi * pack.level);
+                                pack.getDamageCal().changeDamage(必杀技伤害, multi * pack.level);
                                 return true;
                             })
                             .build();
-                    case 受到风属性伤害增加 -> buff = tempBuff.trigger(伤害计算)
+                    case 受到风属性伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor) && caster.getElement().equals(Element.风属性)
                             )
                             .cast(pack -> {
-                                pack.getDamageCal().changeDamage(受到风属性伤害增加, multi * pack.level);
+                                pack.getDamageCal().changeDamage(受到风属性伤害, multi * pack.level);
                                 return true;
                             })
                             .build();
@@ -126,56 +130,56 @@ public class BuffAction extends ActionBuilder {
                                 return true;
                             })
                             .build();
-                    case 攻击力数值增加 -> {
+                    case 攻击力数值 -> {
                         //数值增加时，倍率需要乘以自身攻击力
                         //存在右侧效应（右侧角色收到加成更多）
                         DamageCal damageCal = new DamageCal(MessagePack.builder().caster(caster).build());
                         int incAtk = (int) (damageCal.getCurrentAttack() * multi);  //buff在施加后不会改变，所以攻击力是固定值
                         buff = tempBuff.trigger(攻击力计算).cast(pack -> {
-                            pack.getDamageCal().changeDamage(攻击力数值增加, incAtk);
+                            pack.getDamageCal().changeDamage(攻击力数值, incAtk);
                             return true;
                         }).name(name + "具体数值为" + incAtk)
                                 .build();
                     }
-                    case 受到普攻伤害增加 -> buff = tempBuff.trigger(普攻伤害计算)
+                    case 受到普攻伤害 -> buff = tempBuff.trigger(普攻伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor)
                             ).cast(pack -> {
-                                pack.getDamageCal().changeDamage(BuffType.受到普攻伤害增加, multi * pack.level);
+                                pack.getDamageCal().changeDamage(BuffType.受到普攻伤害, multi * pack.level);
                                 return true;
                             })
                             .build();
-                    case 受到攻击者伤害增加 -> buff = tempBuff.trigger(伤害计算)
+                    case 受到攻击者伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor) && pack.caster.is(攻击者)
                             ).cast(pack -> {
-                                pack.getDamageCal().changeDamage(受到攻击者伤害增加, multi * pack.level);
+                                pack.getDamageCal().changeDamage(受到攻击者伤害, multi * pack.level);
                                 return true;
                             })
                             .build();
-                    case 受到精灵王伤害增加 -> buff = tempBuff.trigger(伤害计算)
+                    case 受到精灵王伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor) && pack.caster.is(精灵王_塞露西亚.class)
                             ).cast(pack -> {
-                                pack.getDamageCal().changeDamage(受到精灵王伤害增加, multi * pack.level);
+                                pack.getDamageCal().changeDamage(受到精灵王伤害, multi * pack.level);
                                 return true;
                             })
                             .build();
-                    case 受到小精灵王伤害增加 -> buff = tempBuff.trigger(伤害计算)
+                    case 受到小精灵王伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor) && pack.caster.is(机灵古怪_赛露西亚.class)
                             ).cast(pack -> {
-                                pack.getDamageCal().changeDamage(受到小精灵王伤害增加, multi * pack.level);
+                                pack.getDamageCal().changeDamage(受到小精灵王伤害, multi * pack.level);
                                 return true;
                             })
                             .build();
-                    case 属性相克效果增减 -> buff = tempBuff.trigger(伤害计算)
+                    case 属性相克效果 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor)
                             )
                             .time(INFI)
                             .cast(pack -> {
-                                pack.getDamageCal().changeDamage(属性相克效果增减, multi);
+                                pack.getDamageCal().changeDamage(属性相克效果, multi);
                                 return true;
                             })
                             .build();
@@ -193,12 +197,15 @@ public class BuffAction extends ActionBuilder {
 
     protected Buff.BuffBuilder<?, ?> getTempBuffBuilder(Chara acceptor) {
         Buff.BuffBuilder<?, ?> tempBuff;
-        if (isUnique) {
+        if (isUniqueBuff) {
             tempBuff = UniqueBuff.builder()
                     .maxLevel(maxLevel)
                     .incLv(level)
                     .currentLevel(level)
                     .uniqueId(uniqueId);
+        } else if (isSwitchBuff) {
+            tempBuff = SwitchBuff.builder()
+                    .enabledChecks(additionalCheckers);
         } else {
             tempBuff = Buff.builder();
         }
@@ -208,7 +215,7 @@ public class BuffAction extends ActionBuilder {
                 .buffType(buffType)
                 .name(name)
                 .time(turn)
-                .skillTime(SkillTime.持续的)
+                .skillStatus(SkillStatus.持续的)
                 .check(pack -> pack.checkCaster(acceptor)); //对于buff来说，监测对象是acceptor
         return tempBuff;
     }
@@ -230,6 +237,12 @@ public class BuffAction extends ActionBuilder {
 
     public BuffAction to(List<Chara> chara) {
         this.acceptors = chara;
+        return this;
+    }
+
+    public BuffAction enabledCheck(List<Supplier<Boolean>> additionalCheckers) {
+        this.isSwitchBuff = true;
+        this.additionalCheckers = additionalCheckers;
         return this;
     }
 }

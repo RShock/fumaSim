@@ -1,9 +1,6 @@
 package xiaor.charas;
 
 import xiaor.GameBoard;
-import xiaor.charas.Chara;
-import xiaor.charas.Element;
-import xiaor.charas.ImportedChara;
 import xiaor.excel.vo.SkillExcelVo;
 import xiaor.skillbuilder.SkillBuilder;
 import xiaor.skillbuilder.SkillType;
@@ -18,9 +15,10 @@ import xiaor.skillbuilder.when.WhenBuilder;
 import xiaor.tools.TriggerEnum;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -30,6 +28,7 @@ import static xiaor.Common.INFI;
 
 public class SkillParser {
     public static void addSkill(ImportedChara chara, SkillExcelVo vo) {
+        System.out.println("正在解析" + vo.getSkillId());
         if (vo.getEffect().equals("没做")) return;
         SkillType skillType = vo.getSkillType();
         switch (skillType) {
@@ -37,16 +36,28 @@ public class SkillParser {
                 if (!chara.isLeader()) return;
             }
             case 一星被动 -> {
-                if (chara.getStar() < 1) return;
+                if (chara.getStar() < 1) {
+                    System.out.println(chara+"没1星，1星技能不触发，是否忘记填写了星数？");
+                    return;
+                }
             }
             case 三星被动 -> {
-                if (chara.getStar() < 3) return;
+                if (chara.getStar() < 3) {
+                    System.out.println(chara+"没3星，3星技能不触发，是否忘记填写了星数？");
+                    return;
+                }
             }
             case 五星被动 -> {
-                if (chara.getStar() < 5) return;
+                if (chara.getStar() < 5){
+                    System.out.println(chara+"没5星，5星技能不触发");
+                    return;
+                }
             }
             case 六潜被动 -> {
-                if (!chara.is6()) return;
+                if (!chara.is6()) {
+                    System.out.println(chara+"没6潜，6潜技能不触发，是否忘记填写了潜力？");
+                    return;
+                }
             }
             case 十二潜被动 -> {
                 if (!chara.is12()) return;
@@ -79,36 +90,39 @@ public class SkillParser {
             default -> SelfTrigger.act(chara, triggerEnum);
         };
         String skillString = vo.getEffect();
+        List<Supplier<Boolean>> switchChecker = new ArrayList<>();
         if (skillString.startsWith("如果")) {
             //这个技能是条件触发型的，触发器触发后还需要额外的校验
             Pattern pattern = Pattern.compile(
                     "如果(?<condition>.*)则(?<skill>.*)");
             Matcher matcher = pattern.matcher(vo.getEffect());
             matcher.find();
-            trigger.append(() -> parseCondition(matcher.group("condition")));
-            skillString = matcher.group("skillString");
+            switchChecker.add(() -> parseCondition(matcher.group("condition")));
+            skillString = matcher.group("skill");
         }
+
         if (skillString.contains("获得技能")) {
             throw new RuntimeException("还没做");
         }
         WhenBuilder tempSkill = SkillBuilder.createNewSkill(chara, skillType).when(trigger);
-        parseSkill(chara, tempSkill, skillString);
+        parseSkill(chara, tempSkill, skillString, switchChecker);
     }
 
     private static Boolean parseCondition(String condition) {
         //e.g. 队伍中风属性数量为5
         List<Chara> tmpChooser = GameBoard.getAlly();
         if(condition.startsWith("队伍中")) {
-            return parseChooser(tmpChooser.stream(), condition.substring(3));
+            return parseMatcher(tmpChooser.stream(), condition.substring(3));
         }
         throw new RuntimeException("未支持");
     }
 
-    private static Boolean parseChooser(Stream<Chara> stream, String condition) {
+    private static Boolean parseMatcher(Stream<Chara> stream, String condition) {
+        System.out.println("parse:" + condition);
         //e.g. 风属性数量为5
         if(condition.startsWith("风属性")) {
             stream = stream.filter(chara -> chara.getElement().equals(Element.风属性));
-            return parseChooser(stream, condition.substring(3));
+            return parseMatcher(stream, condition.substring(3));
         }
         if(condition.startsWith("有ID为")) {
             Pattern pattern = Pattern.compile(
@@ -119,7 +133,7 @@ public class SkillParser {
         }
         if(condition.startsWith("数量为")) {
             Pattern pattern = Pattern.compile(
-                    "数量为(?<amout>\\d+)");
+                    "数量为(?<amount>\\d+)");
             Matcher matcher = pattern.matcher(condition);
             matcher.find();
             return stream.count() == Integer.parseInt(matcher.group("amount"));
@@ -127,38 +141,42 @@ public class SkillParser {
         throw new RuntimeException("未受支持");
     }
 
-    private static void parseSkill(ImportedChara chara, WhenBuilder tempSkill, String effect) {
-        if (effect.startsWith("如果")) {
-        }
+    private static void parseSkill(ImportedChara chara, WhenBuilder tempSkill, String effect, List<Supplier<Boolean>> switchChecker) {
+        System.out.println("parse:" + effect);
         if (effect.contains(",")) {
             int index = effect.indexOf(",");
             String firstPart = effect.substring(0, index);
             String lastPart = effect.substring(index + 1);
-            parseSkill(chara, tempSkill.act(parseAction(chara, firstPart)).and(), lastPart);
+            parseSkill(chara, tempSkill.act(parseAction(chara, firstPart, switchChecker)).and(), lastPart, Collections.emptyList());
             return;
         } else {
-            tempSkill.act(parseAction(chara, effect));
+            tempSkill.act(parseAction(chara, effect, switchChecker));
         }
         tempSkill.build();
         return;
     }
 
-    private static Action parseAction(ImportedChara chara, String part) {
+    private static Action parseAction(ImportedChara chara, String part, List<Supplier<Boolean>> switchChecker) {
         if (part.startsWith("对")) {
             return parseDamageAction(chara, part);
         }
-        return parseBuffAction(chara, part);
+        return parseBuffAction(chara, part, switchChecker);
     }
 
     //TODO
-    private static Action parseBuffAction(ImportedChara chara, String part) {
+    private static Action parseBuffAction(ImportedChara chara, String part, List<Supplier<Boolean>> switchChecker) {
+        System.out.println("buffParse:" + part);
         //e.g. 自身攻击力+20%
         Pattern pattern = Pattern.compile(
-                "(?<target>(自身|目标|我方群体|敌方群体|ID(?<ID>\\d+)))(?<buffType>.*)(?<incdec>[+-])((BUFF(?<buffId>\\d+))|(?<multi>\\d+))%?");
+                "(?<target>(自身|目标|我方群体|敌方群体|ID|友方|队伍中.{3}|(?<ID>\\d+)))(?<buffType>.*)" +
+                        "(?<incdec>[+-])((BUFF(?<buffId>\\d+))|(?<multi>\\d+))%?" +
+                        "(\\(最多(?<maxlevel>\\d+)层\\))?"
+                );
         Matcher matcher = pattern.matcher(part);
         matcher.find();
-        List<Chara> target = new ArrayList<>();
-        switch (matcher.group("target")) {
+        List<Chara> target;
+        String targetWord = matcher.group("target");
+        switch (targetWord) {
             case "目标" -> {
                 target = Collections.singletonList(GameBoard.getCurrentEnemy());
             }
@@ -172,27 +190,57 @@ public class SkillParser {
             case "自身" -> {
                 target = Collections.singletonList(chara);
             }
-            case "我方群体" -> {
+            case "我方群体","友方" -> {
                 target = GameBoard.getAlly();
             }
-            default -> throw new RuntimeException("还没做");
+            default -> {
+                if(targetWord.startsWith("队伍中")){
+                    target = parseChooser(GameBoard.getAlly().stream(), targetWord.substring(3));
+                    targetWord.substring(3);
+                }
+                else
+                    throw new RuntimeException("还没做");
+            }
         }
         BuffType buffType = Enum.valueOf(BuffType.class, matcher.group("buffType"));
         int symbol = matcher.group("incdec").equals("+") ? 1 : -1;
         double multi = Double.parseDouble(matcher.group("multi"))/100.0;
-        return BuffAction.create(chara, buffType)
+        BuffAction buff = BuffAction.create(chara, buffType)
                 .to(target)
-                .multi(symbol*multi)
+                .multi(symbol * multi)
                 .lastedTurn(INFI)
-                .name(buffType + matcher.group("incdec") + Double.parseDouble(matcher.group("multi")) + '%')
-                .build();
+                .name(buffType + matcher.group("incdec") + Double.parseDouble(matcher.group("multi")) + '%');
+        if(switchChecker.size() != 0) {
+            buff = buff.enabledCheck(switchChecker);
+        }
+        String maxlevel = matcher.group("maxlevel");
+        if(maxlevel != null) {
+            buff = buff.maxLevel(Integer.parseInt(maxlevel));
+        }
+        return buff.build();
     }
 
-    private static Action parseCase(ImportedChara chara, String substring) {
-        return null;
+    private static List<Chara> parseChooser(Stream<Chara> stream, String substring) {
+        if(substring.equals("风属性")) {
+            return stream.filter(chara -> chara.getElement().equals(Element.风属性)).collect(Collectors.toList());
+        }
+        if(substring.equals("水属性")) {
+            return stream.filter(chara -> chara.getElement().equals(Element.水属性)).collect(Collectors.toList());
+        }
+        if(substring.equals("暗属性") || substring.equals("闇属性")) {
+            return stream.filter(chara -> chara.getElement().equals(Element.暗属性)).collect(Collectors.toList());
+        }
+        if(substring.equals("光属性")) {
+            return stream.filter(chara -> chara.getElement().equals(Element.光属性)).collect(Collectors.toList());
+        }
+        if(substring.equals("火属性")) {
+            return stream.filter(chara -> chara.getElement().equals(Element.火属性)).collect(Collectors.toList());
+        }
+        throw new RuntimeException("未支持的分类" + substring);
     }
 
     private static Action parseDamageAction(ImportedChara chara, String part) {
+        System.out.println("normalAtkParse:" + part);
         Pattern pattern = Pattern.compile("对(?<target>(目标|群体))(?<multi>\\d+)%(?<type>(技能|普攻))伤害");
         Matcher matcher = pattern.matcher(part);
         matcher.find();

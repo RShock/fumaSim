@@ -22,33 +22,32 @@ public class ExcelReader {
         return excelReader;
     }
 
-    private List<ImportedChara> charas;
+    public List<CharaExcelVo> getCharaVos() {
+        return charaVos;
+    }
+
+    private List<CharaExcelVo> charaVos;
 
     private ExcelReader() {
-        charas = initCharas();
+        initCharas();
     }
 
-    public static ImportedChara getChara(String charaName) {
-        return getCharas().stream().filter(chara -> chara.getName().equals(charaName)).findFirst().
-                orElseThrow(()->new RuntimeException("找不到指定角色："+ charaName));
-    }
 
-    private List<ImportedChara> initCharas() {
+    private void initCharas() {
         File resourcePath = new File(URLDecoder.decode(getClass().getResource("/").getPath(), StandardCharsets.UTF_8));
         String excelPath = resourcePath.getParent() + "/classes/角色技能资料.xlsx";
         PoijiOptions options = PoijiOptions.PoijiOptionsBuilder.settings().build();
-        List<CharaExcelVo> charaVos = Poiji.fromExcel(new File(excelPath), CharaExcelVo.class, options);
+        charaVos = Poiji.fromExcel(new File(excelPath), CharaExcelVo.class, options);
         options = PoijiOptions.PoijiOptionsBuilder.settings().sheetIndex(1).build();
         List<SkillExcelVo> skillVos = Poiji.fromExcel(new File(excelPath), SkillExcelVo.class, options);
 
-        return parseChara(charaVos, skillVos);
+        charaVos.forEach(
+                charaExcelVo -> {
+                    List<SkillExcelVo> charaSkills = skillVos.stream().filter(skillExcelVo -> skillExcelVo.getSkillId() / 1000 == charaExcelVo.charaId)
+                            .collect(Collectors.toList());
+                    charaExcelVo.setSkillExcelVos(charaSkills);
+                }
+        );
     }
 
-    private List<ImportedChara> parseChara(List<CharaExcelVo> charaVos, List<SkillExcelVo> skillVos) {
-        return charaVos.stream().map(vo -> convertToChara(vo, skillVos)).collect(Collectors.toList());
-    }
-
-    public static List<ImportedChara> getCharas() {
-        return getInstance().charas;
-    }
 }

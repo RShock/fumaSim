@@ -32,7 +32,7 @@ public class 完美靶子伊吹 extends Chara {
         //属性相克效果减少50%
         SkillBuilder.createNewSkill(this, SkillType.一星被动)
                 .when(TriggerEnum.游戏开始时)
-                .act(BuffAction.create(this, BuffType.属性相克效果增减)
+                .act(BuffAction.create(this, BuffType.属性相克效果)
                         .multi(0.5).toSelf().name("属性相克效果减少50%").build())
                 .build();
     }

@@ -85,7 +85,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
                                     .build())
                     .and()
                     .act(
-                            BuffAction.create(this, BuffType.受到小精灵王伤害增加)
+                            BuffAction.create(this, BuffType.受到小精灵王伤害)
                                     .multi(0.15).toCurrentEnemy().lastedTurn(3)
                                     .name(this + "受到伤害+15%(来自大招)")
                                     .build())
@@ -117,7 +117,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
             SkillBuilder.createNewSkill(this, 队长技)
                     .when(游戏开始时)
                     .act(
-                            BuffAction.create(this, BuffType.攻击力数值增加)
+                            BuffAction.create(this, BuffType.攻击力数值)
                                     .multi(0.4).to(getWindAlly()).lastedTurn(50)
                                     .name(this + "以自身攻击力40%使我方全体风属性角色攻击力增加（来自队长技）")
                                     .build())
@@ -138,14 +138,14 @@ public class 机灵古怪_赛露西亚 extends Chara {
         SkillBuilder.createNewSkill(this, 一星被动)
                 .when(SelfTrigger.act(this, 释放普攻后))
                 .act(
-                        BuffAction.create(this, BuffType.受到攻击者伤害增加)
+                        BuffAction.create(this, BuffType.受到攻击者伤害)
                                 .multi(0.06).toCurrentEnemy()
                                 .level(1).maxLevel(4)
                                 .name(this + "给对方受到攻击者伤害增加6%（最多4层）")
                                 .build())
                 .and()
                 .act(
-                        BuffAction.create(this, BuffType.受到精灵王伤害增加)
+                        BuffAction.create(this, BuffType.受到精灵王伤害)
                                 .multi(0.06).toCurrentEnemy()
                                 .level(1).maxLevel(4)
                                 .name("对方受到精灵王伤害增加6%（最多4层）")
@@ -156,7 +156,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
         SkillBuilder.createNewSkill(this, 三星被动)
                 .when(SelfTrigger.act(this, 释放普攻后))
                 .act(
-                        BuffAction.create(this, BuffType.受到普攻伤害增加)
+                        BuffAction.create(this, BuffType.受到普攻伤害)
                                 .multi(0.075).toCurrentEnemy()
                                 .level(1).maxLevel(4)
                                 .name("对方受到普攻伤害增加7.5%（最多4层）")

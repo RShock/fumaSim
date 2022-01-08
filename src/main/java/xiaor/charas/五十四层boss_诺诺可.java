@@ -39,7 +39,7 @@ public class 五十四层boss_诺诺可 extends Chara {
             Optional<UniqueBuff> 来自小精灵王的buff = TriggerManager.getSkill().stream()
                     .filter(skill -> skill instanceof UniqueBuff)
                     .map(skill -> (UniqueBuff)skill)
-                    .filter(buff -> buff.getBuffType().equals(BuffType.受到攻击者伤害增加))
+                    .filter(buff -> buff.getBuffType().equals(BuffType.受到攻击者伤害))
                     .findFirst();
             shieldInc = 来自小精灵王的buff.map(buff -> (int) (attack * 0.5 * (1 + 必杀伤害加成 + buff.currentLevel * 0.06)))
                     .orElseGet(() -> (int) (attack * 0.5 * (1 + 必杀伤害加成)));

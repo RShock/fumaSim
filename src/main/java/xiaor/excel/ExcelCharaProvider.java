@@ -1,6 +1,7 @@
 package xiaor.excel;
 
 import xiaor.charas.ImportedChara;
+import xiaor.excel.vo.CharaExcelVo;
 
 
 public class ExcelCharaProvider {
@@ -13,8 +14,15 @@ public class ExcelCharaProvider {
     private ExcelCharaProvider() {
     }
 
-    public static ImportedChara getChara(int charaId) {
-        return ExcelReader.getCharas().stream().filter(importedChara -> charaId == importedChara.getCharaId()).findFirst()
-                .orElseThrow(() -> new RuntimeException("没找到指定ID的角色：" + charaId));
+    public static ImportedChara getCharaByName(String charaName) {
+        CharaExcelVo targetChara = ExcelReader.getInstance().getCharaVos().stream().filter(chara -> chara.getCharaName().equals(charaName)).findFirst().
+                orElseThrow(() -> new RuntimeException("找不到指定角色：" + charaName));
+        return ImportedChara.convertToChara(targetChara);
+    }
+
+    public static ImportedChara getCharaById(int id) {
+        CharaExcelVo targetChara = ExcelReader.getInstance().getCharaVos().stream().filter(chara -> chara.getCharaId() == id).findFirst().
+                orElseThrow(() -> new RuntimeException("找不到指定角色：" + id));
+        return ImportedChara.convertToChara(targetChara);
     }
 }

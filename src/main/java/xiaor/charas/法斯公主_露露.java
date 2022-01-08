@@ -46,7 +46,7 @@ public class 法斯公主_露露 extends Chara {
         //攻击时，触发”以自身攻击力20%使我方全体攻击力增加(1回合）“（右侧效应）
         SkillBuilder.createNewSkill(this, SkillType.三星被动)
                 .when(SelfTrigger.act(this, 攻击后))
-                .act(BuffAction.create(this, BuffType.攻击力数值增加).multi(0.2).toAlly()
+                .act(BuffAction.create(this, BuffType.攻击力数值).multi(0.2).toAlly()
                         .name(this+"的攻击后20%增攻").lastedTurn(1).build())
                 .build();
 
@@ -54,7 +54,7 @@ public class 法斯公主_露露 extends Chara {
         if(star >= 5) {
             SkillBuilder.createNewSkill(this, SkillType.五星被动)
                     .when(SelfTrigger.act(this, 释放必杀后))
-                    .act(BuffAction.create(this, BuffType.必杀技伤害增加).multi(0.25).toAlly()
+                    .act(BuffAction.create(this, BuffType.必杀技伤害).multi(0.25).toAlly()
                             .name(this+"大招后队友必杀技伤害提高25%").lastedTurn(1).build())
                     .build();
         }

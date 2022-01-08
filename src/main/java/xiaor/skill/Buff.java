@@ -8,6 +8,8 @@ import xiaor.MessagePack;
 import xiaor.charas.Chara;
 import xiaor.skillbuilder.action.BuffType;
 
+import java.util.function.Function;
+
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,6 +18,7 @@ public class Buff extends BaseSkill {
     Chara caster;
     Chara acceptor;
     BuffType buffType;
+
 
     @Override
     public boolean cast(MessagePack pack) {

@@ -1,17 +1,15 @@
 package xiaor.skillbuilder.when;
 
 import lombok.NoArgsConstructor;
-import xiaor.skillbuilder.trigger.SelfTrigger;
 import xiaor.tools.TriggerManager;
 import xiaor.skillbuilder.action.Action;
 import xiaor.skillbuilder.action.ActionBuilder;
 import xiaor.skillbuilder.trigger.InternalEventTrigger;
 import xiaor.skillbuilder.trigger.Trigger;
 import xiaor.skill.BaseSkill;
-import xiaor.skill.SkillTime;
+import xiaor.skill.SkillStatus;
 import xiaor.skillbuilder.SkillType;
 
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static xiaor.Common.INFI;
@@ -50,7 +48,7 @@ public class WhenBuilder {
         this.action.setTime(turn);
         BaseSkill skill = BaseSkill.builder()
                 .name(name)
-                .skillTime(SkillTime.持续的)
+                .skillStatus(SkillStatus.持续的)
                 .trigger(trigger.getTriggerType())
                 .check(trigger.getChecker())
                 .cast(action.getAction())
