@@ -5,10 +5,7 @@ import xiaor.charas.Chara;
 import xiaor.charas.Element;
 import xiaor.charas.机灵古怪_赛露西亚;
 import xiaor.charas.精灵王_塞露西亚;
-import xiaor.skill.Buff;
-import xiaor.skill.SkillStatus;
-import xiaor.skill.SwitchBuff;
-import xiaor.skill.UniqueBuff;
+import xiaor.skill.*;
 import xiaor.tools.Tools;
 import xiaor.tools.TriggerManager;
 
@@ -16,11 +13,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
-import static xiaor.Common.INFI;
+import static xiaor.Common.*;
 import static xiaor.charas.Role.攻击者;
 import static xiaor.tools.TriggerEnum.*;
 import static xiaor.tools.TriggerEnum.伤害计算;
-import static xiaor.skillbuilder.action.BuffType.*;
+import static xiaor.skill.BuffType.*;
 
 public class BuffAction extends ActionBuilder {
 
@@ -159,7 +156,7 @@ public class BuffAction extends ActionBuilder {
                             .build();
                     case 受到精灵王伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
-                                    pack.checkAccepter(acceptor) && pack.caster.is(精灵王_塞露西亚.class)
+                                    pack.checkAccepter(acceptor) && (pack.caster.is(精灵王_塞露西亚.class) || pack.caster.getCharaId() == 精灵王ID)
                             ).cast(pack -> {
                                 pack.getDamageCal().changeDamage(受到精灵王伤害, multi * pack.level);
                                 return true;
@@ -167,7 +164,7 @@ public class BuffAction extends ActionBuilder {
                             .build();
                     case 受到小精灵王伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
-                                    pack.checkAccepter(acceptor) && pack.caster.is(机灵古怪_赛露西亚.class)
+                                    pack.checkAccepter(acceptor) && pack.caster.getCharaId() == 幼精ID
                             ).cast(pack -> {
                                 pack.getDamageCal().changeDamage(受到小精灵王伤害, multi * pack.level);
                                 return true;

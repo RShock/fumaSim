@@ -2,10 +2,9 @@ package xiaor;
 
 import lombok.Getter;
 import xiaor.charas.Chara;
-import xiaor.excel.ExcelReader;
 import xiaor.skill.BaseSkill;
 import xiaor.skill.Skill;
-import xiaor.skillbuilder.action.BuffType;
+import xiaor.skill.BuffType;
 import xiaor.tools.*;
 import xiaor.tools.record.DamageRecorder;
 

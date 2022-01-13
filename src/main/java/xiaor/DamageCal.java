@@ -1,6 +1,6 @@
 package xiaor;
 
-import xiaor.skillbuilder.action.BuffType;
+import xiaor.skill.BuffType;
 import xiaor.tools.Tools;
 import xiaor.tools.TriggerEnum;
 import xiaor.tools.TriggerManager;

@@ -1,4 +1,4 @@
-package xiaor.skillbuilder.action;
+package xiaor.skill;
 
 public enum BuffType {
     普攻伤害增加,

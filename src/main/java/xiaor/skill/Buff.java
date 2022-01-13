@@ -6,9 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import xiaor.MessagePack;
 import xiaor.charas.Chara;
-import xiaor.skillbuilder.action.BuffType;
-
-import java.util.function.Function;
 
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor

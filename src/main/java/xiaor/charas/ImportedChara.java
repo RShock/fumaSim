@@ -24,11 +24,11 @@ public class ImportedChara extends Chara{
         this.uninitedSkills = uninitedSkills;
     }
 
-    public static ImportedChara initChara(String initWords) throws CloneNotSupportedException {
+    public static ImportedChara initChara(String initWords) {
         String[] split = initWords.split("\\s+");
-        String charaName = split[0];
+        String charaName = split[0] + " " + split[1];
         ImportedChara chara = ExcelCharaProvider.getCharaByName(charaName);
-        chara.initSkills();
+        baseInit(chara, initWords);
         return chara;
     }
 

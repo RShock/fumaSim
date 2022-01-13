@@ -4,7 +4,7 @@ import xiaor.skill.UniqueBuff;
 import xiaor.skillbuilder.SkillBuilder;
 import xiaor.skillbuilder.SkillType;
 import xiaor.skillbuilder.action.Action;
-import xiaor.skillbuilder.action.BuffType;
+import xiaor.skill.BuffType;
 import xiaor.tools.Tools;
 import xiaor.tools.TriggerEnum;
 import xiaor.tools.TriggerManager;

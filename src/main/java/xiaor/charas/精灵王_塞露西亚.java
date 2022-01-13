@@ -5,7 +5,7 @@ import xiaor.GameBoard;
 import xiaor.skillbuilder.SkillBuilder;
 import xiaor.skillbuilder.SkillType;
 import xiaor.skillbuilder.action.BuffAction;
-import xiaor.skillbuilder.action.BuffType;
+import xiaor.skill.BuffType;
 import xiaor.skillbuilder.action.DamageAction;
 import xiaor.skillbuilder.trigger.SelfTrigger;
 import xiaor.tools.GlobalDataManager;
