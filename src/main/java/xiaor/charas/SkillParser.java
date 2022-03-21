@@ -12,11 +12,14 @@ import xiaor.skillbuilder.trigger.SelfTrigger;
 import xiaor.skillbuilder.trigger.Trigger;
 import xiaor.skillbuilder.trigger.TriggerBuilder;
 import xiaor.skillbuilder.when.WhenBuilder;
+import xiaor.tools.GlobalDataManager;
+import xiaor.tools.KeyEnum;
 import xiaor.tools.TriggerEnum;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +36,15 @@ public class SkillParser {
         if (checkSkillType(chara, skillType)) return;
         TriggerEnum triggerEnum = vo.getTrigger();
         Trigger trigger = switch (triggerEnum) {
-            case 游戏开始时, 被动光环 -> TriggerBuilder.when(triggerEnum);
+            case 游戏开始时, 被动光环, 回合结束 -> TriggerBuilder.when(triggerEnum);
+            case 回合开始 -> {
+                Pattern pattern = Pattern.compile("(?<turnsA>\\d+)N(+(?<turnsB>\\d+))?:");
+                Matcher matcher = pattern.matcher(vo.getEffect());
+                matcher.find();
+                int a = Integer.parseInt(matcher.group("turnsA"));
+                int b = Integer.parseInt(Optional.of(matcher.group("turnsB")).orElse("0"));
+                yield TriggerBuilder.when(triggerEnum,() -> GlobalDataManager.getIntData(KeyEnum.GAMETURN) % a == b);
+            }
             default -> SelfTrigger.act(chara, triggerEnum);
         };
         String skillString = vo.getEffect();
@@ -143,7 +154,7 @@ public class SkillParser {
     }
 
     private static Boolean parseMatcher(Stream<Chara> stream, String condition) {
-        System.out.println("parse:" + condition);
+//        System.out.println("parse:" + condition);
         //e.g. 风属性数量为5
         if (condition.startsWith("风属性")) {
             stream = stream.filter(chara -> chara.getElement().equals(Element.风属性));
@@ -171,7 +182,7 @@ public class SkillParser {
     }
 
     private static WhenBuilder parseSkill(Chara chara, WhenBuilder tempSkill, String effect, List<Supplier<Boolean>> switchChecker) {
-        System.out.println("parse:" + effect);
+//        System.out.println("parse:" + effect);
         if (effect.contains(",")) {
             int index = effect.indexOf(",");
             String firstPart = effect.substring(0, index);

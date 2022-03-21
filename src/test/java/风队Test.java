@@ -15,6 +15,33 @@ public class 风队Test {
         board.resetBoard();
     }
 
+//    @Test
+//    void 风队全队集合测试2() {
+//        Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力560316 羁绊3 星4 潜力6 队长");
+//        法斯公主_露露 露露 = 法斯公主_露露.init("攻击力675452 星5 绊5 潜6");
+//        精灵王_塞露西亚 精灵王 = 精灵王_塞露西亚.init("攻击力542380 星5 绊5 潜6");
+//        胆小纸袋狼_沃沃 沃沃 = 胆小纸袋狼_沃沃.init("攻击力448115 星4 绊2 潜5");
+//        复生公主_千鹤 千鹤 = 复生公主_千鹤.init("攻击力395839 星3 绊2 潜6");
+//
+//        超级机器人木桩 木桩 = 超级机器人木桩.init("");
+//        board.addOurChara(小精灵王);
+//        board.addOurChara(露露);
+//        board.addOurChara(精灵王);
+//        board.addOurChara(沃沃);
+//        board.addOurChara(千鹤);
+//        board.addEnemyChara(木桩);
+//
+//        board.initSkills();
+//        board.run("""
+//                1a1 2a1 3a1 4a1 5d1
+//                1a1 2a1 3a1 4a1 5d1
+//                1a1 2a1 3a1 5q1 4q1
+//                1a1 2a1 3a1 4a1 5d1
+//                1q1
+//                """);
+//        assertEquals(-820408, 木桩.getLife(), 10);
+//    }
+
     @Test
     void 风队全队集合测试() {
         机灵古怪_赛露西亚 小精灵王 = 机灵古怪_赛露西亚.init("攻击力505739 羁绊2 星3 潜力6 队长");
@@ -41,6 +68,7 @@ public class 风队Test {
                 """);
         assertEquals(-820408, 诺诺可.getLife(), 10);
     }
+
 
     @Test
     void 风队满配打桩统计() {

@@ -22,6 +22,7 @@ public class SwitchBuff extends Buff{
 
     @Override
     public boolean cast(MessagePack pack) {
+        pack.level = 1; //开关buff默认有一层
         if(isEnabled())
             return super._cast(pack);
         return false;
