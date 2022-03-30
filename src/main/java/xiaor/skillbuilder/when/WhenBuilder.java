@@ -4,7 +4,6 @@ import lombok.NoArgsConstructor;
 import xiaor.tools.TriggerManager;
 import xiaor.skillbuilder.action.Action;
 import xiaor.skillbuilder.action.ActionBuilder;
-import xiaor.skillbuilder.trigger.InternalEventTrigger;
 import xiaor.skillbuilder.trigger.Trigger;
 import xiaor.skill.BaseSkill;
 import xiaor.skill.SkillStatus;
@@ -55,14 +54,6 @@ public class WhenBuilder {
                 .time(action.getTime())
                 .build();
         TriggerManager.registerSkill(skill);
-    }
-
-    public WhenBuilder then() {
-        fillAction();
-        WhenBuilder whenBuilder = new WhenBuilder();
-        whenBuilder.trigger = InternalEventTrigger.getTrigger(action.getActionId());
-        whenBuilder.preBuilder = this;
-        return whenBuilder;
     }
 
     public WhenBuilder and() {

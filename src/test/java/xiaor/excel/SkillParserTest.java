@@ -32,4 +32,40 @@ class SkillParserTest {
         Assertions.assertEquals("20", matcher.group("multi"));
         Assertions.assertEquals("+", matcher.group("incdec"));
     }
+
+    @Test
+    void regex_test3() {
+        Pattern pattern = Pattern.compile(
+                "(?<target>(自身|目标|我方群体|敌方群体|ID(?<ID>\\d+)|友方|队伍中.{3}|))" +
+                        "(?<buffType>.*)" +
+                        "(?<incdec>[+-])" +
+                        "(" +
+                        "(BUFF(?<buffId>\\d+))|" +
+                        "((?<multi>\\d+(\\.\\d+)?)%?)" +
+                        ")" +
+                        "(\\(最多(?<maxlevel>\\d+)层\\))?(\\((?<lastedTurn>\\d+)回合\\))?"
+        );
+        Matcher matcher = pattern.matcher("目标受到普攻伤害+7.5%(最多4层)");
+        matcher.find();
+        Assertions.assertEquals("0.5", matcher.group("multi"));
+    }
+
+    @Test
+    void regex_test4() {
+        String part = "目标受到普攻伤害+7.5%(最多4层)";
+        Pattern pattern = Pattern.compile(
+                "(?<target>(自身|目标|我方群体|敌方群体|ID(?<ID>\\d+)|友方|队伍中.{3}|))" +
+                        "(?<buffType>.*)" +
+                        "(?<incdec>[+-])" +
+                        "(" +
+                        "(BUFF(?<buffId>\\d+))|" +
+                        "((?<multi>\\d+(\\.\\d+)?)%?)" +
+                        ")" +
+                        "(\\(最多(?<maxlevel>\\d+)层\\))?(\\((?<lastedTurn>\\d+)回合\\))?"
+        );
+
+        Matcher matcher = pattern.matcher(part);
+        matcher.find();
+        matcher.group("multi");
+    }
 }

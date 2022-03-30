@@ -205,11 +205,22 @@ public class SkillParser {
     private static Action parseBuffAction(Chara chara, String part, List<Supplier<Boolean>> switchChecker) {
         System.out.println("buffParse:" + part);
         //e.g. 自身攻击力+20%
+//        Pattern pattern = Pattern.compile(
+//                "(?<target>(自身|目标|我方群体|敌方群体|ID(?<ID>\\d+)|友方|队伍中.{3}|))(?<buffType>.*)" +
+//                        "(?<incdec>[+-])((BUFF(?<buffId>\\d+))|((?<multi>\\d+(\\.\\d+)?)%?))" +
+//                        "(\\(最多(?<maxlevel>\\d+)层\\))?(\\((?<lastedTurn>\\d+)回合\\))?"
+//        );
         Pattern pattern = Pattern.compile(
-                "(?<target>(自身|目标|我方群体|敌方群体|ID(?<ID>\\d+)|友方|队伍中.{3}|))(?<buffType>.*)" +
-                        "(?<incdec>[+-])((BUFF(?<buffId>\\d+))|(?<multi>\\d+))%?" +
-                        "(\\(最多(?<maxlevel>\\d+)层\\))?(\\((?<lastedTurn>\\d+)回合\\))?"
-        );
+        "(?<target>(自身|目标|我方群体|敌方群体|ID(?<ID>\\d+)|友方|队伍中.{3}|))" +
+                "(?<buffType>.*)" +
+                "(?<incdec>[+-])" +
+                "(" +
+                "(BUFF(?<buffId>\\d+))|" +
+                "((?<multi>\\d+(\\.\\d+)?)%?)" +
+                ")" +
+                "(\\(最多(?<maxlevel>\\d+)层\\))?(\\((?<lastedTurn>\\d+)回合\\))?"
+                );
+
         Matcher matcher = pattern.matcher(part);
         matcher.find();
         List<Chara> target;

@@ -224,6 +224,8 @@ public class BuffAction extends ActionBuilder {
 
     public BuffAction maxLevel(int maxLevel) {
         this.maxLevel = maxLevel;
+        this.isUniqueBuff = true;
+        this.uniqueId = "Buff: " + Tools.getNewID();
         return this;
     }
 
