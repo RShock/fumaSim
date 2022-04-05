@@ -47,7 +47,7 @@ class SkillParserTest {
         );
         Matcher matcher = pattern.matcher("目标受到普攻伤害+7.5%(最多4层)");
         matcher.find();
-        Assertions.assertEquals("0.5", matcher.group("multi"));
+        Assertions.assertEquals("7.5", matcher.group("multi"));
     }
 
     @Test
