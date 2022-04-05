@@ -110,10 +110,10 @@ public class DamageCal {
     private static HashMap<BuffType, InternalBuffType> getBuffTypeMap() {
         HashMap<BuffType, InternalBuffType> buffMap = new HashMap<>();
         buffMap.put(BuffType.攻击力数值, 基本攻击力计算);
-        buffMap.put(BuffType.普攻伤害增加, 杂项);
+        buffMap.put(BuffType.普攻伤害, 杂项);
         buffMap.put(BuffType.攻击力, 基本攻击力计算);
         buffMap.put(BuffType.造成伤害, 造成伤害增加);
-        buffMap.put(BuffType.受到伤害增加, 易伤);
+        buffMap.put(BuffType.受到伤害, 易伤);
         buffMap.put(BuffType.受到攻击者伤害, 杂项);
         buffMap.put(BuffType.受到精灵王伤害, 杂项);
         buffMap.put(BuffType.受到小精灵王伤害, 杂项);

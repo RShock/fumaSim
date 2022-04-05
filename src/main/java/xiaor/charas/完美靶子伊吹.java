@@ -25,7 +25,7 @@ public class 完美靶子伊吹 extends Chara {
         //受伤减少50%
         SkillBuilder.createNewSkill(this, SkillType.一星被动)
                 .when(TriggerEnum.游戏开始时)
-                .act(BuffAction.create(this, BuffType.受到伤害增加)
+                .act(BuffAction.create(this, BuffType.受到伤害)
                         .multi(-0.5).toSelf().name("受伤减少50%").build())
                 .build();
 

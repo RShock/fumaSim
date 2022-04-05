@@ -59,14 +59,14 @@ public class 精灵王_塞露西亚 extends Chara {
         //普攻时，触发使我方全体普攻伤害增加7.5%（1回合）效果
         SkillBuilder.createNewSkill(this, SkillType.一星被动)
                 .when(SelfTrigger.act(this, TriggerEnum.释放普攻后))
-                .act(BuffAction.create(this, BuffType.普攻伤害增加).multi(0.075).lastedTurn(1)
+                .act(BuffAction.create(this, BuffType.普攻伤害).multi(0.075).lastedTurn(1)
                         .toAlly().name("普攻时，触发使我方全体普攻伤害增加7.5%（1回合）")
                         .build())
                 .build();
         //必杀时，触发使目标受到伤害增加10%（3回合）并防御解除效果（不做）
         SkillBuilder.createNewSkill(this, SkillType.三星被动)
                 .when(SelfTrigger.act(this, TriggerEnum.释放必杀后))
-                .act(BuffAction.create(this, BuffType.受到伤害增加).multi(0.1).lastedTurn(3)
+                .act(BuffAction.create(this, BuffType.受到伤害).multi(0.1).lastedTurn(3)
                         .name("必杀时，触发使目标受到伤害增加10%（3回合）")
                         .toCurrentEnemy().build())
                 .build();
@@ -85,7 +85,7 @@ public class 精灵王_塞露西亚 extends Chara {
         if (is6()) {
             SkillBuilder.createNewSkill(this, 六潜被动)
                     .when(游戏开始时)
-                    .act(BuffAction.create(this, BuffType.普攻伤害增加)
+                    .act(BuffAction.create(this, BuffType.普攻伤害)
                             .multi(0.1).toSelf().lastedTurn(INFI)
                             .name(this + "普攻伤害增加+10%")
                             .build())

@@ -3,7 +3,6 @@ package xiaor.skillbuilder.action;
 import xiaor.*;
 import xiaor.charas.Chara;
 import xiaor.charas.Element;
-import xiaor.charas.机灵古怪_赛露西亚;
 import xiaor.charas.精灵王_塞露西亚;
 import xiaor.skill.*;
 import xiaor.tools.Tools;
@@ -91,9 +90,9 @@ public class BuffAction extends ActionBuilder {
                                 return true;
                             })
                             .build();
-                    case 普攻伤害增加 -> buff = tempBuff.trigger(普攻伤害计算)
+                    case 普攻伤害 -> buff = tempBuff.trigger(普攻伤害计算)
                             .cast(pack -> {
-                                pack.getDamageCal().changeDamage(BuffType.普攻伤害增加, multi * pack.level);
+                                pack.getDamageCal().changeDamage(BuffType.普攻伤害, multi * pack.level);
                                 return true;
                             })
                             .build();
@@ -118,12 +117,12 @@ public class BuffAction extends ActionBuilder {
                                 return true;
                             })
                             .build();
-                    case 受到伤害增加 -> buff = tempBuff.trigger(伤害计算)
+                    case 受到伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor)
                             )
                             .cast(pack -> {
-                                pack.getDamageCal().changeDamage(受到伤害增加, multi * pack.level);
+                                pack.getDamageCal().changeDamage(受到伤害, multi * pack.level);
                                 return true;
                             })
                             .build();
@@ -180,6 +179,9 @@ public class BuffAction extends ActionBuilder {
                                 return true;
                             })
                             .build();
+                    case 必杀技能CD -> {
+                        return true;
+                    }
                     default -> throw new RuntimeException("未支持的buff类型" + buffType);
                 }
 

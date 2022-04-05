@@ -126,7 +126,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
             精灵王.ifPresent(chara -> SkillBuilder.createNewSkill(chara, 他人给予技能)
                     .when(SelfTrigger.act(chara, 释放必杀后))
                     .act(
-                            BuffAction.create(chara, BuffType.受到伤害增加)
+                            BuffAction.create(chara, BuffType.受到伤害)
                                     .multi(0.2).toCurrentEnemy().lastedTurn(3)
                                     .name(this + "送的buff：" + chara + "必杀后 触发目标受到伤害增加20% 3回合")
                                     .build())

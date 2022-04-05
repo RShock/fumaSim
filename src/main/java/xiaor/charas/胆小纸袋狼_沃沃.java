@@ -36,7 +36,7 @@ public class 胆小纸袋狼_沃沃 extends Chara {
                         .multi(2.0).to(getCurrentEnemy()).build())
                 .and()
                 .act(
-                        BuffAction.create(this, BuffType.普攻伤害增加)
+                        BuffAction.create(this, BuffType.普攻伤害)
                                 .multi(multi).toSelf().lastedTurn(6)
                                 .name(this + "大招附带普攻增加" + Tools.toPercent(multi[getSkillLevel()]))
                                 .build())
@@ -51,13 +51,13 @@ public class 胆小纸袋狼_沃沃 extends Chara {
             SkillBuilder.createNewSkill(this, 队长技)
                     .when(游戏开始时)
                     .act(
-                            BuffAction.create(this, BuffType.普攻伤害增加)
+                            BuffAction.create(this, BuffType.普攻伤害)
                                     .multi(0.2).toSelf().lastedTurn(INFI)
                                     .name(this + "自己普攻攻击力增加20%")
                                     .build())
                     .and()
                     .act(
-                            BuffAction.create(this, BuffType.普攻伤害增加)
+                            BuffAction.create(this, BuffType.普攻伤害)
                                     .multi(0.4).toAlly().lastedTurn(INFI)
                                     .name(this + "全队普攻攻击力增加40%")
                                     .build())

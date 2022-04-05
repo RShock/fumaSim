@@ -218,7 +218,8 @@ public class SkillParser {
                 "(BUFF(?<buffId>\\d+))|" +
                 "((?<multi>\\d+(\\.\\d+)?)%?)" +
                 ")" +
-                "(\\(最多(?<maxlevel>\\d+)层\\))?(\\((?<lastedTurn>\\d+)回合\\))?"
+                "(\\(最多(?<maxlevel>\\d+)层\\))?" +
+                "(\\((?<lastedTurn>\\d+)回合\\))?"
                 );
 
         Matcher matcher = pattern.matcher(part);
