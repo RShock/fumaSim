@@ -69,7 +69,6 @@ public class 风队Test {
         assertEquals(-820408, 诺诺可.getLife(), 10);
     }
 
-
     @Test
     void 风队满配打桩统计() {
         //精灵王 面板攻击力243585 (152116)
