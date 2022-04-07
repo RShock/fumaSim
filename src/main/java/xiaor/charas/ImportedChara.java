@@ -1,19 +1,23 @@
 package xiaor.charas;
 
 import xiaor.excel.ExcelCharaProvider;
-import xiaor.excel.ExcelReader;
 import xiaor.excel.vo.CharaExcelVo;
 import xiaor.excel.vo.SkillExcelVo;
+import xiaor.skillbuilder.SkillType;
 
 import java.util.List;
 
-public class ImportedChara extends Chara{
+public class ImportedChara extends Chara {
     private List<SkillExcelVo> uninitedSkills;  //skill需要等到角色正式使用时再初始化
+
     @Override
     public void initSkills() {
-        uninitedSkills.forEach(
-                skill -> SkillParser.addSkill(this, skill)
-        );
+        uninitedSkills.stream()
+                //他人给的技能不主动注册 而是由给技能的技能注册
+                .filter(skillExcelVo -> skillExcelVo.getSkillType() != SkillType.动态技能)
+                .forEach(
+                        skill -> SkillParser.addSkill(this, uninitedSkills, skill.getSkillId())
+                );
     }
 
     public List<SkillExcelVo> getUninitedSkills() {

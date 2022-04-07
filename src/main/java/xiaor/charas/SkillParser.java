@@ -5,6 +5,7 @@ import xiaor.excel.vo.SkillExcelVo;
 import xiaor.skillbuilder.SkillBuilder;
 import xiaor.skillbuilder.SkillType;
 import xiaor.skillbuilder.action.Action;
+import xiaor.skillbuilder.action.ActionBuilder;
 import xiaor.skillbuilder.action.BuffAction;
 import xiaor.skill.BuffType;
 import xiaor.skillbuilder.action.DamageAction;
@@ -26,11 +27,12 @@ import java.util.stream.Stream;
 import static xiaor.Common.INFI;
 
 public class SkillParser {
-    public static void addSkill(ImportedChara chara, SkillExcelVo vo) {
+    public static void addSkill(Chara chara, List<SkillExcelVo> vos, int skillId) {
+        SkillExcelVo vo = findSkillVoBySkillId(vos, skillId);
         System.out.println("正在解析" + vo.getSkillId());
         if (vo.getEffect().equals("没做")) return;
         SkillType skillType = vo.getSkillType();
-        if (checkSkillType(chara, skillType)) return;
+        if (!checkSkillType(chara, skillType)) return;
         TriggerEnum triggerEnum = vo.getTrigger();
         Trigger trigger = switch (triggerEnum) {
             case 游戏开始时, 被动光环, 回合结束 -> TriggerBuilder.when(triggerEnum);
@@ -45,9 +47,22 @@ public class SkillParser {
             default -> SelfTrigger.act(chara, triggerEnum);
         };
         String skillString = vo.getEffect();
-        if (skillString.startsWith("ID") || skillString.startsWith("自身获得技能")) {
+        //todo 重构获得技能
+        if (skillString.matches(".+获得技能.+")) {
+            Pattern pattern = Pattern.compile("(?<target>.+)获得技能(?<skill>\\d+)");
+            Matcher matcher = pattern.matcher(skillString);
+            matcher.find();
+            List<Chara> target = parseChooser(chara, matcher.group("target"));
             //这个技能是该角色给别人或者自己的的 例如幼精给精灵王
-            parseGivenSkill(vo, trigger);
+            target.forEach(chara1 -> {
+                SkillExcelVo givenVo = findSkillVoBySkillId(vos, Integer.parseInt(matcher.group("skill")));
+                if(givenVo.getSkillType() != SkillType.动态技能) {
+                    throw new RuntimeException("技能"+ givenVo.getSkillId() + "不是动态的");
+                }
+                SkillBuilder.createNewSkill(chara, skillType).when(trigger)
+                        .act(ActionBuilder.getFreeAction(() -> {addSkill(chara1, vos, skillId);return true;}))
+                .build();
+            });
             return;
         }
         List<Supplier<Boolean>> switchChecker = new ArrayList<>();
@@ -56,6 +71,11 @@ public class SkillParser {
             skillString = parseExtraCondition(chara, vo, switchChecker);
         }
         parseSkill(chara, tempSkill, skillString, switchChecker).build();
+    }
+
+    private static SkillExcelVo findSkillVoBySkillId(List<SkillExcelVo> vos, int skillId) {
+        return vos.stream().filter(skillExcelVo -> skillId == skillExcelVo.getSkillId()).findFirst()
+                .orElseThrow(() -> new RuntimeException("不存在的Skill Id"));
     }
 
     private static String parseExtraCondition(Chara curChara, SkillExcelVo vo, List<Supplier<Boolean>> switchChecker) {
@@ -69,76 +89,60 @@ public class SkillParser {
         return skillString;
     }
 
-    private static boolean checkSkillType(ImportedChara chara, SkillType skillType) {
+    private static boolean checkSkillType(Chara chara, SkillType skillType) {
         switch (skillType) {
             case 队长技 -> {
-                if (!chara.isLeader()) return true;
+                if (!chara.isLeader()) return false;
             }
             case 一星被动 -> {
                 if (chara.getStar() < 1) {
                     System.out.println(chara + "没1星，1星技能不触发，是否忘记填写了星数？");
-                    return true;
+                    return false;
                 }
             }
             case 三星被动 -> {
                 if (chara.getStar() < 3) {
                     System.out.println(chara + "没3星，3星技能不触发，是否忘记填写了星数？");
-                    return true;
+                    return false;
                 }
             }
             case 五星被动 -> {
                 if (chara.getStar() < 5) {
                     System.out.println(chara + "没5星，5星技能不触发");
-                    return true;
+                    return false;
                 }
             }
             case 六潜被动 -> {
                 if (!chara.is6()) {
                     System.out.println(chara + "没6潜，6潜技能不触发，是否忘记填写了潜力？");
-                    return true;
+                    return false;
                 }
             }
             case 十二潜被动 -> {
-                if (!chara.is12()) return true;
+                if (!chara.is12()) return false;
             }
             case 必杀技1绊 -> {
-                if (chara.getSkillLevel() != 1) return true;
+                if (chara.getSkillLevel() != 1) return false;
             }
             case 必杀技2绊 -> {
-                if (chara.getSkillLevel() != 2) return true;
+                if (chara.getSkillLevel() != 2) return false;
             }
             case 必杀技3绊 -> {
-                if (chara.getSkillLevel() != 3) return true;
+                if (chara.getSkillLevel() != 3) return false;
             }
             case 必杀技4绊 -> {
-                if (chara.getSkillLevel() != 4) return true;
+                if (chara.getSkillLevel() != 4) return false;
             }
             case 必杀技5绊 -> {
-                if (chara.getSkillLevel() != 5) return true;
+                if (chara.getSkillLevel() != 5) return false;
             }
-            case 他人给予技能 -> {
+            case 动态技能 -> {
                 return true;
             }
             case 普攻 -> {
             }
         }
-        return false;
-    }
-
-    private static void parseGivenSkill(SkillExcelVo vo, Trigger trigger) {
-        Pattern pattern = Pattern.compile("ID(?<id>\\d+)获得技能:(?<skill>.+)");
-        Matcher matcher = pattern.matcher(vo.getEffect());
-        matcher.find();
-        int id = Integer.parseInt(matcher.group("id"));
-        String skill = matcher.group("skill");
-        //这里假设允许多个同名chara
-        List<Chara> matchedChara = GameBoard.getAlly().stream().filter(chara1 -> chara1.getCharaId() == id).collect(Collectors.toList());
-        if (matchedChara.size() == 0) return; //没找到该角色该技能就不做了
-        matchedChara.forEach(chara1 -> {
-            WhenBuilder tempSkill2 = SkillBuilder.createNewSkill(chara1, SkillType.他人给予技能).when(trigger);
-            parseSkill(chara1, tempSkill2, skill, Collections.emptyList()).build();
-        });
-        return;
+        return true;
     }
 
     private static Boolean parseCondition(Chara curChara, String condition) {

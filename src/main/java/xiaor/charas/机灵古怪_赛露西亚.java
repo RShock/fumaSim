@@ -123,7 +123,7 @@ public class 机灵古怪_赛露西亚 extends Chara {
                                     .build())
                     .build();
             Optional<Chara> 精灵王 = find精灵王();
-            精灵王.ifPresent(chara -> SkillBuilder.createNewSkill(chara, 他人给予技能)
+            精灵王.ifPresent(chara -> SkillBuilder.createNewSkill(chara, 动态技能)
                     .when(SelfTrigger.act(chara, 释放必杀后))
                     .act(
                             BuffAction.create(chara, BuffType.受到伤害)
