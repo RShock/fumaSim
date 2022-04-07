@@ -23,7 +23,6 @@ public class DamageAction extends ActionBuilder {
     public enum DamageType {
         普通伤害,
         必杀伤害,
-        追击普通伤害, //沃沃独有
 
     }
 
@@ -56,11 +55,6 @@ public class DamageAction extends ActionBuilder {
             });
             case 普通伤害 -> action.setAction(pack -> {
                 new DamageCal(pack).normalAttack(multi);
-                callNext(action.getActionId());
-                return true;
-            });
-            case 追击普通伤害 -> action.setAction(pack -> {
-                new DamageCal(pack).appendNormalAttack(multi);
                 callNext(action.getActionId());
                 return true;
             });

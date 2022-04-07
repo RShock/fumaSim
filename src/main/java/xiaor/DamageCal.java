@@ -81,8 +81,6 @@ public class DamageCal {
     //普攻
     public boolean normalAttack(double percent) {
         finalDamage(percent, TriggerEnum.普攻伤害计算);
-        TriggerManager.sendMessage(TriggerEnum.释放普攻后, pack);
-        TriggerManager.sendMessage(TriggerEnum.攻击后, pack);
         return true;
     }
 
@@ -145,14 +143,11 @@ public class DamageCal {
 
     public boolean skillAttack(double multi) {
         finalDamage(multi, TriggerEnum.技能伤害计算);
-        TriggerManager.sendMessage(TriggerEnum.释放必杀后, pack);
-        TriggerManager.sendMessage(TriggerEnum.攻击后, pack);
         return true;
     }
 
     public boolean appendNormalAttack(double multi) {
         finalDamage(multi, TriggerEnum.普攻伤害计算);
-        TriggerManager.sendMessage(TriggerEnum.释放追击普攻后, pack);
         return true;
     }
 }

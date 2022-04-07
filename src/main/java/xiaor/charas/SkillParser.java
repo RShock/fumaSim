@@ -18,6 +18,7 @@ import xiaor.tools.KeyEnum;
 import xiaor.tools.TriggerEnum;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,9 +48,8 @@ public class SkillParser {
             default -> SelfTrigger.act(chara, triggerEnum);
         };
         String skillString = vo.getEffect();
-        //todo 重构获得技能
         if (skillString.matches(".+获得技能.+")) {
-            Pattern pattern = Pattern.compile("(?<target>.+)获得技能(?<skill>\\d+)");
+            Pattern pattern = Pattern.compile("(?<target>.+)获得技能(?<skill>\\d+)(\\((?<turn>\\d+)回合\\))?");
             Matcher matcher = pattern.matcher(skillString);
             matcher.find();
             List<Chara> target = parseChooser(chara, matcher.group("target"));
@@ -59,9 +59,15 @@ public class SkillParser {
                 if(givenVo.getSkillType() != SkillType.动态技能) {
                     throw new RuntimeException("技能"+ givenVo.getSkillId() + "不是动态的");
                 }
-                SkillBuilder.createNewSkill(chara, skillType).when(trigger)
-                        .act(ActionBuilder.getFreeAction(() -> {addSkill(chara1, vos, skillId);return true;}))
-                .build();
+                WhenBuilder builder = SkillBuilder.createNewSkill(chara, skillType).when(trigger)
+                        .act(ActionBuilder.getFreeAction(() -> {
+                            addSkill(chara1, vos, skillId);
+                            return true;
+                        }));
+                if(matcher.group("turn") != null) {
+                    builder.lastedTurn(Integer.parseInt(matcher.group("turn")));
+                }
+                builder.build();
             });
             return;
         }
@@ -254,7 +260,7 @@ public class SkillParser {
         if (substring.matches("\\{\\d+(,\\d+)*\\}")) {  // {1,2,3}
             return Arrays.stream(substring.substring(1, substring.length()-2).split(","))
                     .map(Integer::parseInt)
-                    .map(i ->GameBoard.getAlly().get(i-1))
+                    .map(GameBoard::selectTarget)
                     .collect(Collectors.toList());
         }
         if (substring.equals("目标")) {
