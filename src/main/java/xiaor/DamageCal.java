@@ -1,5 +1,6 @@
 package xiaor;
 
+import xiaor.charas.Chara;
 import xiaor.skill.BuffType;
 import xiaor.tools.Tools;
 import xiaor.tools.TriggerEnum;
@@ -31,10 +32,10 @@ public class DamageCal {
         return true;
     }
 
-    public void finalDamage(double percent, TriggerEnum triggerEnum) {
+    public void finalDamage(Chara acceptor, double percent, TriggerEnum skillTypeEnum) {
         double baseDamage = getCurrentAttack() * percent;
-        TriggerManager.sendMessage(triggerEnum, MessagePack.damagePack(this));
-        TriggerManager.sendMessage(TriggerEnum.伤害计算, MessagePack.damagePack(this));
+        TriggerManager.sendMessage(skillTypeEnum, MessagePack.damagePack(this, acceptor));
+        TriggerManager.sendMessage(TriggerEnum.伤害计算, MessagePack.damagePack(this, acceptor));
         int finalDamage = (int)damageBuffMap.entrySet().stream()
                 .filter(entry -> buffTypeMap.get(entry.getKey()) != 属性克制)
                 .collect(Collectors.groupingBy(entry -> buffTypeMap.get(entry.getKey())))
@@ -54,34 +55,28 @@ public class DamageCal {
         }
         finalDamage *= (1+属性克制 * (1-属性相克效果增减));
 
-        int currentES = pack.acceptor.getShield();
-        int lifeRemain = pack.acceptor.getLife();
+        int currentES = acceptor.getShield();
+        int lifeRemain = acceptor.getLife();
         String msg;
         if(currentES != 0) {
             if(finalDamage > currentES) {
-                msg = "%s对%s造成了%d(%d)伤害".formatted(pack.caster, pack.acceptor, finalDamage-currentES, currentES);
+                msg = "%s对%s造成了%d(%d)伤害".formatted(pack.caster, pack.acceptors, finalDamage-currentES, currentES);
                 lifeRemain -= finalDamage-currentES;
-                pack.acceptor.setShield(0);
+                acceptor.setShield(0);
             }else{
-                msg = "%s对%s造成了0(%d)伤害".formatted(pack.caster, pack.acceptor, finalDamage);
-                pack.acceptor.setShield(currentES - finalDamage);
+                msg = "%s对%s造成了0(%d)伤害".formatted(pack.caster, pack.acceptors, finalDamage);
+                acceptor.setShield(currentES - finalDamage);
             }
         }else{
-            msg = "%s对%s造成了%d伤害".formatted(pack.caster, pack.acceptor, finalDamage);
+            msg = "%s对%s造成了%d伤害".formatted(pack.caster, pack.acceptors, finalDamage);
             lifeRemain -= finalDamage;
         }
         Tools.log(Tools.LogColor.BLUE, msg);
-        pack.acceptor.setLife(lifeRemain);
+        acceptor.setLife(lifeRemain);
         TriggerManager.sendMessage(TriggerEnum.造成伤害, MessagePack.builder().result(
-                new DamageRecorder.DamageRecord(triggerEnum, msg, pack.caster, pack.acceptor, finalDamage)).build());
-        Tools.log(Tools.LogColor.GREEN, pack.acceptor + "剩余" + lifeRemain);
+                new DamageRecorder.DamageRecord(skillTypeEnum, msg, pack.caster, acceptor, finalDamage)).build());
+        Tools.log(Tools.LogColor.GREEN, pack.acceptors + "剩余" + lifeRemain);
         damageBuffMap.clear();
-    }
-
-    //普攻
-    public boolean normalAttack(double percent) {
-        finalDamage(percent, TriggerEnum.普攻伤害计算);
-        return true;
     }
 
     /*
@@ -125,7 +120,7 @@ public class DamageCal {
 
     //计算基本攻击力
     public int getCurrentAttack() {
-        TriggerManager.sendMessage(TriggerEnum.攻击力计算, MessagePack.damagePack(this));
+        TriggerManager.sendMessage(TriggerEnum.攻击力计算, MessagePack.damagePack(this, null));
         double baseAtk = pack.caster.getAttack();
 
         int finalAtk = damageBuffMap.entrySet().stream()
@@ -142,12 +137,13 @@ public class DamageCal {
     }
 
     public boolean skillAttack(double multi) {
-        finalDamage(multi, TriggerEnum.技能伤害计算);
+        pack.acceptors.forEach(acceptor -> finalDamage(acceptor, multi, TriggerEnum.技能伤害计算));
         return true;
     }
 
-    public boolean appendNormalAttack(double multi) {
-        finalDamage(multi, TriggerEnum.普攻伤害计算);
+    //普攻
+    public boolean normalAttack(double percent) {
+        pack.acceptors.forEach(acceptor -> finalDamage(acceptor, percent, TriggerEnum.普攻伤害计算));
         return true;
     }
 }

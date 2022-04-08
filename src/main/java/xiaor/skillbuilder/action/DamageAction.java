@@ -45,15 +45,22 @@ public class DamageAction extends ActionBuilder {
         return this;
     }
 
+    public DamageAction to(List<Chara> enemy) {
+        this.target = enemy;
+        return this;
+    }
+
     public Action build() {
         Action action = new Action();
         switch (damageType) {
             case 必杀伤害 -> action.setAction(pack -> {
+                pack.acceptors = target;
                 new DamageCal(pack).skillAttack(multi);
                 callNext(action.getActionId());
                 return true;
             });
             case 普通伤害 -> action.setAction(pack -> {
+                pack.acceptors = target;
                 new DamageCal(pack).normalAttack(multi);
                 callNext(action.getActionId());
                 return true;

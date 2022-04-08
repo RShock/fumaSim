@@ -4,6 +4,9 @@ import lombok.*;
 import xiaor.charas.Chara;
 import xiaor.tools.record.DamageRecorder;
 
+import java.util.Collections;
+import java.util.List;
+
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
@@ -12,7 +15,7 @@ import xiaor.tools.record.DamageRecorder;
 public class MessagePack {
     public Chara caster;
 
-    public Chara acceptor;
+    public List<Chara> acceptors;
 
     public DamageCal damageCal; //用于伤害计算
     public DamageRecorder.DamageRecord result; //用于伤害计算完毕后的记录
@@ -28,15 +31,15 @@ public class MessagePack {
         return MessagePack.builder().id(id).build();
     }
 
-    public static MessagePack damagePack(DamageCal damageCal) {
+    public static MessagePack damagePack(DamageCal damageCal, Chara acceptor) {
         return MessagePack.builder()
                 .damageCal(damageCal)
                 .caster(damageCal.pack.caster)
-                .acceptor(damageCal.pack.acceptor)
+                .acceptors(Collections.singletonList(acceptor))
                 .build();
     }
 
     public Boolean checkAccepter(Chara acceptor) {
-        return acceptor.equals(this.acceptor);
+        return this.acceptors.contains(acceptor);
     }
 }

@@ -61,7 +61,7 @@ public class SkillParser {
                 }
                 WhenBuilder builder = SkillBuilder.createNewSkill(chara, skillType).when(trigger)
                         .act(ActionBuilder.getFreeAction(() -> {
-                            addSkill(chara1, vos, skillId);
+                            addSkill(chara1, vos, givenVo.getSkillId());
                             return true;
                         }));
                 if(matcher.group("turn") != null) {
@@ -257,8 +257,8 @@ public class SkillParser {
                 return stream.filter(chara -> chara.getElement().equals(Element.火属性)).collect(Collectors.toList());
             }
         }
-        if (substring.matches("\\{\\d+(,\\d+)*\\}")) {  // {1,2,3}
-            return Arrays.stream(substring.substring(1, substring.length()-2).split(","))
+        if (substring.matches("\\{\\d+(_\\d+)*\\}")) {  // e.g. {1_2_3}
+            return Arrays.stream(substring.substring(1, substring.length()-1).split("_"))
                     .map(Integer::parseInt)
                     .map(GameBoard::selectTarget)
                     .collect(Collectors.toList());
@@ -271,6 +271,9 @@ public class SkillParser {
         }
         if (substring.equals("友方")) {
             return GameBoard.getAlly();
+        }
+        if (substring.equals("群体")) {
+            return GameBoard.getEnemy();
         }
         if (substring.startsWith("ID")) {
             int id = Integer.parseInt(substring.substring(2));
@@ -285,15 +288,11 @@ public class SkillParser {
 
     private static Action parseDamageAction(Chara chara, String part) {
         System.out.println("normalAtkParse:" + part);
-        Pattern pattern = Pattern.compile("对(?<target>(目标|群体))(?<multi>\\d+)%(?<type>(技能|普攻))伤害");
+        Pattern pattern = Pattern.compile("对(?<target>.*?)(?<multi>\\d+)%(?<type>(技能|普攻))伤害");
         Matcher matcher = pattern.matcher(part);
         matcher.find();
         DamageAction.DamageType type;
-        Chara target;
-        switch (matcher.group("target")) {
-            case "目标" -> target = GameBoard.getCurrentEnemy();
-            default -> throw new RuntimeException("不支持的target类型：" + matcher.group("target"));
-        }
+        List<Chara> target = parseChooser(chara, matcher.group("target"));
         type = switch (matcher.group("type")) {
             case "技能" -> DamageAction.DamageType.必杀伤害;
             case "普攻" -> DamageAction.DamageType.普通伤害;

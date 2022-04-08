@@ -2,11 +2,10 @@ package xiaor.charas;
 
 import lombok.*;
 import xiaor.MessagePack;
-import xiaor.skill.Skill;
 import xiaor.tools.TriggerEnum;
 import xiaor.tools.TriggerManager;
 
-import java.util.List;
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,7 +60,7 @@ public abstract class Chara{
 
     public void defend(Chara acceptor){
         MessagePack pack = MessagePack.builder()
-                .acceptor(acceptor)
+                .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
                 .build();
         TriggerManager.sendMessage(TriggerEnum.释放防御, pack);
@@ -101,7 +100,7 @@ public abstract class Chara{
 
     public void attack(Chara acceptor){
         MessagePack pack = MessagePack.builder()
-                .acceptor(acceptor)
+                .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
                 .build();
         TriggerManager.sendMessage(TriggerEnum.释放普攻, pack);
@@ -113,7 +112,7 @@ public abstract class Chara{
 
     public void skill(Chara acceptor){
         MessagePack pack = MessagePack.builder()
-                .acceptor(acceptor)
+                .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
                 .build();
         TriggerManager.sendMessage(TriggerEnum.释放必杀, pack);

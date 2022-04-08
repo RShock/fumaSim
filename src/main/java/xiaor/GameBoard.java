@@ -82,41 +82,21 @@ public class GameBoard {
     }
 
     public void initSkills() {
-        Skill skill = BaseSkill.builder().name("【系统规则】属性克制 优势方+50%伤害").trigger(TriggerEnum.普攻伤害计算)
+        Skill skill = BaseSkill.builder().name("【系统规则】属性克制 优势方+50%伤害").trigger(TriggerEnum.伤害计算)
                 .time(INFI)
                 .check(pack -> {
                     if (pack.damageCal == null) return false;
-                    return pack.damageCal.pack.caster.counter(pack.damageCal.pack.acceptor) == 1;
+                    return pack.damageCal.pack.caster.counter(pack.damageCal.pack.acceptors.get(0)) == 1;
                 }).cast(pack -> {
                     pack.getDamageCal().changeDamage(BuffType.属性克制, 0.5);
                     return true;
                 }).build();
         TriggerManager.registerSkill(skill);
-        skill = BaseSkill.builder().name("【系统规则】属性克制 优势方+50%伤害").trigger(TriggerEnum.技能伤害计算)
+        skill = BaseSkill.builder().name("【系统规则】属性克制 劣势方-25%伤害").trigger(TriggerEnum.伤害计算)
                 .time(INFI)
                 .check(pack -> {
                     if (pack.damageCal == null) return false;
-                    return pack.damageCal.pack.caster.counter(pack.damageCal.pack.acceptor) == 1;
-                }).cast(pack -> {
-                    pack.getDamageCal().changeDamage(BuffType.属性克制, 0.5);
-                    return true;
-                }).build();
-        TriggerManager.registerSkill(skill);
-        skill = BaseSkill.builder().name("【系统规则】属性克制 劣势方-25%伤害").trigger(TriggerEnum.普攻伤害计算)
-                .time(INFI)
-                .check(pack -> {
-                    if (pack.damageCal == null) return false;
-                    return pack.damageCal.pack.caster.counter(pack.damageCal.pack.acceptor) == -1;
-                }).cast(pack -> {
-                    pack.getDamageCal().changeDamage(BuffType.属性克制, -0.25);
-                    return true;
-                }).build();
-        TriggerManager.registerSkill(skill);
-        skill = BaseSkill.builder().name("【系统规则】属性克制 劣势方-25%伤害").trigger(TriggerEnum.技能伤害计算)
-                .time(INFI)
-                .check(pack -> {
-                    if (pack.damageCal == null) return false;
-                    return pack.damageCal.pack.caster.counter(pack.damageCal.pack.acceptor) == -1;
+                    return pack.damageCal.pack.caster.counter(pack.damageCal.pack.acceptors.get(0)) == -1;
                 }).cast(pack -> {
                     pack.getDamageCal().changeDamage(BuffType.属性克制, -0.25);
                     return true;
@@ -175,4 +155,7 @@ public class GameBoard {
         return getInstance().getEnemyChara().get(0);
     }
 
+    public static List<Chara> getEnemy() {
+        return getInstance().getEnemyChara();
+    }
 }
