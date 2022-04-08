@@ -1,10 +1,8 @@
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import xiaor.charas.Element;
+import xiaor.charas.*;
 import xiaor.GameBoard;
-import xiaor.charas.木桩;
-import xiaor.charas.胆小纸袋狼_沃沃;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,7 +50,8 @@ class 沃沃Test {
 
     @Test
     void 沃沃队长大招再攻击() {
-        胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.init("攻击力100 队长 羁绊1 星3 潜力5");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力100 队长 羁绊1 星3 潜力5");
+
         木桩 dummy = 木桩.init("生命500");
         board.addOurChara(wowo);
         board.addEnemyChara(dummy);
@@ -63,7 +62,8 @@ class 沃沃Test {
 
     @Test
     void 沃沃队长技普攻击测试() {
-        胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.init("攻击力100 队长 羁绊1 星3 潜力5");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力100 队长 羁绊1 星3 潜力5");
+
         木桩 dummy = 木桩.init("生命500");
 
         board.addOurChara(wowo);
@@ -75,7 +75,8 @@ class 沃沃Test {
 
     @Test
     void 沃沃大战矮子王测试() {
-        胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.init("攻击力48991 队长 羁绊2 星3 潜力5");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力48991 队长 羁绊2 星3 潜力5");
+
         木桩 矮子王 = 木桩.init("生命2341894 水属性");
         board.addOurChara(wowo);
         board.addEnemyChara(矮子王);
@@ -86,7 +87,8 @@ class 沃沃Test {
 
     @Test
     void 五星沃沃的大招再攻击() {
-        胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.init("攻击力100 羁绊1 星5 潜力5");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力100 羁绊1 星5 潜力5");
+
         木桩 dummy = 木桩.init("生命500");
 
         board.addOurChara(wowo);
@@ -98,7 +100,8 @@ class 沃沃Test {
 
     @Test
     void 沃沃buff的消退() {
-        胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.init("攻击力100 羁绊1 星3 潜力5");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力100 羁绊1 星3 潜力5");
+
         木桩 dummy = 木桩.init("生命50000");
 
         board.addOurChara(wowo);

@@ -75,7 +75,7 @@ public class DamageCal {
         acceptor.setLife(lifeRemain);
         TriggerManager.sendMessage(TriggerEnum.造成伤害, MessagePack.builder().result(
                 new DamageRecorder.DamageRecord(skillTypeEnum, msg, pack.caster, acceptor, finalDamage)).build());
-        Tools.log(Tools.LogColor.GREEN, pack.acceptors + "剩余" + lifeRemain);
+        Tools.log(Tools.LogColor.GREEN, acceptor + "剩余" + lifeRemain);
         damageBuffMap.clear();
     }
 

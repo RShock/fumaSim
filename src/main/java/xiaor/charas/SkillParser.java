@@ -28,7 +28,12 @@ import java.util.stream.Stream;
 import static xiaor.Common.INFI;
 
 public class SkillParser {
+
     public static void addSkill(Chara chara, List<SkillExcelVo> vos, int skillId) {
+        addSkill(chara, vos, skillId, 0);
+    }
+
+    public static void addSkill(Chara chara, List<SkillExcelVo> vos, int skillId, int turn) {
         SkillExcelVo vo = findSkillVoBySkillId(vos, skillId);
         System.out.println("正在解析" + vo.getSkillId());
         if (vo.getEffect().equals("没做")) return;
@@ -59,20 +64,23 @@ public class SkillParser {
                 if(givenVo.getSkillType() != SkillType.动态技能) {
                     throw new RuntimeException("技能"+ givenVo.getSkillId() + "不是动态的");
                 }
-                WhenBuilder builder = SkillBuilder.createNewSkill(chara, skillType).when(trigger)
+                SkillBuilder.createNewSkill(chara, skillType).when(trigger)
                         .act(ActionBuilder.getFreeAction(() -> {
+                            if(matcher.group("turn") != null) {
+                                addSkill(chara1, vos, givenVo.getSkillId(), Integer.parseInt(matcher.group("turn")));
+                                return true;
+                            }
                             addSkill(chara1, vos, givenVo.getSkillId());
                             return true;
-                        }));
-                if(matcher.group("turn") != null) {
-                    builder.lastedTurn(Integer.parseInt(matcher.group("turn")));
-                }
-                builder.build();
+                        })).build();
             });
             return;
         }
         List<Supplier<Boolean>> switchChecker = new ArrayList<>();
         WhenBuilder tempSkill = SkillBuilder.createNewSkill(chara, skillType).when(trigger);
+        if (turn != 0) {
+            tempSkill.lastedTurn(turn);
+        }
         if (skillString.startsWith("如果")) { //这个技能是激活型的，需要额外的检验条件，如果没激活会提示未激活
             skillString = parseExtraCondition(chara, vo, switchChecker);
         }

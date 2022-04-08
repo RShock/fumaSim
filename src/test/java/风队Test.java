@@ -49,7 +49,6 @@ public class 风队Test {
         Chara 精灵王 = ImportedChara.initChara("精灵王 塞露西亚 攻击力479798 星4 绊5 潜6");
         Chara 千鹤 = ImportedChara.initChara("复生公主 千鹤 攻击力361418 星3 绊1 潜6");
         Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力204650 星3 绊2 潜5");
-//        胆小纸袋狼_沃沃 沃沃 = 胆小纸袋狼_沃沃.init("攻击力204650 星3 绊2 潜5");
 
         五十四层boss_诺诺可 诺诺可 = 五十四层boss_诺诺可.init("");
         board.addOurChara(小精灵王);
