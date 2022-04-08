@@ -7,7 +7,6 @@ import xiaor.skill.BuffType;
 import xiaor.tools.TriggerEnum;
 
 public class 完美靶子伊吹 extends Chara {
-    Double 必杀伤害加成;
 
     public static 完美靶子伊吹 init(String s) {
         完美靶子伊吹 伊吹 = new 完美靶子伊吹();

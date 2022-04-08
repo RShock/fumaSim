@@ -15,33 +15,6 @@ public class 风队Test {
         board.resetBoard();
     }
 
-//    @Test
-//    void 风队全队集合测试2() {
-//        Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力560316 羁绊3 星4 潜力6 队长");
-//        法斯公主_露露 露露 = 法斯公主_露露.init("攻击力675452 星5 绊5 潜6");
-//        精灵王_塞露西亚 精灵王 = 精灵王_塞露西亚.init("攻击力542380 星5 绊5 潜6");
-//        胆小纸袋狼_沃沃 沃沃 = 胆小纸袋狼_沃沃.init("攻击力448115 星4 绊2 潜5");
-//        复生公主_千鹤 千鹤 = 复生公主_千鹤.init("攻击力395839 星3 绊2 潜6");
-//
-//        超级机器人木桩 木桩 = 超级机器人木桩.init("");
-//        board.addOurChara(小精灵王);
-//        board.addOurChara(露露);
-//        board.addOurChara(精灵王);
-//        board.addOurChara(沃沃);
-//        board.addOurChara(千鹤);
-//        board.addEnemyChara(木桩);
-//
-//        board.initSkills();
-//        board.run("""
-//                1a1 2a1 3a1 4a1 5d1
-//                1a1 2a1 3a1 4a1 5d1
-//                1a1 2a1 3a1 5q1 4q1
-//                1a1 2a1 3a1 4a1 5d1
-//                1q1
-//                """);
-//        assertEquals(-820408, 木桩.getLife(), 10);
-//    }
-
     @Test
     void 风队全队集合测试() {
         Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力505739 羁绊2 星3 潜力6 队长");
@@ -79,9 +52,8 @@ public class 风队Test {
         Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力281230 羁绊5 星5 潜力6 队长");
         Chara 露露 = ImportedChara.initChara("法斯公主 露露 攻击力248899 星5 绊5 潜6");
         Chara 精灵王 = ImportedChara.initChara("精灵王 塞露西亚 攻击力243585 星5 绊5 潜6");
-
         Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力270601 星5 绊5 潜6");
-        复生公主_千鹤 千鹤 = 复生公主_千鹤.init("攻击力256871 星5 绊5 潜6");
+        Chara 千鹤 = ImportedChara.initChara("复生公主 千鹤 攻击力256871 星5 绊5 潜6");
 
         完美靶子伊吹 伊吹 = 完美靶子伊吹.init("");
         board.addOurChara(小精灵王);
