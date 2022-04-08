@@ -20,10 +20,6 @@ public class ImportedChara extends Chara {
                 );
     }
 
-    public List<SkillExcelVo> getUninitedSkills() {
-        return uninitedSkills;
-    }
-
     public void setUninitedSkills(List<SkillExcelVo> uninitedSkills) {
         this.uninitedSkills = uninitedSkills;
     }

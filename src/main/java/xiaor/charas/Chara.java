@@ -30,8 +30,6 @@ public abstract class Chara{
 
     protected int shield;   //护盾
 
-
-
     public enum CharaStatus {
         DEAD,
         ACTIVE,
@@ -51,12 +49,6 @@ public abstract class Chara{
 
     @Builder.Default
     protected boolean isLeader = false;
-
-    public Chara(String name, Boolean isLeader) {
-        this.name = name;
-        this.isLeader = isLeader;
-        initSkills();
-    }
 
     public void defend(Chara acceptor){
         MessagePack pack = MessagePack.builder()
@@ -83,19 +75,10 @@ public abstract class Chara{
         return name;
     }
 
-    public Chara(String name) {
-        this.name = name;
-        initSkills();
-    }
-
     public abstract void initSkills();
 
     public boolean is(Role role) {
         return role == this.role;
-    }
-
-    public boolean is(Class<? extends Chara> chara) {
-        return chara.isInstance(this);
     }
 
     public void attack(Chara acceptor){
@@ -121,11 +104,6 @@ public abstract class Chara{
         TriggerManager.sendMessage(TriggerEnum.攻击后, pack);
         TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
     }
-
-    public boolean self(MessagePack pack) {
-        return pack.caster == this;
-    }
-
 
     protected static void baseInit(Chara chara, String s) {
         chara.isLeader = false;

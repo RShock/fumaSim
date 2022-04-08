@@ -40,11 +40,6 @@ public class BuffAction extends ActionBuilder {
         return buffAction;
     }
 
-    public BuffAction multi(double[] multi) {
-        this.multi = multi[caster.getSkillLevel()];
-        return this;
-    }
-
     public BuffAction multi(double multi) {
         this.multi = multi;
         return this;
@@ -62,13 +57,6 @@ public class BuffAction extends ActionBuilder {
 
     public BuffAction name(String name) {
         this.name = name;
-        return this;
-    }
-
-    public BuffAction level(int level) {
-        this.isUniqueBuff = true;
-        this.uniqueId = "Buff: " + Tools.getNewID();
-        this.level = level;
         return this;
     }
 
@@ -217,20 +205,10 @@ public class BuffAction extends ActionBuilder {
         return tempBuff;
     }
 
-    public BuffAction toAlly() {
-        this.acceptors = GameBoard.getAlly();
-        return this;
-    }
-
     public BuffAction maxLevel(int maxLevel) {
         this.maxLevel = maxLevel;
         this.isUniqueBuff = true;
         this.uniqueId = "Buff: " + Tools.getNewID();
-        return this;
-    }
-
-    public BuffAction toCurrentEnemy() {
-        this.acceptors = Collections.singletonList(GameBoard.getCurrentEnemy());
         return this;
     }
 

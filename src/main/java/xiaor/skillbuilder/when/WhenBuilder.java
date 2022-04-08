@@ -18,13 +18,11 @@ public class WhenBuilder {
     private Trigger trigger;
     private Action action;
     private String name;
-    private SkillType skillType;
     private int turn;   //持续回合
     private WhenBuilder preBuilder; //whenBuilder需要懒计算否则会出问题，只在build时依序处理前面所有的指令
 
     public WhenBuilder(SkillType skillType, Trigger trigger) {
         this.trigger = trigger;
-        this.skillType = skillType;
         this.turn = INFI;
         this.preBuilder = this;
     }
