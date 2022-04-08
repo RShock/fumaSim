@@ -23,11 +23,6 @@ public class 木桩 extends Chara {
     }
 
     @Override
-    public boolean self(MessagePack pack) {
-        return super.self(pack);
-    }
-
-    @Override
     public void initSkills() {
 
     }
