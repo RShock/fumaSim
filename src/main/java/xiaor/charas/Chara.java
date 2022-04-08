@@ -129,9 +129,9 @@ public abstract class Chara{
 
     protected static void baseInit(Chara chara, String s) {
         chara.isLeader = false;
-        chara.potential = 12;
-        chara.star = 5;
-        chara.skillLevel = 5;
+        chara.potential = 1;
+        chara.star = 1;
+        chara.skillLevel = 1;
         String[] split = s.split("\\s+");
         for (String s1 : split) {
             if(s1.startsWith("攻击力")){

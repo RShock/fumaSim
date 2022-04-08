@@ -21,13 +21,13 @@ class 沃沃Test {
 
     @Test
     void 创建沃沃测试() {
-        胆小纸袋狼_沃沃 wowo = new 胆小纸袋狼_沃沃();
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力100");
         GameBoard.getInstance().addOurChara(wowo);
     }
 
     @Test
     void 沃沃尝试攻击() {
-        胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.init("攻击力100");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力100");
         木桩 dummy = 木桩.init("生命500");
         board.addOurChara(wowo);
         board.addEnemyChara(dummy);
@@ -38,7 +38,8 @@ class 沃沃Test {
 
     @Test
     void 沃沃先大招再攻击() {
-        胆小纸袋狼_沃沃 wowo = 胆小纸袋狼_沃沃.init("攻击力100 羁绊1 星3 潜力5");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力100 羁绊1 星3 潜力5");
+
         木桩 dummy = 木桩.init("生命500");
         board.addOurChara(wowo);
         board.addEnemyChara(dummy);

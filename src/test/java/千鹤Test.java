@@ -69,7 +69,7 @@ class 千鹤Test {
     @Test
     void 千鹤沃沃联手大战精灵王测试() {
         复生公主_千鹤 千鹤 = 复生公主_千鹤.init("攻击力361418 队长 星3 绊1 潜6");
-        胆小纸袋狼_沃沃 沃沃 = 胆小纸袋狼_沃沃.init("攻击力204650 星3 绊2 潜5");
+        Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力204650 星3 绊2 潜5");
         木桩 精灵王 = 木桩.init("生命11821290");
         board.addOurChara(千鹤);
         board.addOurChara(沃沃);
@@ -82,7 +82,7 @@ class 千鹤Test {
     @Test
     void 沃沃千鹤联手大战精灵王测试() {
         复生公主_千鹤 千鹤 = 复生公主_千鹤.init("攻击力361418 星3 绊1 潜6");
-        胆小纸袋狼_沃沃 沃沃 = 胆小纸袋狼_沃沃.init("攻击力204650 队长 星3 绊2 潜5");
+        Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼 沃沃 队长 攻击力204650 星3 绊2 潜5");
         木桩 精灵王 = 木桩.init("生命11821290");
         board.addOurChara(沃沃);
         board.addOurChara(千鹤);
