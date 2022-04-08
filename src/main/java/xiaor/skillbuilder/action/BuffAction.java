@@ -3,7 +3,6 @@ package xiaor.skillbuilder.action;
 import xiaor.*;
 import xiaor.charas.Chara;
 import xiaor.charas.Element;
-import xiaor.charas.精灵王_塞露西亚;
 import xiaor.skill.*;
 import xiaor.tools.Tools;
 import xiaor.tools.TriggerManager;
@@ -154,9 +153,8 @@ public class BuffAction extends ActionBuilder {
                             })
                             .build();
                     case 受到精灵王伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack ->
-                                    pack.checkAccepter(acceptor) && (pack.caster.is(精灵王_塞露西亚.class) || pack.caster.getCharaId() == 精灵王ID)
-                            ).cast(pack -> {
+                            .check(pack -> pack.caster.getCharaId() == 精灵王ID)
+                            .cast(pack -> {
                                 pack.getDamageCal().changeDamage(受到精灵王伤害, multi * pack.level);
                                 return true;
                             })

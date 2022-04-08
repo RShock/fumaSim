@@ -40,19 +40,20 @@ public class SkillParser {
         SkillType skillType = vo.getSkillType();
         if (!checkSkillType(chara, skillType)) return;
         TriggerEnum triggerEnum = vo.getTrigger();
+        String skillString = vo.getEffect();
         Trigger trigger = switch (triggerEnum) {
             case 游戏开始时, 被动光环, 回合结束 -> TriggerBuilder.when(triggerEnum);
             case 回合开始 -> {
-                Pattern pattern = Pattern.compile("(?<turnsA>\\d+)N(+(?<turnsB>\\d+))?:");
-                Matcher matcher = pattern.matcher(vo.getEffect());
+                Pattern pattern = Pattern.compile("(?<turnsA>\\d+)N(\\+(?<turnsB>\\d+))?回合触发:(?<effect>.*)");
+                Matcher matcher = pattern.matcher(skillString);
                 matcher.find();
                 int a = Integer.parseInt(matcher.group("turnsA"));
                 int b = Integer.parseInt(Optional.of(matcher.group("turnsB")).orElse("0"));
+                skillString = matcher.group("effect");
                 yield TriggerBuilder.when(triggerEnum,() -> GlobalDataManager.getIntData(KeyEnum.GAMETURN) % a == b);
             }
             default -> SelfTrigger.act(chara, triggerEnum);
         };
-        String skillString = vo.getEffect();
         if (skillString.matches(".+获得技能.+")) {
             Pattern pattern = Pattern.compile("(?<target>.+)获得技能(?<skill>\\d+)(\\((?<turn>\\d+)回合\\))?");
             Matcher matcher = pattern.matcher(skillString);
