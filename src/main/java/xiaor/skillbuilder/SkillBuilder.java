@@ -1,7 +1,7 @@
 package xiaor.skillbuilder;
 
 import xiaor.charas.Chara;
-import xiaor.tools.TriggerEnum;
+import xiaor.trigger.TriggerEnum;
 import xiaor.skillbuilder.trigger.Trigger;
 import xiaor.skillbuilder.trigger.TriggerBuilder;
 import xiaor.skillbuilder.when.WhenBuilder;

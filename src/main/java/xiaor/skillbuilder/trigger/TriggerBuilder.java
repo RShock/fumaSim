@@ -1,6 +1,6 @@
 package xiaor.skillbuilder.trigger;
 
-import xiaor.tools.TriggerEnum;
+import xiaor.trigger.TriggerEnum;
 
 import java.util.function.Supplier;
 

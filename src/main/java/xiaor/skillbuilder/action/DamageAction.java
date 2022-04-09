@@ -47,7 +47,6 @@ public class DamageAction extends ActionBuilder {
                     pack.acceptors = target;
                 }
                 new DamageCal(pack).skillAttack(multi);
-                callNext(action.getActionId());
                 return true;
             });
             case 普通伤害 -> action.setAction(pack -> {
@@ -55,7 +54,6 @@ public class DamageAction extends ActionBuilder {
                     pack.acceptors = target;
                 }
                 new DamageCal(pack).normalAttack(multi);
-                callNext(action.getActionId());
                 return true;
             });
             default -> throw new RuntimeException("未定义技能类型");

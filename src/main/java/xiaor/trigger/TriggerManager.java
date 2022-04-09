@@ -1,10 +1,11 @@
-package xiaor.tools;
+package xiaor.trigger;
 
 import lombok.Getter;
 import xiaor.MessagePack;
 import xiaor.skill.Buff;
 import xiaor.skill.Skill;
 import xiaor.skill.UniqueBuff;
+import xiaor.tools.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +41,11 @@ public class TriggerManager {
         triggerManager = new TriggerManager();
     }
 
-    public static boolean registerBuff(Buff buff) {
-        return TriggerManager.getInstance().addBuff(buff);
+    public static void registerBuff(Buff buff) {
+        TriggerManager.getInstance().addBuff(buff);
     }
 
-    private boolean addBuff(Buff newBuff) {
+    private void addBuff(Buff newBuff) {
         //可堆叠buff特殊处理
         if(newBuff instanceof UniqueBuff newUniqueBuff) {
             Tools.log("＋新增可堆叠buff: " + newBuff);
@@ -58,11 +59,10 @@ public class TriggerManager {
             }else{
                 skills.add(newBuff);
             }
-            return true;
+            return;
         }
         Tools.log("＋新增buff: " + newBuff);
         skills.add(newBuff);
-        return true;
     }
 
     public static List<Skill> getSkill() {
@@ -71,7 +71,8 @@ public class TriggerManager {
     public boolean _sendMessage(TriggerEnum trigger, MessagePack pack) {
         boolean isRespond = false;
         //普通for循环防止迭代器问题
-        for (int i = 0; i < skills.size(); i++) {
+        int size = skills.size();
+        for (int i = 0; i < size; i++) {
             if (!skills.get(i).getTrigger().equals(trigger)) continue;
             if (!skills.get(i).check(pack)) continue;
             isRespond = true;

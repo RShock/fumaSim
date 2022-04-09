@@ -1,7 +1,7 @@
 package xiaor.skill;
 
 import xiaor.MessagePack;
-import xiaor.tools.TriggerEnum;
+import xiaor.trigger.TriggerEnum;
 
 public interface Skill {
     TriggerEnum getTrigger();

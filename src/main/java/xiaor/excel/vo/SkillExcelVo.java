@@ -4,8 +4,7 @@ import com.poiji.annotation.ExcelCell;
 import com.poiji.annotation.ExcelRow;
 import lombok.Getter;
 import xiaor.skillbuilder.SkillType;
-import xiaor.skillbuilder.trigger.Trigger;
-import xiaor.tools.TriggerEnum;
+import xiaor.trigger.TriggerEnum;
 
 @Getter
 public class SkillExcelVo {

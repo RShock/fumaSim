@@ -15,10 +15,9 @@ import xiaor.skillbuilder.trigger.TriggerBuilder;
 import xiaor.skillbuilder.when.WhenBuilder;
 import xiaor.tools.GlobalDataManager;
 import xiaor.tools.KeyEnum;
-import xiaor.tools.TriggerEnum;
+import xiaor.trigger.TriggerEnum;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -3,12 +3,9 @@ package xiaor.skillbuilder.trigger;
 import lombok.Getter;
 import lombok.Setter;
 import xiaor.MessagePack;
-import xiaor.tools.TriggerEnum;
+import xiaor.trigger.TriggerEnum;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 @Getter
 @Setter

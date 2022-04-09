@@ -3,8 +3,8 @@ package xiaor;
 import xiaor.charas.Chara;
 import xiaor.skill.BuffType;
 import xiaor.tools.Tools;
-import xiaor.tools.TriggerEnum;
-import xiaor.tools.TriggerManager;
+import xiaor.trigger.TriggerEnum;
+import xiaor.trigger.TriggerManager;
 import xiaor.tools.record.DamageRecorder;
 
 import java.util.HashMap;

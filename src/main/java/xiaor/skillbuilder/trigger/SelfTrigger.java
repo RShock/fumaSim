@@ -1,7 +1,7 @@
 package xiaor.skillbuilder.trigger;
 
 import xiaor.charas.Chara;
-import xiaor.tools.TriggerEnum;
+import xiaor.trigger.TriggerEnum;
 
 public class SelfTrigger extends TriggerBuilder {
     public static Trigger act(Chara chara, TriggerEnum triggerEnum) {

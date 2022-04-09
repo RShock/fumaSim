@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import xiaor.MessagePack;
-import xiaor.tools.TriggerEnum;
+import xiaor.trigger.TriggerEnum;
 
 import java.util.function.Function;
 

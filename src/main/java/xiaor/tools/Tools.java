@@ -1,5 +1,7 @@
 package xiaor.tools;
 
+import xiaor.trigger.TriggerManager;
+
 public class Tools {
     public static int getNewID() {
         return TriggerManager.getInstance().getIDGen();

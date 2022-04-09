@@ -7,6 +7,8 @@ import xiaor.skill.Skill;
 import xiaor.skill.BuffType;
 import xiaor.tools.*;
 import xiaor.tools.record.DamageRecorder;
+import xiaor.trigger.TriggerEnum;
+import xiaor.trigger.TriggerManager;
 
 import java.util.ArrayList;
 import java.util.List;

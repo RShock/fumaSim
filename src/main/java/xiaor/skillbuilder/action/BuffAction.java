@@ -5,7 +5,7 @@ import xiaor.charas.Chara;
 import xiaor.charas.Element;
 import xiaor.skill.*;
 import xiaor.tools.Tools;
-import xiaor.tools.TriggerManager;
+import xiaor.trigger.TriggerManager;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,8 +13,8 @@ import java.util.function.Supplier;
 
 import static xiaor.Common.*;
 import static xiaor.charas.Role.攻击者;
-import static xiaor.tools.TriggerEnum.*;
-import static xiaor.tools.TriggerEnum.伤害计算;
+import static xiaor.trigger.TriggerEnum.*;
+import static xiaor.trigger.TriggerEnum.伤害计算;
 import static xiaor.skill.BuffType.*;
 
 public class BuffAction extends ActionBuilder {
@@ -172,7 +172,6 @@ public class BuffAction extends ActionBuilder {
                 }
 
                 TriggerManager.registerBuff(buff);
-                callNext(action.getActionId());
             }
             return true;
         });

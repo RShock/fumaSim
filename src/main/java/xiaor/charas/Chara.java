@@ -2,8 +2,8 @@ package xiaor.charas;
 
 import lombok.*;
 import xiaor.MessagePack;
-import xiaor.tools.TriggerEnum;
-import xiaor.tools.TriggerManager;
+import xiaor.trigger.TriggerEnum;
+import xiaor.trigger.TriggerManager;
 
 import java.util.Collections;
 import java.util.regex.Matcher;

@@ -6,8 +6,8 @@ import xiaor.skillbuilder.SkillType;
 import xiaor.skillbuilder.action.Action;
 import xiaor.skill.BuffType;
 import xiaor.tools.Tools;
-import xiaor.tools.TriggerEnum;
-import xiaor.tools.TriggerManager;
+import xiaor.trigger.TriggerEnum;
+import xiaor.trigger.TriggerManager;
 
 import java.util.Optional;
 

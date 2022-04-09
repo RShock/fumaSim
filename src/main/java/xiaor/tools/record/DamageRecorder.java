@@ -1,13 +1,12 @@
 package xiaor.tools.record;
 
 import lombok.Getter;
-import xiaor.GameBoard;
 import xiaor.charas.Chara;
 import xiaor.skill.BaseSkill;
 import xiaor.skill.Skill;
 import xiaor.tools.Tools;
-import xiaor.tools.TriggerEnum;
-import xiaor.tools.TriggerManager;
+import xiaor.trigger.TriggerEnum;
+import xiaor.trigger.TriggerManager;
 
 import java.util.ArrayList;
 import java.util.List;
