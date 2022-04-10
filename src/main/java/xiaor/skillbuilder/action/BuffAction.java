@@ -168,6 +168,16 @@ public class BuffAction extends ActionBuilder {
                     case 必杀技能CD -> {
                         return true;
                     }
+                    case 受到自身伤害 -> {
+                        buff = tempBuff.trigger(伤害计算)
+                                .check(pack ->
+                                        pack.checkAccepter(acceptor) && pack.checkCastor(caster)
+                                ).cast(pack -> {
+                                    pack.getDamageCal().changeDamage(受到自身伤害, multi * pack.level);
+                                    return true;
+                                })
+                                .build();
+                    }
                     default -> throw new RuntimeException("未支持的buff类型" + buffType);
                 }
 

@@ -1,15 +1,12 @@
 package xiaor.skillbuilder.when;
 
 import lombok.NoArgsConstructor;
-import xiaor.trigger.TriggerManager;
-import xiaor.skillbuilder.action.Action;
-import xiaor.skillbuilder.action.ActionBuilder;
-import xiaor.skillbuilder.trigger.Trigger;
 import xiaor.skill.BaseSkill;
 import xiaor.skill.SkillStatus;
 import xiaor.skillbuilder.SkillType;
-
-import java.util.function.Supplier;
+import xiaor.skillbuilder.action.Action;
+import xiaor.skillbuilder.trigger.Trigger;
+import xiaor.trigger.TriggerManager;
 
 import static xiaor.Common.INFI;
 

@@ -27,10 +27,6 @@ public class MessagePack {
         return caster.equals(this.caster);
     }
 
-    public static MessagePack newIdPack(int id) {
-        return MessagePack.builder().id(id).build();
-    }
-
     public static MessagePack damagePack(DamageCal damageCal, Chara acceptor) {
         return MessagePack.builder()
                 .damageCal(damageCal)
@@ -41,5 +37,9 @@ public class MessagePack {
 
     public Boolean checkAccepter(Chara acceptor) {
         return this.acceptors.contains(acceptor);
+    }
+
+    public Boolean checkCastor(Chara caster) {
+        return this.caster.getCharaId() == caster.getCharaId();
     }
 }

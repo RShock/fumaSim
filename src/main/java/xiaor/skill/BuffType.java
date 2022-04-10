@@ -15,4 +15,5 @@ public enum BuffType {
     受到普攻伤害,
     属性相克效果,
     必杀技能CD,
+    受到自身伤害
 }

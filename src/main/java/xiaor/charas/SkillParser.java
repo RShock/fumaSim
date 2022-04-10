@@ -49,32 +49,12 @@ public class SkillParser {
                 int a = Integer.parseInt(matcher.group("turnsA"));
                 int b = Integer.parseInt(Optional.of(matcher.group("turnsB")).orElse("0"));
                 skillString = matcher.group("effect");
-                yield TriggerBuilder.when(triggerEnum,() -> GlobalDataManager.getIntData(KeyEnum.GAMETURN) % a == b);
+                yield TriggerBuilder.when(triggerEnum, () -> GlobalDataManager.getIntData(KeyEnum.GAMETURN) % a == b);
             }
             default -> SelfTrigger.act(chara, triggerEnum);
         };
         if (skillString.matches(".+获得技能.+")) {
-            Pattern pattern = Pattern.compile("(?<target>.+)获得技能(?<skill>\\d+)(\\((?<turn>\\d+)回合\\))?");
-            Matcher matcher = pattern.matcher(skillString);
-            matcher.find();
-            List<Chara> target = parseChooser(chara, matcher.group("target"));
-            //这个技能是该角色给别人或者自己的的 例如幼精给精灵王
-            target.forEach(chara1 -> {
-                SkillExcelVo givenVo = findSkillVoBySkillId(vos, Integer.parseInt(matcher.group("skill")));
-                if(givenVo.getSkillType() != SkillType.动态技能) {
-                    throw new RuntimeException("技能"+ givenVo.getSkillId() + "不是动态的");
-                }
-                SkillBuilder.createNewSkill(chara, skillType).when(trigger)
-                        .act(ActionBuilder.getFreeAction(() -> {
-                            if(matcher.group("turn") != null) {
-                                addSkill(chara1, vos, givenVo.getSkillId(), Integer.parseInt(matcher.group("turn")));
-                                return true;
-                            }
-                            addSkill(chara1, vos, givenVo.getSkillId());
-                            return true;
-                        })).build();
-            });
-            return;
+
         }
         List<Supplier<Boolean>> switchChecker = new ArrayList<>();
         WhenBuilder tempSkill = SkillBuilder.createNewSkill(chara, skillType).when(trigger);
@@ -84,7 +64,7 @@ public class SkillParser {
         if (skillString.startsWith("如果")) { //这个技能是激活型的，需要额外的检验条件，如果没激活会提示未激活
             skillString = parseExtraCondition(chara, vo, switchChecker);
         }
-        parseSkill(chara, tempSkill, skillString, switchChecker).build();
+        parseSkill(chara, tempSkill, skillString, switchChecker, vos).build();
     }
 
     private static SkillExcelVo findSkillVoBySkillId(List<SkillExcelVo> vos, int skillId) {
@@ -183,41 +163,68 @@ public class SkillParser {
         throw new RuntimeException(checker + "未受支持");
     }
 
-    private static WhenBuilder parseSkill(Chara chara, WhenBuilder tempSkill, String effect, List<Supplier<Boolean>> switchChecker) {
+    private static WhenBuilder parseSkill(Chara chara, WhenBuilder tempSkill, String effect, List<Supplier<Boolean>> switchChecker, List<SkillExcelVo> vos) {
 //        System.out.println("parse:" + effect);
         if (effect.contains(",")) {
             int index = effect.indexOf(",");
             String firstPart = effect.substring(0, index);
             String lastPart = effect.substring(index + 1);
-            return parseSkill(chara, tempSkill.act(parseAction(chara, firstPart, switchChecker)).and(), lastPart, switchChecker);
+            return parseSkill(chara,
+                    tempSkill.act(parseAction(chara, firstPart, switchChecker, vos)).and(),
+                    lastPart,
+                    switchChecker,
+                    vos);
         } else {
-            tempSkill.act(parseAction(chara, effect, switchChecker));
+            tempSkill.act(parseAction(chara, effect, switchChecker, vos));
         }
         return tempSkill;
     }
 
-    private static Action parseAction(Chara chara, String part, List<Supplier<Boolean>> switchChecker) {
+    private static Action parseAction(Chara chara, String part, List<Supplier<Boolean>> switchChecker, List<SkillExcelVo> vos) {
         if (part.startsWith("对")) {
             return parseDamageAction(chara, part);
+        }
+        if (part.matches((".+获得技能.+"))) {
+            Pattern pattern = Pattern.compile("(?<target>.+)获得技能(?<skill>\\d+)(\\((?<turn>\\d+)回合\\))?");
+            Matcher matcher = pattern.matcher(part);
+            matcher.find();
+            List<Chara> target = parseChooser(chara, matcher.group("target"));
+            //这个技能是该角色给别人或者自己的的 例如幼精给精灵王
+
+            SkillExcelVo givenVo = findSkillVoBySkillId(vos, Integer.parseInt(matcher.group("skill")));
+            if (givenVo.getSkillType() != SkillType.动态技能) {
+                throw new RuntimeException("技能" + givenVo.getSkillId() + "不是动态的");
+            }
+            return ActionBuilder.getFreeAction(() -> {
+                target.forEach(chara1 -> {
+                    if (matcher.group("turn") != null) {
+                        addSkill(chara1, vos, givenVo.getSkillId(), Integer.parseInt(matcher.group("turn")));
+                    } else {
+                        addSkill(chara1, vos, givenVo.getSkillId());
+                    }
+                });
+                return true;
+            });
         }
         return parseBuffAction(chara, part, switchChecker);
     }
 
     //TODO
     private static Action parseBuffAction(Chara chara, String part, List<Supplier<Boolean>> switchChecker) {
+
         System.out.println("buffParse:" + part);
         //e.g. 自身攻击力+20%
         Pattern pattern = Pattern.compile(
-        "(?<target>(自身|目标|我方群体|敌方群体|ID\\d+|友方|队伍中.{3}|))" +
-                "(?<buffType>.*)" +
-                "(?<incdec>[+-])" +
-                "(" +
-                "(BUFF(?<buffId>\\d+))|" +
-                "((?<multi>\\d+(\\.\\d+)?)%?)" +
-                ")" +
-                "(\\(最多(?<maxlevel>\\d+)层\\))?" +
-                "(\\((?<lastedTurn>\\d+)回合\\))?"
-                );
+                "(?<target>(自身|目标|我方群体|敌方群体|ID\\d+|友方|队伍中.{3}|))" +
+                        "(?<buffType>.*)" +
+                        "(?<incdec>[+-])" +
+                        "(" +
+                        "(BUFF(?<buffId>\\d+))|" +
+                        "((?<multi>\\d+(\\.\\d+)?)%?)" +
+                        ")" +
+                        "(\\(最多(?<maxlevel>\\d+)层\\))?" +
+                        "(\\((?<lastedTurn>\\d+)回合\\))?"
+        );
 
         Matcher matcher = pattern.matcher(part);
         matcher.find();
@@ -266,7 +273,7 @@ public class SkillParser {
             }
         }
         if (substring.matches("\\{\\d+(_\\d+)*\\}")) {  // e.g. {1_2_3}
-            return Arrays.stream(substring.substring(1, substring.length()-1).split("_"))
+            return Arrays.stream(substring.substring(1, substring.length() - 1).split("_"))
                     .map(Integer::parseInt)
                     .map(GameBoard::selectTarget)
                     .collect(Collectors.toList());
@@ -282,6 +289,9 @@ public class SkillParser {
         }
         if (substring.equals("群体")) {
             return GameBoard.getEnemy();
+        }
+        if (substring.equals("其他友方")) {
+
         }
         if (substring.startsWith("ID")) {
             int id = Integer.parseInt(substring.substring(2));
