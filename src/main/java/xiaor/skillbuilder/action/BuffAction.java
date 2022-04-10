@@ -188,7 +188,7 @@ public class BuffAction extends ActionBuilder {
                     .maxLevel(maxLevel)
                     .incLv(level)
                     .currentLevel(level)
-                    .uniqueId(uniqueId);
+                    .uniqueId(uniqueId + acceptor.uniqueId());
         } else if (isSwitchBuff) {
             tempBuff = SwitchBuff.builder()
                     .enabledChecks(additionalCheckers);

@@ -54,9 +54,7 @@ public class SkillParser {
             }
             default -> SelfTrigger.act(chara, triggerEnum);
         };
-        if (skillString.matches(".+获得技能.+")) {
 
-        }
         List<Supplier<Boolean>> switchChecker = new ArrayList<>();
         WhenBuilder tempSkill = SkillBuilder.createNewSkill(chara, skillType).when(trigger);
         if (turn != 0) {
@@ -70,7 +68,7 @@ public class SkillParser {
 
     private static SkillExcelVo findSkillVoBySkillId(List<SkillExcelVo> vos, int skillId) {
         return vos.stream().filter(skillExcelVo -> skillId == skillExcelVo.getSkillId()).findFirst()
-                .orElseThrow(() -> new RuntimeException("不存在的Skill Id"));
+                .orElseThrow(() -> new RuntimeException("不存在的Skill Id" + skillId));
     }
 
     private static String parseExtraCondition(Chara curChara, SkillExcelVo vo, List<Supplier<Boolean>> switchChecker) {
@@ -271,6 +269,12 @@ public class SkillParser {
             }
             if (substring.equals("火属性")) {
                 return stream.filter(chara -> chara.getElement().equals(Element.火属性)).collect(Collectors.toList());
+            }
+            if (substring.equals("治疗者")) {
+                return stream.filter(chara -> chara.getRole().equals(Role.治疗者)).collect(Collectors.toList());
+            }
+            if (substring.equals("辅助者")) {
+                return stream.filter(chara -> chara.getRole().equals(Role.辅助者)).collect(Collectors.toList());
             }
         }
         if (substring.matches("\\{\\d+(_\\d+)*\\}")) {  // e.g. {1_2_3}

@@ -2,6 +2,7 @@ package xiaor.charas;
 
 import lombok.*;
 import xiaor.MessagePack;
+import xiaor.tools.Tools;
 import xiaor.trigger.TriggerEnum;
 import xiaor.trigger.TriggerManager;
 
@@ -13,6 +14,8 @@ import java.util.regex.Pattern;
 @Setter
 public abstract class Chara{
     protected int charaId;
+
+    protected int uniqueId = Tools.getNewID();
 
     protected String name;
 
@@ -40,6 +43,7 @@ public abstract class Chara{
 
     public Chara() {
         isLeader = false;
+        uniqueId = Tools.getNewID();
     }
 
     protected Element element;
@@ -57,6 +61,8 @@ public abstract class Chara{
                 .build();
         TriggerManager.sendMessage(TriggerEnum.释放防御, pack);
         setStatus(Chara.CharaStatus.INACTIVE);
+        TriggerManager.sendMessage(TriggerEnum.释放防御后, pack);
+
         TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
     }
 
@@ -73,6 +79,10 @@ public abstract class Chara{
 
     public String toString() {
         return name;
+    }
+
+    public int uniqueId() {
+        return uniqueId;
     }
 
     public abstract void initSkills();

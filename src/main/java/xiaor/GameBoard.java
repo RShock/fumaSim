@@ -67,6 +67,10 @@ public class GameBoard {
         String[] split = originS.split("\\s+");
         for (String s : split) {
             if(s.equals(""))continue;
+            if(s.equals("|")){
+                TriggerManager.sendMessage(TriggerEnum.回合结束, null);
+                continue;
+            }
             our = s.charAt(0) - '0' - 1;
             if(s.length() == 2)
                 their = 0;
@@ -121,23 +125,31 @@ public class GameBoard {
                 .time(INFI)
                 .check(pack -> GameBoard.getAlly().stream().noneMatch(chara -> chara.getStatus().equals(Chara.CharaStatus.ACTIVE)))
                 .cast(pack -> {
-                    GlobalDataManager.putIntData(KeyEnum.GAMETURN, getIntData(KeyEnum.GAMETURN) + 1);
                     TriggerManager.sendMessage(TriggerEnum.回合结束, null);
-                    Tools.log(Tools.LogColor.RED, "第" + (getIntData(KeyEnum.GAMETURN)) + "回合开始");
-                    TriggerManager.sendMessage(TriggerEnum.回合开始, null);
-                    GameBoard.getAlly().forEach(chara -> chara.setStatus(Chara.CharaStatus.ACTIVE));
                     return true;
                 }).build();
         TriggerManager.registerSkill(skill);
         //buff消退：回合结束时所有非永久buff都会消退1层
         skill = BaseSkill.builder().name("【系统规则】回合结束时所有非永久buff都会消退1层").trigger(TriggerEnum.回合结束)
                 .time(INFI)
-                .check(pack -> GameBoard.getAlly().stream().noneMatch(chara -> chara.getStatus().equals(Chara.CharaStatus.ACTIVE)))
+                .check(pack -> true)
                 .cast(pack -> {
                     TriggerManager.getInstance().getSkills().forEach(Skill::decrease);
+                    GlobalDataManager.putIntData(KeyEnum.GAMETURN, getIntData(KeyEnum.GAMETURN) + 1);
+                    Tools.log(Tools.LogColor.RED, "第" + (getIntData(KeyEnum.GAMETURN)) + "回合开始");
+                    TriggerManager.sendMessage(TriggerEnum.回合开始, null);
                     return true;
                 }).build();
         TriggerManager.registerSkill(skill);
+        skill = BaseSkill.builder().name("【系统规则】回合开始时所有角色恢复可用状态").trigger(TriggerEnum.回合开始)
+                .time(INFI)
+                .check(pack -> true)
+                .cast(pack -> {
+                    GameBoard.getAlly().forEach(chara -> chara.setStatus(Chara.CharaStatus.ACTIVE));
+                    return true;
+                }).build();
+        TriggerManager.registerSkill(skill);
+
         ourChara.forEach(Chara::initSkills);
         enemyChara.forEach(Chara::initSkills);
         DamageRecorder.init();
