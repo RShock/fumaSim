@@ -109,7 +109,7 @@ public class DamageCal {
         buffMap.put(BuffType.受到伤害, 易伤);
         buffMap.put(BuffType.受到攻击者伤害, 杂项);
         buffMap.put(BuffType.受到精灵王伤害, 杂项);
-        buffMap.put(BuffType.受到小精灵王伤害, 杂项);
+        buffMap.put(BuffType.受到自身伤害, 杂项);
         buffMap.put(BuffType.受到风属性伤害, 属性易伤);
         buffMap.put(BuffType.属性克制, 属性克制);
         buffMap.put(BuffType.必杀技伤害, 杂项);

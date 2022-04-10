@@ -147,14 +147,6 @@ public class BuffAction extends ActionBuilder {
                                 return true;
                             })
                             .build();
-                    case 受到小精灵王伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack ->
-                                    pack.checkAccepter(acceptor) && pack.caster.getCharaId() == 幼精ID
-                            ).cast(pack -> {
-                                pack.getDamageCal().changeDamage(受到小精灵王伤害, multi * pack.level);
-                                return true;
-                            })
-                            .build();
                     case 属性相克效果 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor)
