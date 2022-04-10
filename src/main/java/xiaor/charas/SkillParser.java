@@ -1,6 +1,7 @@
 package xiaor.charas;
 
 import xiaor.GameBoard;
+import xiaor.excel.ExcelCharaProvider;
 import xiaor.excel.vo.SkillExcelVo;
 import xiaor.skillbuilder.SkillBuilder;
 import xiaor.skillbuilder.SkillType;
@@ -215,7 +216,7 @@ public class SkillParser {
         System.out.println("buffParse:" + part);
         //e.g. 自身攻击力+20%
         Pattern pattern = Pattern.compile(
-                "(?<target>(自身|目标|我方群体|敌方群体|ID\\d+|友方|队伍中.{3}|))" +
+                "(?<target>(其他友方|自身|目标|我方群体|敌方群体|ID\\d+|友方|队伍中.{3}|\\{.*\\}))" +
                         "(?<buffType>.*)" +
                         "(?<incdec>[+-])" +
                         "(" +
@@ -278,6 +279,12 @@ public class SkillParser {
                     .map(GameBoard::selectTarget)
                     .collect(Collectors.toList());
         }
+        if (substring.matches("\\{.*\\}")) {     //e.g. {精灵王 塞露西亚}
+            String finalSubstring = substring.substring(1, substring.length() - 1);
+            return GameBoard.getAlly().stream().filter(chara ->
+                    chara.getCharaId() == ExcelCharaProvider.getCharaByName(finalSubstring).getCharaId())
+                    .collect(Collectors.toList());
+        }
         if (substring.equals("目标")) {
             return Collections.singletonList(GameBoard.getCurrentEnemy());
         }
@@ -291,7 +298,7 @@ public class SkillParser {
             return GameBoard.getEnemy();
         }
         if (substring.equals("其他友方")) {
-
+            return GameBoard.getAlly().stream().filter(chara -> !chara.equals(curChara)).collect(Collectors.toList());
         }
         if (substring.startsWith("ID")) {
             int id = Integer.parseInt(substring.substring(2));
