@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 @Setter
 public class Action {
     private int time;
-
+    private String name;
     private Consumer<MessagePack> action;
 
     public static Action getFreeAction(Supplier<Boolean> action) {

@@ -27,12 +27,27 @@ import static xiaor.Common.INFI;
 
 public class SkillParser {
 
+    Chara chara;
+    List<SkillExcelVo> vos;
+    int skillId;
+    SkillExcelVo vo;
+
+    public SkillParser(Chara chara, List<SkillExcelVo> vos, int skillId) {
+        this.chara = chara;
+        this.vos = vos;
+        this.skillId = skillId;
+        this.vo = findSkillVoBySkillId(skillId);
+    }
+
     public static void addSkill(Chara chara, List<SkillExcelVo> vos, int skillId) {
-        addSkill(chara, vos, skillId, 0);
+        new SkillParser(chara, vos, skillId).addSkill(0);
     }
 
     public static void addSkill(Chara chara, List<SkillExcelVo> vos, int skillId, int turn) {
-        SkillExcelVo vo = findSkillVoBySkillId(vos, skillId);
+        new SkillParser(chara, vos, skillId).addSkill(turn);
+    }
+
+    public void addSkill(int turn) {
         System.out.println("正在解析" + vo.getSkillId());
         if (vo.getEffect().equals("没做")) return;
         SkillType skillType = vo.getSkillType();
@@ -56,21 +71,21 @@ public class SkillParser {
             tempSkill.lastedTurn(turn);
         }
         if (skillString.startsWith("如果")) { //这个技能是激活型的，需要额外的检验条件，如果没激活会提示未激活
-            skillString = parseExtraCondition(chara, vo, switchChecker);
+            skillString = parseExtraCondition(switchChecker);
         }
         parseSkill(chara, tempSkill, skillString, switchChecker, vos).build();
     }
 
-    private static SkillExcelVo findSkillVoBySkillId(List<SkillExcelVo> vos, int skillId) {
+    private SkillExcelVo findSkillVoBySkillId(Integer skillId) {
         return vos.stream().filter(skillExcelVo -> skillId == skillExcelVo.getSkillId()).findFirst()
                 .orElseThrow(() -> new RuntimeException("不存在的Skill Id" + skillId));
     }
 
-    private static String parseExtraCondition(Chara curChara, SkillExcelVo vo, List<Supplier<Boolean>> switchChecker) {
+    private String parseExtraCondition(List<Supplier<Boolean>> switchChecker) {
         String skillString;
         //这个技能是条件触发型的，触发器触发后还需要额外的校验
         Matcher matcher = Tools.find(vo.getEffect(), "如果(?<condition>.*)则(?<skill>.*)");
-        switchChecker.add(() -> parseCondition(curChara, matcher.group("condition")));
+        switchChecker.add(() -> parseCondition(matcher.group("condition")));
         skillString = matcher.group("skill");
         return skillString;
     }
@@ -131,10 +146,10 @@ public class SkillParser {
         return true;
     }
 
-    private static Boolean parseCondition(Chara curChara, String condition) {
+    private Boolean parseCondition(String condition) {
 //        System.out.println("parse:" + condition);
         Matcher matcher = Tools.find(condition, "^(?<target>.*)(?<checker>(有ID为|数量为).*)$");
-        List<Chara> target = parseChooser(curChara, matcher.group("target"));
+        List<Chara> target = parseChooser(matcher.group("target"));
         String checker = matcher.group("checker");
         if (checker.startsWith("有ID为")) {
             Matcher matcher1 = Tools.find(checker, "有ID为(?<id>\\d+)");
@@ -147,7 +162,7 @@ public class SkillParser {
         throw new RuntimeException(checker + "未受支持");
     }
 
-    private static WhenBuilder parseSkill(Chara chara, WhenBuilder tempSkill, String effect, List<Supplier<Boolean>> switchChecker, List<SkillExcelVo> vos) {
+    private WhenBuilder parseSkill(Chara chara, WhenBuilder tempSkill, String effect, List<Supplier<Boolean>> switchChecker, List<SkillExcelVo> vos) {
 //        System.out.println("parse:" + effect);
         if (effect.contains(",")) {
             int index = effect.indexOf(",");
@@ -164,16 +179,16 @@ public class SkillParser {
         return tempSkill;
     }
 
-    private static Action parseAction(Chara chara, String part, List<Supplier<Boolean>> switchChecker, List<SkillExcelVo> vos) {
+    private Action parseAction(Chara chara, String part, List<Supplier<Boolean>> switchChecker, List<SkillExcelVo> vos) {
         if (part.startsWith("对")) {
-            return parseDamageAction(chara, part);
+            return parseDamageAction(part);
         }
         if (part.matches((".+获得技能.+"))) {
             Matcher matcher = Tools.find(part, "(?<target>.+)获得技能(?<skill>\\d+)(\\((?<turn>\\d+)回合\\))?");
-            List<Chara> target = parseChooser(chara, matcher.group("target"));
+            List<Chara> target = parseChooser(matcher.group("target"));
             //这个技能是该角色给别人或者自己的的 例如幼精给精灵王
 
-            SkillExcelVo givenVo = findSkillVoBySkillId(vos, Integer.parseInt(matcher.group("skill")));
+            SkillExcelVo givenVo = findSkillVoBySkillId(Integer.parseInt(matcher.group("skill")));
             if (givenVo.getSkillType() != SkillType.动态技能) {
                 throw new RuntimeException("技能" + givenVo.getSkillId() + "不是动态的");
             }
@@ -188,11 +203,11 @@ public class SkillParser {
                 return true;
             });
         }
-        return parseBuffAction(chara, part, switchChecker);
+        return parseBuffAction(part, switchChecker);
     }
 
     //TODO
-    private static Action parseBuffAction(Chara chara, String part, List<Supplier<Boolean>> switchChecker) {
+    private Action parseBuffAction(String part, List<Supplier<Boolean>> switchChecker) {
 
         System.out.println("buffParse:" + part);
         //e.g. 自身攻击力+20%
@@ -210,7 +225,7 @@ public class SkillParser {
 
         Matcher matcher = pattern.matcher(part);
         matcher.find();
-        List<Chara> target = parseChooser(chara, matcher.group("target"));
+        List<Chara> target = parseChooser(matcher.group("target"));
         BuffType buffType = Enum.valueOf(BuffType.class, matcher.group("buffType"));
         int symbol = matcher.group("incdec").equals("+") ? 1 : -1;
         double multi = Double.parseDouble(matcher.group("multi")) / 100.0;
@@ -218,7 +233,7 @@ public class SkillParser {
                 .to(target)
                 .multi(symbol * multi)
                 .lastedTurn(INFI)
-                .name(buffType + matcher.group("incdec") + Double.parseDouble(matcher.group("multi")) + '%');
+                .name("%s %s%s%s%%".formatted(vo, buffType, matcher.group("incdec"), Double.parseDouble(matcher.group("multi"))));
         if (switchChecker.size() != 0) {
             buff = buff.enabledCheck(switchChecker);
         }
@@ -234,7 +249,7 @@ public class SkillParser {
     }
 
     //选择
-    private static List<Chara> parseChooser(Chara curChara, String substring) {
+    private List<Chara> parseChooser(String substring) {
         Stream<Chara> stream = GameBoard.getAlly().stream();
         if (substring.startsWith("队伍中")) {
             substring = substring.substring(3);
@@ -276,7 +291,7 @@ public class SkillParser {
             return Collections.singletonList(GameBoard.getCurrentEnemy());
         }
         if (substring.equals("自身")) {
-            return Collections.singletonList(curChara);
+            return Collections.singletonList(chara);
         }
         if (substring.equals("友方")) {
             return GameBoard.getAlly();
@@ -285,7 +300,7 @@ public class SkillParser {
             return GameBoard.getEnemy();
         }
         if (substring.equals("其他友方")) {
-            return GameBoard.getAlly().stream().filter(chara -> !chara.equals(curChara)).collect(Collectors.toList());
+            return GameBoard.getAlly().stream().filter(chara -> !chara.equals(chara)).collect(Collectors.toList());
         }
         if (substring.startsWith("ID")) {
             int id = Integer.parseInt(substring.substring(2));
@@ -298,11 +313,11 @@ public class SkillParser {
         throw new RuntimeException("未支持的分类" + substring);
     }
 
-    private static Action parseDamageAction(Chara chara, String part) {
+    private Action parseDamageAction(String part) {
         System.out.println("normalAtkParse:" + part);
         Matcher matcher = Tools.find(part, "对(?<target>.*?)(?<multi>\\d+)%(?<type>(技能|普攻))伤害");
         DamageAction.DamageType type;
-        List<Chara> target = parseChooser(chara, matcher.group("target"));
+        List<Chara> target = parseChooser(matcher.group("target"));
         type = switch (matcher.group("type")) {
             case "技能" -> DamageAction.DamageType.必杀伤害;
             case "普攻" -> DamageAction.DamageType.普通伤害;

@@ -87,15 +87,11 @@ public class BuffAction {
                             .cast(pack -> pack.getDamageCal().changeDamage(必杀技伤害, multi * pack.level))
                             .build();
                     case 受到风属性伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack ->
-                                    pack.checkAccepter(acceptor) && caster.getElement().equals(Element.风属性)
-                            )
+                            .check(pack -> pack.checkAccepter(acceptor) && caster.getElement().equals(Element.风属性))
                             .cast(pack -> pack.getDamageCal().changeDamage(受到风属性伤害, multi * pack.level))
                             .build();
                     case 受到伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack ->
-                                    pack.checkAccepter(acceptor)
-                            )
+                            .check(pack -> pack.checkAccepter(acceptor))
                             .cast(pack -> pack.getDamageCal().changeDamage(受到伤害, multi * pack.level))
                             .build();
                     case 攻击力数值 -> {
@@ -107,23 +103,19 @@ public class BuffAction {
                                 .build();
                     }
                     case 受到普攻伤害 -> buff = tempBuff.trigger(普攻伤害计算)
-                            .check(pack ->
-                                    pack.checkAccepter(acceptor)
-                            ).cast(pack -> pack.getDamageCal().changeDamage(BuffType.受到普攻伤害, multi * pack.level))
+                            .check(pack -> pack.checkAccepter(acceptor))
+                            .cast(pack -> pack.getDamageCal().changeDamage(BuffType.受到普攻伤害, multi * pack.level))
                             .build();
                     case 受到攻击者伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack ->
-                                    pack.checkAccepter(acceptor) && pack.caster.is(攻击者)
-                            ).cast(pack -> pack.getDamageCal().changeDamage(受到攻击者伤害, multi * pack.level))
+                            .check(pack -> pack.checkAccepter(acceptor) && pack.caster.is(攻击者))
+                            .cast(pack -> pack.getDamageCal().changeDamage(受到攻击者伤害, multi * pack.level))
                             .build();
                     case 受到精灵王伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack -> pack.caster.getCharaId() == ExcelCharaProvider.searchIdByCharaName("精灵王 塞露西亚"))
                             .cast(pack -> pack.getDamageCal().changeDamage(受到精灵王伤害, multi * pack.level))
                             .build();
                     case 属性相克效果 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack ->
-                                    pack.checkAccepter(acceptor)
-                            )
+                            .check(pack -> pack.checkAccepter(acceptor))
                             .time(INFI)
                             .cast(pack -> pack.getDamageCal().changeDamage(属性相克效果, multi))
                             .build();

@@ -25,8 +25,7 @@ public class DamageCal {
     public void changeDamage(BuffType type, double percent){
         if(damageBuffMap.containsKey(type)) {
             damageBuffMap.put(type, damageBuffMap.get(type) + percent);
-        }else
-        {
+        }else {
             damageBuffMap.put(type, percent);
         }
     }

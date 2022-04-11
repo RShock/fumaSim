@@ -45,6 +45,6 @@ public class SkillExcelVo {
     }
 
     public String toString() {
-        return "[%s %s %s]".formatted(owner, skillType, skillType2);
+        return "[%s %s %s]".formatted(owner, skillType, skillType2 == null? "/" : skillType2);
     }
 }
