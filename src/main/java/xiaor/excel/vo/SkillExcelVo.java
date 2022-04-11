@@ -44,7 +44,7 @@ public class SkillExcelVo {
         return Enum.valueOf(TriggerEnum.class, trigger);
     }
 
-    public int getOwner() {
-        return skillId/100;
+    public String toString() {
+        return "[%s %s %s]".formatted(owner, skillType, skillType2);
     }
 }

@@ -5,12 +5,6 @@ import xiaor.excel.vo.CharaExcelVo;
 
 
 public class ExcelCharaProvider {
-    private static final ExcelCharaProvider charaProvider = new ExcelCharaProvider();
-
-    public static ExcelCharaProvider getInstance() {
-        return charaProvider;
-    }
-
     private ExcelCharaProvider() {
     }
 

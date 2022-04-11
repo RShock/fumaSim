@@ -18,7 +18,7 @@ public class WhenBuilder {
     private int turn;   //持续回合
     private WhenBuilder preBuilder; //whenBuilder需要懒计算否则会出问题，只在build时依序处理前面所有的指令
 
-    public WhenBuilder(SkillType skillType, Trigger trigger) {
+    public WhenBuilder(Trigger trigger) {
         this.trigger = trigger;
         this.turn = INFI;
         this.preBuilder = this;
@@ -27,11 +27,6 @@ public class WhenBuilder {
     public WhenBuilder act(Action action) {
         if(this.action != null)throw new RuntimeException("重复赋值act,建议中间加上and");
         this.action = action;
-        return this;
-    }
-
-    public WhenBuilder name(String name) {
-        this.name = name;
         return this;
     }
 
@@ -62,6 +57,11 @@ public class WhenBuilder {
     @SuppressWarnings("UnusedReturnValue")
     public WhenBuilder lastedTurn(int turn) {
         this.turn = turn;
+        return this;
+    }
+
+    public WhenBuilder name(String skillName) {
+        this.name = skillName;
         return this;
     }
 }

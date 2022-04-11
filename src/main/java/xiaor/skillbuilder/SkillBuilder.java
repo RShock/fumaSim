@@ -1,23 +1,23 @@
 package xiaor.skillbuilder;
 
-import xiaor.charas.Chara;
 import xiaor.trigger.TriggerEnum;
 import xiaor.skillbuilder.trigger.Trigger;
 import xiaor.skillbuilder.when.WhenBuilder;
 
 public class SkillBuilder {
-    private final SkillType skillType;
 
-    public static SkillBuilder createNewSkill(SkillType type) {
-        return new SkillBuilder(type);
+    private final String name;
+
+    public SkillBuilder(String name) {
+        this.name = name;
     }
 
-    protected SkillBuilder(SkillType type) {
-        this.skillType = type;
+    public static SkillBuilder createNewSkill(String skillName) {
+        return new SkillBuilder(skillName);
     }
 
     public WhenBuilder when(Trigger trigger) {
-        return new WhenBuilder(skillType, trigger);
+        return new WhenBuilder(trigger).name(name);
     }
 
     public WhenBuilder when(TriggerEnum triggerEnum) {

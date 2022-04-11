@@ -23,13 +23,13 @@ public class 风队Test {
         Chara 千鹤 = ImportedChara.initChara("复生公主 千鹤 攻击力361418 星3 绊1 潜6");
         Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力204650 星3 绊2 潜5");
 
-        五十四层boss_诺诺可 诺诺可 = 五十四层boss_诺诺可.init("");
+        Chara 测试角色 = ImportedChara.initChara("测试 角色 生命0");
         board.addOurChara(小精灵王);
         board.addOurChara(露露);
         board.addOurChara(精灵王);
         board.addOurChara(沃沃);
         board.addOurChara(千鹤);
-        board.addEnemyChara(诺诺可);
+        board.addEnemyChara(测试角色);
 
         board.initSkills();
         board.run("""
@@ -39,16 +39,11 @@ public class 风队Test {
                 1a1 2a1 3a1 4a1 5d1
                 1q1
                 """);
-        assertEquals(-820408, 诺诺可.getLife(), 10);
+        assertEquals(-52025264, 测试角色.getLife(), 10);
     }
 
     @Test
     void 风队满配打桩统计() {
-        //精灵王 面板攻击力243585 (152116)
-        //沃沃 270601 (169126)
-        //千鹤 256871
-        //露露 248889
-        //幼精灵 281230
         Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力281230 羁绊5 星5 潜力6 队长");
         Chara 露露 = ImportedChara.initChara("法斯公主 露露 攻击力248899 星5 绊5 潜6");
         Chara 精灵王 = ImportedChara.initChara("精灵王 塞露西亚 攻击力243585 星5 绊5 潜6");

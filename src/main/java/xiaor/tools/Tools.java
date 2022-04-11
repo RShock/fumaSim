@@ -2,6 +2,9 @@ package xiaor.tools;
 
 import xiaor.trigger.TriggerManager;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Tools {
     public static int getNewID() {
         return TriggerManager.getInstance().getIDGen();
@@ -15,8 +18,9 @@ public class Tools {
     public enum LogColor {
         RED, GREEN, YELLOW, BLUE, PURPLE, CYAN, WHITE, GREY
     }
-    public static void log(LogColor color,String str) {
-        if(!SHOULD_LOG)return;
+
+    public static void log(LogColor color, String str) {
+        if (!SHOULD_LOG) return;
         String ansiColor = "";
         switch (color) {
             case WHITE -> ansiColor = "\033[0;30m";   // WHITE
@@ -33,7 +37,16 @@ public class Tools {
     }
 
     public static void log(String str) {
-        if(!SHOULD_LOG)return;
+        if (!SHOULD_LOG) return;
         System.out.println(str);
+    }
+
+    public static Matcher find(String text, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text);
+        if(!matcher.find()){
+            throw new RuntimeException("mismatch");
+        }
+        return matcher;
     }
 }

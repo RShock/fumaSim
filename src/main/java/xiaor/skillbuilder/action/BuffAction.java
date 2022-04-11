@@ -154,8 +154,7 @@ public class BuffAction {
                     .currentLevel(level)
                     .uniqueId(uniqueId + acceptor.uniqueId());
         } else if (isSwitchBuff) {
-            tempBuff = SwitchBuff.builder()
-                    .enabledChecks(additionalCheckers);
+            tempBuff = SwitchBuff.builder().enabledChecks(additionalCheckers);
         } else {
             tempBuff = Buff.builder();
         }

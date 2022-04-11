@@ -13,6 +13,7 @@ import xiaor.skillbuilder.trigger.Trigger;
 import xiaor.skillbuilder.when.WhenBuilder;
 import xiaor.tools.GlobalDataManager;
 import xiaor.tools.KeyEnum;
+import xiaor.tools.Tools;
 import xiaor.trigger.TriggerEnum;
 
 import java.util.*;
@@ -41,9 +42,7 @@ public class SkillParser {
         Trigger trigger = switch (triggerEnum) {
             case 游戏开始时, 被动光环, 回合结束 -> Trigger.when(triggerEnum);
             case 回合开始 -> {
-                Pattern pattern = Pattern.compile("(?<turnsA>\\d+)N(\\+(?<turnsB>\\d+))?回合触发:(?<effect>.*)");
-                Matcher matcher = pattern.matcher(skillString);
-                matcher.find();
+                Matcher matcher = Tools.find(skillString, "(?<turnsA>\\d+)N(\\+(?<turnsB>\\d+))?回合触发:(?<effect>.*)");
                 int a = Integer.parseInt(matcher.group("turnsA"));
                 int b = Integer.parseInt(Optional.of(matcher.group("turnsB")).orElse("0"));
                 skillString = matcher.group("effect");
@@ -52,7 +51,7 @@ public class SkillParser {
             default -> Trigger.selfAct(chara, triggerEnum);
         };
         List<Supplier<Boolean>> switchChecker = new ArrayList<>();
-        WhenBuilder tempSkill = SkillBuilder.createNewSkill(skillType).when(trigger);
+        WhenBuilder tempSkill = SkillBuilder.createNewSkill(vo.toString()).when(trigger);
         if (turn != 0) {
             tempSkill.lastedTurn(turn);
         }
@@ -70,9 +69,7 @@ public class SkillParser {
     private static String parseExtraCondition(Chara curChara, SkillExcelVo vo, List<Supplier<Boolean>> switchChecker) {
         String skillString;
         //这个技能是条件触发型的，触发器触发后还需要额外的校验
-        Pattern pattern = Pattern.compile("如果(?<condition>.*)则(?<skill>.*)");
-        Matcher matcher = pattern.matcher(vo.getEffect());
-        matcher.find();
+        Matcher matcher = Tools.find(vo.getEffect(), "如果(?<condition>.*)则(?<skill>.*)");
         switchChecker.add(() -> parseCondition(curChara, matcher.group("condition")));
         skillString = matcher.group("skill");
         return skillString;
@@ -136,23 +133,15 @@ public class SkillParser {
 
     private static Boolean parseCondition(Chara curChara, String condition) {
 //        System.out.println("parse:" + condition);
-        Pattern pattern = Pattern.compile(
-                "^(?<target>.*)(?<checker>(有ID为|数量为).*)$"
-        );
-        Matcher matcher = pattern.matcher(condition);
-        matcher.find();
+        Matcher matcher = Tools.find(condition, "^(?<target>.*)(?<checker>(有ID为|数量为).*)$");
         List<Chara> target = parseChooser(curChara, matcher.group("target"));
         String checker = matcher.group("checker");
         if (checker.startsWith("有ID为")) {
-            Pattern pattern1 = Pattern.compile("有ID为(?<id>\\d+)");
-            Matcher matcher1 = pattern1.matcher(checker);
-            matcher1.find();
+            Matcher matcher1 = Tools.find(checker, "有ID为(?<id>\\d+)");
             return target.stream().anyMatch(chara -> chara.getCharaId() == Integer.parseInt(matcher1.group("id")));
         }
         if (checker.startsWith("数量为")) {
-            Pattern pattern1 = Pattern.compile("数量为(?<amount>\\d+)");
-            Matcher matcher1 = pattern1.matcher(checker);
-            matcher1.find();
+            Matcher matcher1 = Tools.find(checker, "数量为(?<amount>\\d+)");
             return target.size() == Integer.parseInt(matcher1.group("amount"));
         }
         throw new RuntimeException(checker + "未受支持");
@@ -180,9 +169,7 @@ public class SkillParser {
             return parseDamageAction(chara, part);
         }
         if (part.matches((".+获得技能.+"))) {
-            Pattern pattern = Pattern.compile("(?<target>.+)获得技能(?<skill>\\d+)(\\((?<turn>\\d+)回合\\))?");
-            Matcher matcher = pattern.matcher(part);
-            matcher.find();
+            Matcher matcher = Tools.find(part, "(?<target>.+)获得技能(?<skill>\\d+)(\\((?<turn>\\d+)回合\\))?");
             List<Chara> target = parseChooser(chara, matcher.group("target"));
             //这个技能是该角色给别人或者自己的的 例如幼精给精灵王
 
@@ -210,7 +197,7 @@ public class SkillParser {
         System.out.println("buffParse:" + part);
         //e.g. 自身攻击力+20%
         Pattern pattern = Pattern.compile(
-                "(?<target>(其他友方|自身|目标|我方群体|敌方群体|ID\\d+|友方|队伍中.{3}|\\{.*\\}))" +
+                "(?<target>(其他友方|自身|目标|我方群体|敌方群体|ID\\d+|友方|队伍中.{3}|\\{.*}))" +
                         "(?<buffType>.*)" +
                         "(?<incdec>[+-])" +
                         "(" +
@@ -273,13 +260,13 @@ public class SkillParser {
                 return stream.filter(chara -> chara.getRole().equals(Role.辅助者)).collect(Collectors.toList());
             }
         }
-        if (substring.matches("\\{\\d+(_\\d+)*\\}")) {  // e.g. {1_2_3}
+        if (substring.matches("\\{\\d+(_\\d+)*}")) {  // e.g. {1_2_3}
             return Arrays.stream(substring.substring(1, substring.length() - 1).split("_"))
                     .map(Integer::parseInt)
                     .map(GameBoard::selectTarget)
                     .collect(Collectors.toList());
         }
-        if (substring.matches("\\{.*\\}")) {     //e.g. {精灵王 塞露西亚}
+        if (substring.matches("\\{.*}")) {     //e.g. {精灵王 塞露西亚}
             String finalSubstring = substring.substring(1, substring.length() - 1);
             return GameBoard.getAlly().stream().filter(chara ->
                     chara.getCharaId() == ExcelCharaProvider.getCharaByName(finalSubstring).getCharaId())
@@ -313,9 +300,7 @@ public class SkillParser {
 
     private static Action parseDamageAction(Chara chara, String part) {
         System.out.println("normalAtkParse:" + part);
-        Pattern pattern = Pattern.compile("对(?<target>.*?)(?<multi>\\d+)%(?<type>(技能|普攻))伤害");
-        Matcher matcher = pattern.matcher(part);
-        matcher.find();
+        Matcher matcher = Tools.find(part, "对(?<target>.*?)(?<multi>\\d+)%(?<type>(技能|普攻))伤害");
         DamageAction.DamageType type;
         List<Chara> target = parseChooser(chara, matcher.group("target"));
         type = switch (matcher.group("type")) {
@@ -323,7 +308,7 @@ public class SkillParser {
             case "普攻" -> DamageAction.DamageType.普通伤害;
             default -> throw new RuntimeException("不支持的伤害类型：" + matcher.group("type"));
         };
-        return DamageAction.create(chara, type)
+        return DamageAction.create(type)
                 .multi(Double.parseDouble(matcher.group("multi")) / 100)
                 .to(target)
                 .build();

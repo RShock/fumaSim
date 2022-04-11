@@ -13,18 +13,15 @@ public class DamageAction {
 
     public double multi;    //伤害倍率
 
-    public Chara caster;
-
     public enum DamageType {
         普通伤害,
         必杀伤害,
     }
 
-    public static DamageAction create(Chara chara, DamageType damageType) {
+    public static DamageAction create(DamageType damageType) {
         DamageAction damageAction = new DamageAction();
         damageAction.damageType = damageType;
         damageAction.multi = 1.0;   //默认倍率1.0
-        damageAction.caster = chara;
         return damageAction;
     }
 
