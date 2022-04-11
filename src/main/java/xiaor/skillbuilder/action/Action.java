@@ -5,6 +5,7 @@ import lombok.Setter;
 import xiaor.MessagePack;
 import xiaor.tools.Tools;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 @Getter
@@ -17,6 +18,6 @@ public class Action {
     private int time;
 
     private int actionId;
-    private Function<MessagePack, Boolean> action;
+    private Consumer<MessagePack> action;
 
 }

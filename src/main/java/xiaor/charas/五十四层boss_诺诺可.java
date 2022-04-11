@@ -1,6 +1,6 @@
 package xiaor.charas;
 
-import xiaor.skill.UniqueBuff;
+import xiaor.skill.buff.UniqueBuff;
 import xiaor.skillbuilder.SkillBuilder;
 import xiaor.skillbuilder.SkillType;
 import xiaor.skillbuilder.action.Action;
@@ -45,7 +45,6 @@ public class 五十四层boss_诺诺可 extends Chara {
                     .orElseGet(() -> (int) (attack * 0.5 * (1 + 必杀伤害加成)));
             Tools.log(Tools.LogColor.YELLOW, "【boss动作】诺诺可为自己添加了"+ shieldInc + "点护盾");
             this.shield += shieldInc;
-            return true;
         });
         SkillBuilder.createNewSkill(this, SkillType.一星被动)
                 .when(TriggerEnum.回合结束)

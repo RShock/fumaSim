@@ -2,9 +2,9 @@ package xiaor.trigger;
 
 import lombok.Getter;
 import xiaor.MessagePack;
-import xiaor.skill.Buff;
+import xiaor.skill.buff.Buff;
 import xiaor.skill.Skill;
-import xiaor.skill.UniqueBuff;
+import xiaor.skill.buff.UniqueBuff;
 import xiaor.tools.Tools;
 
 import java.util.ArrayList;

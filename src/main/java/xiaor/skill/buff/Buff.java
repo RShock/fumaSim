@@ -1,4 +1,4 @@
-package xiaor.skill;
+package xiaor.skill.buff;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import xiaor.MessagePack;
 import xiaor.charas.Chara;
+import xiaor.skill.BaseSkill;
+import xiaor.skill.BuffType;
 
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
@@ -18,14 +20,14 @@ public class Buff extends BaseSkill {
 
 
     @Override
-    public boolean cast(MessagePack pack) {
+    public void cast(MessagePack pack) {
         pack.level = 1; //普通buff默认有一层
-        return super.cast(pack);
+        super.cast(pack);
     }
 
     //uniqueBuff子类需要一个调用父类cast的方法
-    public boolean _cast(MessagePack pack) {
-        return super.cast(pack);
+    public void _cast(MessagePack pack) {
+        super.cast(pack);
     }
 
     public String toString() {

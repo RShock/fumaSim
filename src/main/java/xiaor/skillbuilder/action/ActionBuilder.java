@@ -15,9 +15,7 @@ public class ActionBuilder {
 
     public static Action getEmptyAction() {
         Action action = new Action();
-        action.setAction(pack -> {
-            return true;
-        });
+        action.setAction(pack -> { });
         return action;
     }
 

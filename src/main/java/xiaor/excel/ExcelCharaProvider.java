@@ -20,9 +20,8 @@ public class ExcelCharaProvider {
         return ImportedChara.convertToChara(targetChara);
     }
 
-    public static ImportedChara getCharaById(int id) {
-        CharaExcelVo targetChara = ExcelReader.getInstance().getCharaVos().stream().filter(chara -> chara.getCharaId() == id).findFirst().
-                orElseThrow(() -> new RuntimeException("找不到指定角色：" + id));
-        return ImportedChara.convertToChara(targetChara);
+    public static int searchIdByCharaName(String name) {
+        return ExcelReader.getInstance().getCharaVos().stream().filter(chara -> chara.getCharaName().equals(name))
+                .findFirst().orElseThrow(() -> new RuntimeException("未找到对应名称")).charaId;
     }
 }

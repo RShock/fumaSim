@@ -39,7 +39,6 @@ public class DamageRecorder {
                 .check(pack -> true)
                 .cast(pack -> {
                     DamageRecorder.addDamageRecord(pack.getResult());
-                    return true;
                 }).build();
         TriggerManager.registerSkill(skill);
     }

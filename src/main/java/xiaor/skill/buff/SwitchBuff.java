@@ -1,4 +1,4 @@
-package xiaor.skill;
+package xiaor.skill.buff;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,6 @@ import lombok.experimental.SuperBuilder;
 import xiaor.MessagePack;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 @SuperBuilder(toBuilder = true)
@@ -21,11 +20,10 @@ public class SwitchBuff extends Buff{
     List<Supplier<Boolean>> enabledChecks;
 
     @Override
-    public boolean cast(MessagePack pack) {
+    public void cast(MessagePack pack) {
         pack.level = 1; //开关buff默认有一层
         if(isEnabled())
-            return super._cast(pack);
-        return false;
+            super._cast(pack);
     }
 
     @Override

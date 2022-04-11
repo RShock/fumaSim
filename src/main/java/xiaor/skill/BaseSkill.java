@@ -6,6 +6,7 @@ import lombok.experimental.SuperBuilder;
 import xiaor.MessagePack;
 import xiaor.trigger.TriggerEnum;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import static xiaor.Common.INFI;
@@ -16,10 +17,10 @@ import static xiaor.Common.INFI;
 public class BaseSkill implements Skill {
     TriggerEnum trigger;
     Function<MessagePack, Boolean> check;
-    Function<MessagePack, Boolean> cast;
+    Consumer<MessagePack> cast;
     SkillStatus skillStatus;
-    int time;   //持续时间
-    String name; //名字
+    protected int time;   //持续时间
+    protected String name; //名字
 
     @Override
     public TriggerEnum getTrigger() {
@@ -35,14 +36,14 @@ public class BaseSkill implements Skill {
     }
 
     @Override
-    public boolean cast(MessagePack pack) {
+    public void cast(MessagePack pack) {
         if(skillStatus == SkillStatus.已经失效) {
-            return false;
+            return;
         }
         if(skillStatus == SkillStatus.仅生效一次){
             skillStatus = SkillStatus.已经失效;
         }
-        return cast.apply(pack);
+        cast.accept(pack);
     }
 
     @Override

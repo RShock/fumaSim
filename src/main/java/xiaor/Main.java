@@ -3,6 +3,6 @@ package xiaor;
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+	// 目前程序入口为各种test
     }
 }

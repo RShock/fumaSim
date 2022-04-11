@@ -1,4 +1,4 @@
-package xiaor.skill;
+package xiaor.skill.buff;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,9 +21,9 @@ public class UniqueBuff extends Buff{
     public int incLv;   //添加时buff添加几层
 
     @Override
-    public boolean cast(MessagePack pack) {
+    public void cast(MessagePack pack) {
         pack.level = currentLevel;
-        return super._cast(pack);
+        super._cast(pack);
     }
 
     public void add(UniqueBuff buff) {

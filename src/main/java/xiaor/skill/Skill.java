@@ -8,7 +8,7 @@ public interface Skill {
 
     boolean check(MessagePack pack);
 
-    boolean cast(MessagePack pack);
+    void cast(MessagePack pack);
 
     //随着时间流逝Buff消退
     void decrease();
