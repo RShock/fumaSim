@@ -23,7 +23,7 @@ public class DamageRecorder {
 
     List<DamageRecord> records;
 
-    private static DamageRecorder damageRecorder = new DamageRecorder();
+    private static final DamageRecorder damageRecorder = new DamageRecorder();
 
     public static DamageRecorder getInstance() {
         return damageRecorder;
@@ -37,9 +37,7 @@ public class DamageRecorder {
         Skill skill = BaseSkill.builder().name("【系统规则】伤害记录器").trigger(TriggerEnum.造成伤害)
                 .time(INFI)
                 .check(pack -> true)
-                .cast(pack -> {
-                    DamageRecorder.addDamageRecord(pack.getResult());
-                }).build();
+                .cast(pack -> DamageRecorder.addDamageRecord(pack.getResult())).build();
         TriggerManager.registerSkill(skill);
     }
 

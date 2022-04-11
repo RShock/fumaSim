@@ -3,29 +3,24 @@ package xiaor.skillbuilder;
 import xiaor.charas.Chara;
 import xiaor.trigger.TriggerEnum;
 import xiaor.skillbuilder.trigger.Trigger;
-import xiaor.skillbuilder.trigger.TriggerBuilder;
 import xiaor.skillbuilder.when.WhenBuilder;
 
 public class SkillBuilder {
     private final SkillType skillType;
-    private final Chara caster; //技能释放者
-    private String name;
 
-    public static SkillBuilder createNewSkill(Chara caster, SkillType type) {
-        return new SkillBuilder(caster, type);
+    public static SkillBuilder createNewSkill(SkillType type) {
+        return new SkillBuilder(type);
     }
 
-    protected SkillBuilder(Chara caster, SkillType type) {
-        this.caster = caster;
+    protected SkillBuilder(SkillType type) {
         this.skillType = type;
-        this.name = caster + " " + type;
     }
 
     public WhenBuilder when(Trigger trigger) {
-        return new WhenBuilder(skillType, trigger).name(name);
+        return new WhenBuilder(skillType, trigger);
     }
 
     public WhenBuilder when(TriggerEnum triggerEnum) {
-        return this.when(TriggerBuilder.when(triggerEnum));
+        return this.when(Trigger.when(triggerEnum));
     }
 }

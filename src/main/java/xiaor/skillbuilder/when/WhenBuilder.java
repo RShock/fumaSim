@@ -59,6 +59,7 @@ public class WhenBuilder {
         return whenBuilder;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public WhenBuilder lastedTurn(int turn) {
         this.turn = turn;
         return this;

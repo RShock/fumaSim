@@ -15,21 +15,20 @@ import static xiaor.DamageCal.InternalBuffType.*;
 
 public class DamageCal {
     public final MessagePack pack;
-    public HashMap<BuffType, Double> damageBuffMap;
+    public final HashMap<BuffType, Double> damageBuffMap;
 
     public DamageCal(MessagePack pack) {
         damageBuffMap = new HashMap<>();
         this.pack = pack;
     }
 
-    public boolean changeDamage(BuffType type, double percent){
+    public void changeDamage(BuffType type, double percent){
         if(damageBuffMap.containsKey(type)) {
             damageBuffMap.put(type, damageBuffMap.get(type) + percent);
         }else
         {
             damageBuffMap.put(type, percent);
         }
-        return true;
     }
 
     public void finalDamage(Chara acceptor, double percent, TriggerEnum skillTypeEnum) {
@@ -136,14 +135,12 @@ public class DamageCal {
         return finalAtk;
     }
 
-    public boolean skillAttack(double multi) {
+    public void skillAttack(double multi) {
         pack.acceptors.forEach(acceptor -> finalDamage(acceptor, multi, TriggerEnum.技能伤害计算));
-        return true;
     }
 
     //普攻
-    public boolean normalAttack(double percent) {
+    public void normalAttack(double percent) {
         pack.acceptors.forEach(acceptor -> finalDamage(acceptor, percent, TriggerEnum.普攻伤害计算));
-        return true;
     }
 }

@@ -9,9 +9,7 @@ import xiaor.skillbuilder.action.Action;
 import xiaor.skillbuilder.action.BuffAction;
 import xiaor.skillbuilder.skill.BuffType;
 import xiaor.skillbuilder.action.DamageAction;
-import xiaor.skillbuilder.trigger.SelfTrigger;
 import xiaor.skillbuilder.trigger.Trigger;
-import xiaor.skillbuilder.trigger.TriggerBuilder;
 import xiaor.skillbuilder.when.WhenBuilder;
 import xiaor.tools.GlobalDataManager;
 import xiaor.tools.KeyEnum;
@@ -41,7 +39,7 @@ public class SkillParser {
         TriggerEnum triggerEnum = vo.getTrigger();
         String skillString = vo.getEffect();
         Trigger trigger = switch (triggerEnum) {
-            case 游戏开始时, 被动光环, 回合结束 -> TriggerBuilder.when(triggerEnum);
+            case 游戏开始时, 被动光环, 回合结束 -> Trigger.when(triggerEnum);
             case 回合开始 -> {
                 Pattern pattern = Pattern.compile("(?<turnsA>\\d+)N(\\+(?<turnsB>\\d+))?回合触发:(?<effect>.*)");
                 Matcher matcher = pattern.matcher(skillString);
@@ -49,13 +47,12 @@ public class SkillParser {
                 int a = Integer.parseInt(matcher.group("turnsA"));
                 int b = Integer.parseInt(Optional.of(matcher.group("turnsB")).orElse("0"));
                 skillString = matcher.group("effect");
-                yield TriggerBuilder.when(triggerEnum, () -> GlobalDataManager.getIntData(KeyEnum.GAMETURN) % a == b);
+                yield Trigger.when(triggerEnum, () -> GlobalDataManager.getIntData(KeyEnum.GAMETURN) % a == b);
             }
-            default -> SelfTrigger.act(chara, triggerEnum);
+            default -> Trigger.selfAct(chara, triggerEnum);
         };
-
         List<Supplier<Boolean>> switchChecker = new ArrayList<>();
-        WhenBuilder tempSkill = SkillBuilder.createNewSkill(chara, skillType).when(trigger);
+        WhenBuilder tempSkill = SkillBuilder.createNewSkill(skillType).when(trigger);
         if (turn != 0) {
             tempSkill.lastedTurn(turn);
         }

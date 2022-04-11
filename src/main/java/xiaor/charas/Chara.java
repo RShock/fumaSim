@@ -32,9 +32,9 @@ public abstract class Chara{
     protected int shield;   //护盾
 
     public enum CharaStatus {
-        DEAD,
+        @SuppressWarnings("unused") DEAD,
         ACTIVE,
-        INACTIVE;
+        INACTIVE
     }
     @Builder.Default
     protected int star = 3;

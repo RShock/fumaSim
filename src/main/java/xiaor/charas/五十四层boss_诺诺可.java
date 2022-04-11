@@ -46,7 +46,7 @@ public class 五十四层boss_诺诺可 extends Chara {
             Tools.log(Tools.LogColor.YELLOW, "【boss动作】诺诺可为自己添加了"+ shieldInc + "点护盾");
             this.shield += shieldInc;
         });
-        SkillBuilder.createNewSkill(this, SkillType.一星被动)
+        SkillBuilder.createNewSkill(SkillType.一星被动)
                 .when(TriggerEnum.回合结束)
                 .act(action)
                 .build();

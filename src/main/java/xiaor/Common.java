@@ -1,5 +1,5 @@
 package xiaor;
 
 public class Common {
-    public static int INFI = 999;   //无限持续的技能
+    public static final int INFI = 999;   //无限持续的技能
 }

@@ -3,9 +3,11 @@ package xiaor.skillbuilder.trigger;
 import lombok.Getter;
 import lombok.Setter;
 import xiaor.MessagePack;
+import xiaor.charas.Chara;
 import xiaor.trigger.TriggerEnum;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 @Getter
 @Setter
@@ -17,4 +19,24 @@ public class Trigger {
     public Function<MessagePack, Boolean> checker;
     TriggerEnum triggerType;
 
+    public static Trigger when(TriggerEnum triggerEnum) {
+        Trigger trigger = new Trigger();
+        trigger.triggerType = triggerEnum;
+        trigger.setChecker(pack -> true);
+        return trigger;
+    }
+
+    public static Trigger when(TriggerEnum triggerEnum, Supplier<Boolean> checker) {
+        Trigger trigger = new Trigger();
+        trigger.triggerType = triggerEnum;
+        trigger.setChecker(pack -> checker.get());
+        return trigger;
+    }
+
+    public static Trigger selfAct(Chara chara, TriggerEnum triggerEnum) {
+        Trigger trigger = new Trigger();
+        trigger.triggerType = triggerEnum;
+        trigger.checker = (pack -> pack.checkCaster(chara));
+        return trigger;
+    }
 }
