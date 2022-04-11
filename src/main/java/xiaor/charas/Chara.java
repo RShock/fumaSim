@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public abstract class Chara{
     protected int charaId;
 
-    protected int uniqueId = Tools.getNewID();
+    protected final int uniqueId = Tools.getNewID();
 
     protected String name;
 
@@ -43,7 +43,6 @@ public abstract class Chara{
 
     public Chara() {
         isLeader = false;
-        uniqueId = Tools.getNewID();
     }
 
     protected Element element;
