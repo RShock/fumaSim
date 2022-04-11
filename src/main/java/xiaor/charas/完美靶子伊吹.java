@@ -3,7 +3,7 @@ package xiaor.charas;
 import xiaor.skillbuilder.SkillBuilder;
 import xiaor.skillbuilder.SkillType;
 import xiaor.skillbuilder.action.BuffAction;
-import xiaor.skill.BuffType;
+import xiaor.skillbuilder.skill.BuffType;
 import xiaor.trigger.TriggerEnum;
 
 public class 完美靶子伊吹 extends Chara {

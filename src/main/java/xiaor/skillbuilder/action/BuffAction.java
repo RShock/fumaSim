@@ -4,10 +4,10 @@ import xiaor.*;
 import xiaor.charas.Chara;
 import xiaor.charas.Element;
 import xiaor.excel.ExcelCharaProvider;
-import xiaor.skill.*;
-import xiaor.skill.buff.Buff;
-import xiaor.skill.buff.SwitchBuff;
-import xiaor.skill.buff.UniqueBuff;
+import xiaor.skillbuilder.skill.*;
+import xiaor.skillbuilder.skill.buff.Buff;
+import xiaor.skillbuilder.skill.buff.SwitchBuff;
+import xiaor.skillbuilder.skill.buff.UniqueBuff;
 import xiaor.tools.Tools;
 import xiaor.trigger.TriggerManager;
 
@@ -16,12 +16,11 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import static xiaor.Common.*;
-import static xiaor.charas.Role.攻击者;
+import static xiaor.charas.Role.*;
 import static xiaor.trigger.TriggerEnum.*;
-import static xiaor.trigger.TriggerEnum.伤害计算;
-import static xiaor.skill.BuffType.*;
+import static xiaor.skillbuilder.skill.BuffType.*;
 
-public class BuffAction extends ActionBuilder {
+public class BuffAction {
 
     private BuffType buffType;
     private double multi;
@@ -76,92 +75,66 @@ public class BuffAction extends ActionBuilder {
 
                 switch (buffType) {
                     case 攻击力 -> buff = tempBuff.trigger(攻击力计算)
-                            .cast(pack -> {
-                                pack.getDamageCal().changeDamage(攻击力, multi * pack.level);
-                            })
+                            .cast(pack -> pack.getDamageCal().changeDamage(攻击力, multi * pack.level))
                             .build();
                     case 普攻伤害 -> buff = tempBuff.trigger(普攻伤害计算)
-                            .cast(pack -> {
-                                pack.getDamageCal().changeDamage(BuffType.普攻伤害, multi * pack.level);
-                            })
+                            .cast(pack -> pack.getDamageCal().changeDamage(BuffType.普攻伤害, multi * pack.level))
                             .build();
                     case 造成伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .cast(pack -> {
-                                pack.getDamageCal().changeDamage(BuffType.造成伤害, multi * pack.level);
-                            })
+                            .cast(pack -> pack.getDamageCal().changeDamage(BuffType.造成伤害, multi * pack.level))
                             .build();
                     case 必杀技伤害 -> buff = tempBuff.trigger(技能伤害计算)
-                            .cast(pack -> {
-                                pack.getDamageCal().changeDamage(必杀技伤害, multi * pack.level);
-                            })
+                            .cast(pack -> pack.getDamageCal().changeDamage(必杀技伤害, multi * pack.level))
                             .build();
                     case 受到风属性伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor) && caster.getElement().equals(Element.风属性)
                             )
-                            .cast(pack -> {
-                                pack.getDamageCal().changeDamage(受到风属性伤害, multi * pack.level);
-                            })
+                            .cast(pack -> pack.getDamageCal().changeDamage(受到风属性伤害, multi * pack.level))
                             .build();
                     case 受到伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor)
                             )
-                            .cast(pack -> {
-                                pack.getDamageCal().changeDamage(受到伤害, multi * pack.level);
-                            })
+                            .cast(pack -> pack.getDamageCal().changeDamage(受到伤害, multi * pack.level))
                             .build();
                     case 攻击力数值 -> {
                         //数值增加时，倍率需要乘以自身攻击力
                         //存在右侧效应（右侧角色收到加成更多）
                         DamageCal damageCal = new DamageCal(MessagePack.builder().caster(caster).build());
                         int incAtk = (int) (damageCal.getCurrentAttack() * multi);  //buff在施加后不会改变，所以攻击力是固定值
-                        buff = tempBuff.trigger(攻击力计算).cast(pack -> {
-                            pack.getDamageCal().changeDamage(攻击力数值, incAtk);
-                        }).name(name + "具体数值为" + incAtk)
+                        buff = tempBuff.trigger(攻击力计算).cast(pack -> pack.getDamageCal().changeDamage(攻击力数值, incAtk)).name(name + "具体数值为" + incAtk)
                                 .build();
                     }
                     case 受到普攻伤害 -> buff = tempBuff.trigger(普攻伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor)
-                            ).cast(pack -> {
-                                pack.getDamageCal().changeDamage(BuffType.受到普攻伤害, multi * pack.level);
-                            })
+                            ).cast(pack -> pack.getDamageCal().changeDamage(BuffType.受到普攻伤害, multi * pack.level))
                             .build();
                     case 受到攻击者伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor) && pack.caster.is(攻击者)
-                            ).cast(pack -> {
-                                pack.getDamageCal().changeDamage(受到攻击者伤害, multi * pack.level);
-                            })
+                            ).cast(pack -> pack.getDamageCal().changeDamage(受到攻击者伤害, multi * pack.level))
                             .build();
                     case 受到精灵王伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack -> pack.caster.getCharaId() == ExcelCharaProvider.searchIdByCharaName("精灵王 塞露西亚"))
-                            .cast(pack -> {
-                                pack.getDamageCal().changeDamage(受到精灵王伤害, multi * pack.level);
-                            })
+                            .cast(pack -> pack.getDamageCal().changeDamage(受到精灵王伤害, multi * pack.level))
                             .build();
                     case 属性相克效果 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor)
                             )
                             .time(INFI)
-                            .cast(pack -> {
-                                pack.getDamageCal().changeDamage(属性相克效果, multi);
-                            })
+                            .cast(pack -> pack.getDamageCal().changeDamage(属性相克效果, multi))
                             .build();
                     case 必杀技能CD -> {
                         return;
                     }
-                    case 受到自身伤害 -> {
-                        buff = tempBuff.trigger(伤害计算)
-                                .check(pack ->
-                                        pack.checkAccepter(acceptor) && pack.checkCastor(caster)
-                                ).cast(pack -> {
-                                    pack.getDamageCal().changeDamage(受到自身伤害, multi * pack.level);
-                                })
-                                .build();
-                    }
+                    case 受到自身伤害 -> buff = tempBuff.trigger(伤害计算)
+                            .check(pack ->
+                                    pack.checkAccepter(acceptor) && pack.checkCastor(caster)
+                            ).cast(pack -> pack.getDamageCal().changeDamage(受到自身伤害, multi * pack.level))
+                            .build();
                     default -> throw new RuntimeException("未支持的buff类型" + buffType);
                 }
 

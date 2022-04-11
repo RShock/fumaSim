@@ -1,10 +1,10 @@
 package xiaor.charas;
 
-import xiaor.skill.buff.UniqueBuff;
+import xiaor.skillbuilder.skill.buff.UniqueBuff;
 import xiaor.skillbuilder.SkillBuilder;
 import xiaor.skillbuilder.SkillType;
 import xiaor.skillbuilder.action.Action;
-import xiaor.skill.BuffType;
+import xiaor.skillbuilder.skill.BuffType;
 import xiaor.tools.Tools;
 import xiaor.trigger.TriggerEnum;
 import xiaor.trigger.TriggerManager;

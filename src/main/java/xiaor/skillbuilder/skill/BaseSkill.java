@@ -1,4 +1,4 @@
-package xiaor.skill;
+package xiaor.skillbuilder.skill;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -47,7 +47,7 @@ public class BaseSkill implements Skill {
     }
 
     @Override
-    public void decrease() {
+    public void decrease() {    //限时buff随时间的衰减
         if(time == INFI) {
             return;
         }

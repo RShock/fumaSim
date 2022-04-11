@@ -1,4 +1,4 @@
-package xiaor.skill;
+package xiaor.skillbuilder.skill;
 
 import xiaor.MessagePack;
 import xiaor.trigger.TriggerEnum;

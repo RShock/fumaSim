@@ -3,10 +3,9 @@ package xiaor.skillbuilder.action;
 import xiaor.charas.Chara;
 import xiaor.DamageCal;
 
-import java.util.Collections;
 import java.util.List;
 
-public class DamageAction extends ActionBuilder {
+public class DamageAction {
 
     private List<Chara> target;
 

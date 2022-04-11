@@ -1,4 +1,4 @@
-package xiaor.skill;
+package xiaor.skillbuilder.skill;
 
 public enum SkillStatus {
     持续的,

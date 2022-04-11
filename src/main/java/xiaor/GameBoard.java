@@ -2,10 +2,6 @@ package xiaor;
 
 import lombok.Getter;
 import xiaor.charas.Chara;
-import xiaor.skill.BaseSkill;
-import xiaor.skill.Skill;
-import xiaor.skill.BuffType;
-import xiaor.tools.*;
 import xiaor.tools.record.DamageRecorder;
 import xiaor.trigger.TriggerEnum;
 import xiaor.trigger.TriggerManager;
@@ -13,9 +9,6 @@ import xiaor.trigger.TriggerManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import static xiaor.Common.INFI;
-import static xiaor.tools.GlobalDataManager.getIntData;
 
 @Getter
 public class GameBoard {

@@ -13,14 +13,14 @@ public class ImportedChara extends Chara {
     @Override
     public void initSkills() {
         uninitedSkills.stream()
-                //他人给的技能不主动注册 而是由给技能的技能注册
+                //动态技能在运行中由其他技能注册，自身不注册
                 .filter(skillExcelVo -> skillExcelVo.getSkillType() != SkillType.动态技能)
                 .forEach(
                         skill -> SkillParser.addSkill(this, uninitedSkills, skill.getSkillId())
                 );
     }
 
-    public void setUninitedSkills(List<SkillExcelVo> uninitedSkills) {
+    public void setUninitiatedSkills(List<SkillExcelVo> uninitedSkills) {
         this.uninitedSkills = uninitedSkills;
     }
 
@@ -39,7 +39,7 @@ public class ImportedChara extends Chara {
         importedChara.setElement(Enum.valueOf(Element.class, charaVo.charaElement));
         importedChara.setName(charaVo.charaName);
         importedChara.setRole(Enum.valueOf(Role.class, charaVo.charaRole));
-        importedChara.setUninitedSkills(charaVo.getSkillExcelVos());    //初始化技能需要等到所有角色设置好
+        importedChara.setUninitiatedSkills(charaVo.getSkillExcelVos());    //初始化技能需要等到所有角色设置好
         return importedChara;
     }
 }

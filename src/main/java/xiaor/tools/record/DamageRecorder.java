@@ -2,8 +2,8 @@ package xiaor.tools.record;
 
 import lombok.Getter;
 import xiaor.charas.Chara;
-import xiaor.skill.BaseSkill;
-import xiaor.skill.Skill;
+import xiaor.skillbuilder.skill.BaseSkill;
+import xiaor.skillbuilder.skill.Skill;
 import xiaor.tools.Tools;
 import xiaor.trigger.TriggerEnum;
 import xiaor.trigger.TriggerManager;

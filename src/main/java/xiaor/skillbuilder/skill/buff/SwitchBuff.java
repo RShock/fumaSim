@@ -1,4 +1,4 @@
-package xiaor.skill.buff;
+package xiaor.skillbuilder.skill.buff;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

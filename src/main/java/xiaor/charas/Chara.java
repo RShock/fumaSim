@@ -23,8 +23,6 @@ public abstract class Chara{
 
     protected int life;
 
-    protected boolean isMoved;
-
     protected int potential;
 
     protected CharaStatus status;   //角色状态

@@ -7,17 +7,19 @@ import xiaor.tools.Tools;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 @Getter
 @Setter
 public class Action {
-    public Action() {
-        this.actionId = Tools.getNewID();
-    }
-
     private int time;
 
-    private int actionId;
     private Consumer<MessagePack> action;
+
+    public static Action getFreeAction(Supplier<Boolean> action) {
+        Action action1 = new Action();
+        action1.setAction((pack -> action.get()));
+        return action1;
+    }
 
 }

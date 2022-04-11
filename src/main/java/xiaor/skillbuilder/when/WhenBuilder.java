@@ -1,8 +1,8 @@
 package xiaor.skillbuilder.when;
 
 import lombok.NoArgsConstructor;
-import xiaor.skill.BaseSkill;
-import xiaor.skill.SkillStatus;
+import xiaor.skillbuilder.skill.BaseSkill;
+import xiaor.skillbuilder.skill.SkillStatus;
 import xiaor.skillbuilder.SkillType;
 import xiaor.skillbuilder.action.Action;
 import xiaor.skillbuilder.trigger.Trigger;

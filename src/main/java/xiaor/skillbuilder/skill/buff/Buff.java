@@ -1,4 +1,4 @@
-package xiaor.skill.buff;
+package xiaor.skillbuilder.skill.buff;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import xiaor.MessagePack;
 import xiaor.charas.Chara;
-import xiaor.skill.BaseSkill;
-import xiaor.skill.BuffType;
+import xiaor.skillbuilder.skill.BaseSkill;
+import xiaor.skillbuilder.skill.BuffType;
 
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
@@ -17,7 +17,6 @@ public class Buff extends BaseSkill {
     Chara caster;
     Chara acceptor;
     BuffType buffType;
-
 
     @Override
     public void cast(MessagePack pack) {

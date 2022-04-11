@@ -6,9 +6,8 @@ import xiaor.excel.vo.SkillExcelVo;
 import xiaor.skillbuilder.SkillBuilder;
 import xiaor.skillbuilder.SkillType;
 import xiaor.skillbuilder.action.Action;
-import xiaor.skillbuilder.action.ActionBuilder;
 import xiaor.skillbuilder.action.BuffAction;
-import xiaor.skill.BuffType;
+import xiaor.skillbuilder.skill.BuffType;
 import xiaor.skillbuilder.action.DamageAction;
 import xiaor.skillbuilder.trigger.SelfTrigger;
 import xiaor.skillbuilder.trigger.Trigger;
@@ -194,7 +193,7 @@ public class SkillParser {
             if (givenVo.getSkillType() != SkillType.动态技能) {
                 throw new RuntimeException("技能" + givenVo.getSkillId() + "不是动态的");
             }
-            return ActionBuilder.getFreeAction(() -> {
+            return Action.getFreeAction(() -> {
                 target.forEach(chara1 -> {
                     if (matcher.group("turn") != null) {
                         addSkill(chara1, vos, givenVo.getSkillId(), Integer.parseInt(matcher.group("turn")));
