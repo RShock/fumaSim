@@ -116,7 +116,7 @@ public class BuffAction {
                             .build();
                     case 属性相克效果 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack -> pack.checkAccepter(acceptor))
-                            .time(INFI)
+                            .time(INFINITY)
                             .cast(pack -> pack.getDamageCal().changeDamage(属性相克效果, multi))
                             .build();
                     case 必杀技能CD -> {

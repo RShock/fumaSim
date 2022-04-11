@@ -68,6 +68,7 @@ public class TriggerManager {
     public static List<Skill> getSkill() {
         return getInstance().skills;
     }
+    @SuppressWarnings("ForLoopReplaceableByForEach")
     public void _sendMessage(TriggerEnum trigger, MessagePack pack) {
         //普通for循环防止迭代器问题
         int size = skills.size();

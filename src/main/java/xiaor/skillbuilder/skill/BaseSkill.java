@@ -9,7 +9,7 @@ import xiaor.trigger.TriggerEnum;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static xiaor.Common.INFI;
+import static xiaor.Common.INFINITY;
 
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
@@ -48,7 +48,7 @@ public class BaseSkill implements Skill {
 
     @Override
     public void decrease() {    //限时buff随时间的衰减
-        if(time == INFI) {
+        if(time == INFINITY) {
             return;
         }
         else time--;

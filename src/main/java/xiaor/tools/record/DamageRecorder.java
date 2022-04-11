@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static xiaor.Common.INFI;
+import static xiaor.Common.INFINITY;
 
 /**
  * 统计者，暂时用来统计所有的伤害
@@ -35,7 +35,7 @@ public class DamageRecorder {
 
     public static void init() {
         Skill skill = BaseSkill.builder().name("【系统规则】伤害记录器").trigger(TriggerEnum.造成伤害)
-                .time(INFI)
+                .time(INFINITY)
                 .check(pack -> true)
                 .cast(pack -> DamageRecorder.addDamageRecord(pack.getResult())).build();
         TriggerManager.registerSkill(skill);

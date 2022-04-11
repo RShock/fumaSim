@@ -49,7 +49,7 @@ public abstract class Chara{
     protected int skillLevel = 1;
 
     @Builder.Default
-    protected boolean isLeader = false;
+    protected boolean isLeader;
 
     public void defend(Chara acceptor){
         MessagePack pack = MessagePack.builder()
@@ -113,7 +113,6 @@ public abstract class Chara{
     }
 
     protected static void baseInit(Chara chara, String s) {
-        chara.isLeader = false;
         chara.potential = 1;
         chara.star = 1;
         chara.skillLevel = 1;

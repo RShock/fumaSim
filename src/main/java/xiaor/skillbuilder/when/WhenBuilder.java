@@ -3,12 +3,11 @@ package xiaor.skillbuilder.when;
 import lombok.NoArgsConstructor;
 import xiaor.skillbuilder.skill.BaseSkill;
 import xiaor.skillbuilder.skill.SkillStatus;
-import xiaor.skillbuilder.SkillType;
 import xiaor.skillbuilder.action.Action;
 import xiaor.skillbuilder.trigger.Trigger;
 import xiaor.trigger.TriggerManager;
 
-import static xiaor.Common.INFI;
+import static xiaor.Common.INFINITY;
 
 @NoArgsConstructor
 public class WhenBuilder {
@@ -20,7 +19,7 @@ public class WhenBuilder {
 
     public WhenBuilder(Trigger trigger) {
         this.trigger = trigger;
-        this.turn = INFI;
+        this.turn = INFINITY;
         this.preBuilder = this;
     }
 

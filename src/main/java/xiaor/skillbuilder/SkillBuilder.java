@@ -4,13 +4,7 @@ import xiaor.trigger.TriggerEnum;
 import xiaor.skillbuilder.trigger.Trigger;
 import xiaor.skillbuilder.when.WhenBuilder;
 
-public class SkillBuilder {
-
-    private final String name;
-
-    public SkillBuilder(String name) {
-        this.name = name;
-    }
+public record SkillBuilder(String name) {
 
     public static SkillBuilder createNewSkill(String skillName) {
         return new SkillBuilder(skillName);

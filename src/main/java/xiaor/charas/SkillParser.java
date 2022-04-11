@@ -23,14 +23,14 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static xiaor.Common.INFI;
+import static xiaor.Common.INFINITY;
 
 public class SkillParser {
 
-    Chara chara;
-    List<SkillExcelVo> vos;
-    int skillId;
-    SkillExcelVo vo;
+    final Chara chara;
+    final List<SkillExcelVo> vos;
+    final int skillId;
+    final SkillExcelVo vo;
 
     public SkillParser(Chara chara, List<SkillExcelVo> vos, int skillId) {
         this.chara = chara;
@@ -61,7 +61,7 @@ public class SkillParser {
                 int a = Integer.parseInt(matcher.group("turnsA"));
                 int b = Integer.parseInt(Optional.of(matcher.group("turnsB")).orElse("0"));
                 skillString = matcher.group("effect");
-                yield Trigger.when(triggerEnum, () -> GlobalDataManager.getIntData(KeyEnum.GAMETURN) % a == b);
+                yield Trigger.when(triggerEnum, () -> GlobalDataManager.getIntData(KeyEnum.GAME_TURN) % a == b);
             }
             default -> Trigger.selfAct(chara, triggerEnum);
         };
@@ -214,32 +214,34 @@ public class SkillParser {
         Pattern pattern = Pattern.compile(
                 "(?<target>(其他友方|自身|目标|我方群体|敌方群体|ID\\d+|友方|队伍中.{3}|\\{.*}))" +
                         "(?<buffType>.*)" +
-                        "(?<incdec>[+-])" +
+                        "(?<incDec>[+-])" +
                         "(" +
                         "(BUFF(?<buffId>\\d+))|" +
                         "((?<multi>\\d+(\\.\\d+)?)%?)" +
                         ")" +
-                        "(\\(最多(?<maxlevel>\\d+)层\\))?" +
+                        "(\\(最多(?<maxLevel>\\d+)层\\))?" +
                         "(\\((?<lastedTurn>\\d+)回合\\))?"
         );
 
         Matcher matcher = pattern.matcher(part);
-        matcher.find();
+        if (!matcher.find()) {
+            throw new RuntimeException("%s匹配失败".formatted(part));
+        }
         List<Chara> target = parseChooser(matcher.group("target"));
         BuffType buffType = Enum.valueOf(BuffType.class, matcher.group("buffType"));
-        int symbol = matcher.group("incdec").equals("+") ? 1 : -1;
+        int symbol = matcher.group("incDec").equals("+") ? 1 : -1;
         double multi = Double.parseDouble(matcher.group("multi")) / 100.0;
         BuffAction buff = BuffAction.create(chara, buffType)
                 .to(target)
                 .multi(symbol * multi)
-                .lastedTurn(INFI)
-                .name("%s %s%s%s%%".formatted(vo, buffType, matcher.group("incdec"), Double.parseDouble(matcher.group("multi"))));
+                .lastedTurn(INFINITY)
+                .name("%s %s%s%s%%".formatted(vo, buffType, matcher.group("incDec"), Double.parseDouble(matcher.group("multi"))));
         if (switchChecker.size() != 0) {
             buff = buff.enabledCheck(switchChecker);
         }
-        String maxlevel = matcher.group("maxlevel");
-        if (maxlevel != null) {
-            buff = buff.maxLevel(Integer.parseInt(maxlevel));
+        String maxLevel = matcher.group("maxLevel");
+        if (maxLevel != null) {
+            buff = buff.maxLevel(Integer.parseInt(maxLevel));
         }
         String lastedTurn = matcher.group("lastedTurn");
         if (lastedTurn != null) {
@@ -300,7 +302,7 @@ public class SkillParser {
             return GameBoard.getEnemy();
         }
         if (substring.equals("其他友方")) {
-            return GameBoard.getAlly().stream().filter(chara -> !chara.equals(chara)).collect(Collectors.toList());
+            return GameBoard.getAlly().stream().filter(chara1 -> !chara1.equals(chara)).collect(Collectors.toList());
         }
         if (substring.startsWith("ID")) {
             int id = Integer.parseInt(substring.substring(2));

@@ -1,7 +1,6 @@
 package xiaor.tools;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 /**
  * 全局变量类，任何方法都可以在这里申请与读取动态变量
