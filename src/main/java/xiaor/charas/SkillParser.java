@@ -148,7 +148,7 @@ public class SkillParser {
 
     private Boolean parseCondition(String condition) {
 //        System.out.println("parse:" + condition);
-        Matcher matcher = Tools.find(condition, "^(?<target>.*)(?<checker>(有ID为|数量为).*)$");
+        Matcher matcher = Tools.find(condition, "^(?<target>.*)(?<checker>(有ID为|数量为|数量大于).*)$");
         List<Chara> target = parseChooser(matcher.group("target"));
         String checker = matcher.group("checker");
         if (checker.startsWith("有ID为")) {
@@ -158,6 +158,10 @@ public class SkillParser {
         if (checker.startsWith("数量为")) {
             Matcher matcher1 = Tools.find(checker, "数量为(?<amount>\\d+)");
             return target.size() == Integer.parseInt(matcher1.group("amount"));
+        }
+        if (checker.startsWith("数量大于")) {
+            Matcher matcher1 = Tools.find(checker, "数量大于(?<amount>\\d+)");
+            return target.size() >= Integer.parseInt(matcher1.group("amount"));
         }
         throw new RuntimeException(checker + "未受支持");
     }
@@ -276,6 +280,9 @@ public class SkillParser {
             if (substring.equals("辅助者")) {
                 return stream.filter(chara -> chara.getRole().equals(Role.辅助者)).collect(Collectors.toList());
             }
+            if (substring.equals("攻击者")) {
+                return stream.filter(chara -> chara.getRole().equals(Role.攻击者)).collect(Collectors.toList());
+            }
         }
         if (substring.matches("\\{\\d+(_\\d+)*}")) {  // e.g. {1_2_3}
             return Arrays.stream(substring.substring(1, substring.length() - 1).split("_"))
@@ -317,7 +324,7 @@ public class SkillParser {
 
     private Action parseDamageAction(String part) {
         System.out.println("normalAtkParse:" + part);
-        Matcher matcher = Tools.find(part, "对(?<target>.*?)(?<multi>\\d+)%(?<type>(技能|普攻))伤害");
+        Matcher matcher = Tools.find(part, "对(?<target>.*?)(?<multi>\\d+(\\.\\d+)?)%(?<type>(技能|普攻))伤害");
         DamageAction.DamageType type;
         List<Chara> target = parseChooser(matcher.group("target"));
         type = switch (matcher.group("type")) {

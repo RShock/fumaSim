@@ -95,6 +95,7 @@ public abstract class Chara{
                 .build();
         TriggerManager.sendMessage(TriggerEnum.释放普攻, pack);
         setStatus(Chara.CharaStatus.INACTIVE);
+        TriggerManager.sendMessage(TriggerEnum.快速普攻追击, pack);
         TriggerManager.sendMessage(TriggerEnum.释放普攻后, pack);
         TriggerManager.sendMessage(TriggerEnum.攻击后, pack);
         TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);

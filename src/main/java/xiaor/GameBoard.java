@@ -52,12 +52,16 @@ public class GameBoard {
         enemyChara.add(chara);
     }
 
-    public void run(String originS) {
+    public void run(String action) {
         TriggerManager.sendMessage(TriggerEnum.被动光环, new MessagePack());
         TriggerManager.sendMessage(TriggerEnum.游戏开始时, new MessagePack());
+        continueRun(action);
+    }
+
+    public void continueRun(String action) {
         int our, their;
         char mode;
-        String[] split = originS.split("\\s+");
+        String[] split = action.split("\\s+");
         for (String s : split) {
             if(s.equals(""))continue;
             if(s.equals("|")){
