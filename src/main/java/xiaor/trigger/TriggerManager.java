@@ -17,8 +17,6 @@ public class TriggerManager {
 
     public static Boolean BUFF_LOG = true;
 
-    public static Boolean PRIVATE_MSG = false;
-
     private final List<Skill> skills;
 
     private int IDGen = 10000;
@@ -74,7 +72,7 @@ public class TriggerManager {
         int size = skills.size();
         for (int i = 0; i < size; i++) {
             if (!skills.get(i).getTrigger().equals(trigger) || !skills.get(i).check(pack)) continue;
-            if(trigger != TriggerEnum.内部事件 || PRIVATE_MSG) {
+            if(!skills.get(i).toString().contains("系统规则")) {
                 Tools.log(trigger + "，触发 " + skills.get(i).toString());
             }
             skills.get(i).cast(pack);

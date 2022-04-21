@@ -20,7 +20,7 @@ public class 梦露Test {
     }
 
     @Test
-    void 风队全队集合测试() {
+    void 梦露全队集合测试() {
         Chara 梦露 = ImportedChara.initChara("梦游魔境 露露 攻击力1816 羁绊1 星4 潜力6 队长");
         Chara 露露 = ImportedChara.initChara("法斯公主 露露 攻击力2440 星5 绊5 潜6");
         Chara 幼精 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力2288 星4 绊3 潜6");

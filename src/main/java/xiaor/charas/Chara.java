@@ -1,7 +1,9 @@
 package xiaor.charas;
 
 import lombok.*;
+import xiaor.DamageCal;
 import xiaor.MessagePack;
+import xiaor.skillbuilder.skill.BuffType;
 import xiaor.tools.Tools;
 import xiaor.trigger.TriggerEnum;
 import xiaor.trigger.TriggerManager;
@@ -21,6 +23,8 @@ public abstract class Chara{
 
     protected int attack;
 
+    protected SnapShot attackShot = new SnapShot(this);
+
     protected int life;
 
     protected int potential;
@@ -30,6 +34,14 @@ public abstract class Chara{
     protected Role role; //角色职业
 
     protected int shield;   //护盾
+
+    public void shouldUpdateAtk() {
+        attackShot.shouldUpdateAtk();
+    };
+
+    protected void setOriginAtk(int attack) {
+        this.attack = attack;
+    };
 
     public enum CharaStatus {
         @SuppressWarnings("unused") DEAD,
@@ -153,5 +165,52 @@ public abstract class Chara{
         Pattern p = Pattern.compile("[^0-9]");
         Matcher m = p.matcher(s);
         return Integer.parseInt(m.replaceAll("").trim());
+    }
+
+    /**
+     * 攻击平时不会轻易更新，因此取快照
+     */
+    private static class SnapShot {
+        private boolean updateAtk = true;
+        private int attack;
+        private final Chara instance;
+
+        public SnapShot(Chara instance) {
+            this.instance = instance;
+        }
+        public int getAtk() {
+            if(updateAtk) {
+                attack = getAtkByBuff();
+                updateAtk = false;
+            }
+            return attack;
+        }
+
+        public int getAtkByBuff() {
+            DamageCal damageCal = new DamageCal(MessagePack.builder().caster(instance).build());
+            return damageCal.getCurrentAttack();
+        }
+
+        public void shouldUpdateAtk() {
+            this.updateAtk = true;
+        }
+
+        public void setAtk(int atk) {
+            shouldUpdateAtk();
+            attack = atk;
+        }
+    }
+
+    public int getAttack() {
+        return attackShot.getAtk();
+    }
+
+    public void setAttack(int atk) {
+        attackShot.shouldUpdateAtk();
+        attackShot.setAtk(atk);
+    }
+
+    public int getBaseAtk() {
+        return attack;
     }
 }

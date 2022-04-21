@@ -31,7 +31,7 @@ public class DamageCal {
     }
 
     public void finalDamage(Chara acceptor, double percent, TriggerEnum skillTypeEnum) {
-        double baseDamage = getCurrentAttack() * percent;
+        double baseDamage = pack.caster.getAttack() * percent;
         TriggerManager.sendMessage(skillTypeEnum, MessagePack.damagePack(this, acceptor));
         TriggerManager.sendMessage(TriggerEnum.伤害计算, MessagePack.damagePack(this, acceptor));
         int finalDamage = (int)damageBuffMap.entrySet().stream()
@@ -119,7 +119,7 @@ public class DamageCal {
     //计算基本攻击力
     public int getCurrentAttack() {
         TriggerManager.sendMessage(TriggerEnum.攻击力计算, MessagePack.damagePack(this, null));
-        double baseAtk = pack.caster.getAttack();
+        double baseAtk = pack.caster.getBaseAtk();
 
         int finalAtk = damageBuffMap.entrySet().stream()
                 .filter(s -> !s.getKey().equals(BuffType.攻击力数值))
@@ -130,7 +130,7 @@ public class DamageCal {
         }
         damageBuffMap.clear();
 
-        Tools.log("%s基础攻击力是%d".formatted(pack.caster, finalAtk));
+        Tools.log("%s当前攻击力是%d".formatted(pack.caster, finalAtk));
         return finalAtk;
     }
 

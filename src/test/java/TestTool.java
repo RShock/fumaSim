@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import xiaor.GameBoard;
 import xiaor.charas.Chara;
+import xiaor.charas.ImportedChara;
 
 import java.util.List;
 
@@ -20,5 +21,9 @@ public class TestTool {
             if(enemyLife.get(i) == 0)continue;
             Assertions.assertEquals(enemyLife.get(i), 被打的角色.getLife());
         }
+    }
+
+    public static void fullCheck(String action, List<String> troop) {
+        Chara 测试角色 = ImportedChara.initChara("测试 角色 生命7758206");
     }
 }

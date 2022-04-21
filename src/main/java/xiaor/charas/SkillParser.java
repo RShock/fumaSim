@@ -48,7 +48,7 @@ public class SkillParser {
     }
 
     public void addSkill(int turn) {
-        System.out.println("正在解析" + vo.getSkillId());
+//        System.out.println("正在解析" + vo.getSkillId());
         if (vo.getEffect().equals("没做")) return;
         SkillType skillType = vo.getSkillType();
         if (!checkSkillType(chara, skillType)) return;
@@ -213,7 +213,7 @@ public class SkillParser {
     //TODO
     private Action parseBuffAction(String part, List<Supplier<Boolean>> switchChecker) {
 
-        System.out.println("buffParse:" + part);
+//        System.out.println("buffParse:" + part);
         //e.g. 自身攻击力+20%
         Pattern pattern = Pattern.compile(
                 "(?<target>(其他友方|自身|目标|我方群体|敌方群体|ID\\d+|友方|队伍中.{3}|\\{.*}))" +
@@ -323,7 +323,7 @@ public class SkillParser {
     }
 
     private Action parseDamageAction(String part) {
-        System.out.println("normalAtkParse:" + part);
+//        System.out.println("normalAtkParse:" + part);
         Matcher matcher = Tools.find(part, "对(?<target>.*?)(?<multi>\\d+(\\.\\d+)?)%(?<type>(技能|普攻))伤害");
         DamageAction.DamageType type;
         List<Chara> target = parseChooser(matcher.group("target"));

@@ -35,7 +35,7 @@ public class ImportedChara extends Chara {
     public static ImportedChara convertToChara(CharaExcelVo charaVo) {
         ImportedChara importedChara = new ImportedChara();
         importedChara.setCharaId(charaVo.charaId);
-        importedChara.setAttack(charaVo.attack);
+        importedChara.setOriginAtk(charaVo.attack);
         importedChara.setElement(Enum.valueOf(Element.class, charaVo.charaElement));
         importedChara.setName(charaVo.charaName);
         importedChara.setRole(Enum.valueOf(Role.class, charaVo.charaRole));

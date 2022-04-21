@@ -60,7 +60,10 @@ public class GlobalSkillRegister {
         skill = BaseSkill.builder().name("【系统规则】回合开始时所有角色恢复可用状态").trigger(TriggerEnum.回合开始)
                 .time(INFINITY)
                 .check(pack -> true)
-                .cast(pack -> GameBoard.getAlly().forEach(chara -> chara.setStatus(Chara.CharaStatus.ACTIVE))).build();
+                .cast(pack -> GameBoard.getAlly().forEach(chara -> {
+                    chara.setStatus(Chara.CharaStatus.ACTIVE);
+                    chara.shouldUpdateAtk();
+                })).build();
         TriggerManager.registerSkill(skill);
     }
 }
