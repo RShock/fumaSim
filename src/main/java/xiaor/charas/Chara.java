@@ -27,6 +27,8 @@ public abstract class Chara{
 
     protected int life;
 
+    protected int baseLife;
+
     protected int potential;
 
     protected CharaStatus status;   //角色状态
@@ -34,6 +36,8 @@ public abstract class Chara{
     protected Role role; //角色职业
 
     protected int shield;   //护盾
+
+    protected String hint;  //备注
 
     public void shouldUpdateAtk() {
         attackShot.shouldUpdateAtk();
@@ -134,20 +138,20 @@ public abstract class Chara{
             if(s1.startsWith("攻击力")){
                 chara.attack = getNumFromString(s1);
             }
-            if(s1.startsWith("星")){
+            if(s1.contains("星")){
                 chara.star = getNumFromString(s1);
             }
             if(s1.contains("绊")){
                 chara.skillLevel = getNumFromString(s1);
             }
-            if(s1.startsWith("潜")){
+            if(s1.contains("潜")){
                 chara.potential = getNumFromString(s1);
             }
             if(s1.startsWith("队长")){
                 chara.isLeader = true;
             }
             if(s1.startsWith("生命")){
-                chara.life = getNumFromString(s1);
+                chara.life = chara.baseLife = getNumFromString(s1);
             }
             if(s1.startsWith("水属性")){
                 chara.element = Element.水属性;
@@ -157,6 +161,15 @@ public abstract class Chara{
             }
             if(s1.startsWith("光属性")){
                 chara.element = Element.光属性;
+            }
+            if(s1.startsWith("火属性")){
+                chara.element = Element.火属性;
+            }
+            if(s1.startsWith("暗属性") || s1.startsWith("闇属性")){
+                chara.element = Element.暗属性;
+            }
+            if(s1.startsWith("备注:")) {
+                chara.hint = s1.substring(3);
             }
         }
     }

@@ -45,6 +45,10 @@ public class DamageRecorder {
         getInstance().records.add(record);
     }
 
+    public static List<ExcelDamageRecord> exportRecords() {
+        return null;
+    }
+
     public void clear() {
         getInstance().records.clear();
     }
