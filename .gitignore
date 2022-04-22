@@ -1,2 +1,3 @@
 /target/
-/src/main/resources/~$角色技能资料.xlsx
+/src/main/resources/~$*.xlsx
+/*.xlsx
