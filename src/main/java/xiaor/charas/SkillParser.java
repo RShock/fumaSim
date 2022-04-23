@@ -258,7 +258,7 @@ public class SkillParser {
     private List<Chara> parseChooser(String substring) {
         Stream<Chara> stream = GameBoard.getAlly().stream();
         if (substring.startsWith("队伍中")) {
-            String finalSubstring = substring = substring.substring(3);
+            String finalSubstring = substring.substring(3);
             return switch (finalSubstring) {
                 case "风属性", "水属性", "暗属性", "光属性", "火属性" -> stream.filter(chara -> chara.getElement().equals(Enum.valueOf(Element.class, finalSubstring)))
                         .collect(Collectors.toList());
