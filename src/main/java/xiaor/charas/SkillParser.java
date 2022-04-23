@@ -258,31 +258,14 @@ public class SkillParser {
     private List<Chara> parseChooser(String substring) {
         Stream<Chara> stream = GameBoard.getAlly().stream();
         if (substring.startsWith("队伍中")) {
-            substring = substring.substring(3);
-            if (substring.equals("风属性")) {
-                return stream.filter(chara -> chara.getElement().equals(Element.风属性)).collect(Collectors.toList());
-            }
-            if (substring.equals("水属性")) {
-                return stream.filter(chara -> chara.getElement().equals(Element.水属性)).collect(Collectors.toList());
-            }
-            if (substring.equals("暗属性") || substring.equals("闇属性")) {
-                return stream.filter(chara -> chara.getElement().equals(Element.暗属性)).collect(Collectors.toList());
-            }
-            if (substring.equals("光属性")) {
-                return stream.filter(chara -> chara.getElement().equals(Element.光属性)).collect(Collectors.toList());
-            }
-            if (substring.equals("火属性")) {
-                return stream.filter(chara -> chara.getElement().equals(Element.火属性)).collect(Collectors.toList());
-            }
-            if (substring.equals("治疗者")) {
-                return stream.filter(chara -> chara.getRole().equals(Role.治疗者)).collect(Collectors.toList());
-            }
-            if (substring.equals("辅助者")) {
-                return stream.filter(chara -> chara.getRole().equals(Role.辅助者)).collect(Collectors.toList());
-            }
-            if (substring.equals("攻击者")) {
-                return stream.filter(chara -> chara.getRole().equals(Role.攻击者)).collect(Collectors.toList());
-            }
+            String finalSubstring = substring = substring.substring(3);
+            return switch (finalSubstring) {
+                case "风属性", "水属性", "暗属性", "光属性", "火属性" -> stream.filter(chara -> chara.getElement().equals(Enum.valueOf(Element.class, finalSubstring)))
+                        .collect(Collectors.toList());
+                case "攻击者", "治疗者", "妨碍者", "辅助者", "守护者" -> stream.filter(chara -> chara.getRole().equals(Enum.valueOf(Role.class, finalSubstring)))
+                        .collect(Collectors.toList());
+                default -> throw new RuntimeException("不支持的分类" + finalSubstring);
+            };
         }
         if (substring.matches("\\{\\d+(_\\d+)*}")) {  // e.g. {1_2_3}
             return Arrays.stream(substring.substring(1, substring.length() - 1).split("_"))
