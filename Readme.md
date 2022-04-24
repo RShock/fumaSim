@@ -14,3 +14,14 @@
 
 程序基础架构为触发器模式，将游戏中所有buff与技能的结算全部由触发来完成。
 
+# 运行
+
+这个项目实验性的基于最新的java版本(JAVA18)，为了编译它，你需要最新的IDEA2022
+
+JAVA18目前存在一个打印中文的bug，请于-VM option内添加参数`-Dfile.encoding=gbk`来解决它。
+
+bug参考 https://youtrack.jetbrains.com/issue/IDEA-291006
+
+大致上看完所有测试就知道代码是怎么跑的了。
+
+如果有看不懂的地方欢迎来天下布魔ma吧找我，我是吧主。
