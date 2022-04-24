@@ -12,7 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class PrintTest {
     @Test
     void should_print() {
-        System.out.println(Charset.defaultCharset());
+        System.out.println("Default charset : " + Charset.defaultCharset());
+        System.out.println("file.encoding   : " + System.getProperty("file.encoding"));
+        System.out.println("native.encoding : " + System.getProperty("native.encoding"));
         System.out.println("你好");
     }
 }
