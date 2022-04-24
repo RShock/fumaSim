@@ -6,14 +6,18 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import xiaor.charas.Chara;
+import xiaor.tools.record.DamageRecord;
+import xiaor.tools.record.ExcelDamageRecord;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 /**
@@ -26,11 +30,13 @@ public class ExcelWriter {
     Sheet indicatorSheet;
     File resourcePath = new File(URLDecoder.decode(Objects.requireNonNull(getClass().getResource("/")).getPath(), StandardCharsets.UTF_8));
     String excelPath = resourcePath.getParent() + "/classes/全方位测试输出表样板.xlsx";
-    String exportPath = "output.xlsx";
+    String exportPath = "output" + new Date() + ".xlsx";
     Workbook book = new XSSFWorkbook(excelPath);
 
-    private static int charaStartRow = 2;       //角色数据 第一行
-    private static int charaStartCell = 1;      //角色数据 第一列
+    private static final int charaStartRow = 1;       //角色数据 第一行
+    private static final int charaStartCell = 1;      //角色数据 第一列
+
+    private static final int damageStartRow = 1;
 
     public ExcelWriter() throws IOException {
         dataSheet = book.getSheet("角色信息");
@@ -43,11 +49,14 @@ public class ExcelWriter {
     }
     public void writeCharaData(List<Chara> chara) {
         IntStream.range(0, 4)
-                .forEach(i -> writeCharaRow(charaStartRow + i, chara.get(i)));
+                .forEach(i -> writeCharaRow(charaStartRow + 5, chara.get(i)));
     }
 
     private void writeCharaRow(int rowNum, Chara chara) {
         Row row = dataSheet.getRow(rowNum);
+        if(row == null){ //当row为空时，创建row
+            row = dataSheet.createRow(rowNum);
+        }
         Cell nameCell = row.createCell(charaStartCell);
         Cell starCell = row.createCell(charaStartCell+1);
         Cell skillLevel = row.createCell(charaStartCell+2);
@@ -69,5 +78,9 @@ public class ExcelWriter {
         FileOutputStream fos = new FileOutputStream(exportPath);
         book.write(fos);
         book.close();
+    }
+
+    public void writeDamageData(ExcelDamageRecord excelDamageRecord) {
+
     }
 }

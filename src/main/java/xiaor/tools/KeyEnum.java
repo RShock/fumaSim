@@ -1,5 +1,6 @@
 package xiaor.tools;
 
 public enum KeyEnum {
-    GAME_TURN
+    GAME_TURN,
+    ACTION_ID
 }

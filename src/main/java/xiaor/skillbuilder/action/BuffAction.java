@@ -141,7 +141,6 @@ public class BuffAction {
         return action;
     }
 
-
     protected Buff.BuffBuilder<?, ?> getTempBuffBuilder(Chara acceptor) {
         Buff.BuffBuilder<?, ?> tempBuff;
         if (isUniqueBuff) {

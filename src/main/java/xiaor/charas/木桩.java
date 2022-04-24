@@ -9,16 +9,6 @@ public class 木桩 extends Chara {
     }
 
     @Override
-    public void attack(Chara acceptor) {
-        super.attack(acceptor);
-    }
-
-    @Override
-    public void skill(Chara acceptor) {
-        super.skill(acceptor);
-    }
-
-    @Override
     public void initSkills() {
 
     }

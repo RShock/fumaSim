@@ -4,6 +4,7 @@ package xiaor.trigger;
  * 这里记录了现有的所有触发时点
  */
 public enum TriggerEnum {
+    释放行动,
     释放普攻,
     释放必杀,
     普攻伤害计算,

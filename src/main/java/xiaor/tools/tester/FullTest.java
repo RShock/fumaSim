@@ -5,8 +5,11 @@ import xiaor.charas.Chara;
 import xiaor.charas.ImportedChara;
 import xiaor.excel.ExcelCharaProvider;
 import xiaor.excel.ExcelWriter;
+import xiaor.tools.record.DamageRecorder;
+import xiaor.tools.record.ExcelDamageRecord;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,13 +19,17 @@ import java.util.stream.Collectors;
 public class FullTest {
     List<Chara> charas;
     GameBoard gameBoard = GameBoard.getInstance();
+    DamageRecorder damageRecorder = DamageRecorder.getInstance();
 
     public FullTest(List<String> charaNames, String action) throws IOException {
         ExcelWriter excelWriter = new ExcelWriter();
         initMaxChara(charaNames);
         gameBoard.run(action);
         excelWriter.writeCharaData(charas);
-//        excelWriter.writeDamageData();
+        ExcelDamageRecord excelDamageRecord = new ExcelDamageRecord();
+        excelDamageRecord.setDamage(damageRecorder.exportDamagePerAction());
+        excelDamageRecord.setAction(Arrays.asList(action.split("\\s+")));
+        excelWriter.writeDamageData(excelDamageRecord);
     }
 
     private void initMaxChara(List<String> charaNames) {

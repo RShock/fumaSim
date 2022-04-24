@@ -3,9 +3,9 @@ package xiaor;
 import xiaor.charas.Chara;
 import xiaor.skillbuilder.skill.BuffType;
 import xiaor.tools.Tools;
+import xiaor.tools.record.DamageRecord;
 import xiaor.trigger.TriggerEnum;
 import xiaor.trigger.TriggerManager;
-import xiaor.tools.record.DamageRecorder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -72,7 +72,7 @@ public class DamageCal {
         Tools.log(Tools.LogColor.BLUE, msg);
         acceptor.setLife(lifeRemain);
         TriggerManager.sendMessage(TriggerEnum.造成伤害, MessagePack.builder().result(
-                new DamageRecorder.DamageRecord(skillTypeEnum, msg, pack.caster, acceptor, finalDamage)).build());
+                new DamageRecord(skillTypeEnum, msg, pack.caster, acceptor, finalDamage)).build());
         Tools.log(Tools.LogColor.GREEN, acceptor + "剩余" + lifeRemain);
         damageBuffMap.clear();
     }

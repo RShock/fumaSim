@@ -12,6 +12,7 @@ import xiaor.trigger.TriggerManager;
 
 import static xiaor.Common.INFINITY;
 import static xiaor.tools.GlobalDataManager.getIntData;
+import static xiaor.tools.GlobalDataManager.incIntData;
 
 public class GlobalSkillRegister {
     public static void registerSkill() {
@@ -52,8 +53,7 @@ public class GlobalSkillRegister {
                 .check(pack -> true)
                 .cast(pack -> {
                     TriggerManager.getInstance().getSkills().forEach(Skill::decrease);
-                    GlobalDataManager.putIntData(KeyEnum.GAME_TURN, getIntData(KeyEnum.GAME_TURN) + 1);
-                    Tools.log(Tools.LogColor.RED, "第" + (getIntData(KeyEnum.GAME_TURN)) + "回合开始");
+                    Tools.log(Tools.LogColor.RED, "第" + (incIntData(KeyEnum.GAME_TURN)) + "回合开始");
                     TriggerManager.sendMessage(TriggerEnum.回合开始, null);
                 }).build();
         TriggerManager.registerSkill(skill);

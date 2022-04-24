@@ -4,6 +4,11 @@ import xiaor.GameBoard;
 import xiaor.charas.*;
 import xiaor.tools.record.DamageRecorder;
 
+import java.text.NumberFormat;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class 风队Test {
@@ -17,6 +22,12 @@ public class 风队Test {
 
     @Test
     void 风队全队集合测试() {
+        Stream<String> stringStream = Stream.of("a", "b", "c");
+        List<String> stringList =  stringStream.toList();
+        for(String s : stringList) {
+            System.out.println(s);
+        }
+
         Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力505739 羁绊2 星3 潜力6 队长");
         Chara 露露 = ImportedChara.initChara("法斯公主 露露 攻击力675452 星5 绊5 潜6");
         Chara 精灵王 = ImportedChara.initChara("精灵王 塞露西亚 攻击力479798 星4 绊5 潜6");

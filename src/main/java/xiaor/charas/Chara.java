@@ -41,11 +41,11 @@ public abstract class Chara{
 
     public void shouldUpdateAtk() {
         attackShot.shouldUpdateAtk();
-    };
+    }
 
     protected void setOriginAtk(int attack) {
         this.attack = attack;
-    };
+    }
 
     public enum CharaStatus {
         @SuppressWarnings("unused") DEAD,
@@ -72,6 +72,7 @@ public abstract class Chara{
                 .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
                 .build();
+        TriggerManager.sendMessage(TriggerEnum.释放行动, pack);
         TriggerManager.sendMessage(TriggerEnum.释放防御, pack);
         setStatus(Chara.CharaStatus.INACTIVE);
         TriggerManager.sendMessage(TriggerEnum.释放防御后, pack);
@@ -109,6 +110,7 @@ public abstract class Chara{
                 .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
                 .build();
+        TriggerManager.sendMessage(TriggerEnum.释放行动, pack);
         TriggerManager.sendMessage(TriggerEnum.释放普攻, pack);
         setStatus(Chara.CharaStatus.INACTIVE);
         TriggerManager.sendMessage(TriggerEnum.快速普攻追击, pack);
@@ -122,6 +124,7 @@ public abstract class Chara{
                 .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
                 .build();
+        TriggerManager.sendMessage(TriggerEnum.释放行动, pack);
         TriggerManager.sendMessage(TriggerEnum.释放必杀, pack);
         setStatus(Chara.CharaStatus.INACTIVE);
         TriggerManager.sendMessage(TriggerEnum.释放必杀后, pack);

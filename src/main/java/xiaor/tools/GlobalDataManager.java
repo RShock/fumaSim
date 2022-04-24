@@ -26,4 +26,10 @@ public class GlobalDataManager {
         manager.intData.put(key.toString(), value);
     }
 
+    public static int incIntData(KeyEnum key) {
+        int data = manager.intData.get(key.toString());
+        manager.intData.put(key.toString(), data+1);
+        return data+1;
+    }
+
 }
