@@ -18,6 +18,6 @@ jobs:
         java-version: 18
     - name: Build with Maven
       #run: mvn -B package --file pom.xml
-      run: mvn --batch-mode --update-snapshots verify
+      run: mvn --batch-mode --update-snapshots verify --enable-preview
     - name: Test with Maven
-      run:  mvn test -DshowLog=false
+      run:  mvn test -DshowLog=false --enable-preview
