@@ -132,47 +132,25 @@ public abstract class Chara{
         TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
     }
 
-    protected static void baseInit(Chara chara, String s) {
+    protected static void baseInit(Chara chara, String initString) {
         chara.potential = 1;
         chara.star = 1;
         chara.skillLevel = 1;
-        String[] split = s.split("\\s+");
+        String[] split = initString.split("\\s+");
         for (String s1 : split) {
-            if(s1.startsWith("攻击力")){
-                chara.attack = getNumFromString(s1);
-            }
-            if(s1.contains("星")){
-                chara.star = getNumFromString(s1);
-            }
-            if(s1.contains("绊")){
-                chara.skillLevel = getNumFromString(s1);
-            }
-            if(s1.contains("潜")){
-                chara.potential = getNumFromString(s1);
-            }
-            if(s1.startsWith("队长")){
-                chara.isLeader = true;
-            }
-            if(s1.startsWith("生命")){
-                chara.life = chara.baseLife = getNumFromString(s1);
-            }
-            if(s1.startsWith("水属性")){
-                chara.element = Element.水属性;
-            }
-            if(s1.startsWith("风属性")){
-                chara.element = Element.风属性;
-            }
-            if(s1.startsWith("光属性")){
-                chara.element = Element.光属性;
-            }
-            if(s1.startsWith("火属性")){
-                chara.element = Element.火属性;
-            }
-            if(s1.startsWith("暗属性") || s1.startsWith("闇属性")){
-                chara.element = Element.暗属性;
-            }
-            if(s1.startsWith("备注:")) {
-                chara.hint = s1.substring(3);
+            switch (s1) {
+                case String s && s.startsWith("攻击力") -> chara.attack = getNumFromString(s);
+                case String s && s.contains("星") -> chara.star = getNumFromString(s);
+                case String s && s.contains("绊") -> chara.skillLevel = getNumFromString(s1);
+                case String s && s.contains("潜") -> chara.potential = getNumFromString(s1);
+                case String s && s.contains("队长") -> chara.isLeader = true;
+                case String s && s.startsWith("生命") -> chara.life = chara.baseLife = getNumFromString(s1);
+                case String s && (s.startsWith("水属性") || s.startsWith("风属性") || s1.startsWith("光属性") ||
+                        s1.startsWith("火属性") || s1.startsWith("暗属性")) ->
+                        chara.element = Enum.valueOf(Element.class, s);
+                case String s && s.startsWith("闇属性") -> chara.element = Element.暗属性;
+                case String s && s.startsWith("备注:") ->  chara.hint = s1.substring(3);
+                default -> {}
             }
         }
     }
