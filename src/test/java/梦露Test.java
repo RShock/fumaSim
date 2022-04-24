@@ -3,12 +3,8 @@ import org.junit.jupiter.api.Test;
 import xiaor.GameBoard;
 import xiaor.charas.Chara;
 import xiaor.charas.ImportedChara;
-import xiaor.charas.完美靶子伊吹;
-import xiaor.tools.record.DamageRecorder;
 
 import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class 梦露Test {
 

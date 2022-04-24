@@ -61,7 +61,7 @@ public class 风队Test {
         Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力270601 星5 绊5 潜6");
         Chara 千鹤 = ImportedChara.initChara("复生公主 千鹤 攻击力256871 星5 绊5 潜6");
 
-        完美靶子伊吹 伊吹 = 完美靶子伊吹.init("");
+        木桩 伊吹 = 木桩.init("生命0");
         board.addOurChara(小精灵王);
         board.addOurChara(露露);
         board.addOurChara(精灵王);

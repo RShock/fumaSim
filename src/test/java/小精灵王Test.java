@@ -65,17 +65,4 @@ class 小精灵王Test {
         board.run("1q1 1a1");
         assertEquals(-917, dummy.getLife());
     }
-
-    @Test
-    void 死斗伊吹朱点() {
-        Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力560316 羁绊2 星4 潜力6 队长");
-        完美靶子伊吹 伊吹 = 完美靶子伊吹.init("");
-        board.addOurChara(小精灵王);
-        board.addEnemyChara(伊吹);
-        board.initSkills();
-        board.run("""
-                1a1
-                """);
-        assertEquals(203959968, 伊吹.getLife(), 10);
-    }
 }
