@@ -119,12 +119,12 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>16</java.version>
+        <java.version>18</java.version>
         <maven.compiler.version>3.8</maven.compiler.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <junit-platform.version>5.8.1</junit-platform.version>
-        <kotlin.version>1.5.30</kotlin.version>
+        <kotlin.version>1.6.10</kotlin.version>
     </properties>
 
 </project>
