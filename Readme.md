@@ -9,7 +9,7 @@
 因为只考虑打桩，治疗与血量等属性在目前是不存在的
 
 目前输出示例（未完成）：
-![example](.\example.jpg)
+![example](https://github.com/RShock/fumaSim/blob/main/example.jpg)
 
 # 基本架构
 
