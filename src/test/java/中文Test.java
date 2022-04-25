@@ -1,17 +1,11 @@
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import xiaor.GameBoard;
-import xiaor.charas.Chara;
-import xiaor.charas.ImportedChara;
-import xiaor.charas.木桩;
 
 import java.nio.charset.Charset;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class PrintTest {
+public class 中文Test {
     @Test
-    void should_print() {
+    public void should_print_hello_world() {
         System.out.println("Default charset : " + Charset.defaultCharset());
         System.out.println("file.encoding   : " + System.getProperty("file.encoding"));
         System.out.println("native.encoding : " + System.getProperty("native.encoding"));
