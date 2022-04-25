@@ -38,6 +38,7 @@ public class ExcelReader {
         charaVos = Poiji.fromExcel(new File(excelPath), CharaExcelVo.class, options);
         options = PoijiOptions.PoijiOptionsBuilder.settings().sheetIndex(1).build();
         List<SkillExcelVo> skillVos = Poiji.fromExcel(new File(excelPath), SkillExcelVo.class, options);
+        checkSkillVos(skillVos);
 
         charaVos.forEach(
                 charaExcelVo -> {
@@ -46,6 +47,13 @@ public class ExcelReader {
                     charaExcelVo.setSkillExcelVos(charaSkills);
                 }
         );
+    }
+
+    private void checkSkillVos(List<SkillExcelVo> skillVos) {
+        if (skillVos.stream().mapToInt(SkillExcelVo::getSkillId).distinct().count() != skillVos.size()){
+            throw new RuntimeException("存在相同的skillId");
+        }
+
     }
 
 }
