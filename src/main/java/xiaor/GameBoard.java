@@ -2,6 +2,7 @@ package xiaor;
 
 import lombok.Getter;
 import xiaor.charas.Chara;
+import xiaor.tools.GlobalDataManager;
 import xiaor.tools.record.DamageRecorder;
 import xiaor.trigger.TriggerEnum;
 import xiaor.trigger.TriggerManager;
@@ -13,6 +14,7 @@ import java.util.Random;
 @Getter
 public class GameBoard {
     private static final GameBoard gameBoard = new GameBoard();
+    private boolean inited;
 
     public static GameBoard getInstance() {
         return gameBoard;
@@ -53,6 +55,7 @@ public class GameBoard {
     }
 
     public void run(String action) {
+        if(!inited)initSkills();
         TriggerManager.sendMessage(TriggerEnum.被动光环, new MessagePack());
         TriggerManager.sendMessage(TriggerEnum.游戏开始时, new MessagePack());
         continueRun(action);
@@ -85,6 +88,7 @@ public class GameBoard {
     }
 
     public void initSkills() {
+        inited = true;
         GlobalSkillRegister.registerSkill();
         ourChara.forEach(Chara::initSkills);
         enemyChara.forEach(Chara::initSkills);
@@ -96,6 +100,8 @@ public class GameBoard {
         enemyChara = new ArrayList<>();
         TriggerManager.getInstance().reset();
         DamageRecorder.getInstance().clear();
+        GlobalDataManager.reset();
+        inited = false;
     }
 
     public static Chara getCurrentEnemy() {

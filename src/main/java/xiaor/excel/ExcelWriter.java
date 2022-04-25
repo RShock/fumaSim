@@ -1,12 +1,9 @@
 package xiaor.excel;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import xiaor.charas.Chara;
-import xiaor.tools.record.DamageRecord;
 import xiaor.tools.record.ExcelDamageRecord;
 
 import java.io.File;
@@ -14,10 +11,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 import java.util.stream.IntStream;
 
 /**
@@ -30,13 +27,19 @@ public class ExcelWriter {
     Sheet indicatorSheet;
     File resourcePath = new File(URLDecoder.decode(Objects.requireNonNull(getClass().getResource("/")).getPath(), StandardCharsets.UTF_8));
     String excelPath = resourcePath.getParent() + "/classes/全方位测试输出表样板.xlsx";
-    String exportPath = "output" + new Date() + ".xlsx";
+    String exportPath = "output" + new SimpleDateFormat("MM_dd_HH_mm_ss").format(new Date()) + ".xlsx";
     Workbook book = new XSSFWorkbook(excelPath);
 
     private static final int charaStartRow = 1;       //角色数据 第一行
     private static final int charaStartCell = 1;      //角色数据 第一列
 
-    private static final int damageStartRow = 1;
+    private static final int damageStartRow = 5;        //伤害数据 第一行
+
+    private static final int damageStartCell = 2;       //伤害数据 第一列
+
+    private static final int damageCharaStartRow = 2;   //伤害数据页的角色数据 第一行
+
+    private static final int damageCharaStartCell = 1;  //伤害数据页的角色数据 第一列
 
     public ExcelWriter() throws IOException {
         dataSheet = book.getSheet("角色信息");
@@ -45,18 +48,23 @@ public class ExcelWriter {
     }
 
     public void setName(String name) {
-        this.exportPath = name + ".xlsx";
+        this.exportPath = name + new SimpleDateFormat("MM_dd_HH_mm_ss").format(new Date()) + ".xlsx";
     }
     public void writeCharaData(List<Chara> chara) {
-        IntStream.range(0, 4)
-                .forEach(i -> writeCharaRow(charaStartRow + 5, chara.get(i)));
+        IntStream.range(0, 5)
+                .forEach(i -> writeCharaRow(charaStartRow + i, chara.get(i)));
+
+        Row nameRow = getRow(damageSheet, damageCharaStartRow);
+        Row damageRow = getRow(damageSheet, damageCharaStartRow+1);
+        for(int i=0; i<5; i++) {
+            nameRow.getCell(damageCharaStartCell+i*2).setCellValue(chara.get(i).getName());
+            damageRow.getCell(damageCharaStartCell+i*2).setCellValue(chara.get(i).getBaseAttack());
+        }
     }
 
     private void writeCharaRow(int rowNum, Chara chara) {
-        Row row = dataSheet.getRow(rowNum);
-        if(row == null){ //当row为空时，创建row
-            row = dataSheet.createRow(rowNum);
-        }
+        Row row = getRow(dataSheet, rowNum);
+//         dataSheet.getRow(rowNum);
         Cell nameCell = row.createCell(charaStartCell);
         Cell starCell = row.createCell(charaStartCell+1);
         Cell skillLevel = row.createCell(charaStartCell+2);
@@ -76,11 +84,54 @@ public class ExcelWriter {
 
     public void export() throws IOException {
         FileOutputStream fos = new FileOutputStream(exportPath);
+        XSSFFormulaEvaluator.evaluateAllFormulaCells(book);
         book.write(fos);
-        book.close();
     }
 
     public void writeDamageData(ExcelDamageRecord excelDamageRecord) {
+        int size = excelDamageRecord.getDamage().size();
+        for(int i=0; i< size; i++){
+            int rowNum = i/5 + damageStartRow;
+            Row row = getRow(damageSheet, rowNum);
+            Cell cell = row.createCell(damageStartCell+(i%5)*2);
+            cell.setCellValue(excelDamageRecord.getDamage().get(i));
+        }
+        size = excelDamageRecord.getAction().size();
+        for(int i=0; i< size; i++){
+            int rowNum = i/5 + damageStartRow;
+            Row row = getRow(damageSheet, rowNum);
+            Cell cell = row.createCell(damageStartCell+(i%5)*2-1);
+            cell.setCellValue(excelDamageRecord.getAction().get(i));
+        }
+    }
 
+    private static Row getRow(Sheet sheet, int rowNum) {
+        Row row = sheet.getRow(rowNum);
+        if(row == null){
+            return sheet.createRow(rowNum);
+        }
+        return row;
+    }
+
+    public void writeSkillLevelMatrix(Long[][] skillLevelMatrix) {
+        final int startCell = 15, startRow = 54;
+        for(int i=0;i<6;i++) {
+            Row row = getRow(damageSheet, startRow+i);
+            for(int j=0;j<4;j++) {
+                Cell cell = row.createCell(startCell+j);
+                cell.setCellValue(skillLevelMatrix[i][j]);
+            }
+        }
+    }
+
+    public void writeProficiencyMatrix(Long[][] skillLevelMatrix) {
+        final int startCell = 15, startRow = 63;
+        for(int i=0;i<6;i++) {
+            Row row = getRow(damageSheet, startRow+i);
+            for(int j=0;j<4;j++) {
+                Cell cell = row.createCell(startCell+j);
+                cell.setCellValue(skillLevelMatrix[i][j]);
+            }
+        }
     }
 }

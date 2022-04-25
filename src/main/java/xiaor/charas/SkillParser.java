@@ -73,7 +73,7 @@ public class SkillParser {
         if (skillString.startsWith("如果")) { //这个技能是激活型的，需要额外的检验条件，如果没激活会提示未激活
             skillString = parseExtraCondition(switchChecker);
         }
-        parseSkill(chara, tempSkill, skillString, switchChecker, vos).build();
+        parseSkill(tempSkill, skillString, switchChecker, vos).build();
     }
 
     private SkillExcelVo findSkillVoBySkillId(Integer skillId) {
@@ -140,7 +140,7 @@ public class SkillParser {
             case 动态技能 -> {
                 return true;
             }
-            case 普攻 -> {
+            case 普攻,防御 -> {
             }
         }
         return true;
@@ -166,24 +166,24 @@ public class SkillParser {
         throw new RuntimeException(checker + "未受支持");
     }
 
-    private WhenBuilder parseSkill(Chara chara, WhenBuilder tempSkill, String effect, List<Supplier<Boolean>> switchChecker, List<SkillExcelVo> vos) {
+    private WhenBuilder parseSkill(WhenBuilder tempSkill, String effect, List<Supplier<Boolean>> switchChecker, List<SkillExcelVo> vos) {
 //        System.out.println("parse:" + effect);
         if (effect.contains(",")) {
             int index = effect.indexOf(",");
             String firstPart = effect.substring(0, index);
             String lastPart = effect.substring(index + 1);
-            return parseSkill(chara,
-                    tempSkill.act(parseAction(chara, firstPart, switchChecker, vos)).and(),
+            return parseSkill(
+                    tempSkill.act(parseAction(firstPart, switchChecker, vos)).and(),
                     lastPart,
                     switchChecker,
                     vos);
         } else {
-            tempSkill.act(parseAction(chara, effect, switchChecker, vos));
+            tempSkill.act(parseAction(effect, switchChecker, vos));
         }
         return tempSkill;
     }
 
-    private Action parseAction(Chara chara, String part, List<Supplier<Boolean>> switchChecker, List<SkillExcelVo> vos) {
+    private Action parseAction(String part, List<Supplier<Boolean>> switchChecker, List<SkillExcelVo> vos) {
         if (part.startsWith("对")) {
             return parseDamageAction(part);
         }

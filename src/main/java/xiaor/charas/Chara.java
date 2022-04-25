@@ -3,7 +3,6 @@ package xiaor.charas;
 import lombok.*;
 import xiaor.DamageCal;
 import xiaor.MessagePack;
-import xiaor.skillbuilder.skill.BuffType;
 import xiaor.tools.Tools;
 import xiaor.trigger.TriggerEnum;
 import xiaor.trigger.TriggerManager;
@@ -21,7 +20,9 @@ public abstract class Chara{
 
     protected String name;
 
-    protected int attack;
+    protected String nickName;
+
+    protected int baseAttack;
 
     protected SnapShot attackShot = new SnapShot(this);
 
@@ -44,7 +45,7 @@ public abstract class Chara{
     }
 
     protected void setOriginAtk(int attack) {
-        this.attack = attack;
+        this.baseAttack = attack;
     }
 
     public enum CharaStatus {
@@ -139,7 +140,7 @@ public abstract class Chara{
         String[] split = initString.split("\\s+");
         for (String s1 : split) {
             switch (s1) {
-                case String s && s.startsWith("攻击力") -> chara.attack = getNumFromString(s);
+                case String s && s.startsWith("攻击力") -> chara.baseAttack = getNumFromString(s);
                 case String s && s.contains("星") -> chara.star = getNumFromString(s);
                 case String s && s.contains("绊") -> chara.skillLevel = getNumFromString(s1);
                 case String s && s.contains("潜") -> chara.potential = getNumFromString(s1);
@@ -195,7 +196,7 @@ public abstract class Chara{
         }
     }
 
-    public int getAttack() {
+    public int getBaseAttack() {
         return attackShot.getAtk();
     }
 
@@ -205,6 +206,6 @@ public abstract class Chara{
     }
 
     public int getBaseAtk() {
-        return attack;
+        return baseAttack;
     }
 }

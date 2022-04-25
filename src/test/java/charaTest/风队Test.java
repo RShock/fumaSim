@@ -1,3 +1,5 @@
+package charaTest;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import xiaor.GameBoard;
@@ -50,6 +52,7 @@ public class 风队Test {
                 1a1 2a1 3a1 4a1 5d1
                 1q1
                 """);
+
         assertEquals(-52025264, 测试角色.getLife(), 10);
     }
 

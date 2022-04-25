@@ -1,3 +1,5 @@
+package charaTest;
+
 import org.junit.jupiter.api.Assertions;
 import xiaor.GameBoard;
 import xiaor.charas.Chara;

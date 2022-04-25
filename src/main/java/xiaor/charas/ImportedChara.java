@@ -40,6 +40,7 @@ public class ImportedChara extends Chara {
         importedChara.setName(charaVo.charaName);
         importedChara.setRole(Enum.valueOf(Role.class, charaVo.charaRole));
         importedChara.setUninitiatedSkills(charaVo.getSkillExcelVos());    //初始化技能需要等到所有角色设置好
+        importedChara.setNickName(charaVo.getNickName());
         return importedChara;
     }
 
@@ -47,7 +48,7 @@ public class ImportedChara extends Chara {
      * 这个方法只能在刚导入后调用（以防止攻击力不正确），将数据设为满配
      */
     public void maxData() {
-        attack = (int) (attack*3.25);
+        baseAttack = (int) (baseAttack *3.25);
         life = (int) (life*3.25);
         star = 5;
         potential = 12;

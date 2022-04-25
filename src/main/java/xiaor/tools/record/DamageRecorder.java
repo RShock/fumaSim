@@ -11,10 +11,10 @@ import xiaor.trigger.TriggerEnum;
 import xiaor.trigger.TriggerManager;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static xiaor.Common.INFINITY;
 
@@ -51,6 +51,7 @@ public class DamageRecorder {
                 .check(pack -> true)
                 .cast(pack -> {
                     GlobalDataManager.incIntData(KeyEnum.ACTION_ID);
+                    System.out.println("行动 ACTION_ID:"+ GlobalDataManager.getIntData(KeyEnum.ACTION_ID));
                 }).build();
         TriggerManager.registerSkill(skill);
         skill = BaseSkill.builder().name("【系统规则】伤害记录器初始化").trigger(TriggerEnum.游戏开始时)
@@ -65,10 +66,12 @@ public class DamageRecorder {
     }
 
     public List<Integer> exportDamagePerAction() {
-        return getInstance().records.stream().collect(Collectors.groupingBy(DamageRecord::getActionId))
-                .entrySet().stream().sorted(Map.Entry.comparingByKey())
-                .map(set -> set.getValue().stream().mapToInt(DamageRecord::getNum).sum())
-                .collect(Collectors.toList());
+        int maxActionID = GlobalDataManager.getIntData(KeyEnum.ACTION_ID) +1;
+        return IntStream.range(0,maxActionID).map(
+                actionId ->
+                    records.stream().filter(record -> actionId == record.getActionId())
+                            .mapToInt(DamageRecord::getNum).sum()
+        ).boxed().toList();
     }
 
     public void clear() {
@@ -83,4 +86,7 @@ public class DamageRecorder {
         });
     }
 
+    public long calAllDamage() {
+        return records.stream().mapToLong(DamageRecord::getNum).sum();
+    }
 }

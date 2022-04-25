@@ -6,7 +6,9 @@ import xiaor.charas.ImportedChara;
 import xiaor.excel.ExcelWriter;
 import xiaor.excel.vo.CharaExcelVo;
 import xiaor.excel.vo.SkillExcelVo;
+import xiaor.tools.record.DamageRecord;
 import xiaor.tools.record.DamageRecorder;
+import xiaor.tools.record.ExcelDamageRecord;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,10 +17,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class WriteExcelTest {
     @Test
-    public void should_read_chara_excel() throws IOException {
+    public void should_write_chara_excel() throws IOException {
         ExcelWriter excelWriter = new ExcelWriter();
         Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力505739 羁绊2 星3 潜力6 队长 备注:满配");
         Chara 露露 = ImportedChara.initChara("法斯公主 露露 攻击力675452 星5 绊5 潜6");
@@ -27,6 +30,16 @@ public class WriteExcelTest {
         Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力204650 星3 绊2 潜5");
         excelWriter.writeCharaData(Arrays.asList(小精灵王, 露露, 精灵王, 千鹤, 沃沃));
 //        excelWriter.writeBattleData(DamageRecorder.exportRecords());
+        excelWriter.setName("小精灵王, 露露, 精灵王, 千鹤, 沃沃");
+        excelWriter.export();
+    }
+
+    @Test
+    public void should_write_damage_excel() throws IOException {
+        ExcelWriter excelWriter = new ExcelWriter();
+        ExcelDamageRecord excelDamageRecord = new ExcelDamageRecord(Arrays.asList("1a", "2a", "3a", "4a", "5a", "1a", "2a"),
+                IntStream.range(1000, 1007).boxed().toList());
+        excelWriter.writeDamageData(excelDamageRecord);
         excelWriter.setName("小精灵王, 露露, 精灵王, 千鹤, 沃沃");
         excelWriter.export();
     }

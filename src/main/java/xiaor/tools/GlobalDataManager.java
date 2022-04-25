@@ -32,4 +32,8 @@ public class GlobalDataManager {
         return data+1;
     }
 
+    public static void reset() {
+        manager.data.clear();
+        manager.intData.clear();
+    }
 }

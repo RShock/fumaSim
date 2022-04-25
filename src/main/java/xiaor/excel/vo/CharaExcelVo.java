@@ -15,24 +15,27 @@ public class CharaExcelVo {
     public String charaName;
 
     @ExcelCell(1)
-    public int charaId;
+    private String nickName;
 
     @ExcelCell(2)
-    public String charaElement;
+    public int charaId;
 
     @ExcelCell(3)
-    public String charaRole;
+    public String charaElement;
 
     @ExcelCell(4)
-    public String charaType;   //限定or常驻
+    public String charaRole;
 
     @ExcelCell(5)
-    public String rare;
+    public String charaType;   //限定or常驻
 
     @ExcelCell(6)
-    public int attack;
+    public String rare;
 
     @ExcelCell(7)
+    public int attack;
+
+    @ExcelCell(8)
     public int defense;
 
     private List<SkillExcelVo> skillExcelVos;
