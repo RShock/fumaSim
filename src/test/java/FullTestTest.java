@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import xiaor.charas.Chara;
 import xiaor.charas.CharaName;
@@ -11,6 +12,7 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class FullTestTest {
+    @Disabled
     @Test
     public void 风队测试() throws IOException {
         FullTest fullTest = new FullTest(Arrays.asList(CharaName.幼精, CharaName.露露, CharaName.精灵王, CharaName.千鹤, CharaName.沃沃),
