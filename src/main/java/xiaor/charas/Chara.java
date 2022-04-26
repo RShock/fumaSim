@@ -22,13 +22,13 @@ public abstract class Chara{
 
     protected String nickName;
 
-    protected int baseAttack;
+    protected double baseAttack;
 
     protected SnapShot attackShot = new SnapShot(this);
 
     protected int life;
 
-    protected int baseLife;
+    protected double baseLife;
 
     protected int potential;
 
@@ -45,7 +45,7 @@ public abstract class Chara{
         attackShot.shouldUpdateAtk();
     }
 
-    protected void setOriginAtk(int attack) {
+    protected void setOriginAtk(double attack) {
         this.baseAttack = attack;
     }
 
@@ -156,7 +156,7 @@ public abstract class Chara{
                 case String s && s.contains("绊") -> chara.skillLevel = getNumFromString(s1);
                 case String s && s.contains("潜") -> chara.potential = getNumFromString(s1);
                 case String s && s.contains("队长") -> chara.isLeader = true;
-                case String s && s.startsWith("生命") -> chara.life = chara.baseLife = getNumFromString(s1);
+                case String s && s.startsWith("生命") -> chara.baseLife = chara.life = getNumFromString(s1);
                 case String s && (s.startsWith("水属性") || s.startsWith("风属性") || s1.startsWith("光属性") ||
                         s1.startsWith("火属性") || s1.startsWith("暗属性")) ->
                         chara.element = Enum.valueOf(Element.class, s);
@@ -207,7 +207,7 @@ public abstract class Chara{
         }
     }
 
-    public int getBaseAttack() {
+    public int getAttack() {
         return attackShot.getAtk();
     }
 
@@ -216,7 +216,7 @@ public abstract class Chara{
         attackShot.setAtk(atk);
     }
 
-    public int getBaseAtk() {
-        return baseAttack;
+    public int getBaseAttack() {
+        return (int)baseAttack;
     }
 }

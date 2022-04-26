@@ -33,10 +33,10 @@ public class CharaExcelVo {
     public String rare;
 
     @ExcelCell(7)
-    public int attack;
+    public double attack;
 
     @ExcelCell(8)
-    public int defense;
+    public double life;
 
     private List<SkillExcelVo> skillExcelVos;
 }

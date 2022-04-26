@@ -1,5 +1,6 @@
 import com.poiji.bind.Poiji;
 import com.poiji.option.PoijiOptions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import xiaor.charas.Chara;
 import xiaor.charas.ImportedChara;
@@ -21,6 +22,7 @@ import java.util.stream.IntStream;
 
 public class WriteExcelTest {
     @Test
+    @Disabled
     public void should_write_chara_excel() throws IOException {
         ExcelWriter excelWriter = new ExcelWriter();
         Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力505739 羁绊2 星3 潜力6 队长 备注:满配");
@@ -35,6 +37,7 @@ public class WriteExcelTest {
     }
 
     @Test
+    @Disabled
     public void should_write_damage_excel() throws IOException {
         ExcelWriter excelWriter = new ExcelWriter();
         ExcelDamageRecord excelDamageRecord = new ExcelDamageRecord(Arrays.asList("1a", "2a", "3a", "4a", "5a", "1a", "2a"),

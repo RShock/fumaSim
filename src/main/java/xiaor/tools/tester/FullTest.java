@@ -139,7 +139,7 @@ public class FullTest {
                 gameBoard.resetBoard();
                 initMaxChara(charaNames);
                 Chara chara = charas.get(charaIndex);
-                chara.setBaseAttack((int) (chara.getBaseAtk() * proficiency * 0.2));
+                chara.setBaseAttack((int) (chara.getBaseAttack() * proficiency * 0.2));
                 gameBoard.run(action[4][4]);
                 damageMatrix[charaIndex][proficiency - 1] = DamageRecorder.getInstance().calAllDamage();
             }
@@ -148,7 +148,7 @@ public class FullTest {
             gameBoard.resetBoard();
             initMaxChara(charaNames);
             double proficiency = i * 0.2;
-            charas.forEach(c -> c.setBaseAttack((int) (proficiency * c.getBaseAtk())));
+            charas.forEach(c -> c.setBaseAttack((int) (proficiency * c.getBaseAttack())));
             gameBoard.run(action[4][4]);
             damageMatrix[5][i - 1] = DamageRecorder.getInstance().calAllDamage();
         }

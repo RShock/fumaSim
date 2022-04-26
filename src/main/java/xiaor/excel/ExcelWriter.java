@@ -75,7 +75,7 @@ public class ExcelWriter {
         starCell.setCellValue(chara.getStar());
         skillLevel.setCellValue(chara.getSkillLevel());
         is6Cell.setCellValue(chara.is6() ? "是" : "否");
-        atkCell.setCellValue(chara.getBaseAtk());
+        atkCell.setCellValue(chara.getBaseAttack());
         hpCell.setCellValue(chara.getBaseLife());
         hintCell.setCellValue(chara.getHint());
     }

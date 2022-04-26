@@ -12,7 +12,7 @@ public class ImportedChara extends Chara {
 
     @Override
     public void initSkills() {
-        if(isDisabled())return;
+        if (isDisabled()) return;
         uninitedSkills.stream()
                 //动态技能在运行中由其他技能注册，自身不注册
                 .filter(skillExcelVo -> skillExcelVo.getSkillType() != SkillType.动态技能)
@@ -37,6 +37,7 @@ public class ImportedChara extends Chara {
         ImportedChara importedChara = new ImportedChara();
         importedChara.setCharaId(charaVo.charaId);
         importedChara.setOriginAtk(charaVo.attack);
+        importedChara.setLife((int) charaVo.life);
         importedChara.setElement(Enum.valueOf(Element.class, charaVo.charaElement));
         importedChara.setName(charaVo.charaName);
         importedChara.setRole(Enum.valueOf(Role.class, charaVo.charaRole));
@@ -49,10 +50,16 @@ public class ImportedChara extends Chara {
      * 这个方法只能在刚导入后调用（以防止攻击力不正确），将数据设为满配
      */
     public void maxData() {
-        baseAttack = (int) (baseAttack *3.25);
-        life = (int) (life*3.25);
+        baseAttack = magicConvert(baseAttack);
+        life = magicConvert(baseLife);
         star = 5;
         potential = 12;
         skillLevel = 5;
+    }
+
+    //把图鉴上的攻击/生命转化为满配的实际数值
+    private int magicConvert(double data) {
+        double pow = Math.pow(1.1, 59);
+        return (int) (data * pow * 3.25);
     }
 }
