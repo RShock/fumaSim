@@ -3,16 +3,14 @@ package xiaor.tools.tester;
 import xiaor.GameBoard;
 import xiaor.charas.Chara;
 import xiaor.charas.ImportedChara;
-import xiaor.excel.ExcelCharaProvider;
 import xiaor.excel.ExcelWriter;
+import xiaor.tools.Tools;
 import xiaor.tools.record.DamageRecorder;
 import xiaor.tools.record.ExcelDamageRecord;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * 对一个队伍进行全面的检测，输出模板为全方位测试输出表
@@ -24,7 +22,7 @@ public class FullTest {
      */
     private final String[][] action = new String[6][5];
     private final List<String> charaNames;
-    List<Chara> charas;
+    List<ImportedChara> charas;
     GameBoard gameBoard = GameBoard.getInstance();
     DamageRecorder damageRecorder = DamageRecorder.getInstance();
 
@@ -35,7 +33,13 @@ public class FullTest {
             }
         }
         this.charaNames = charaNames;
-        initMaxChara(charaNames);
+        init(charaNames);
+    }
+
+    private void init(List<String> charaNames) {
+        this.charas = Tools.initMaxChara(charaNames);
+        Chara 测试角色 = ImportedChara.initChara("测试 角色 生命0");
+        gameBoard.addEnemyChara(测试角色);
     }
 
     /**
@@ -53,7 +57,7 @@ public class FullTest {
     public void fullTest() throws IOException {
         ExcelWriter excelWriter = new ExcelWriter();
         gameBoard.run(action[4][4]);
-        excelWriter.writeCharaData(charas);
+        excelWriter.writeCharaData(GameBoard.getAlly());
         ExcelDamageRecord excelDamageRecord = new ExcelDamageRecord(
                 Arrays.stream(action[4][4].split("\\s+")).filter(s -> !s.isEmpty()).toList(),
                 damageRecorder.exportDamagePerAction()
@@ -75,7 +79,7 @@ public class FullTest {
         Long[] contributeList = new Long[5];
         for (int charaIndex = 0; charaIndex < 5; charaIndex++) {
             gameBoard.resetBoard();
-            initMaxChara(charaNames);
+            init(charaNames);
             charas.get(charaIndex).setDisabled();
             gameBoard.run(action[4][4]);
             contributeList[charaIndex] = DamageRecorder.getInstance().calAllDamage();
@@ -87,27 +91,17 @@ public class FullTest {
         Long[] starMatrix = new Long[6];
         for (int charaIndex = 0; charaIndex < 5; charaIndex++) {
             gameBoard.resetBoard();
-            initMaxChara(charaNames);
+            init(charaNames);
             charas.get(charaIndex).setStar(4);
             gameBoard.run(action[4][4]);
             starMatrix[charaIndex] = DamageRecorder.getInstance().calAllDamage();
         }
         gameBoard.resetBoard();
-        initMaxChara(charaNames);
+        init(charaNames);
         charas.forEach(chara -> chara.setStar(4));
         gameBoard.run(action[4][4]);
         starMatrix[5] = DamageRecorder.getInstance().calAllDamage();
         return starMatrix;
-    }
-
-    private void initMaxChara(List<String> charaNames) {
-        charas = charaNames.stream().map(ExcelCharaProvider::getCharaByName)
-                .peek(ImportedChara::maxData)
-                .peek(gameBoard::addOurChara)
-                .collect(toList());
-        charas.get(0).setLeader(true);
-        Chara 测试角色 = ImportedChara.initChara("测试 角色 生命0");
-        gameBoard.addEnemyChara(测试角色);
     }
 
     Long[][] skillLevelTest() {
@@ -115,7 +109,7 @@ public class FullTest {
         for (int charaIndex = 0; charaIndex < 5; charaIndex++) {
             for (int skillLevel = 1; skillLevel <= 4; skillLevel++) {
                 gameBoard.resetBoard();
-                initMaxChara(charaNames);
+                init(charaNames);
                 charas.get(charaIndex).setSkillLevel(skillLevel);
                 gameBoard.run(action[charaIndex][skillLevel-1]);
                 damageMatrix[charaIndex][skillLevel - 1] = DamageRecorder.getInstance().calAllDamage();
@@ -123,7 +117,7 @@ public class FullTest {
         }
         for (int skillLevel = 1; skillLevel <= 4; skillLevel++) {
             gameBoard.resetBoard();
-            initMaxChara(charaNames);
+            init(charaNames);
             int finalSkillLevel = skillLevel;
             charas.forEach(c -> c.setSkillLevel(finalSkillLevel));
             gameBoard.run(action[5][skillLevel-1]);
@@ -137,7 +131,7 @@ public class FullTest {
         for (int charaIndex = 0; charaIndex < 5; charaIndex++) {
             for (int proficiency = 1; proficiency <= 4; proficiency++) {
                 gameBoard.resetBoard();
-                initMaxChara(charaNames);
+                init(charaNames);
                 Chara chara = charas.get(charaIndex);
                 chara.setBaseAttack((int) (chara.getBaseAttack() * proficiency * 0.2));
                 gameBoard.run(action[4][4]);
@@ -146,7 +140,7 @@ public class FullTest {
         }
         for (int i = 1; i <= 4; i++) {
             gameBoard.resetBoard();
-            initMaxChara(charaNames);
+            init(charaNames);
             double proficiency = i * 0.2;
             charas.forEach(c -> c.setBaseAttack((int) (proficiency * c.getBaseAttack())));
             gameBoard.run(action[4][4]);

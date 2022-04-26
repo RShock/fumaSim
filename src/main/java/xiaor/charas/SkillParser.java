@@ -61,7 +61,8 @@ public class SkillParser {
                 int a = Integer.parseInt(matcher.group("turnsA"));
                 int b = Integer.parseInt(Optional.of(matcher.group("turnsB")).orElse("0"));
                 skillString = matcher.group("effect");
-                yield Trigger.when(triggerEnum, () -> GlobalDataManager.getIntData(KeyEnum.GAME_TURN) % a == b);
+                yield Trigger.when(triggerEnum, () -> (GlobalDataManager.getIntData(KeyEnum.GAME_TURN) - b) % a == 0 &&
+                        GlobalDataManager.getIntData(KeyEnum.GAME_TURN) != b);
             }
             default -> Trigger.selfAct(chara, triggerEnum);
         };
@@ -140,7 +141,7 @@ public class SkillParser {
             case 动态技能 -> {
                 return true;
             }
-            case 普攻,防御 -> {
+            case 普攻, 防御 -> {
             }
         }
         return true;
@@ -260,10 +261,12 @@ public class SkillParser {
         if (substring.startsWith("队伍中")) {
             String finalSubstring = substring.substring(3);
             return switch (finalSubstring) {
-                case "风属性", "水属性", "暗属性", "光属性", "火属性" -> stream.filter(chara -> chara.getElement().equals(Enum.valueOf(Element.class, finalSubstring)))
-                        .collect(Collectors.toList());
-                case "攻击者", "治疗者", "妨碍者", "辅助者", "守护者" -> stream.filter(chara -> chara.getRole().equals(Enum.valueOf(Role.class, finalSubstring)))
-                        .collect(Collectors.toList());
+                case "风属性", "水属性", "暗属性", "光属性", "火属性" ->
+                        stream.filter(chara -> chara.getElement().equals(Enum.valueOf(Element.class, finalSubstring)))
+                                .collect(Collectors.toList());
+                case "攻击者", "治疗者", "妨碍者", "辅助者", "守护者" ->
+                        stream.filter(chara -> chara.getRole().equals(Enum.valueOf(Role.class, finalSubstring)))
+                                .collect(Collectors.toList());
                 default -> throw new RuntimeException("不支持的分类" + finalSubstring);
             };
         }
@@ -276,7 +279,7 @@ public class SkillParser {
         if (substring.matches("\\{.*}")) {     //e.g. {精灵王 塞露西亚}
             String finalSubstring = substring.substring(1, substring.length() - 1);
             return GameBoard.getAlly().stream().filter(chara ->
-                    chara.getCharaId() == ExcelCharaProvider.getCharaByName(finalSubstring).getCharaId())
+                            chara.getCharaId() == ExcelCharaProvider.getCharaByName(finalSubstring).getCharaId())
                     .collect(Collectors.toList());
         }
         if (substring.equals("目标")) {

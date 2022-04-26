@@ -118,6 +118,8 @@ public class DamageCal {
 
     //计算基本攻击力
     public int getCurrentAttack() {
+        Tools.log("----------------%s的攻击力计算-----------------".formatted(pack.caster));
+        Tools.log("%s的基础攻击力是%d".formatted(pack.caster, pack.caster.getBaseAttack()));
         TriggerManager.sendMessage(TriggerEnum.攻击力计算, MessagePack.damagePack(this, null));
         double baseAtk = pack.caster.getBaseAttack();
 

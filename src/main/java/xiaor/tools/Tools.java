@@ -1,9 +1,15 @@
 package xiaor.tools;
 
+import xiaor.GameBoard;
+import xiaor.charas.ImportedChara;
+import xiaor.excel.ExcelCharaProvider;
 import xiaor.trigger.TriggerManager;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.util.stream.Collectors.toList;
 
 public class Tools {
     public static int getNewID() {
@@ -13,6 +19,15 @@ public class Tools {
     public static final String RESET = "\033[0m";
 
     private static final boolean SHOULD_LOG = !"false".equals(System.getProperty("showLog"));
+
+    public static List<ImportedChara> initMaxChara(List<String> charaNames) {
+       var charas = charaNames.stream().map(ExcelCharaProvider::getCharaByName)
+                .peek(ImportedChara::maxData)
+                .peek(chara -> GameBoard.getInstance().addOurChara(chara))
+                .collect(toList());
+        charas.get(0).setLeader(true);
+        return charas;
+    }
 
 
     public enum LogColor {

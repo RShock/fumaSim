@@ -37,7 +37,6 @@ public class GlobalSkillRegister {
                 .cast(pack -> {
                     GlobalDataManager.putIntData(KeyEnum.GAME_TURN, 1);
                     Tools.log(Tools.LogColor.RED, "第1回合开始");
-                    TriggerManager.sendMessage(TriggerEnum.回合开始, null);
                     GameBoard.getAlly().forEach(chara -> chara.setStatus(Chara.CharaStatus.ACTIVE));
                 }).build();
         TriggerManager.registerSkill(skill);

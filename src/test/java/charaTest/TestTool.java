@@ -21,7 +21,7 @@ public class TestTool {
         for (int i = 0; i < enemyLife.size(); i++) {
             gameBoard.continueRun(split[i]);
             if(enemyLife.get(i) == 0)continue;
-            Assertions.assertEquals(enemyLife.get(i), 被打的角色.getLife());
+            Assertions.assertEquals(enemyLife.get(i), 被打的角色.getLife(), 10);
         }
     }
 

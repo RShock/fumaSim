@@ -1,8 +1,6 @@
 package xiaor.charas;
 
 public class 超级机器人木桩 extends Chara {
-    Double 必杀伤害加成;
-
     public static 超级机器人木桩 init(String s) {
         超级机器人木桩 木桩 = new 超级机器人木桩();
         木桩.name = "木桩";

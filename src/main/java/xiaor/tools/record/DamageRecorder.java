@@ -51,7 +51,6 @@ public class DamageRecorder {
                 .check(pack -> true)
                 .cast(pack -> {
                     GlobalDataManager.incIntData(KeyEnum.ACTION_ID);
-                    System.out.println("行动 ACTION_ID:"+ GlobalDataManager.getIntData(KeyEnum.ACTION_ID));
                 }).build();
         TriggerManager.registerSkill(skill);
         skill = BaseSkill.builder().name("【系统规则】伤害记录器初始化").trigger(TriggerEnum.游戏开始时)

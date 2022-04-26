@@ -1,19 +1,14 @@
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import xiaor.charas.Chara;
 import xiaor.charas.CharaName;
-import xiaor.charas.ImportedChara;
-import xiaor.excel.ExcelWriter;
-import xiaor.tools.record.ExcelDamageRecord;
 import xiaor.tools.tester.FullTest;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.stream.IntStream;
 
 import static xiaor.charas.CharaName.*;
 
-public class FullTestTest {
+public class 风队完全测试Test {
     @Disabled
     @Test
     public void 风队测试() throws IOException {
@@ -227,7 +222,7 @@ public class FullTestTest {
                         2A 1A 3A 4Q 5A
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
-                        2Q 3Q 1Q 4D 5A                       
+                        2Q 3Q 1Q 4A 5A                       
                         """);
         String mengluNot3flower =
                 """
@@ -255,7 +250,7 @@ public class FullTestTest {
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
                         2A 1Q 3A 4Q 5A
-                        2Q 3Q 1A 4D 5A                      
+                        2Q 3Q 1A 4A 5A                      
                         """;
         String luluNot5flower =                 """
                         2A 3Q 1A 4D 5A
@@ -282,7 +277,7 @@ public class FullTestTest {
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
-                        2Q 3Q 1Q 4D 5A                       
+                        2Q 3Q 1Q 4A 5A                       
                         """;
         String bothNot3flower =  """
                         2A 3Q 1A 4D 5A
@@ -309,7 +304,7 @@ public class FullTestTest {
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
                         2A 1Q 3A 4Q 5A
-                        2Q 3Q 1A 4D 5A                      
+                        2Q 3Q 1A 4A 5A                      
                         """;
         fullTest.setAction(1, 3, mengluNot3flower);
         fullTest.setAction(2, 5, luluNot5flower);
