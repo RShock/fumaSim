@@ -71,7 +71,7 @@ public class 风队Test {
         board.addOurChara(千鹤);
         board.addOurChara(沃沃);
         board.addEnemyChara(伊吹);
-
+        小精灵王.setDisabled();
         board.initSkills();
         board.run("""
                 2A 1A 3A 4D 5A

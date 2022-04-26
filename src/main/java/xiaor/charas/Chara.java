@@ -39,6 +39,7 @@ public abstract class Chara{
     protected int shield;   //护盾
 
     protected String hint;  //备注
+    private boolean disabled;   //不激活的角色会失去所有技能（包括普攻）
 
     public void shouldUpdateAtk() {
         attackShot.shouldUpdateAtk();
@@ -46,6 +47,10 @@ public abstract class Chara{
 
     protected void setOriginAtk(int attack) {
         this.baseAttack = attack;
+    }
+
+    public void setDisabled() {
+        this.disabled = true;
     }
 
     public enum CharaStatus {
@@ -68,18 +73,6 @@ public abstract class Chara{
     @Builder.Default
     protected boolean isLeader;
 
-    public void defend(Chara acceptor){
-        MessagePack pack = MessagePack.builder()
-                .acceptors(Collections.singletonList(acceptor))
-                .caster(this)
-                .build();
-        TriggerManager.sendMessage(TriggerEnum.释放行动, pack);
-        TriggerManager.sendMessage(TriggerEnum.释放防御, pack);
-        setStatus(Chara.CharaStatus.INACTIVE);
-        TriggerManager.sendMessage(TriggerEnum.释放防御后, pack);
-
-        TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
-    }
 
     public boolean is6() {
         return potential>=6;
@@ -105,12 +98,28 @@ public abstract class Chara{
     public boolean is(Role role) {
         return role == this.role;
     }
+    public void defend(Chara acceptor){
+        MessagePack pack = MessagePack.builder()
+                .acceptors(Collections.singletonList(acceptor))
+                .caster(this)
+                .build();
+        if(disabled)
+            TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
+        TriggerManager.sendMessage(TriggerEnum.释放行动, pack);
+        TriggerManager.sendMessage(TriggerEnum.释放防御, pack);
+        setStatus(Chara.CharaStatus.INACTIVE);
+        TriggerManager.sendMessage(TriggerEnum.释放防御后, pack);
+
+        TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
+    }
 
     public void attack(Chara acceptor){
         MessagePack pack = MessagePack.builder()
                 .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
                 .build();
+        if(disabled)
+            TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
         TriggerManager.sendMessage(TriggerEnum.释放行动, pack);
         TriggerManager.sendMessage(TriggerEnum.释放普攻, pack);
         setStatus(Chara.CharaStatus.INACTIVE);
@@ -125,6 +134,8 @@ public abstract class Chara{
                 .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
                 .build();
+        if(disabled)
+            TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
         TriggerManager.sendMessage(TriggerEnum.释放行动, pack);
         TriggerManager.sendMessage(TriggerEnum.释放必杀, pack);
         setStatus(Chara.CharaStatus.INACTIVE);

@@ -12,6 +12,7 @@ public class ImportedChara extends Chara {
 
     @Override
     public void initSkills() {
+        if(isDisabled())return;
         uninitedSkills.stream()
                 //动态技能在运行中由其他技能注册，自身不注册
                 .filter(skillExcelVo -> skillExcelVo.getSkillType() != SkillType.动态技能)

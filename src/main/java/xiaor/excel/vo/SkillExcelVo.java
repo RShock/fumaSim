@@ -6,6 +6,8 @@ import lombok.Getter;
 import xiaor.skillbuilder.SkillType;
 import xiaor.trigger.TriggerEnum;
 
+import java.awt.*;
+
 @Getter
 public class SkillExcelVo {
     @ExcelRow

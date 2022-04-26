@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
+//TODO 用泛型替代
 public class MessagePack {
     public Chara caster;
 

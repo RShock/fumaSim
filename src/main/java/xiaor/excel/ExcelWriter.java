@@ -24,7 +24,6 @@ import java.util.stream.IntStream;
 public class ExcelWriter {
     Sheet dataSheet;
     Sheet damageSheet;
-    Sheet indicatorSheet;
     File resourcePath = new File(URLDecoder.decode(Objects.requireNonNull(getClass().getResource("/")).getPath(), StandardCharsets.UTF_8));
     String excelPath = resourcePath.getParent() + "/classes/全方位测试输出表样板.xlsx";
     String exportPath = "output" + new SimpleDateFormat("MM_dd_HH_mm_ss").format(new Date()) + ".xlsx";
@@ -35,7 +34,7 @@ public class ExcelWriter {
 
     private static final int damageStartRow = 5;        //伤害数据 第一行
 
-    private static final int damageStartCell = 2;       //伤害数据 第一列
+    private static final int damageStartCell = 1;       //伤害数据 第一列
 
     private static final int damageCharaStartRow = 2;   //伤害数据页的角色数据 第一行
 
@@ -44,7 +43,6 @@ public class ExcelWriter {
     public ExcelWriter() throws IOException {
         dataSheet = book.getSheet("角色信息");
         damageSheet = book.getSheet("满配伤害");
-        indicatorSheet = book.getSheet("指标");
     }
 
     public void setName(String name) {
@@ -89,19 +87,14 @@ public class ExcelWriter {
     }
 
     public void writeDamageData(ExcelDamageRecord excelDamageRecord) {
-        int size = excelDamageRecord.getDamage().size();
+        int size = excelDamageRecord.getDamagePairs().size();
         for(int i=0; i< size; i++){
             int rowNum = i/5 + damageStartRow;
             Row row = getRow(damageSheet, rowNum);
             Cell cell = row.createCell(damageStartCell+(i%5)*2);
-            cell.setCellValue(excelDamageRecord.getDamage().get(i));
-        }
-        size = excelDamageRecord.getAction().size();
-        for(int i=0; i< size; i++){
-            int rowNum = i/5 + damageStartRow;
-            Row row = getRow(damageSheet, rowNum);
-            Cell cell = row.createCell(damageStartCell+(i%5)*2-1);
-            cell.setCellValue(excelDamageRecord.getAction().get(i));
+            cell.setCellValue(excelDamageRecord.getDamagePairs().get(i).action());
+            cell = row.createCell(damageStartCell+(i%5)*2+1);
+            cell.setCellValue(excelDamageRecord.getDamagePairs().get(i).damage());
         }
     }
 
@@ -132,6 +125,33 @@ public class ExcelWriter {
                 Cell cell = row.createCell(startCell+j);
                 cell.setCellValue(skillLevelMatrix[i][j]);
             }
+        }
+    }
+
+    public void writeStarList(Long[] starList) {
+        final int startCell = 22, startRow = 54;
+        for (int i = 0; i < 6; i++) {
+            Row row = getRow(damageSheet, startRow + i);
+            Cell cell = row.createCell(startCell);
+            cell.setCellValue(starList[i]);
+        }
+    }
+
+    public void writeContributeList(Long[] starList) {
+        final int startCell = 22, startRow = 63;
+        Row row = getRow(damageSheet, startRow);
+        for (int i = 0; i < 5; i++) {
+            Cell cell = row.createCell(startCell+i);
+            cell.setCellValue(starList[i]);
+        }
+    }
+
+    public void writeDamagePart(Long[] damagePart) {
+        final int startCell = 15, startRow = 71;
+        Row row = getRow(damageSheet, startRow);
+        for (int i = 0; i < 2; i++) {
+            Cell cell = row.createCell(startCell+i);
+            cell.setCellValue(damagePart[i]);
         }
     }
 }
