@@ -7,4 +7,6 @@ public class CharaName {
     public static final String 千鹤 = "复生公主 千鹤";
     public static final String 沃沃 = "胆小纸袋狼 沃沃";
     public static final String 梦露 = "梦游魔境 露露";
+
+    public static final String 梦鹤 = "梦游魔境 千鹤";
 }

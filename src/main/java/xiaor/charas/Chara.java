@@ -99,7 +99,7 @@ public abstract class Chara{
         return role == this.role;
     }
     public void defend(Chara acceptor){
-        System.out.printf("==============%s的防御==============", name);
+        System.out.printf("==============%s的防御==============%n", name);
         MessagePack pack = MessagePack.builder()
                 .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
@@ -132,7 +132,7 @@ public abstract class Chara{
     }
 
     public void skill(Chara acceptor){
-        System.out.printf("==============%s的必杀==============", name);
+        System.out.printf("==============%s的必杀==============%n", name);
         MessagePack pack = MessagePack.builder()
                 .acceptors(Collections.singletonList(acceptor))
                 .caster(this)

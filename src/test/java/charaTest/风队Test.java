@@ -132,7 +132,7 @@ public class 风队Test {
      */
 
     @Test
-    void 风队胡乱模拟() {
+    void BK风队17回合测试() {
         Tools.initMaxChara(Arrays.asList("机灵古怪 塞露西亚", "梦游魔境 千鹤", "精灵王 塞露西亚", "梦游魔境 露露", "胆小纸袋狼 沃沃"));
         超级机器人木桩 木桩 = 超级机器人木桩.init("");
         ;
