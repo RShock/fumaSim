@@ -26,7 +26,7 @@ public abstract class Chara{
 
     protected SnapShot attackShot = new SnapShot(this);
 
-    protected int life;
+    protected long life;
 
     protected double baseLife;
 

@@ -73,7 +73,7 @@ public class TriggerManager {
         for (int i = 0; i < size; i++) {
             if (!skills.get(i).getTrigger().equals(trigger) || !skills.get(i).check(pack)) continue;
             if(!skills.get(i).toString().contains("系统规则")) {
-                Tools.log(trigger + "，触发 " + skills.get(i).toString());
+                Tools.log("触发: " + trigger + skills.get(i).toString());
             }
             skills.get(i).cast(pack);
         }

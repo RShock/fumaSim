@@ -54,7 +54,7 @@ public class DamageCal {
         finalDamage *= (1+属性克制 * (1-属性相克效果增减));
 
         int currentES = acceptor.getShield();
-        int lifeRemain = acceptor.getLife();
+        long lifeRemain = acceptor.getLife();
         String msg;
         if(currentES != 0) {
             if(finalDamage > currentES) {
@@ -121,6 +121,7 @@ public class DamageCal {
         Tools.log("----------------%s的攻击力计算-----------------".formatted(pack.caster));
         Tools.log("%s的基础攻击力是%d".formatted(pack.caster, pack.caster.getBaseAttack()));
         TriggerManager.sendMessage(TriggerEnum.攻击力计算, MessagePack.damagePack(this, null));
+        Tools.log("----------------------攻击力计算结束-----------------------");
         double baseAtk = pack.caster.getBaseAttack();
 
         int finalAtk = damageBuffMap.entrySet().stream()

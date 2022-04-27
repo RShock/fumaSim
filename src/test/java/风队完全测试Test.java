@@ -18,55 +18,55 @@ public class 风队完全测试Test {
                             2A 1A 3A 4D 5A
                             2A 4Q 1A 3A 5Q
                             2A 1A 3A 4D 5A
-                            3Q 2Q 1Q 4A 5A
+                            2Q 3Q 1Q 4A 5A
                             2A 4Q 3A 1A 5A
-                            2A 4D 3A 1A 5A
-                            2A 3A 1A 4A 5A
-                            3Q 2Q 1Q 4Q 5A
-                            2A 4D 3A 1A 5A
+                            2A 4A 3A 1A 5A
+                            2A 3A 1A 4D 5A
+                            2Q 3Q 1Q 4Q 5A
+                            2A 4A 3A 1A 5A
                             2A 3A 1A 4A 5Q
-                            2A 3A 1A 4Q 5A
-                            3Q 2Q 1Q 4D 5A
                             2A 3A 1A 4A 5A
-                            2A 3A 1A 4Q 5A
-                            2A 3A 1A 4D 5A
-                            3Q 2Q 1Q 4A 5A
-                            2A 3A 1A 4Q 5A
-                            2A 3A 1A 4D 5Q
+                            2Q 3Q 1Q 4Q 5A
                             2A 3A 1A 4A 5A
-                            3Q 2Q 1Q 4Q 5A
-                            2A 3A 1A 4D 5A
                             2A 3A 1A 4A 5A
-                            2A 3A 1A 4Q 5A
-                            3Q 2Q 1Q 4A 5A
+                            2A 3A 1A 4A 5A
+                            2Q 3Q 1Q 4Q 5A
+                            2A 3A 1A 4A 5A
+                            2A 3A 1A 4A 5Q
+                            2A 3A 1A 4A 5A
+                            2Q 3Q 1Q 4Q 5A
+                            2A 3A 1A 4A 5A
+                            2A 3A 1A 4A 5A
+                            2A 3A 1A 4A 5A
+                            2Q 3Q 1Q 4Q 5A
                         """);
-        String luluNot5flower = """
+        String luluNot5flower ="""
                             2A 1A 3A 4D 5A
                             2A 1A 3A 4D 5A
                             2A 4Q 1A 3A 5Q
                             2A 1A 3A 4D 5A
-                            3Q 2A 1Q 4A 5A
+                            2A 3Q 1Q 4A 5A
                             2A 4Q 3A 1A 5A
-                            2A 4D 3A 1A 5A
-                            2A 3A 1A 4A 5A
-                            3Q 2Q 1Q 4Q 5A
-                            2A 4D 3A 1A 5A
+                            2A 4A 3A 1A 5A
+                            2A 3A 1A 4D 5A
+                            2Q 3Q 1Q 4Q 5A
+                            2A 4A 3A 1A 5A
                             2A 3A 1A 4A 5Q
-                            2A 3A 1A 4Q 5A
-                            3Q 2A 1Q 4D 5A
                             2A 3A 1A 4A 5A
-                            2A 3A 1A 4Q 5A
-                            2A 3A 1A 4D 5A
-                            3Q 2Q 1Q 4A 5A
-                            2A 3A 1A 4Q 5A
-                            2A 3A 1A 4D 5Q
+                            2A 3Q 1Q 4Q 5A
                             2A 3A 1A 4A 5A
-                            3Q 2A 1Q 4Q 5A
-                            2A 3A 1A 4D 5A
                             2A 3A 1A 4A 5A
-                            2A 3A 1A 4Q 5A
-                            3Q 2Q 1Q 4A 5A
-                """;
+                            2A 3A 1A 4A 5A
+                            2Q 3Q 1Q 4Q 5A
+                            2A 3A 1A 4A 5A
+                            2A 3A 1A 4A 5Q
+                            2A 3A 1A 4A 5A
+                            2A 3Q 1Q 4Q 5A
+                            2A 3A 1A 4A 5A
+                            2A 3A 1A 4A 5A
+                            2A 3A 1A 4A 5A
+                            2Q 3Q 1Q 4Q 5A
+                        """;
         fullTest.setAction(2, 4, luluNot5flower);
         fullTest.setAction(6, 4, luluNot5flower);
         fullTest.fullTest();
@@ -222,7 +222,7 @@ public class 风队完全测试Test {
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
-                        2Q 3Q 1Q 4Q 5A                       
+                        2Q 3Q 1Q 4Q 5A
                         """);
         String mengluNot3flower =
                 """
@@ -250,7 +250,7 @@ public class 风队完全测试Test {
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
                         2A 1Q 3A 4Q 5A
-                        2Q 3Q 1A 4A 5A                      
+                        2Q 3Q 1A 4A 5A
                         """;
         String luluNot5flower =                 """
                         2A 3Q 1A 4D 5A
@@ -277,7 +277,7 @@ public class 风队完全测试Test {
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
-                        2Q 3Q 1Q 4A 5A                       
+                        2Q 3Q 1Q 4A 5A
                         """;
         String bothNot3flower =  """
                         2A 3Q 1A 4D 5A
@@ -304,7 +304,7 @@ public class 风队完全测试Test {
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
                         2A 1Q 3A 4Q 5A
-                        2Q 3Q 1A 4A 5A                      
+                        2Q 3Q 1A 4A 5A
                         """;
         fullTest.setAction(1, 3, mengluNot3flower);
         fullTest.setAction(2, 5, luluNot5flower);
@@ -335,7 +335,7 @@ public class 风队完全测试Test {
                         2A 3A 4A 1A 5A
                         2A 3A 4A 1A 5A
                         2A 3A 4A 1A 5A
-                        2Q 3Q 4Q 1Q 5A  
+                        2Q 3Q 4Q 1Q 5A
                         2A 3A 4A 1A 5A
                         2A 3A 4A 1A 5A
                         2A 3A 4A 1A 5A
@@ -343,7 +343,7 @@ public class 风队完全测试Test {
                         2A 3A 4A 1A 5A
                         2A 3A 4A 1A 5A
                         2A 3A 4A 1A 5A
-                        2Q 3Q 4Q 1Q 5A             
+                        2Q 3Q 4Q 1Q 5A
                         """);
         fullTest.fullTest();
     }
@@ -370,7 +370,7 @@ public class 风队完全测试Test {
                         2A 3A 4A 1A 5A
                         2A 3A 4A 1A 5A
                         2A 3A 4A 1A 5A
-                        2Q 3Q 4Q 1Q 5A  
+                        2Q 3Q 4Q 1Q 5A
                         2A 3A 4A 1A 5A
                         2A 3A 4A 1A 5A
                         2A 3A 4A 1A 5A
@@ -378,7 +378,7 @@ public class 风队完全测试Test {
                         2A 3A 4A 1A 5A
                         2A 3A 4A 1A 5A
                         2A 3A 4A 1A 5A
-                        2Q 3Q 4Q 1Q 5A             
+                        2Q 3Q 4Q 1Q 5A
                         """);
         fullTest.fullTest();
     }
@@ -413,7 +413,7 @@ public class 风队完全测试Test {
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
-                        2Q 3Q 1Q 4Q 5A                       
+                        2Q 3Q 1Q 4Q 5A
                         """);
         String mengluNot3flower =
                 """
@@ -441,7 +441,7 @@ public class 风队完全测试Test {
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
                         2A 1Q 3A 4Q 5A
-                        2Q 3Q 1A 4A 5A                      
+                        2Q 3Q 1A 4A 5A
                         """;
         String luluNot5flower =                 """
                         2A 3Q 1A 4D 5A
@@ -468,7 +468,7 @@ public class 风队完全测试Test {
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
-                        2Q 3Q 1Q 4A 5A                       
+                        2Q 3Q 1Q 4A 5A
                         """;
         String bothNot3flower =  """
                         2A 3Q 1A 4D 5A
@@ -495,7 +495,7 @@ public class 风队完全测试Test {
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
                         2A 1Q 3A 4Q 5A
-                        2Q 3Q 1A 4A 5A                      
+                        2Q 3Q 1A 4A 5A
                         """;
         fullTest.setAction(1, 3, mengluNot3flower);
         fullTest.setAction(2, 5, luluNot5flower);
