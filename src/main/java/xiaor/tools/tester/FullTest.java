@@ -49,7 +49,7 @@ public class FullTest {
      * @param newAction 行动轴
      */
     public void setAction(int charaIndex, int flower, String newAction) {
-        for(int i=0;i<flower;i++){
+        for(int i=0;i<flower-1;i++){
             action[charaIndex-1][i] = newAction;
         }
     }
