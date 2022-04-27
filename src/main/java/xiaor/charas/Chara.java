@@ -11,11 +11,14 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static xiaor.charas.Rare.SSR;
+
 @Getter
 @Setter
 public abstract class Chara{
     protected int charaId;
 
+    protected Rare rare;
     protected final int uniqueId = Tools.getNewID();
 
     protected String name;
@@ -63,6 +66,7 @@ public abstract class Chara{
 
     public Chara() {
         isLeader = false;
+        rare = SSR;//默认ssr
     }
 
     protected Element element;

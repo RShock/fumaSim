@@ -43,6 +43,7 @@ public class ImportedChara extends Chara {
         importedChara.setRole(Enum.valueOf(Role.class, charaVo.charaRole));
         importedChara.setUninitiatedSkills(charaVo.getSkillExcelVos());    //初始化技能需要等到所有角色设置好
         importedChara.setNickName(charaVo.getNickName());
+        importedChara.setRare(Enum.valueOf(Rare.class, charaVo.rare));
         return importedChara;
     }
 
@@ -50,16 +51,22 @@ public class ImportedChara extends Chara {
      * 这个方法只能在刚导入后调用（以防止攻击力不正确），将数据设为满配
      */
     public void maxData() {
-        baseAttack = magicConvert(baseAttack);
-        life = magicConvert(baseLife);
+        baseAttack = magicConvert(baseAttack, rare);
+        life = magicConvert(baseLife, rare);
         star = 5;
         potential = 12;
         skillLevel = 5;
     }
 
     //把图鉴上的攻击/生命转化为满配的实际数值
-    private int magicConvert(double data) {
+    private int magicConvert(double data, Rare rare) {
         double pow = Math.pow(1.1, 59);
-        return (int) (data * pow * 3.25);
+        double starMulti = switch (rare) {
+            case SSR -> 10.0/8;
+            case SR -> 10.0/7;
+            case R -> 10.0/6;
+            case N -> 10.0/5;
+        };
+        return (int) (data * pow * 2.6 * starMulti);
     }
 }

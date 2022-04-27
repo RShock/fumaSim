@@ -9,4 +9,9 @@ public class CharaName {
     public static final String 梦露 = "梦游魔境 露露";
 
     public static final String 梦鹤 = "梦游魔境 千鹤";
+    public static final String 圣女 = "丰收圣女 菲欧拉";
+    public static final String 春忍 = "新春 凛月";
+
+    public static final String 剑圣 = "剑圣 神无雪";
+    public static final String 夏狐 = "夏日 静";
 }
