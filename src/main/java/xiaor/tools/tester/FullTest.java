@@ -17,8 +17,8 @@ import java.util.List;
  */
 public class FullTest {
     /**
-     *  有的时候 不同羁绊CD不同 action也不同，所以准备了一个数组（对于星不同CD不同的，暂时不做）
-     *  第6列用于全队羁绊控制
+     * 有的时候 不同羁绊CD不同 action也不同，所以准备了一个数组（对于星不同CD不同的，暂时不做）
+     * 第6列用于全队羁绊控制
      */
     private final String[][] action = new String[6][5];
     private final List<String> charaNames;
@@ -26,9 +26,9 @@ public class FullTest {
     GameBoard gameBoard = GameBoard.getInstance();
     DamageRecorder damageRecorder = DamageRecorder.getInstance();
 
-    public FullTest(List<String> charaNames, String action) throws IOException {
-        for(int i=0;i<6;i++){
-            for(int j=0;j<5;j++) {
+    public FullTest(List<String> charaNames, String action) {
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
                 this.action[i][j] = action;
             }
         }
@@ -44,13 +44,14 @@ public class FullTest {
 
     /**
      * 为指定羁绊无法达成满配CD的角色设置新的轴，低于这个羁绊的全部会使用这个轴
+     *
      * @param charaIndex 角色位置，为真正的下标+1 如果为6则为全队羁绊均下降
-     * @param flower 花数
-     * @param newAction 行动轴
+     * @param flower     花数
+     * @param newAction  行动轴
      */
     public void setAction(int charaIndex, int flower, String newAction) {
-        for(int i=0;i<flower-1;i++){
-            action[charaIndex-1][i] = newAction;
+        for (int i = 0; i < flower - 1; i++) {
+            action[charaIndex - 1][i] = newAction;
         }
     }
 
@@ -111,7 +112,7 @@ public class FullTest {
                 gameBoard.resetBoard();
                 init(charaNames);
                 charas.get(charaIndex).setSkillLevel(skillLevel);
-                gameBoard.run(action[charaIndex][skillLevel-1]);
+                gameBoard.run(action[charaIndex][skillLevel - 1]);
                 damageMatrix[charaIndex][skillLevel - 1] = DamageRecorder.getInstance().calAllDamage();
             }
         }
@@ -120,7 +121,7 @@ public class FullTest {
             init(charaNames);
             int finalSkillLevel = skillLevel;
             charas.forEach(c -> c.setSkillLevel(finalSkillLevel));
-            gameBoard.run(action[5][skillLevel-1]);
+            gameBoard.run(action[5][skillLevel - 1]);
             damageMatrix[5][skillLevel - 1] = DamageRecorder.getInstance().calAllDamage();
         }
         return damageMatrix;

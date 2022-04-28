@@ -8,7 +8,7 @@ public class DummyCharaPanel extends CharaPanel{
     public DummyCharaPanel(int pos) {
         super(pos);
 
-        name = new JComboBox();
+        name = new JComboBox<>();
         health = new JTextField("0",16);
 
         // Component - Setting
@@ -19,9 +19,7 @@ public class DummyCharaPanel extends CharaPanel{
         charaters.add("木桩");
 
         // Character List Initialization
-        for (String chara : charaters) {
-            name.addItem(chara);
-        }
+        charaters.forEach(chara -> name.addItem(chara));
 
         this.add(new JLabel("角色位[%d]: ".formatted(pos)));
         this.add(name);
@@ -31,6 +29,6 @@ public class DummyCharaPanel extends CharaPanel{
 
     @Override
     public String toString() {
-        return "生命"+health.getText().toString();
+        return "生命"+ health.getText();
     }
 }

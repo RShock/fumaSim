@@ -12,10 +12,10 @@ import java.nio.file.Path;
 
 public class FumaSimulator extends JFrame{
 
-    private GameBoard board = GameBoard.getInstance();
+    private final GameBoard board = GameBoard.getInstance();
     private String waves = "";
 
-    public FumaSimulator(String propertyPath) {
+    public FumaSimulator() {
         initGUI();
 
         Font font = (new Font("", Font.BOLD, 20));

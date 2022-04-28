@@ -3,17 +3,19 @@ package xiaor.gui;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.IntStream;
 
 public class ImportedCharaPanel extends CharaPanel{
 
     public ImportedCharaPanel(int pos) {
         super(pos);
 
-        name = new JComboBox();
+        name = new JComboBox<>();
         attack = new JTextField(8);
-        star = new JComboBox();
-        skill = new JComboBox();
-        potential = new JComboBox();
+        star = new JComboBox<>();
+        skill = new JComboBox<>();
+        potential = new JComboBox<>();
 
         // Test - Hard Code
         List<String> charaters = new ArrayList<>();
@@ -34,19 +36,17 @@ public class ImportedCharaPanel extends CharaPanel{
             name.addItem(chara);
         }
 
-        // Star Initialization
-        for (int i = 1; i <= 5; i++) {
-            star.addItem(i + "");
-        }
+        IntStream.rangeClosed(1,5)
+                .forEach(i -> star.addItem(i));
 
         // Skill Initialization
         for (int i = 1; i <= 5; i++) {
-            skill.addItem(i + "");
+            skill.addItem(i);
         }
 
         // Potential Initialization
         for (int i = 1; i <= 12; i++) {
-            potential.addItem(i + "");
+            potential.addItem(i);
         }
 
         if (pos == 1)

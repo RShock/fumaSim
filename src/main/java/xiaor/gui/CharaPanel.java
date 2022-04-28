@@ -8,12 +8,12 @@ import java.util.List;
 
 public class CharaPanel extends JPanel {
 
-    protected JComboBox name;
+    protected JComboBox<String> name;
     protected JTextField attack;
     protected JTextField health;
-    protected JComboBox star;
-    protected JComboBox skill;
-    protected JComboBox potential;
+    protected JComboBox<Integer> star;
+    protected JComboBox<Integer> skill;
+    protected JComboBox<Integer> potential;
 
     public CharaPanel(int pos) {
         this.setBorder(new EmptyBorder(5, 5, 5, 5));

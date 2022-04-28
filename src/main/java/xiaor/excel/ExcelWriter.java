@@ -48,15 +48,16 @@ public class ExcelWriter {
     public void setName(String name) {
         this.exportPath = name + new SimpleDateFormat("MM_dd_HH_mm_ss").format(new Date()) + ".xlsx";
     }
+
     public void writeCharaData(List<Chara> chara) {
         IntStream.range(0, 5)
                 .forEach(i -> writeCharaRow(charaStartRow + i, chara.get(i)));
 
         Row nameRow = getRow(damageSheet, damageCharaStartRow);
-        Row damageRow = getRow(damageSheet, damageCharaStartRow+1);
-        for(int i=0; i<5; i++) {
-            nameRow.getCell(damageCharaStartCell+i*2).setCellValue(chara.get(i).getName());
-            damageRow.getCell(damageCharaStartCell+i*2).setCellValue(chara.get(i).getBaseAttack());
+        Row damageRow = getRow(damageSheet, damageCharaStartRow + 1);
+        for (int i = 0; i < 5; i++) {
+            nameRow.getCell(damageCharaStartCell + i * 2).setCellValue(chara.get(i).getName());
+            damageRow.getCell(damageCharaStartCell + i * 2).setCellValue(chara.get(i).getBaseAttack());
         }
     }
 
@@ -64,12 +65,12 @@ public class ExcelWriter {
         Row row = getRow(dataSheet, rowNum);
 //         dataSheet.getRow(rowNum);
         Cell nameCell = row.createCell(charaStartCell);
-        Cell starCell = row.createCell(charaStartCell+1);
-        Cell skillLevel = row.createCell(charaStartCell+2);
-        Cell is6Cell = row.createCell(charaStartCell+3);
-        Cell atkCell = row.createCell(charaStartCell+4);
-        Cell hpCell = row.createCell(charaStartCell+5);
-        Cell hintCell = row.createCell(charaStartCell+6);
+        Cell starCell = row.createCell(charaStartCell + 1);
+        Cell skillLevel = row.createCell(charaStartCell + 2);
+        Cell is6Cell = row.createCell(charaStartCell + 3);
+        Cell atkCell = row.createCell(charaStartCell + 4);
+        Cell hpCell = row.createCell(charaStartCell + 5);
+        Cell hintCell = row.createCell(charaStartCell + 6);
 
         nameCell.setCellValue(chara.getName());
         starCell.setCellValue(chara.getStar());
@@ -88,19 +89,19 @@ public class ExcelWriter {
 
     public void writeDamageData(ExcelDamageRecord excelDamageRecord) {
         int size = excelDamageRecord.getDamagePairs().size();
-        for(int i=0; i< size; i++){
-            int rowNum = i/5 + damageStartRow;
+        for (int i = 0; i < size; i++) {
+            int rowNum = i / 5 + damageStartRow;
             Row row = getRow(damageSheet, rowNum);
-            Cell cell = row.createCell(damageStartCell+(i%5)*2);
+            Cell cell = row.createCell(damageStartCell + (i % 5) * 2);
             cell.setCellValue(excelDamageRecord.getDamagePairs().get(i).action());
-            cell = row.createCell(damageStartCell+(i%5)*2+1);
+            cell = row.createCell(damageStartCell + (i % 5) * 2 + 1);
             cell.setCellValue(excelDamageRecord.getDamagePairs().get(i).damage());
         }
     }
 
     private static Row getRow(Sheet sheet, int rowNum) {
         Row row = sheet.getRow(rowNum);
-        if(row == null){
+        if (row == null) {
             return sheet.createRow(rowNum);
         }
         return row;
@@ -108,10 +109,10 @@ public class ExcelWriter {
 
     public void writeSkillLevelMatrix(Long[][] skillLevelMatrix) {
         final int startCell = 15, startRow = 54;
-        for(int i=0;i<6;i++) {
-            Row row = getRow(damageSheet, startRow+i);
-            for(int j=0;j<4;j++) {
-                Cell cell = row.createCell(startCell+j);
+        for (int i = 0; i < 6; i++) {
+            Row row = getRow(damageSheet, startRow + i);
+            for (int j = 0; j < 4; j++) {
+                Cell cell = row.createCell(startCell + j);
                 cell.setCellValue(skillLevelMatrix[i][j]);
             }
         }
@@ -119,10 +120,10 @@ public class ExcelWriter {
 
     public void writeProficiencyMatrix(Long[][] skillLevelMatrix) {
         final int startCell = 15, startRow = 63;
-        for(int i=0;i<6;i++) {
-            Row row = getRow(damageSheet, startRow+i);
-            for(int j=0;j<4;j++) {
-                Cell cell = row.createCell(startCell+j);
+        for (int i = 0; i < 6; i++) {
+            Row row = getRow(damageSheet, startRow + i);
+            for (int j = 0; j < 4; j++) {
+                Cell cell = row.createCell(startCell + j);
                 cell.setCellValue(skillLevelMatrix[i][j]);
             }
         }
@@ -141,7 +142,7 @@ public class ExcelWriter {
         final int startCell = 22, startRow = 63;
         Row row = getRow(damageSheet, startRow);
         for (int i = 0; i < 5; i++) {
-            Cell cell = row.createCell(startCell+i);
+            Cell cell = row.createCell(startCell + i);
             cell.setCellValue(starList[i]);
         }
     }
@@ -150,7 +151,7 @@ public class ExcelWriter {
         final int startCell = 15, startRow = 71;
         Row row = getRow(damageSheet, startRow);
         for (int i = 0; i < 2; i++) {
-            Cell cell = row.createCell(startCell+i);
+            Cell cell = row.createCell(startCell + i);
             cell.setCellValue(damagePart[i]);
         }
     }
