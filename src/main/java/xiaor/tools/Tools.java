@@ -12,6 +12,9 @@ import java.util.regex.Pattern;
 import static java.util.stream.Collectors.toList;
 
 public class Tools {
+
+
+
     public static int getNewID() {
         return TriggerManager.getInstance().getIDGen();
     }

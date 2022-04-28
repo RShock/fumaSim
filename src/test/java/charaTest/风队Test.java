@@ -146,7 +146,7 @@ public class 风队Test {
 
         board.addEnemyChara(木桩);
         board.initSkills();
-        TestTool.stepCheckRun(GameBoard.getInstance(), """
+        TestTools.stepCheckRun(GameBoard.getInstance(), """
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5A
                         2A 1A 3A 4A 5Q

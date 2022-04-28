@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import xiaor.GameBoard;
 import xiaor.charas.Chara;
-import xiaor.charas.CharaName;
 import xiaor.charas.ImportedChara;
 import xiaor.charas.超级机器人木桩;
 import xiaor.tools.Tools;
@@ -40,7 +39,7 @@ public class 梦露Test {
         board.addEnemyChara(测试角色);
 
         board.initSkills();
-        TestTool.stepCheckRun(board,
+        TestTools.stepCheckRun(board,
                 """
                         2a 1q 3a 4a 5a
                         2a 1a 3a 4a 5a
@@ -66,7 +65,7 @@ public class 梦露Test {
         超级机器人木桩 木桩 = 超级机器人木桩.init("");
         board.addEnemyChara(木桩);
         board.initSkills();
-        TestTool.stepCheckRun(board,
+        TestTools.stepCheckRun(board,
                 """
                         2a 1q 3a 4a 5a
                         2a 3a 4a 5a 1a
@@ -100,27 +99,32 @@ public class 梦露Test {
 
     @Test
     void 梦露圣女春忍剑圣夏狐11T打完() {
-        Tools.initMaxChara(Arrays.asList(梦露, 圣女, 春忍, 剑圣, 夏狐));
-        GameBoard.getAlly().get(3).setBaseAttack(694134);
-        超级机器人木桩 木桩 = 超级机器人木桩.init("");
-        board.addEnemyChara(木桩);
-        board.initSkills();
-        board.run(
-                """
-                        2a 1q 3a 4a 5a
-                        2a 3a 4a 5a 1a
-                        2a 3a 4a 5a 1a
-                        2a 4q 3a 5a 1a
-                        2a 5q 1q 4a 3q
-                        2q 4q 3a 5a 1a
-                        2a 3a 4a 5a 1a
-                        2a 1q 3a 4a 5a
-                        2a 4q 3q 5a 1a
-                        2a 3a 4a 5a 1a
-                        2q 1q 3a 4a 5a
-                        """
-        );
-        Assertions.assertTrue(木桩.getLife()<0);
-    }
+        GameBoard gameBoard = GameBoard.getInstance();
+        int minAtk = TestTools.biSearch((atk) -> {
+            gameBoard.resetBoard();
+            Tools.initMaxChara(Arrays.asList(梦露, 圣女, 春忍, 剑圣, 夏狐));
 
+            GameBoard.getAlly().get(3).setBaseAttack(atk);
+            超级机器人木桩 木桩 = 超级机器人木桩.init("");
+            board.addEnemyChara(木桩);
+            board.initSkills();
+            board.run(
+                    """
+                            2a 1q 3a 4a 5a
+                            2a 3a 4a 5a 1a
+                            2a 3a 4a 5a 1a
+                            2a 4q 3a 5a 1a
+                            2a 5q 1q 4a 3q
+                            2q 4q 5a 3a 1a
+                            2a 3a 4a 5a 1a
+                            2a 1q 3a 4a 5a
+                            2a 4q 3q 5a 1a
+                            2a 3a 4a 5a 1a
+                            2q 1q 3a 4a 5a
+                            """
+            );
+            return 木桩.getLife() < 0;
+        });
+        System.out.println(minAtk);
+    }
 }
