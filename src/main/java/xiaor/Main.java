@@ -1,5 +1,6 @@
 package xiaor;
 
+import com.formdev.flatlaf.FlatDarculaLaf;
 import xiaor.gui.FumaSimulator;
 
 import javax.swing.*;
@@ -12,7 +13,8 @@ import java.util.Objects;
 public class Main {
 
     public static void main(String[] args) {
-	    // GUI
+        FlatDarculaLaf.setup();
+        // GUI
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
