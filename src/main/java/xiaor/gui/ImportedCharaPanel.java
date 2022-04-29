@@ -30,6 +30,8 @@ public class ImportedCharaPanel extends CharaPanel{
         charaters.add("丰收圣女 菲欧拉");
         charaters.add("新春 凛月");
         charaters.add("梦游魔境 露露");
+        charaters.add("异界 凯萨");
+        charaters.add("花嫁 撒旦");
 
         // Character List Initialization
         for (String chara : charaters) {
