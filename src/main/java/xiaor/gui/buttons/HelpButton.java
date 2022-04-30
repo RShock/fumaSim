@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 public class HelpButton extends JButton implements ActionListener {
 
-    private FumaSimulator parent;
+    private final FumaSimulator parent;
 
     public HelpButton(String buttonName, FumaSimulator parent) {
         super(buttonName);

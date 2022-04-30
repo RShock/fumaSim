@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TeamPanel extends JPanel {
 
-    private List<CharaPanel> characters;
+    private final List<CharaPanel> characters;
 
     public TeamPanel(char type, int charaNum) {
 

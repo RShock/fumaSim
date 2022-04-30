@@ -45,7 +45,7 @@ public class TestGUI extends JFrame {
 
             // Layout - Hard code
             JLabel jLabel = new JLabel(imageIcon);
-            add(jLabel).setBounds(40, 0, 100, 100);;
+            add(jLabel).setBounds(40, 0, 100, 100);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

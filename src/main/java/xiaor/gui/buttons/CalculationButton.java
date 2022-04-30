@@ -15,9 +15,9 @@ import java.awt.event.ActionListener;
 
 public class CalculationButton extends JButton implements ActionListener {
 
-    private FumaSimulator parent;
-    private TeamPanel ourTeam;
-    private TeamPanel theirTeam;
+    private final FumaSimulator parent;
+    private final TeamPanel ourTeam;
+    private final TeamPanel theirTeam;
     public CalculationButton(String buttonName, FumaSimulator parent,
                              TeamPanel outTeam, TeamPanel theirTeam) {
         super(buttonName);

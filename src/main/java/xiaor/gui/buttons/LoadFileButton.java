@@ -13,7 +13,7 @@ import java.nio.file.Path;
 
 public class LoadFileButton extends JButton implements ActionListener {
 
-    private FumaSimulator parent;
+    private final FumaSimulator parent;
     private String filePath;
     public LoadFileButton(String buttonName, FumaSimulator parent) {
         super(buttonName);
