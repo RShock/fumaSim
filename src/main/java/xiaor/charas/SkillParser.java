@@ -7,6 +7,7 @@ import xiaor.skillbuilder.SkillBuilder;
 import xiaor.skillbuilder.SkillType;
 import xiaor.skillbuilder.action.Action;
 import xiaor.skillbuilder.action.BuffAction;
+import xiaor.damageCal.DamageBase;
 import xiaor.skillbuilder.skill.BuffType;
 import xiaor.skillbuilder.action.DamageAction;
 import xiaor.skillbuilder.trigger.Trigger;
@@ -217,7 +218,7 @@ public class SkillParser {
 //        System.out.println("buffParse:" + part);
         //e.g. 自身攻击力+20%
         Pattern pattern = Pattern.compile(
-                "(?<target>(其他友方|自身|目标|我方群体|敌方群体|ID\\d+|友方|队伍中.{3}|\\{.*}))" +
+                "(?<target>(其他友方|自身|目标|敌方群体|ID\\d+|友方|队伍中.{3}|\\{.*}))" +
                         "(?<buffType>.*)" +
                         "(?<incDec>[+-])" +
                         "(" +
@@ -310,7 +311,7 @@ public class SkillParser {
 
     private Action parseDamageAction(String part) {
 //        System.out.println("normalAtkParse:" + part);
-        Matcher matcher = Tools.find(part, "对(?<target>.*?)(?<multi>\\d+(\\.\\d+)?)%(?<type>(技能|普攻))伤害");
+        Matcher matcher = Tools.find(part, "对(?<target>.*?)(?<multi>\\d+(\\.\\d+)?)%(?<base>自身生命)?(?<type>(技能|普攻))伤害");
         DamageAction.DamageType type;
         List<Chara> target = parseChooser(matcher.group("target"));
         type = switch (matcher.group("type")) {
@@ -321,6 +322,8 @@ public class SkillParser {
         return DamageAction.create(type)
                 .multi(Double.parseDouble(matcher.group("multi")) / 100)
                 .to(target)
+                .damageBase(matcher.group("base") == null ? DamageBase.攻击 :
+                        DamageBase.生命)
                 .build();
     }
 }

@@ -1,7 +1,6 @@
 package xiaor.charas;
 
 import lombok.*;
-import xiaor.DamageCal;
 import xiaor.msgpack.BuffCalPack;
 import xiaor.msgpack.MessagePack;
 import xiaor.tools.Tools;

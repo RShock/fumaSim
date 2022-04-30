@@ -1,12 +1,9 @@
 package xiaor.msgpack;
 
 import lombok.*;
-import xiaor.DamageCal;
 import xiaor.charas.Chara;
 import xiaor.skillbuilder.skill.buff.Buff;
-import xiaor.tools.record.DamageRecord;
 
-import java.util.Collections;
 import java.util.List;
 
 @AllArgsConstructor

@@ -1,4 +1,4 @@
-package xiaor;
+package xiaor.damageCal;
 
 import xiaor.charas.Chara;
 import xiaor.msgpack.BuffCalPack;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static xiaor.DamageCal.InternalBuffType.*;
+import static xiaor.damageCal.DamageCal.InternalBuffType.*;
 
 public class DamageCal {
     public final MessagePack pack;
@@ -23,8 +23,11 @@ public class DamageCal {
         this.pack = pack;
     }
 
-    public void finalDamage(Chara acceptor, double percent, TriggerEnum skillTypeEnum) {
-        double baseDamage = pack.caster.getCurrentAttack() * percent;
+    public void finalDamage(Chara acceptor, double percent, DamageBase baseType, TriggerEnum skillTypeEnum) {
+        double baseDamage = percent * switch (baseType) {
+            case 攻击 -> pack.caster.getCurrentAttack();
+            case 生命 -> pack.caster.getCurrentLife();
+        };
 
         BuffCalPack damageCalPack = new BuffCalPack(pack.caster, acceptor);
         TriggerManager.sendMessage(skillTypeEnum, damageCalPack);
@@ -112,12 +115,12 @@ public class DamageCal {
         return buffMap;
     }
 
-    public void skillAttack(double multi) {
-        pack.acceptors.forEach(acceptor -> finalDamage(acceptor, multi, TriggerEnum.技能伤害计算));
+    public void skillAttack(double multi, DamageBase baseType) {
+        pack.acceptors.forEach(acceptor -> finalDamage(acceptor, multi, baseType, TriggerEnum.技能伤害计算));
     }
 
     //普攻
-    public void normalAttack(double percent) {
-        pack.acceptors.forEach(acceptor -> finalDamage(acceptor, percent, TriggerEnum.普攻伤害计算));
+    public void normalAttack(double percent, DamageBase baseType) {
+        pack.acceptors.forEach(acceptor -> finalDamage(acceptor, percent, baseType, TriggerEnum.普攻伤害计算));
     }
 }
