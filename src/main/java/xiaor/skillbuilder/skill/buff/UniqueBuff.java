@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import xiaor.msgpack.BuffCalPack;
 import xiaor.msgpack.MessagePack;
 import xiaor.msgpack.Packable;
 
@@ -14,7 +15,7 @@ import xiaor.msgpack.Packable;
 /*
  * 可叠加buff 一般是无法消失的
  */
-public class UniqueBuff extends Buff{
+public class UniqueBuff<MsgType extends Packable> extends Buff<MsgType>{
 
     public String uniqueId;
     public int maxLevel;
@@ -25,12 +26,12 @@ public class UniqueBuff extends Buff{
         return currentLevel * multi;
     }
     @Override
-    public void cast(Packable pack) {
-        ((MessagePack)pack).buff = this;
+    public void cast(MsgType pack) {
+        pack.setBuff(this);
         super._cast(pack);
     }
 
-    public void add(UniqueBuff buff) {
+    public void add(UniqueBuff<MsgType> buff) {
         currentLevel = Math.min(currentLevel+buff.incLv, maxLevel);
     }
 

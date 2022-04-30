@@ -17,12 +17,12 @@ import java.util.function.Supplier;
 /*
  * 开关buff 未满足/满足时均会在信息栏提示玩家
  */
-public class SwitchBuff extends Buff{
+public class SwitchBuff<MsgType extends Packable> extends Buff<MsgType>{
     List<Supplier<Boolean>> enabledChecks;
 
     @Override
-    public void cast(Packable pack) {
-        ((MessagePack)pack).buff = this;
+    public void cast(MsgType pack) {
+        pack.setBuff(this);
         if(isEnabled())
             super._cast(pack);
     }

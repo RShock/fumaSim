@@ -15,10 +15,10 @@ import static xiaor.Common.INFINITY;
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseSkill implements Skill {
+public class BaseSkill<MsgType extends Packable> implements Skill<MsgType> {
     TriggerEnum trigger;
-    Function<Packable, Boolean> check;
-    Consumer<Packable> cast;
+    Function<MsgType, Boolean> check;
+    Consumer<MsgType> cast;
     SkillStatus skillStatus;
     protected int time;   //持续时间
     protected String name; //名字
@@ -29,7 +29,7 @@ public class BaseSkill implements Skill {
     }
 
     @Override
-    public boolean check(Packable pack) {
+    public boolean check(MsgType pack) {
         if(skillStatus == SkillStatus.已经失效 || skillStatus == SkillStatus.未发动){
             return false;
         }
@@ -37,7 +37,7 @@ public class BaseSkill implements Skill {
     }
 
     @Override
-    public void cast(Packable pack) {
+    public void cast(MsgType pack) {
         if(skillStatus == SkillStatus.已经失效) {
             return;
         }

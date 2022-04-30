@@ -1,8 +1,7 @@
 package xiaor;
 
 import xiaor.charas.Chara;
-import xiaor.msgpack.DamageCalPack;
-import xiaor.msgpack.MessagePack;
+import xiaor.msgpack.BuffCalPack;
 import xiaor.skillbuilder.skill.BaseSkill;
 import xiaor.skillbuilder.skill.BuffType;
 import xiaor.skillbuilder.skill.Skill;
@@ -20,20 +19,20 @@ public class GlobalSkillRegister {
         Skill skill = BaseSkill.builder().name("【系统规则】属性克制 优势方+50%伤害").trigger(TriggerEnum.伤害计算)
                 .time(INFINITY)
                 .check(pack -> {
-                    if (pack instanceof DamageCalPack pack1) {
+                    if (pack instanceof BuffCalPack pack1) {
                         return pack1.caster.counter(pack1.acceptors.get(0)) == 1;
                     }
                     return false;
-                }).cast(pack -> ((DamageCalPack)pack).addBuff(BuffType.属性克制, 0.5)).build();
+                }).cast(pack -> ((BuffCalPack)pack).addBuff(BuffType.属性克制, 0.5)).build();
         TriggerManager.registerSkill(skill);
         skill = BaseSkill.builder().name("【系统规则】属性克制 劣势方-25%伤害").trigger(TriggerEnum.伤害计算)
                 .time(INFINITY)
                 .check(pack -> {
-                    if (pack instanceof DamageCalPack pack1) {
+                    if (pack instanceof BuffCalPack pack1) {
                         return pack1.caster.counter(pack1.acceptors.get(0)) == -1;
                     }
                     return false;
-                }).cast(pack -> ((DamageCalPack)pack).addBuff(BuffType.属性克制, -0.25)).build();
+                }).cast(pack -> ((BuffCalPack)pack).addBuff(BuffType.属性克制, -0.25)).build();
         TriggerManager.registerSkill(skill);
         //游戏开始前其实还有第0回合，不过暂时先把游戏开始当作整个系统启动的第一事件吧
         skill = BaseSkill.builder().name("【系统规则】第一回合").trigger(TriggerEnum.游戏开始时)

@@ -10,15 +10,18 @@ import xiaor.msgpack.Packable;
 import xiaor.skillbuilder.skill.BaseSkill;
 import xiaor.skillbuilder.skill.BuffType;
 
+import java.util.function.Consumer;
+
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Buff extends BaseSkill {
+public class Buff<MsgType extends Packable> extends BaseSkill<MsgType> {
     Chara caster;
     Chara acceptor;
     BuffType buffType;
 
+    Consumer<MsgType> buffCast;
     double multi;
 
     public double getMulti() {
@@ -26,21 +29,21 @@ public class Buff extends BaseSkill {
     }
 
     @Override
-    public void cast(Packable pack) {
-        ((MessagePack)pack).buff = this;
+    public void cast(MsgType pack) {
+        pack.setBuff(this);
         super.cast(pack);
     }
 
     //uniqueBuff子类需要一个调用父类cast的方法
-    public void _cast(Packable pack) {
+    public void _cast(MsgType pack) {
         super.cast(pack);
     }
 
     public String toString() {
         String tempS;
-        if(caster == acceptor)tempS = caster + "给自己";
-        else tempS =  caster + "->" + acceptor;
-        if(time > 50){
+        if (caster == acceptor) tempS = caster + "给自己";
+        else tempS = caster + "->" + acceptor;
+        if (time > 50) {
             return "%s[%s] (永久)".formatted(name, tempS);
         }
         return "%s[%s] 持续%d回合".formatted(name, tempS, time);

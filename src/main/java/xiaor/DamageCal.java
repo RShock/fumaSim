@@ -1,7 +1,7 @@
 package xiaor;
 
 import xiaor.charas.Chara;
-import xiaor.msgpack.DamageCalPack;
+import xiaor.msgpack.BuffCalPack;
 import xiaor.msgpack.DamageRecordPack;
 import xiaor.msgpack.MessagePack;
 import xiaor.skillbuilder.skill.BuffType;
@@ -26,11 +26,11 @@ public class DamageCal {
     public void finalDamage(Chara acceptor, double percent, TriggerEnum skillTypeEnum) {
         double baseDamage = pack.caster.getCurrentAttack() * percent;
 
-        DamageCalPack damageCalPack = new DamageCalPack(pack.caster, acceptor);
+        BuffCalPack damageCalPack = new BuffCalPack(pack.caster, acceptor);
         TriggerManager.sendMessage(skillTypeEnum, damageCalPack);
         TriggerManager.sendMessage(TriggerEnum.伤害计算, damageCalPack);
-        var buffMap  =damageCalPack.getDamageBuffMap();
-        int finalDamage = (int)damageCalPack.getDamageBuffMap().entrySet().stream()
+        var buffMap  =damageCalPack.getBuffMap();
+        int finalDamage = (int)damageCalPack.getBuffMap().entrySet().stream()
                 .filter(entry -> buffTypeMap.get(entry.getKey()) != 属性克制)
                 .collect(Collectors.groupingBy(entry -> buffTypeMap.get(entry.getKey())))
                 .values()

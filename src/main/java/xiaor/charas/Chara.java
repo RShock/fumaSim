@@ -2,9 +2,8 @@ package xiaor.charas;
 
 import lombok.*;
 import xiaor.DamageCal;
-import xiaor.msgpack.AtkCalPack;
+import xiaor.msgpack.BuffCalPack;
 import xiaor.msgpack.MessagePack;
-import xiaor.skillbuilder.skill.BuffType;
 import xiaor.tools.Tools;
 import xiaor.trigger.TriggerEnum;
 import xiaor.trigger.TriggerManager;
@@ -229,7 +228,7 @@ public abstract class Chara{
         Tools.log("----------------%s的攻击力计算-----------------".formatted(this));
         Tools.log("%s的基础攻击力是%d".formatted(this, this.getBaseAttack()));
 
-        AtkCalPack pack = new AtkCalPack(this);
+        BuffCalPack pack = new BuffCalPack(this, null);
         TriggerManager.sendMessage(TriggerEnum.攻击力计算, pack);
         Tools.log("----------------------攻击力计算结束-----------------------");
         Tools.log("%s当前攻击力是%d".formatted(this, pack.getAtk()));

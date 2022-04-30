@@ -1,6 +1,7 @@
 package xiaor.trigger;
 
 import lombok.Getter;
+import xiaor.msgpack.BuffCalPack;
 import xiaor.msgpack.MessagePack;
 import xiaor.msgpack.Packable;
 import xiaor.skillbuilder.skill.buff.Buff;
@@ -44,12 +45,12 @@ public class TriggerManager {
         TriggerManager.getInstance().addBuff(buff);
     }
 
-    private void addBuff(Buff newBuff) {
+    private void addBuff(Buff<BuffCalPack> newBuff) {
         //可堆叠buff特殊处理
         if(newBuff instanceof UniqueBuff newUniqueBuff) {
             Tools.log("＋新增可堆叠buff: " + newBuff);
-            Optional<UniqueBuff> first = skills.stream().filter(skill -> skill instanceof UniqueBuff)
-                    .map(skill -> (UniqueBuff)skill)
+            Optional<UniqueBuff<BuffCalPack>> first = skills.stream().filter(skill -> skill instanceof UniqueBuff)
+                    .map(skill -> (UniqueBuff<BuffCalPack>)skill)
                     .filter(buff -> buff.uniqueId.equals(newUniqueBuff.uniqueId))
                     .findFirst();
             if(first.isPresent()){

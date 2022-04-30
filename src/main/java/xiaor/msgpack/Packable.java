@@ -4,4 +4,5 @@ import xiaor.charas.Chara;
 import xiaor.skillbuilder.skill.buff.Buff;
 
 public interface Packable {
+    void setBuff(Buff buff);
 }
