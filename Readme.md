@@ -17,6 +17,10 @@
 
 程序基础架构为触发器模式，将游戏中所有buff与技能的结算全部由触发来完成。
 
+# 如何添加角色
+
+如果你想添加新角色，请参考[此处](https://github.com/RShock/fumaSim/blob/sean_zou/Editorhelp.md)
+
 # 运行
 
 这个项目实验性的基于最新的java版本(JAVA18)，为了编译它，你需要IDEA2022以上的版本
