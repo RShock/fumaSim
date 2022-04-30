@@ -9,8 +9,9 @@ public class ExcelCharaProvider {
     }
 
     public static ImportedChara getCharaByName(String charaName) {
-        CharaExcelVo targetChara = ExcelReader.getInstance().getCharaVos().stream().filter(chara -> chara.getCharaName().equals(charaName)).findFirst().
-                orElseThrow(() -> new RuntimeException("找不到指定角色：" + charaName));
+        CharaExcelVo targetChara = ExcelReader.getInstance().getCharaVos().stream()
+                .filter(chara -> chara.getCharaName().contains(charaName)).findFirst()
+                .orElseThrow(() -> new RuntimeException("找不到指定角色：" + charaName));
         return ImportedChara.convertToChara(targetChara);
     }
 

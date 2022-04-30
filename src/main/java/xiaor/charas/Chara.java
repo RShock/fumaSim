@@ -8,6 +8,7 @@ import xiaor.trigger.TriggerEnum;
 import xiaor.trigger.TriggerManager;
 
 import java.util.Collections;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,7 +28,10 @@ public abstract class Chara{
 
     protected double baseAttack;
 
-    protected SnapShot attackShot = new SnapShot(this);
+    protected CacheData<Integer> attackCache = new CacheData<>(() -> {
+        DamageCal damageCal = new DamageCal(MessagePack.builder().caster(this).build());
+        return damageCal.getCurrentAttack();
+    });
 
     protected long life;
 
@@ -45,7 +49,7 @@ public abstract class Chara{
     private boolean disabled;   //不激活的角色会失去所有技能（包括普攻）
 
     public void shouldUpdateAtk() {
-        attackShot.shouldUpdateAtk();
+        attackCache.shouldUpdate();
     }
 
     protected void setOriginAtk(double attack) {
@@ -180,50 +184,36 @@ public abstract class Chara{
         return Integer.parseInt(m.replaceAll("").trim());
     }
 
-    /**
-     * 攻击平时不会轻易更新，因此取快照
-     */
-    private static class SnapShot {
-        private boolean updateAtk = true;
-        private int attack;
-        private final Chara instance;
-
-        public SnapShot(Chara instance) {
-            this.instance = instance;
-        }
-        public int getAtk() {
-            if(updateAtk) {
-                attack = getAtkByBuff();
-                updateAtk = false;
-            }
-            return attack;
-        }
-
-        public int getAtkByBuff() {
-            DamageCal damageCal = new DamageCal(MessagePack.builder().caster(instance).build());
-            return damageCal.getCurrentAttack();
-        }
-
-        public void shouldUpdateAtk() {
-            this.updateAtk = true;
-        }
-
-        public void setAtk(int atk) {
-            shouldUpdateAtk();
-            attack = atk;
-        }
+    public int getCurrentAttack() {
+        return attackCache.getData();
     }
-
-    public int getAttack() {
-        return attackShot.getAtk();
-    }
-
-//    public void setAttack(int atk) {
-//        attackShot.shouldUpdateAtk();
-//        attackShot.setAtk(atk);
-//    }
 
     public int getBaseAttack() {
         return (int)baseAttack;
+    }
+
+    public static class CacheData<T> {
+
+        private T data;
+
+        private boolean shouldUpdate = true;
+
+        public Supplier<T> updater;
+
+        public CacheData(Supplier<T> updater) {
+            this.updater = updater;
+        }
+
+        public void shouldUpdate() {
+            this.shouldUpdate = true;
+        }
+
+        public T getData() {
+            if(shouldUpdate){
+                data = updater.get();
+                shouldUpdate = false;
+            }
+            return data;
+        }
     }
 }

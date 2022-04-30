@@ -101,7 +101,7 @@ public class BuffAction {
                     case 攻击力数值 -> {
                         //数值增加时，倍率需要乘以自身攻击力
                         //存在右侧效应（右侧角色收到加成更多）
-                        int incAtk = (int) (caster.getAttack() * multi);  //buff在施加后不会改变，所以攻击力是固定值
+                        int incAtk = (int) (caster.getCurrentAttack() * multi);  //buff在施加后不会改变，所以攻击力是固定值
                         buff = tempBuff.trigger(攻击力计算).cast(pack -> pack.getDamageCal().changeDamage(攻击力数值, incAtk)).name(name + "具体数值为" + incAtk)
                                 .build();
                         acceptor.shouldUpdateAtk();

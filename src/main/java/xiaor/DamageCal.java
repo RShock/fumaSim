@@ -31,7 +31,7 @@ public class DamageCal {
     }
 
     public void finalDamage(Chara acceptor, double percent, TriggerEnum skillTypeEnum) {
-        double baseDamage = pack.caster.getAttack() * percent;
+        double baseDamage = pack.caster.getCurrentAttack() * percent;
         TriggerManager.sendMessage(skillTypeEnum, MessagePack.damagePack(this, acceptor));
         TriggerManager.sendMessage(TriggerEnum.伤害计算, MessagePack.damagePack(this, acceptor));
         int finalDamage = (int)damageBuffMap.entrySet().stream()
