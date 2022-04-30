@@ -29,19 +29,13 @@ public abstract class Chara{
 
     protected double baseAttack;
 
-    protected CacheData<Integer> attackCache = new CacheData<>(() -> {
-        DamageCal damageCal = new DamageCal(MessagePack.builder().caster(this).build());
-        return _getCurrentAttack();
-    });
+    protected CacheData<Long> attackCache = new CacheData<>(this::_getCurrentAttack);
 
-    protected CacheData<Integer> lifeCache = new CacheData<>(() -> {
-        DamageCal damageCal = new DamageCal(MessagePack.builder().caster(this).build());
-        return _getCurrentAttack();
-    });
+    protected CacheData<Long> lifeCache = new CacheData<>(this::_getCurrentLife);
 
     protected long life;
 
-    protected double baseLife;
+    protected long baseLife;
 
     protected int potential;
 
@@ -56,6 +50,10 @@ public abstract class Chara{
 
     public void shouldUpdateAtk() {
         attackCache.shouldUpdate();
+    }
+
+    public void shouldUpdateLife() {
+
     }
 
     protected void setOriginAtk(double attack) {
@@ -190,8 +188,11 @@ public abstract class Chara{
         return Integer.parseInt(m.replaceAll("").trim());
     }
 
-    public int getCurrentAttack() {
+    public long getCurrentAttack() {
         return attackCache.getData();
+    }
+    public long getCurrentLife() {
+        return lifeCache.getData();
     }
 
     public int getBaseAttack() {
@@ -224,7 +225,7 @@ public abstract class Chara{
     }
 
     //计算基本攻击力
-    public int _getCurrentAttack() {
+    public long _getCurrentAttack() {
         Tools.log("----------------%s的攻击力计算-----------------".formatted(this));
         Tools.log("%s的基础攻击力是%d".formatted(this, this.getBaseAttack()));
 
@@ -233,5 +234,16 @@ public abstract class Chara{
         Tools.log("----------------------攻击力计算结束-----------------------");
         Tools.log("%s当前攻击力是%d".formatted(this, pack.getAtk()));
         return pack.getAtk();
+    }
+
+    public long _getCurrentLife() {
+        Tools.log("----------------%s的生命值计算-----------------".formatted(this));
+        Tools.log("%s的基础生命值是%d".formatted(this, this.getBaseLife()));
+
+        BuffCalPack pack = new BuffCalPack(this, null);
+        TriggerManager.sendMessage(TriggerEnum.生命值计算, pack);
+        Tools.log("----------------------生命值计算结束-----------------------");
+        Tools.log("%s当前生命值是%d".formatted(this, pack.getLife()));
+        return pack.getLife();
     }
 }

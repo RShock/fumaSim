@@ -28,14 +28,14 @@ public class BuffCalPack extends MessagePack implements Packable {
         }
     }
 
-    public HashMap<BuffType, Double> getMap() {
-        return buffMap;
-    }
-
-
     public int getAtk() {
         double 攻击力百分比增加 = Optional.ofNullable(buffMap.get(BuffType.攻击力)).orElse(0.0);
         double 攻击力数值增加 = Optional.ofNullable(buffMap.get(BuffType.攻击力数值)).orElse(0.0);
         return (int) (caster.getBaseAttack() * (1 + 攻击力百分比增加) + 攻击力数值增加);
+    }
+
+    public int getLife() {
+        double 攻击力百分比增加 = Optional.ofNullable(buffMap.get(BuffType.生命值)).orElse(0.0);
+        return (int) (caster.getBaseLife() * (1 + 攻击力百分比增加));
     }
 }

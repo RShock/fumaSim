@@ -125,6 +125,13 @@ public class BuffAction {
                     case 必杀技能CD -> {
                         return;
                     }
+                    case 生命值 -> {
+                        buff = tempBuff.trigger(生命值计算)
+                                .time(INFINITY)
+                                .cast(pack -> pack.addBuff(生命值, multi))
+                                .build();
+                        acceptor.shouldUpdateLife();
+                    }
                     case 受到自身伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor) && pack.checkCastor(caster)
@@ -160,7 +167,7 @@ public class BuffAction {
                 .name(name)
                 .time(turn)
                 .skillStatus(SkillStatus.持续的)
-                .check(pack -> ((MessagePack)pack).checkCaster(acceptor)); //对于buff来说，监测对象是acceptor
+                .check(pack -> pack.checkCaster(acceptor)); //对于buff来说，监测对象是acceptor
         return tempBuff;
     }
 

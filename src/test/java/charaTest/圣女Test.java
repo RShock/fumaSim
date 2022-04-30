@@ -41,4 +41,16 @@ public class 圣女Test {
                 """);
         assertEquals(-2406248, 木桩5.getLife(), 10);
     }
+
+    @Test
+    void 圣女生命增加() {
+        Chara 圣女 = initChara("丰收圣女 菲欧拉 生命值100 星5 绊5 潜6 队长");
+        board.addOurChara(圣女);
+
+        木桩 木桩1 = 木桩.init("生命0");
+        board.addEnemyChara(木桩1);
+        board.initSkills();
+        board.run("1a");
+        assertEquals(135, 圣女.getCurrentLife());
+    }
 }
