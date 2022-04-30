@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import xiaor.MessagePack;
+import xiaor.msgpack.MessagePack;
+import xiaor.msgpack.Packable;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -20,8 +21,8 @@ public class SwitchBuff extends Buff{
     List<Supplier<Boolean>> enabledChecks;
 
     @Override
-    public void cast(MessagePack pack) {
-        pack.level = 1; //开关buff默认有一层
+    public void cast(Packable pack) {
+        ((MessagePack)pack).buff = this;
         if(isEnabled())
             super._cast(pack);
     }

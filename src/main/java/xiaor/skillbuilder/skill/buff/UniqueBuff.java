@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import xiaor.MessagePack;
+import xiaor.msgpack.MessagePack;
+import xiaor.msgpack.Packable;
 
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
@@ -20,9 +21,12 @@ public class UniqueBuff extends Buff{
     public int currentLevel;
     public int incLv;   //添加时buff添加几层
 
+    public double getMulti() {
+        return currentLevel * multi;
+    }
     @Override
-    public void cast(MessagePack pack) {
-        pack.level = currentLevel;
+    public void cast(Packable pack) {
+        ((MessagePack)pack).buff = this;
         super._cast(pack);
     }
 

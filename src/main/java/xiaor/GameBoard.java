@@ -2,6 +2,7 @@ package xiaor;
 
 import lombok.Getter;
 import xiaor.charas.Chara;
+import xiaor.msgpack.MessagePack;
 import xiaor.tools.GlobalDataManager;
 import xiaor.tools.record.DamageRecorder;
 import xiaor.trigger.TriggerEnum;

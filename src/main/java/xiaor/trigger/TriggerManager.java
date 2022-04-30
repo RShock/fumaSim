@@ -1,7 +1,8 @@
 package xiaor.trigger;
 
 import lombok.Getter;
-import xiaor.MessagePack;
+import xiaor.msgpack.MessagePack;
+import xiaor.msgpack.Packable;
 import xiaor.skillbuilder.skill.buff.Buff;
 import xiaor.skillbuilder.skill.Skill;
 import xiaor.skillbuilder.skill.buff.UniqueBuff;
@@ -67,7 +68,7 @@ public class TriggerManager {
         return getInstance().skills;
     }
     @SuppressWarnings("ForLoopReplaceableByForEach")
-    public void _sendMessage(TriggerEnum trigger, MessagePack pack) {
+    public void _sendMessage(TriggerEnum trigger, Packable pack) {
         //普通for循环防止迭代器问题
         int size = skills.size();
         for (int i = 0; i < size; i++) {
@@ -84,7 +85,7 @@ public class TriggerManager {
         getInstance().skills.add(skill);
     }
 
-    public static void sendMessage(TriggerEnum trigger, MessagePack pack) {
+    public static void sendMessage(TriggerEnum trigger, Packable pack) {
         getInstance()._sendMessage(trigger, pack);
     }
 }

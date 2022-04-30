@@ -1,6 +1,8 @@
 package xiaor;
 
 import xiaor.charas.Chara;
+import xiaor.msgpack.DamageCalPack;
+import xiaor.msgpack.MessagePack;
 import xiaor.skillbuilder.skill.BuffType;
 import xiaor.tools.Tools;
 import xiaor.tools.record.DamageRecord;
@@ -15,26 +17,19 @@ import static xiaor.DamageCal.InternalBuffType.*;
 
 public class DamageCal {
     public final MessagePack pack;
-    public final HashMap<BuffType, Double> damageBuffMap;
 
     public DamageCal(MessagePack pack) {
-        damageBuffMap = new HashMap<>();
         this.pack = pack;
-    }
-
-    public void changeDamage(BuffType type, double percent){
-        if(damageBuffMap.containsKey(type)) {
-            damageBuffMap.put(type, damageBuffMap.get(type) + percent);
-        }else {
-            damageBuffMap.put(type, percent);
-        }
     }
 
     public void finalDamage(Chara acceptor, double percent, TriggerEnum skillTypeEnum) {
         double baseDamage = pack.caster.getCurrentAttack() * percent;
-        TriggerManager.sendMessage(skillTypeEnum, MessagePack.damagePack(this, acceptor));
-        TriggerManager.sendMessage(TriggerEnum.伤害计算, MessagePack.damagePack(this, acceptor));
-        int finalDamage = (int)damageBuffMap.entrySet().stream()
+
+        DamageCalPack damageCalPack = new DamageCalPack(pack.caster, acceptor);
+        TriggerManager.sendMessage(skillTypeEnum, damageCalPack);
+        TriggerManager.sendMessage(TriggerEnum.伤害计算, damageCalPack);
+        var buffMap  =damageCalPack.getDamageBuffMap();
+        int finalDamage = (int)damageCalPack.getDamageBuffMap().entrySet().stream()
                 .filter(entry -> buffTypeMap.get(entry.getKey()) != 属性克制)
                 .collect(Collectors.groupingBy(entry -> buffTypeMap.get(entry.getKey())))
                 .values()
@@ -44,12 +39,12 @@ public class DamageCal {
 
         //属性克制特殊逻辑
         double 属性克制 = 0;
-        if(damageBuffMap.containsKey(BuffType.属性克制)) {
-            属性克制 = damageBuffMap.get(BuffType.属性克制);
+        if(buffMap.containsKey(BuffType.属性克制)) {
+            属性克制 = buffMap.get(BuffType.属性克制);
         }
         double 属性相克效果增减 = 0;
-        if(damageBuffMap.containsKey(BuffType.属性相克效果)) {
-            属性相克效果增减 = damageBuffMap.get(BuffType.属性相克效果);
+        if(buffMap.containsKey(BuffType.属性相克效果)) {
+            属性相克效果增减 = buffMap.get(BuffType.属性相克效果);
         }
         finalDamage *= (1+属性克制 * (1-属性相克效果增减));
 
@@ -74,7 +69,7 @@ public class DamageCal {
         TriggerManager.sendMessage(TriggerEnum.造成伤害, MessagePack.builder().result(
                 new DamageRecord(skillTypeEnum, msg, pack.caster, acceptor, finalDamage)).build());
         Tools.log(Tools.LogColor.GREEN, acceptor + "剩余" + lifeRemain);
-        damageBuffMap.clear();
+        buffMap.clear();
     }
 
     /*
@@ -114,27 +109,6 @@ public class DamageCal {
         buffMap.put(BuffType.受到普攻伤害, 杂项);
         buffMap.put(BuffType.属性相克效果, 属性克制);
         return buffMap;
-    }
-
-    //计算基本攻击力
-    public int getCurrentAttack() {
-        Tools.log("----------------%s的攻击力计算-----------------".formatted(pack.caster));
-        Tools.log("%s的基础攻击力是%d".formatted(pack.caster, pack.caster.getBaseAttack()));
-        TriggerManager.sendMessage(TriggerEnum.攻击力计算, MessagePack.damagePack(this, null));
-        Tools.log("----------------------攻击力计算结束-----------------------");
-        double baseAtk = pack.caster.getBaseAttack();
-
-        int finalAtk = damageBuffMap.entrySet().stream()
-                .filter(s -> !s.getKey().equals(BuffType.攻击力数值))
-                .map(s -> s.getValue() + 1)
-                .reduce(baseAtk, (a, b) -> (a * b)).intValue();
-        if(damageBuffMap.containsKey(BuffType.攻击力数值)) {
-            finalAtk += damageBuffMap.get(BuffType.攻击力数值);
-        }
-        damageBuffMap.clear();
-
-        Tools.log("%s当前攻击力是%d".formatted(pack.caster, finalAtk));
-        return finalAtk;
     }
 
     public void skillAttack(double multi) {

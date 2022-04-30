@@ -1,7 +1,9 @@
-package xiaor;
+package xiaor.msgpack;
 
 import lombok.*;
+import xiaor.DamageCal;
 import xiaor.charas.Chara;
+import xiaor.skillbuilder.skill.buff.Buff;
 import xiaor.tools.record.DamageRecord;
 
 import java.util.Collections;
@@ -13,28 +15,17 @@ import java.util.List;
 @Setter
 @Getter
 //TODO 用泛型替代
-public class MessagePack {
+public class MessagePack implements Packable{
     public Chara caster;
-
+    public Buff buff;
     public List<Chara> acceptors;
 
-    public DamageCal damageCal; //用于伤害计算
     public DamageRecord result; //用于伤害计算完毕后的记录
-
-    public int id;          //用于内部事件的id
-    public int level;    //用于可堆叠buff计算的层数
 
     public boolean checkCaster(Chara caster) {
         return caster.equals(this.caster);
     }
 
-    public static MessagePack damagePack(DamageCal damageCal, Chara acceptor) {
-        return MessagePack.builder()
-                .damageCal(damageCal)
-                .caster(damageCal.pack.caster)
-                .acceptors(Collections.singletonList(acceptor))
-                .build();
-    }
 
     public Boolean checkAccepter(Chara acceptor) {
         return this.acceptors.contains(acceptor);

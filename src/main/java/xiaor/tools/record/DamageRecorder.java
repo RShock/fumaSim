@@ -2,6 +2,7 @@ package xiaor.tools.record;
 
 import lombok.Getter;
 import xiaor.charas.Chara;
+import xiaor.msgpack.MessagePack;
 import xiaor.skillbuilder.skill.BaseSkill;
 import xiaor.skillbuilder.skill.Skill;
 import xiaor.tools.GlobalDataManager;
@@ -41,7 +42,7 @@ public class DamageRecorder {
                 .time(INFINITY)
                 .check(pack -> true)
                 .cast(pack -> {
-                    DamageRecord result = pack.getResult();
+                    DamageRecord result = ((MessagePack)pack).getResult();
                     result.setActionId(GlobalDataManager.getIntData(KeyEnum.ACTION_ID));
                     DamageRecorder.addDamageRecord(result);
                 }).build();

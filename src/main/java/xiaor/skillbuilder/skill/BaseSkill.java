@@ -3,7 +3,8 @@ package xiaor.skillbuilder.skill;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import xiaor.MessagePack;
+import xiaor.msgpack.MessagePack;
+import xiaor.msgpack.Packable;
 import xiaor.trigger.TriggerEnum;
 
 import java.util.function.Consumer;
@@ -16,8 +17,8 @@ import static xiaor.Common.INFINITY;
 @NoArgsConstructor
 public class BaseSkill implements Skill {
     TriggerEnum trigger;
-    Function<MessagePack, Boolean> check;
-    Consumer<MessagePack> cast;
+    Function<Packable, Boolean> check;
+    Consumer<Packable> cast;
     SkillStatus skillStatus;
     protected int time;   //持续时间
     protected String name; //名字
@@ -28,7 +29,7 @@ public class BaseSkill implements Skill {
     }
 
     @Override
-    public boolean check(MessagePack pack) {
+    public boolean check(Packable pack) {
         if(skillStatus == SkillStatus.已经失效 || skillStatus == SkillStatus.未发动){
             return false;
         }
@@ -36,7 +37,7 @@ public class BaseSkill implements Skill {
     }
 
     @Override
-    public void cast(MessagePack pack) {
+    public void cast(Packable pack) {
         if(skillStatus == SkillStatus.已经失效) {
             return;
         }

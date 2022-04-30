@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import xiaor.MessagePack;
+import xiaor.msgpack.MessagePack;
 import xiaor.charas.Chara;
+import xiaor.msgpack.Packable;
 import xiaor.skillbuilder.skill.BaseSkill;
 import xiaor.skillbuilder.skill.BuffType;
 
@@ -18,14 +19,20 @@ public class Buff extends BaseSkill {
     Chara acceptor;
     BuffType buffType;
 
+    double multi;
+
+    public double getMulti() {
+        return multi;
+    }
+
     @Override
-    public void cast(MessagePack pack) {
-        pack.level = 1; //普通buff默认有一层
+    public void cast(Packable pack) {
+        ((MessagePack)pack).buff = this;
         super.cast(pack);
     }
 
     //uniqueBuff子类需要一个调用父类cast的方法
-    public void _cast(MessagePack pack) {
+    public void _cast(Packable pack) {
         super.cast(pack);
     }
 

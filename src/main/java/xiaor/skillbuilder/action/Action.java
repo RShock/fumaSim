@@ -2,7 +2,8 @@ package xiaor.skillbuilder.action;
 
 import lombok.Getter;
 import lombok.Setter;
-import xiaor.MessagePack;
+import xiaor.msgpack.MessagePack;
+import xiaor.msgpack.Packable;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -12,7 +13,7 @@ import java.util.function.Supplier;
 public class Action {
     private int time;
     private String name;
-    private Consumer<MessagePack> action;
+    private Consumer<Packable> action;
 
     public static Action getFreeAction(Supplier<Boolean> action) {
         Action action1 = new Action();

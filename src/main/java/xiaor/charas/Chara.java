@@ -2,7 +2,9 @@ package xiaor.charas;
 
 import lombok.*;
 import xiaor.DamageCal;
-import xiaor.MessagePack;
+import xiaor.msgpack.AtkCalPack;
+import xiaor.msgpack.MessagePack;
+import xiaor.skillbuilder.skill.BuffType;
 import xiaor.tools.Tools;
 import xiaor.trigger.TriggerEnum;
 import xiaor.trigger.TriggerManager;
@@ -30,7 +32,12 @@ public abstract class Chara{
 
     protected CacheData<Integer> attackCache = new CacheData<>(() -> {
         DamageCal damageCal = new DamageCal(MessagePack.builder().caster(this).build());
-        return damageCal.getCurrentAttack();
+        return _getCurrentAttack();
+    });
+
+    protected CacheData<Integer> lifeCache = new CacheData<>(() -> {
+        DamageCal damageCal = new DamageCal(MessagePack.builder().caster(this).build());
+        return _getCurrentAttack();
     });
 
     protected long life;
@@ -210,10 +217,22 @@ public abstract class Chara{
 
         public T getData() {
             if(shouldUpdate){
-                data = updater.get();
                 shouldUpdate = false;
+                data = updater.get();
             }
             return data;
         }
+    }
+
+    //计算基本攻击力
+    public int _getCurrentAttack() {
+        Tools.log("----------------%s的攻击力计算-----------------".formatted(this));
+        Tools.log("%s的基础攻击力是%d".formatted(this, this.getBaseAttack()));
+
+        AtkCalPack pack = new AtkCalPack(this);
+        TriggerManager.sendMessage(TriggerEnum.攻击力计算, pack);
+        Tools.log("----------------------攻击力计算结束-----------------------");
+        Tools.log("%s当前攻击力是%d".formatted(this, pack.getAtk()));
+        return pack.getAtk();
     }
 }

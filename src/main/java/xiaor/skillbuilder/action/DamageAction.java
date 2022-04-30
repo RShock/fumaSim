@@ -2,6 +2,7 @@ package xiaor.skillbuilder.action;
 
 import xiaor.charas.Chara;
 import xiaor.DamageCal;
+import xiaor.msgpack.MessagePack;
 
 import java.util.List;
 
@@ -40,15 +41,15 @@ public class DamageAction {
         switch (damageType) {
             case 必杀伤害 -> action.setAction(pack -> {
                 if (target != null && !target.isEmpty()) {
-                    pack.acceptors = target;
+                    ((MessagePack)pack).acceptors = target;
                 }
-                new DamageCal(pack).skillAttack(multi);
+                new DamageCal(((MessagePack)pack)).skillAttack(multi);
             });
             case 普通伤害 -> action.setAction(pack -> {
                 if (target != null && !target.isEmpty()) {
-                    pack.acceptors = target;
+                    ((MessagePack)pack).acceptors = target;
                 }
-                new DamageCal(pack).normalAttack(multi);
+                new DamageCal(((MessagePack)pack)).normalAttack(multi);
             });
             default -> throw new RuntimeException("未定义技能类型");
         }
