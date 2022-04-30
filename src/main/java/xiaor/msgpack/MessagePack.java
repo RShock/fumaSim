@@ -20,8 +20,6 @@ public class MessagePack implements Packable{
     public Buff buff;
     public List<Chara> acceptors;
 
-    public DamageRecord result; //用于伤害计算完毕后的记录
-
     public boolean checkCaster(Chara caster) {
         return caster.equals(this.caster);
     }

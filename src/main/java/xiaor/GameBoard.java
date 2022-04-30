@@ -2,7 +2,6 @@ package xiaor;
 
 import lombok.Getter;
 import xiaor.charas.Chara;
-import xiaor.msgpack.MessagePack;
 import xiaor.tools.GlobalDataManager;
 import xiaor.tools.record.DamageRecorder;
 import xiaor.trigger.TriggerEnum;
@@ -57,9 +56,9 @@ public class GameBoard {
 
     public void run(String action) {
         if(!inited)initSkills();
-        TriggerManager.sendMessage(TriggerEnum.被动光环, new MessagePack());
-        TriggerManager.sendMessage(TriggerEnum.游戏开始时, new MessagePack());
-        TriggerManager.sendMessage(TriggerEnum.回合开始, null);
+        TriggerManager.sendMessage(TriggerEnum.被动光环);
+        TriggerManager.sendMessage(TriggerEnum.游戏开始时);
+        TriggerManager.sendMessage(TriggerEnum.回合开始);
         continueRun(action);
     }
 

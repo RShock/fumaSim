@@ -82,21 +82,21 @@ public class BuffAction {
                         acceptor.shouldUpdateAtk();
                     }
                     case 普攻伤害 -> buff = tempBuff.trigger(普攻伤害计算)
-                            .cast(pack -> ((DamageCalPack)pack).addBuff(BuffType.普攻伤害,  ((MessagePack) pack).buff.getMulti()))
+                            .cast(pack -> ((DamageCalPack)pack).addBuff(BuffType.普攻伤害,  ((DamageCalPack) pack).buff.getMulti()))
                             .build();
                     case 造成伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .cast(pack -> ((DamageCalPack)pack).addBuff(BuffType.造成伤害, ((MessagePack) pack).buff.getMulti()))
+                            .cast(pack -> ((DamageCalPack)pack).addBuff(BuffType.造成伤害, ((DamageCalPack) pack).buff.getMulti()))
                             .build();
                     case 必杀技伤害 -> buff = tempBuff.trigger(技能伤害计算)
-                            .cast(pack -> ((DamageCalPack)pack).addBuff(必杀技伤害, ((MessagePack) pack).buff.getMulti()))
+                            .cast(pack -> ((DamageCalPack)pack).addBuff(必杀技伤害, ((DamageCalPack) pack).buff.getMulti()))
                             .build();
                     case 受到风属性伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack -> ((MessagePack)pack).checkAccepter(acceptor) && caster.getElement().equals(Element.风属性))
-                            .cast(pack -> ((DamageCalPack)pack).addBuff(受到风属性伤害, ((MessagePack) pack).buff.getMulti()))
+                            .check(pack -> ((DamageCalPack)pack).checkAccepter(acceptor) && caster.getElement().equals(Element.风属性))
+                            .cast(pack -> ((DamageCalPack)pack).addBuff(受到风属性伤害, ((DamageCalPack) pack).buff.getMulti()))
                             .build();
                     case 受到伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack -> ((MessagePack)pack).checkAccepter(acceptor))
-                            .cast(pack -> ((DamageCalPack)pack).addBuff(受到伤害, ((MessagePack) pack).buff.getMulti()))
+                            .check(pack -> ((DamageCalPack)pack).checkAccepter(acceptor))
+                            .cast(pack -> ((DamageCalPack)pack).addBuff(受到伤害, ((DamageCalPack) pack).buff.getMulti()))
                             .build();
                     case 攻击力数值 -> {
                         //数值增加时，倍率需要乘以自身攻击力
@@ -107,19 +107,19 @@ public class BuffAction {
                         acceptor.shouldUpdateAtk();
                     }
                     case 受到普攻伤害 -> buff = tempBuff.trigger(普攻伤害计算)
-                            .check(pack -> ((MessagePack)pack).checkAccepter(acceptor))
-                            .cast(pack -> ((DamageCalPack)pack).addBuff(BuffType.受到普攻伤害, ((MessagePack) pack).buff.getMulti()))
+                            .check(pack -> ((DamageCalPack)pack).checkAccepter(acceptor))
+                            .cast(pack -> ((DamageCalPack)pack).addBuff(BuffType.受到普攻伤害, ((DamageCalPack) pack).buff.getMulti()))
                             .build();
                     case 受到攻击者伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack -> ((MessagePack)pack).checkAccepter(acceptor) && ((MessagePack)pack).caster.is(攻击者))
-                            .cast(pack -> ((DamageCalPack)pack).addBuff(受到攻击者伤害, ((MessagePack) pack).buff.getMulti()))
+                            .check(pack -> ((DamageCalPack)pack).checkAccepter(acceptor) && ((DamageCalPack)pack).caster.is(攻击者))
+                            .cast(pack -> ((DamageCalPack)pack).addBuff(受到攻击者伤害, ((DamageCalPack) pack).buff.getMulti()))
                             .build();
                     case 受到精灵王伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack -> ((MessagePack)pack).caster.getCharaId() == ExcelCharaProvider.searchIdByCharaName("精灵王 塞露西亚"))
-                            .cast(pack -> ((DamageCalPack)pack).addBuff(受到精灵王伤害, ((MessagePack) pack).buff.getMulti()))
+                            .check(pack -> ((DamageCalPack)pack).caster.getCharaId() == ExcelCharaProvider.searchIdByCharaName("精灵王 塞露西亚"))
+                            .cast(pack -> ((DamageCalPack)pack).addBuff(受到精灵王伤害, ((DamageCalPack) pack).buff.getMulti()))
                             .build();
                     case 属性相克效果 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack -> ((MessagePack)pack).checkAccepter(acceptor))
+                            .check(pack -> ((DamageCalPack)pack).checkAccepter(acceptor))
                             .time(INFINITY)
                             .cast(pack -> ((DamageCalPack)pack).addBuff(属性相克效果, multi))
                             .build();
@@ -128,8 +128,8 @@ public class BuffAction {
                     }
                     case 受到自身伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack ->
-                                    ((MessagePack)pack).checkAccepter(acceptor) && ((MessagePack)pack).checkCastor(caster)
-                            ).cast(pack -> ((DamageCalPack)pack).addBuff(受到自身伤害, ((MessagePack) pack).buff.getMulti()))
+                                    ((DamageCalPack)pack).checkAccepter(acceptor) && ((DamageCalPack)pack).checkCastor(caster)
+                            ).cast(pack -> ((DamageCalPack)pack).addBuff(受到自身伤害, ((DamageCalPack) pack).buff.getMulti()))
                             .build();
                     default -> throw new RuntimeException("未支持的buff类型" + buffType);
                 }

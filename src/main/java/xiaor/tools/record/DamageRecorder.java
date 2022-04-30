@@ -2,6 +2,7 @@ package xiaor.tools.record;
 
 import lombok.Getter;
 import xiaor.charas.Chara;
+import xiaor.msgpack.DamageRecordPack;
 import xiaor.msgpack.MessagePack;
 import xiaor.skillbuilder.skill.BaseSkill;
 import xiaor.skillbuilder.skill.Skill;
@@ -42,7 +43,7 @@ public class DamageRecorder {
                 .time(INFINITY)
                 .check(pack -> true)
                 .cast(pack -> {
-                    DamageRecord result = ((MessagePack)pack).getResult();
+                    DamageRecord result = ((DamageRecordPack)pack).getResult();
                     result.setActionId(GlobalDataManager.getIntData(KeyEnum.ACTION_ID));
                     DamageRecorder.addDamageRecord(result);
                 }).build();
@@ -50,9 +51,7 @@ public class DamageRecorder {
         skill = BaseSkill.builder().name("【系统规则】伤害记录器切换到下一次攻击").trigger(TriggerEnum.释放行动)
                 .time(INFINITY)
                 .check(pack -> true)
-                .cast(pack -> {
-                    GlobalDataManager.incIntData(KeyEnum.ACTION_ID);
-                }).build();
+                .cast(pack -> GlobalDataManager.incIntData(KeyEnum.ACTION_ID)).build();
         TriggerManager.registerSkill(skill);
         skill = BaseSkill.builder().name("【系统规则】伤害记录器初始化").trigger(TriggerEnum.游戏开始时)
                 .time(INFINITY)

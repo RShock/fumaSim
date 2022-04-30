@@ -88,4 +88,8 @@ public class TriggerManager {
     public static void sendMessage(TriggerEnum trigger, Packable pack) {
         getInstance()._sendMessage(trigger, pack);
     }
+
+    public static void sendMessage(TriggerEnum trigger) {
+        getInstance()._sendMessage(trigger, null);
+    }
 }
