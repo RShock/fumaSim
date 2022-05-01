@@ -46,6 +46,19 @@ public class GameBoard {
         } else return enemyChara.get(i);
     }
 
+    public static Chara selectAlly(int i) {
+        return getInstance()._selectAlly(i);
+    }
+
+    private Chara _selectAlly(int i) {
+        i--;
+        if (ourChara.size() <= i) {
+            Random random = new Random();
+            int n = random.nextInt(ourChara.size());
+            return ourChara.get(n);
+        } else return ourChara.get(i);
+    }
+
     public void addOurChara(Chara chara) {
         ourChara.add(chara);
     }

@@ -218,7 +218,7 @@ public class SkillParser {
 //        System.out.println("buffParse:" + part);
         //e.g. 自身攻击力+20%
         Pattern pattern = Pattern.compile(
-                "(?<target>(其他友方|自身|目标|敌方群体|ID\\d+|友方|队伍中.{3}|\\{.*}))" +
+                "(?<target>(其他友方|自身|目标|敌方全体|ID\\d+|友方|队伍中.{3}|[a|e]\\{.*}))" +
                         "(?<buffType>.*)" +
                         "(?<incDec>[+-])" +
                         "(" +
@@ -271,11 +271,22 @@ public class SkillParser {
                 default -> throw new RuntimeException("不支持的分类" + finalSubstring);
             };
         }
-        if (substring.matches("\\{\\d+(_\\d+)*}")) {  // e.g. {1_2_3}
-            return Arrays.stream(substring.substring(1, substring.length() - 1).split("_"))
-                    .map(Integer::parseInt)
-                    .map(GameBoard::selectTarget)
-                    .collect(Collectors.toList());
+        if (substring.matches("[a|e]\\{\\d+(_\\d+)*}")) {  // e.g. e{1_2_3}
+            char beginSubString = substring.charAt(0);
+            String[] pos = substring.substring(2, substring.length() - 1).split("_");
+            return switch (beginSubString) {
+                case 'a' ->
+                    Arrays.stream(pos)
+                            .map(Integer::parseInt)
+                            .map(GameBoard::selectAlly)
+                            .collect(Collectors.toList());
+                case 'e' ->
+                    Arrays.stream(pos)
+                            .map(Integer::parseInt)
+                            .map(GameBoard::selectTarget)
+                            .collect(Collectors.toList());
+                default -> throw new RuntimeException("不支持的分类" + beginSubString);
+            };
         }
         if (substring.matches("\\{.*}")) {     //e.g. {精灵王 塞露西亚}
             String finalSubstring = substring.substring(1, substring.length() - 1);
@@ -292,7 +303,7 @@ public class SkillParser {
         if (substring.equals("友方")) {
             return GameBoard.getAlly();
         }
-        if (substring.equals("群体")) {
+        if (substring.equals("敌方全体")) {
             return GameBoard.getEnemy();
         }
         if (substring.equals("其他友方")) {
