@@ -38,7 +38,7 @@ public class FullTest {
 
     private void init(List<String> charaNames) {
         this.charas = Tools.initMaxChara(charaNames);
-        Chara 测试角色 = ImportedChara.initChara("测试 角色 生命0");
+        Chara 测试角色 = ImportedChara.initChara("测试_角色 生命0");
         gameBoard.addEnemyChara(测试角色);
     }
 

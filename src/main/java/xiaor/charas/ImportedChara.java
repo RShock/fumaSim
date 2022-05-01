@@ -27,7 +27,7 @@ public class ImportedChara extends Chara {
 
     public static ImportedChara initChara(String initWords) {
         String[] split = initWords.split("\\s+");
-        String charaName = "%s %s".formatted(split[0], split[1]);
+        String charaName = split[0].replace("_", " ");
         ImportedChara chara = ExcelCharaProvider.getCharaByName(charaName);
         baseInit(chara, initWords);
         return chara;

@@ -22,13 +22,13 @@ class 沃沃Test {
 
     @Test
     void 创建沃沃测试() {
-        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力100");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼_沃沃 攻击力100");
         GameBoard.getInstance().addOurChara(wowo);
     }
 
     @Test
     void 沃沃尝试攻击() {
-        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力100");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼_沃沃 攻击力100");
         木桩 dummy = 木桩.init("生命500");
         board.addOurChara(wowo);
         board.addEnemyChara(dummy);
@@ -39,7 +39,7 @@ class 沃沃Test {
 
     @Test
     void 沃沃先大招再攻击() {
-        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力100 羁绊1 星3 潜力5");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼_沃沃 攻击力100 羁绊1 星3 潜力5");
 
         木桩 dummy = 木桩.init("生命500");
         board.addOurChara(wowo);
@@ -52,7 +52,7 @@ class 沃沃Test {
 
     @Test
     void 沃沃队长大招再攻击() {
-        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力100 队长 羁绊1 星3 潜力5");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼_沃沃 攻击力100 队长 羁绊1 星3 潜力5");
 
         木桩 dummy = 木桩.init("生命500");
         board.addOurChara(wowo);
@@ -64,7 +64,7 @@ class 沃沃Test {
 
     @Test
     void 沃沃队长技普攻击测试() {
-        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力100 队长 羁绊1 星3 潜力5");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼_沃沃 攻击力100 队长 羁绊1 星3 潜力5");
 
         木桩 dummy = 木桩.init("生命500");
 
@@ -77,7 +77,7 @@ class 沃沃Test {
 
     @Test
     void 沃沃大战矮子王测试() {
-        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力48991 队长 羁绊2 星3 潜力5");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼_沃沃 攻击力48991 队长 羁绊2 星3 潜力5");
 
         木桩 矮子王 = 木桩.init("生命2341894 水属性");
         board.addOurChara(wowo);
@@ -89,7 +89,7 @@ class 沃沃Test {
 
     @Test
     void 五星沃沃的大招再攻击() {
-        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力100 羁绊1 星5 潜力5");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼_沃沃 攻击力100 羁绊1 星5 潜力5");
 
         木桩 dummy = 木桩.init("生命500");
 
@@ -102,7 +102,7 @@ class 沃沃Test {
 
     @Test
     void 沃沃buff的消退() {
-        Chara wowo = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力100 羁绊1 星3 潜力5");
+        Chara wowo = ImportedChara.initChara("胆小纸袋狼_沃沃 攻击力100 羁绊1 星3 潜力5");
 
         木桩 dummy = 木桩.init("生命50000");
 

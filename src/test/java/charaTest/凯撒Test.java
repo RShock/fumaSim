@@ -24,7 +24,7 @@ class 凯撒Test {
 
     @Test
     void 创建凯撒测试() {
-        Chara 凯撒 = ImportedChara.initChara("异界 凯撒 攻击力100 生命值300");
+        Chara 凯撒 = ImportedChara.initChara("异界_凯萨 攻击力100 生命值300");
         board.addOurChara(凯撒);
         木桩 木桩1 = 木桩.init("生命0");
         board.addEnemyChara(木桩1);

@@ -26,7 +26,7 @@ class 小精灵王Test {
 
     @Test
     void 小精灵王尝试攻击() {
-        Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力100 潜力5");
+        Chara 小精灵王 = ImportedChara.initChara("机灵古怪_塞露西亚 攻击力100 潜力5");
         木桩 dummy = 木桩.init("生命500");
         board.addOurChara(小精灵王);
         board.addEnemyChara(dummy);
@@ -37,7 +37,7 @@ class 小精灵王Test {
 
     @Test
     void 小精灵王先大招再攻击() {
-        Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力100 羁绊1 星3 潜力5");
+        Chara 小精灵王 = ImportedChara.initChara("机灵古怪_塞露西亚 攻击力100 羁绊1 星3 潜力5");
         木桩 dummy = 木桩.init("生命0");
         board.addOurChara(小精灵王);
         board.addEnemyChara(dummy);
@@ -48,7 +48,7 @@ class 小精灵王Test {
 
     @Test
     void 三绊小精灵王先大招再攻击() {
-        Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力100 羁绊3 星3 潜力5");
+        Chara 小精灵王 = ImportedChara.initChara("机灵古怪_塞露西亚 攻击力100 羁绊3 星3 潜力5");
         木桩 dummy = 木桩.init("生命0");
         board.addOurChara(小精灵王);
         board.addEnemyChara(dummy);
@@ -59,7 +59,7 @@ class 小精灵王Test {
 
     @Test
     void 五绊小精灵王先大招再攻击() {
-        Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力100 羁绊5 星3 潜力5");
+        Chara 小精灵王 = ImportedChara.initChara("机灵古怪_塞露西亚 攻击力100 羁绊5 星3 潜力5");
         木桩 dummy = 木桩.init("生命0");
         board.addOurChara(小精灵王);
         board.addEnemyChara(dummy);

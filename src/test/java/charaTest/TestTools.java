@@ -28,14 +28,14 @@ public class TestTools {
     }
 
     public static void fullCheck(String action, List<String> troop) {
-        Chara 测试角色 = ImportedChara.initChara("测试 角色 生命7758206");
+        Chara 测试角色 = ImportedChara.initChara("测试_角色 生命7758206");
     }
 
     /**
      * 用来用二分法求解攻击力的
      *
-     * @param predicate
-     * @return
+     * @param predicate 二分判断函数
+     * @return 结果
      */
     public static int biSearch(Predicate<Integer> predicate) {
         int low = 500000;

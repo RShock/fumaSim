@@ -30,13 +30,13 @@ public class 风队Test {
             System.out.println(s);
         }
 
-        Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力505739 羁绊2 星3 潜力6 队长");
-        Chara 露露 = ImportedChara.initChara("法斯公主 露露 攻击力675452 星5 绊5 潜6");
-        Chara 精灵王 = ImportedChara.initChara("精灵王 塞露西亚 攻击力479798 星4 绊5 潜6");
-        Chara 千鹤 = ImportedChara.initChara("复生公主 千鹤 攻击力361418 星3 绊1 潜6");
-        Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力204650 星3 绊2 潜5");
+        Chara 小精灵王 = ImportedChara.initChara("机灵古怪_塞露西亚 攻击力505739 羁绊2 星3 潜力6 队长");
+        Chara 露露 = ImportedChara.initChara("法斯公主_露露 攻击力675452 星5 绊5 潜6");
+        Chara 精灵王 = ImportedChara.initChara("精灵王_塞露西亚 攻击力479798 星4 绊5 潜6");
+        Chara 千鹤 = ImportedChara.initChara("复生公主_千鹤 攻击力361418 星3 绊1 潜6");
+        Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼_沃沃 攻击力204650 星3 绊2 潜5");
 
-        Chara 测试角色 = ImportedChara.initChara("测试 角色 生命0");
+        Chara 测试角色 = ImportedChara.initChara("测试_角色 生命0");
         board.addOurChara(小精灵王);
         board.addOurChara(露露);
         board.addOurChara(精灵王);
@@ -58,11 +58,11 @@ public class 风队Test {
 
     @Test
     void 风队满配打桩统计() {
-        Chara 小精灵王 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力281230 羁绊5 星5 潜力6 队长");
-        Chara 露露 = ImportedChara.initChara("法斯公主 露露 攻击力248899 星5 绊5 潜6");
-        Chara 精灵王 = ImportedChara.initChara("精灵王 塞露西亚 攻击力243585 星5 绊5 潜6");
-        Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力270601 星5 绊5 潜6");
-        Chara 千鹤 = ImportedChara.initChara("复生公主 千鹤 攻击力256871 星5 绊5 潜6");
+        Chara 小精灵王 = ImportedChara.initChara("机灵古怪_塞露西亚 攻击力281230 羁绊5 星5 潜力6 队长");
+        Chara 露露 = ImportedChara.initChara("法斯公主_露露 攻击力248899 星5 绊5 潜6");
+        Chara 精灵王 = ImportedChara.initChara("精灵王_塞露西亚 攻击力243585 星5 绊5 潜6");
+        Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼_沃沃 攻击力270601 星5 绊5 潜6");
+        Chara 千鹤 = ImportedChara.initChara("复生公主_千鹤 攻击力256871 星5 绊5 潜6");
 
         木桩 伊吹 = 木桩.init("生命0");
         board.addOurChara(小精灵王);

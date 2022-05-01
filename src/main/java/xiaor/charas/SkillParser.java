@@ -218,7 +218,7 @@ public class SkillParser {
 //        System.out.println("buffParse:" + part);
         //e.g. 自身攻击力+20%
         Pattern pattern = Pattern.compile(
-                "(?<target>(其他友方|自身|目标|敌方全体|ID\\d+|友方|队伍中.{3}|[a|e]\\{.*}))" +
+                "(?<target>(其他友方|自身|目标|敌方全体|ID\\d+|友方|队伍中.{3}|[a|e]?\\{.*}))" +
                         "(?<buffType>.*)" +
                         "(?<incDec>[+-])" +
                         "(" +

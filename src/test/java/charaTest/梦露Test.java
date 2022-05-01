@@ -24,13 +24,13 @@ public class 梦露Test {
 
     @Test
     void 梦露全队集合测试() {
-        Chara 梦露 = ImportedChara.initChara("梦游魔境 露露 攻击力1816 羁绊1 星4 潜力6 队长");
-        Chara 露露 = ImportedChara.initChara("法斯公主 露露 攻击力2440 星5 绊5 潜6");
-        Chara 幼精 = ImportedChara.initChara("机灵古怪 塞露西亚 攻击力2288 星4 绊3 潜6");
-        Chara 千鹤 = ImportedChara.initChara("复生公主 千鹤 攻击力1430 星3 绊1 潜6");
-        Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼 沃沃 攻击力1618 星3 绊2 潜6");
+        Chara 梦露 = ImportedChara.initChara("梦游魔境_露露 攻击力1816 羁绊1 星4 潜力6 队长");
+        Chara 露露 = ImportedChara.initChara("法斯公主_露露 攻击力2440 星5 绊5 潜6");
+        Chara 幼精 = ImportedChara.initChara("机灵古怪_塞露西亚 攻击力2288 星4 绊3 潜6");
+        Chara 千鹤 = ImportedChara.initChara("复生公主_千鹤 攻击力1430 星3 绊1 潜6");
+        Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼_沃沃 攻击力1618 星3 绊2 潜6");
 
-        Chara 测试角色 = ImportedChara.initChara("测试 角色 生命7758206");
+        Chara 测试角色 = ImportedChara.initChara("测试_角色 生命7758206");
         board.addOurChara(梦露);
         board.addOurChara(露露);
         board.addOurChara(幼精);
