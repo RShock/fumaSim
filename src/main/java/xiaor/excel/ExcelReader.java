@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.PictureData;
 import org.apache.poi.xssf.usermodel.*;
 import xiaor.excel.vo.CharaExcelVo;
 import xiaor.excel.vo.SkillExcelVo;
+import xiaor.tools.Tools;
 
 import java.io.File;
 import java.net.URLDecoder;
@@ -35,9 +36,10 @@ public class ExcelReader {
         initChara();
     }
 
+    public final String excelPath = URLDecoder.decode(Objects.requireNonNull(this.getClass().getClassLoader().getResource("角色技能资料.xlsx")).getPath()
+            , StandardCharsets.UTF_8);
+
     private void initChara() {
-        File resourcePath = new File(URLDecoder.decode(Objects.requireNonNull(getClass().getResource("/")).getPath(), StandardCharsets.UTF_8));
-        String excelPath = resourcePath.getParent() + "/classes/角色技能资料.xlsx";
 
         PoijiOptions options = PoijiOptions.PoijiOptionsBuilder.settings().build();
         charaVos = Poiji.fromExcel(new File(excelPath), CharaExcelVo.class, options);

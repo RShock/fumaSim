@@ -13,6 +13,7 @@ import xiaor.gui.TeamPanel;
 import xiaor.gui.buttons.CalculationButton;
 import xiaor.gui.buttons.HelpButton;
 import xiaor.gui.buttons.LoadFileButton;
+import xiaor.tools.Tools;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -31,9 +32,7 @@ public class TestGUI extends JFrame {
 
     public TestGUI() {
         initGUI();
-
-        File resourcePath = new File(URLDecoder.decode(Objects.requireNonNull(getClass().getResource("/")).getPath(), StandardCharsets.UTF_8));
-        String excelPath = resourcePath.getParent() + "/classes/角色技能资料.xlsx";
+        String excelPath = this.getClass().getClassLoader().getResource("角色技能资料.xlsx").getPath();
 
         try {
             Workbook book = new XSSFWorkbook(excelPath);

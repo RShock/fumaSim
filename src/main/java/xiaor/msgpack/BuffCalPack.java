@@ -1,6 +1,7 @@
 package xiaor.msgpack;
 
 import lombok.Data;
+import lombok.Getter;
 import xiaor.charas.Chara;
 import xiaor.skillbuilder.skill.BuffType;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 /**
  * 攻击力计算包
  */
-@Data
+@Getter
 public class BuffCalPack extends MessagePack implements Packable {
     public final HashMap<BuffType, Double> buffMap = new HashMap<>();   //需要收集的数据
 

@@ -24,8 +24,8 @@ import java.util.stream.IntStream;
 public class ExcelWriter {
     Sheet dataSheet;
     Sheet damageSheet;
-    File resourcePath = new File(URLDecoder.decode(Objects.requireNonNull(getClass().getResource("/")).getPath(), StandardCharsets.UTF_8));
-    String excelPath = resourcePath.getParent() + "/classes/全方位测试输出表样板.xlsx";
+    public final String excelPath = URLDecoder.decode(Objects.requireNonNull(this.getClass().getClassLoader().getResource("全方位测试输出表样板.xlsx")).getPath()
+            , StandardCharsets.UTF_8);
     String exportPath = "output" + new SimpleDateFormat("MM_dd_HH_mm_ss").format(new Date()) + ".xlsx";
     Workbook book = new XSSFWorkbook(excelPath);
 

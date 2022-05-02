@@ -1,3 +1,6 @@
 /target/
 /src/main/resources/~$*.xlsx
 /*.xlsx
+.gradle
+out
+build

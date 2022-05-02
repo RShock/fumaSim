@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.Charset;
@@ -12,9 +13,4 @@ public class 中文Test {
         System.out.println("你好");
     }
 
-    @Test
-    void name() {
-        double ceil = Math.ceil(Math.ceil(279015 * 1.3) * 2 * 1.25);
-        System.out.println(ceil);
-    }
 }

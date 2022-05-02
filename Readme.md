@@ -23,20 +23,7 @@
 
 # 运行
 
-这个项目实验性的基于最新的java版本(JAVA18)，为了编译它，你需要IDEA2022以上的版本
-
-JAVA18目前存在一个打印中文的bug，请于-VM option内添加参数`-Dfile.encoding=gbk`来解决它。
-
-![example](https://github.gitcom/RShock/fumaSim/blob/main/IDEA无法打印中文的配置教程.jpg)
-
-修正： 添加`-ea -Dfile.encoding="UTF-8" -Dsun.stdout.encoding="UTF-8" -Dsun.stderr.encoding="UTF-8"`
-是一个更普适的做法
-
-bug参考
-
-https://youtrack.jetbrains.com/issue/IDEA-291006
-
-https://stackoverflow.com/questions/71685543/java-jdk-18-in-intellij-prints-question-mark-when-i-tried-to-print-unicode-l
+这个项目基于JAVA17，为了编译它，你需要IDEA2022以上的版本
 
 大致上看完所有测试就知道代码是怎么跑的了。
 

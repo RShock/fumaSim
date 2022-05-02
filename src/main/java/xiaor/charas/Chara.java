@@ -69,7 +69,6 @@ public abstract class Chara {
         INACTIVE
     }
 
-    @Builder.Default
     protected int star = 3;
 
     public Chara() {
@@ -79,10 +78,8 @@ public abstract class Chara {
 
     protected Element element;
 
-    @Builder.Default
     protected int skillLevel = 1;
 
-    @Builder.Default
     protected boolean isLeader;
 
 
