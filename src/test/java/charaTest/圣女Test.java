@@ -51,6 +51,6 @@ public class 圣女Test {
         board.addEnemyChara(木桩1);
         board.initSkills();
         board.run("1a");
-        assertEquals(135, 圣女.getCurrentLife());
+        assertEquals(135, 圣女.getCurrentMaxLife());
     }
 }

@@ -47,12 +47,10 @@ public class ExcelDamageRecord {
     }
 
     private String toActionString(String s) {
-        return switch (s) {
-            case String ignored && s.toLowerCase().contains("a") -> "攻击";
-            case String ignored && s.toLowerCase().contains("q") -> "必杀";
-            case String ignored && s.toLowerCase().contains("d") -> "防御";
-            default -> "未知";
-        };
+        if (s.toLowerCase().contains("a")) return "攻击";
+        if (s.toLowerCase().contains("q")) return "必杀";
+        if (s.toLowerCase().contains("d")) return "防御";
+        return "未知";
     }
 
     public Long[] getDamagePart() {

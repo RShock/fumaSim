@@ -16,7 +16,7 @@ import static xiaor.charas.Rare.SSR;
 
 @Getter
 @Setter
-public abstract class Chara{
+public abstract class Chara {
     protected int charaId;
 
     protected Rare rare;
@@ -30,7 +30,7 @@ public abstract class Chara{
 
     protected CacheData<Long> attackCache = new CacheData<>(this::_getCurrentAttack);
 
-    protected CacheData<Long> lifeCache = new CacheData<>(this::_getCurrentLife);
+    protected CacheData<Long> maxLifeCache = new CacheData<>(this::_getCurrentMaxLife);
 
     protected long life;
 
@@ -68,6 +68,7 @@ public abstract class Chara{
         ACTIVE,
         INACTIVE
     }
+
     @Builder.Default
     protected int star = 3;
 
@@ -86,12 +87,13 @@ public abstract class Chara{
 
 
     public boolean is6() {
-        return potential>=6;
+        return potential >= 6;
     }
 
     public boolean is12() {
-        return potential>=12;
+        return potential >= 12;
     }
+
     public int counter(Chara chara) {
         return Element.counter(element, chara.getElement());
     }
@@ -109,13 +111,14 @@ public abstract class Chara{
     public boolean is(Role role) {
         return role == this.role;
     }
-    public void defend(Chara acceptor){
+
+    public void defend(Chara acceptor) {
         System.out.printf("==============%s的防御==============%n", name);
         MessagePack pack = MessagePack.builder()
                 .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
                 .build();
-        if(disabled)
+        if (disabled)
             TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
         TriggerManager.sendMessage(TriggerEnum.释放行动, pack);
         TriggerManager.sendMessage(TriggerEnum.释放防御, pack);
@@ -125,13 +128,13 @@ public abstract class Chara{
         TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
     }
 
-    public void attack(Chara acceptor){
+    public void attack(Chara acceptor) {
         System.out.printf("==============%s的攻击==============%n", name);
         MessagePack pack = MessagePack.builder()
                 .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
                 .build();
-        if(disabled)
+        if (disabled)
             TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
         TriggerManager.sendMessage(TriggerEnum.释放行动, pack);
         TriggerManager.sendMessage(TriggerEnum.释放普攻, pack);
@@ -142,13 +145,13 @@ public abstract class Chara{
         TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
     }
 
-    public void skill(Chara acceptor){
+    public void skill(Chara acceptor) {
         System.out.printf("==============%s的必杀==============%n", name);
         MessagePack pack = MessagePack.builder()
                 .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
                 .build();
-        if(disabled)
+        if (disabled)
             TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
         TriggerManager.sendMessage(TriggerEnum.释放行动, pack);
         TriggerManager.sendMessage(TriggerEnum.释放必杀, pack);
@@ -163,21 +166,18 @@ public abstract class Chara{
         chara.star = 1;
         chara.skillLevel = 1;
         String[] split = initString.split("\\s+");
-        for (String s1 : split) {
-            switch (s1) {
-                case String s && s.startsWith("攻击力") -> chara.baseAttack = getNumFromString(s);
-                case String s && s.contains("星") -> chara.star = getNumFromString(s);
-                case String s && s.contains("绊") -> chara.skillLevel = getNumFromString(s1);
-                case String s && s.contains("潜") -> chara.potential = getNumFromString(s1);
-                case String s && s.contains("队长") -> chara.isLeader = true;
-                case String s && s.startsWith("生命") -> chara.baseLife = chara.life = getNumFromString(s1);
-                case String s && (s.startsWith("水属性") || s.startsWith("风属性") || s1.startsWith("光属性") ||
-                        s1.startsWith("火属性") || s1.startsWith("暗属性")) ->
-                        chara.element = Enum.valueOf(Element.class, s);
-                case String s && s.startsWith("闇属性") -> chara.element = Element.暗属性;
-                case String s && s.startsWith("备注:") ->  chara.hint = s1.substring(3);
-                default -> {}
-            }
+
+        for (String s : split) {
+            if (s.contains("攻击力")) chara.baseAttack = getNumFromString(s);
+            if (s.contains("星")) chara.star = getNumFromString(s);
+            if (s.contains("绊")) chara.skillLevel = getNumFromString(s);
+            if (s.contains("潜")) chara.potential = getNumFromString(s);
+            if (s.contains("队长")) chara.isLeader = true;
+            if (s.contains("生命")) chara.baseLife = chara.life = getNumFromString(s);
+            if (s.contains("水属性") || s.contains("风属性") || s.contains("光属性") ||
+                    s.contains("火属性") || s.contains("暗属性")) chara.element = Enum.valueOf(Element.class, s);
+            if (s.contains("闇属性")) chara.element = Element.暗属性;
+            if (s.startsWith("备注:")) chara.hint = s.substring(3);
         }
     }
 
@@ -190,12 +190,13 @@ public abstract class Chara{
     public long getCurrentAttack() {
         return attackCache.getData();
     }
-    public long getCurrentLife() {
-        return lifeCache.getData();
+
+    public long getCurrentMaxLife() {
+        return maxLifeCache.getData();
     }
 
     public int getBaseAttack() {
-        return (int)baseAttack;
+        return (int) baseAttack;
     }
 
     public static class CacheData<T> {
@@ -215,7 +216,7 @@ public abstract class Chara{
         }
 
         public T getData() {
-            if(shouldUpdate){
+            if (shouldUpdate) {
                 shouldUpdate = false;
                 data = updater.get();
             }
@@ -235,7 +236,7 @@ public abstract class Chara{
         return pack.getAtk();
     }
 
-    public long _getCurrentLife() {
+    public long _getCurrentMaxLife() {
         Tools.log("----------------%s的生命值计算-----------------".formatted(this));
         Tools.log("%s的基础生命值是%d".formatted(this, this.getBaseLife()));
 
@@ -243,6 +244,7 @@ public abstract class Chara{
         TriggerManager.sendMessage(TriggerEnum.生命值计算, pack);
         Tools.log("----------------------生命值计算结束-----------------------");
         Tools.log("%s当前生命值是%d".formatted(this, pack.getLife()));
+        this.life = pack.getLife(); //变更生命上限时，直接将生命回满
         return pack.getLife();
     }
 }

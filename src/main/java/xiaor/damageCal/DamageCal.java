@@ -26,7 +26,7 @@ public class DamageCal {
     public void finalDamage(Chara acceptor, double percent, DamageBase baseType, TriggerEnum skillTypeEnum) {
         double baseDamage = percent * switch (baseType) {
             case 攻击 -> pack.caster.getCurrentAttack();
-            case 生命 -> pack.caster.getCurrentLife();
+            case 生命 -> pack.caster.getCurrentMaxLife();
         };
 
         BuffCalPack damageCalPack = new BuffCalPack(pack.caster, acceptor);
