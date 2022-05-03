@@ -106,11 +106,17 @@ public class DamageCal {
         buffMap.put(BuffType.受到伤害, 易伤);
         buffMap.put(BuffType.受到攻击者伤害, 杂项);
         buffMap.put(BuffType.受到精灵王伤害, 杂项);
+        buffMap.put(BuffType.受到暗黑圣诞艾可伤害, 杂项);
         buffMap.put(BuffType.受到自身伤害, 杂项);
         buffMap.put(BuffType.受到风属性伤害, 属性易伤);
+        buffMap.put(BuffType.受到水属性伤害, 属性易伤);
+        buffMap.put(BuffType.受到光属性伤害, 属性易伤);
+        buffMap.put(BuffType.受到暗属性伤害, 属性易伤);
+        buffMap.put(BuffType.受到火属性伤害, 属性易伤);
         buffMap.put(BuffType.属性克制, 属性克制);
         buffMap.put(BuffType.必杀技伤害, 杂项);
         buffMap.put(BuffType.受到普攻伤害, 杂项);
+        buffMap.put(BuffType.受到必杀伤害, 杂项);
         buffMap.put(BuffType.属性相克效果, 属性克制);
         return buffMap;
     }

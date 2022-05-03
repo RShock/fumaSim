@@ -125,6 +125,10 @@ public class BuffAction {
                             .check(pack -> pack.checkAccepter(acceptor))
                             .cast(pack -> pack.addBuff(BuffType.受到普攻伤害, pack.buff.getMulti()))
                             .build();
+                    case 受到必杀伤害 -> buff = tempBuff.trigger(技能伤害计算)
+                            .check(pack -> pack.checkAccepter(acceptor))
+                            .cast(pack -> pack.addBuff(BuffType.受到必杀伤害, pack.buff.getMulti()))
+                            .build();
                     case 受到攻击者伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack -> pack.checkAccepter(acceptor) && pack.caster.is(攻击者))
                             .cast(pack -> pack.addBuff(受到攻击者伤害, pack.buff.getMulti()))
@@ -132,6 +136,10 @@ public class BuffAction {
                     case 受到精灵王伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack -> pack.caster.getCharaId() == ExcelCharaProvider.searchIdByCharaName("精灵王 塞露西亚"))
                             .cast(pack -> pack.addBuff(受到精灵王伤害, pack.buff.getMulti()))
+                            .build();
+                    case 受到暗黑圣诞艾可伤害 -> buff = tempBuff.trigger(伤害计算)
+                            .check(pack -> pack.caster.getCharaId() == ExcelCharaProvider.searchIdByCharaName("暗黑圣诞 艾可"))
+                            .cast(pack -> pack.addBuff(受到暗黑圣诞艾可伤害, pack.buff.getMulti()))
                             .build();
                     case 属性相克效果 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack -> pack.checkAccepter(acceptor))
