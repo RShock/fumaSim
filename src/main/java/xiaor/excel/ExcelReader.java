@@ -19,6 +19,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static xiaor.Common.getResourcePath;
+
 public class ExcelReader {
     private static final ExcelReader excelReader = new ExcelReader();
 
@@ -36,8 +38,7 @@ public class ExcelReader {
         initChara();
     }
 
-    public final String excelPath = URLDecoder.decode(Objects.requireNonNull(this.getClass().getClassLoader().getResource("角色技能资料.xlsx")).getPath()
-            , StandardCharsets.UTF_8);
+    public final String excelPath = getResourcePath(this.getClass(),"角色技能资料.xlsx");
 
     private void initChara() {
 

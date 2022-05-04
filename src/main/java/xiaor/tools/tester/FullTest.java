@@ -3,7 +3,7 @@ package xiaor.tools.tester;
 import xiaor.GameBoard;
 import xiaor.charas.Chara;
 import xiaor.charas.ImportedChara;
-import xiaor.excel.ExcelWriter;
+import xiaor.excel.FullTestExcelWriter;
 import xiaor.tools.Tools;
 import xiaor.tools.record.DamageRecorder;
 import xiaor.tools.record.ExcelDamageRecord;
@@ -56,7 +56,7 @@ public class FullTest {
     }
 
     public void fullTest() throws IOException {
-        ExcelWriter excelWriter = new ExcelWriter();
+        FullTestExcelWriter excelWriter = new FullTestExcelWriter();
         gameBoard.run(action[4][4]);
         excelWriter.writeCharaData(GameBoard.getAlly());
         ExcelDamageRecord excelDamageRecord = new ExcelDamageRecord(

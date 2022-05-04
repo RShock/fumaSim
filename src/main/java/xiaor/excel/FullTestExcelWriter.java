@@ -6,7 +6,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import xiaor.charas.Chara;
 import xiaor.tools.record.ExcelDamageRecord;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -17,15 +16,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
+import static xiaor.Common.getResourcePath;
+
 /**
  * 把测试结果输出到excel里
  * 读取excel用的是另一个库，写入时因为全是方格操作不能用那个库
  */
-public class ExcelWriter {
+public class FullTestExcelWriter {
     Sheet dataSheet;
     Sheet damageSheet;
-    public final String excelPath = URLDecoder.decode(Objects.requireNonNull(this.getClass().getClassLoader().getResource("全方位测试输出表样板.xlsx")).getPath()
-            , StandardCharsets.UTF_8);
+    public final String excelPath = getResourcePath(this.getClass(),"全方位测试输出表样板.xlsx");
     String exportPath = "output" + new SimpleDateFormat("MM_dd_HH_mm_ss").format(new Date()) + ".xlsx";
     Workbook book = new XSSFWorkbook(excelPath);
 
@@ -40,7 +40,7 @@ public class ExcelWriter {
 
     private static final int damageCharaStartCell = 1;  //伤害数据页的角色数据 第一列
 
-    public ExcelWriter() throws IOException {
+    public FullTestExcelWriter() throws IOException {
         dataSheet = book.getSheet("角色信息");
         damageSheet = book.getSheet("满配伤害");
     }

@@ -5,6 +5,7 @@ import xiaor.charas.ImportedChara;
 import xiaor.excel.ExcelCharaProvider;
 import xiaor.trigger.TriggerManager;
 
+import java.io.*;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,7 +23,7 @@ public class Tools {
     private static final boolean SHOULD_LOG = !"false".equals(System.getProperty("showLog"));
 
     public static List<ImportedChara> initMaxChara(List<String> charaNames) {
-       var charas = charaNames.stream().map(ExcelCharaProvider::getCharaByName)
+        var charas = charaNames.stream().map(ExcelCharaProvider::getCharaByName)
                 .peek(ImportedChara::maxData)
                 .peek(chara -> GameBoard.getInstance().addOurChara(chara))
                 .collect(toList());
@@ -60,9 +61,41 @@ public class Tools {
     public static Matcher find(String text, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(text);
-        if(!matcher.find()){
+        if (!matcher.find()) {
             throw new RuntimeException("mismatch");
         }
         return matcher;
+    }
+
+    public static String readFileAsString(String filePath) {
+        BufferedReader br;
+        try {
+            br = new BufferedReader(new FileReader(filePath));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(filePath + " 不存在", e);
+        }
+        String line = "";
+        StringBuilder buffer = new StringBuilder();
+        while (true) {
+            try {
+                if ((line = br.readLine()) == null) break;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            buffer.append(line);
+        }
+        return buffer.toString();
+    }
+
+    public static void writeToFile(String filepath, String content) {
+        File f = new File(filepath);//新建一个文件对象，如果不存在则创建一个该文件
+        FileWriter fw;
+        try {
+            fw = new FileWriter(f);
+            fw.write(content);
+            fw.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
