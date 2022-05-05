@@ -1,6 +1,8 @@
 package xiaor;
 
 import xiaor.charas.Chara;
+import xiaor.logger.LogType;
+import xiaor.logger.Logger;
 import xiaor.msgpack.BuffCalPack;
 import xiaor.skillbuilder.skill.BaseSkill;
 import xiaor.skillbuilder.skill.BuffType;
@@ -40,7 +42,7 @@ public class GlobalSkillRegister {
                 .check(pack -> true)
                 .cast(pack -> {
                     GlobalDataManager.putIntData(KeyEnum.GAME_TURN, 1);
-                    Tools.log(Tools.LogColor.RED, "【【【【【【【【【【【【【【【【【【【【【【【【【【【【第1回合开始】】】】】】】】】】】】】】】】】】】】】】】】】】】】");
+                    Logger.INSTANCE.log(LogType.回合开始, "第1回合开始");
                     GameBoard.getAlly().forEach(chara -> chara.setStatus(Chara.CharaStatus.ACTIVE));
                 }).build();
         TriggerManager.registerSkill(skill);
@@ -56,7 +58,7 @@ public class GlobalSkillRegister {
                 .check(pack -> true)
                 .cast(pack -> {
                     TriggerManager.getInstance().getSkills().forEach(Skill::decrease);
-                    Tools.log(Tools.LogColor.RED, "【【【【【【【【【【【【【【【【【【【【【【【【【【【【第" + (incIntData(KeyEnum.GAME_TURN)) + "回合开始】】】】】】】】】】】】】】】】】】】】】】】】】】】】");
+                    Logger.INSTANCE.log(LogType.回合开始, "第" + (incIntData(KeyEnum.GAME_TURN)) + "回合开始");
                     TriggerManager.sendMessage(TriggerEnum.回合开始, null);
                 }).build();
         TriggerManager.registerSkill(skill);

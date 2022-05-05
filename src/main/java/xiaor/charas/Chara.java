@@ -1,6 +1,8 @@
 package xiaor.charas;
 
 import lombok.*;
+import xiaor.logger.LogType;
+import xiaor.logger.Logger;
 import xiaor.msgpack.BuffCalPack;
 import xiaor.msgpack.MessagePack;
 import xiaor.tools.Tools;
@@ -110,7 +112,7 @@ public abstract class Chara {
     }
 
     public void defend(Chara acceptor) {
-        System.out.printf("==============%s的防御==============%n", name);
+        Logger.INSTANCE.log(LogType.角色行动, "==============%s的防御==============%n".formatted(name));
         MessagePack pack = MessagePack.builder()
                 .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
@@ -126,7 +128,7 @@ public abstract class Chara {
     }
 
     public void attack(Chara acceptor) {
-        System.out.printf("==============%s的攻击==============%n", name);
+        Logger.INSTANCE.log(LogType.角色行动, "==============%s的攻击==============%n".formatted(name));
         MessagePack pack = MessagePack.builder()
                 .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
@@ -143,7 +145,7 @@ public abstract class Chara {
     }
 
     public void skill(Chara acceptor) {
-        System.out.printf("==============%s的必杀==============%n", name);
+        Logger.INSTANCE.log(LogType.角色行动, "==============%s的必杀==============%n".formatted(name));
         MessagePack pack = MessagePack.builder()
                 .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
@@ -223,24 +225,24 @@ public abstract class Chara {
 
     //计算基本攻击力
     public long _getCurrentAttack() {
-        Tools.log("----------------%s的攻击力计算-----------------".formatted(this));
-        Tools.log("%s的基础攻击力是%d".formatted(this, this.getBaseAttack()));
+        Logger.INSTANCE.log(LogType.触发BUFF, "----------------%s的攻击力计算-----------------".formatted(this));
+        Logger.INSTANCE.log(LogType.触发BUFF,"%s的基础攻击力是%d".formatted(this, this.getBaseAttack()));
 
         BuffCalPack pack = new BuffCalPack(this, null);
         TriggerManager.sendMessage(TriggerEnum.攻击力计算, pack);
-        Tools.log("----------------------攻击力计算结束-----------------------");
-        Tools.log("%s当前攻击力是%d".formatted(this, pack.getAtk()));
+        Logger.INSTANCE.log(LogType.触发BUFF,"----------------------攻击力计算结束-----------------------");
+        Logger.INSTANCE.log(LogType.触发BUFF,"%s当前攻击力是%d".formatted(this, pack.getAtk()));
         return pack.getAtk();
     }
 
     public long _getCurrentMaxLife() {
-        Tools.log("----------------%s的生命值计算-----------------".formatted(this));
-        Tools.log("%s的基础生命值是%d".formatted(this, this.getBaseLife()));
+        Logger.INSTANCE.log(LogType.触发BUFF,"----------------%s的生命值计算-----------------".formatted(this));
+        Logger.INSTANCE.log(LogType.触发BUFF,"%s的基础生命值是%d".formatted(this, this.getBaseLife()));
 
         BuffCalPack pack = new BuffCalPack(this, null);
         TriggerManager.sendMessage(TriggerEnum.生命值计算, pack);
-        Tools.log("----------------------生命值计算结束-----------------------");
-        Tools.log("%s当前生命值是%d".formatted(this, pack.getLife()));
+        Logger.INSTANCE.log(LogType.触发BUFF,"----------------------生命值计算结束-----------------------");
+        Logger.INSTANCE.log(LogType.触发BUFF,"%s当前生命值是%d".formatted(this, pack.getLife()));
         this.life = pack.getLife(); //变更生命上限时，直接将生命回满
         return pack.getLife();
     }

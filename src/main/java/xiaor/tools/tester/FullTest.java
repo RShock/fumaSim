@@ -4,11 +4,13 @@ import xiaor.GameBoard;
 import xiaor.charas.Chara;
 import xiaor.charas.ImportedChara;
 import xiaor.excel.FullTestExcelWriter;
+import xiaor.logger.Export;
 import xiaor.tools.Tools;
 import xiaor.tools.record.DamageRecorder;
 import xiaor.tools.record.ExcelDamageRecord;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

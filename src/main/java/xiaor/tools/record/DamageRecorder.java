@@ -2,6 +2,8 @@ package xiaor.tools.record;
 
 import lombok.Getter;
 import xiaor.charas.Chara;
+import xiaor.logger.LogType;
+import xiaor.logger.Logger;
 import xiaor.msgpack.DamageRecordPack;
 import xiaor.msgpack.MessagePack;
 import xiaor.skillbuilder.skill.BaseSkill;
@@ -81,7 +83,7 @@ public class DamageRecorder {
         Map<Chara, List<DamageRecord>> collect = records.stream().collect(Collectors.groupingBy(DamageRecord::getCaster));
         collect.forEach((key, value) -> {
             int sum = value.stream().mapToInt(DamageRecord::getNum).sum();
-            Tools.log("%s造成了%d点伤害%n".formatted(key, sum));
+            Logger.INSTANCE.log(LogType.造成伤害,"%s造成了%d点伤害%n".formatted(key, sum));
         });
     }
 

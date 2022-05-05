@@ -3,6 +3,8 @@ package xiaor.charas;
 import xiaor.GameBoard;
 import xiaor.excel.ExcelCharaProvider;
 import xiaor.excel.vo.SkillExcelVo;
+import xiaor.logger.LogType;
+import xiaor.logger.Logger;
 import xiaor.skillbuilder.SkillBuilder;
 import xiaor.skillbuilder.SkillType;
 import xiaor.skillbuilder.action.Action;
@@ -49,7 +51,6 @@ public class SkillParser {
     }
 
     public void addSkill(int turn) {
-//        System.out.println("正在解析" + vo.getSkillId());
         if (vo.getEffect().equals("没做")) return;
         SkillType skillType = vo.getSkillType();
         if (!checkSkillType(chara, skillType)) return;
@@ -99,25 +100,25 @@ public class SkillParser {
             }
             case 一星被动 -> {
                 if (chara.getStar() < 1) {
-                    System.out.println(chara + "没1星，1星技能不触发，是否忘记填写了星数？");
+                    Logger.INSTANCE.log(LogType.其他, chara + "没1星，1星技能不触发，是否忘记填写了星数？");
                     return false;
                 }
             }
             case 三星被动 -> {
                 if (chara.getStar() < 3) {
-                    System.out.println(chara + "没3星，3星技能不触发，是否忘记填写了星数？");
+                    Logger.INSTANCE.log(LogType.其他, chara + "没3星，3星技能不触发，是否忘记填写了星数？");
                     return false;
                 }
             }
             case 五星被动 -> {
                 if (chara.getStar() < 5) {
-                    System.out.println(chara + "没5星，5星技能不触发");
+                    Logger.INSTANCE.log(LogType.其他, chara + "没5星，5星技能不触发");
                     return false;
                 }
             }
             case 六潜被动 -> {
                 if (!chara.is6()) {
-                    System.out.println(chara + "没6潜，6潜技能不触发，是否忘记填写了潜力？");
+                    Logger.INSTANCE.log(LogType.其他,chara + "没6潜，6潜技能不触发，是否忘记填写了潜力？");
                     return false;
                 }
             }
@@ -169,7 +170,6 @@ public class SkillParser {
     }
 
     private WhenBuilder parseSkill(WhenBuilder tempSkill, String effect, List<Supplier<Boolean>> switchChecker, List<SkillExcelVo> vos) {
-//        System.out.println("parse:" + effect);
         if (effect.contains(",")) {
             int index = effect.indexOf(",");
             String firstPart = effect.substring(0, index);
@@ -214,8 +214,6 @@ public class SkillParser {
 
     //TODO
     private Action parseBuffAction(String part, List<Supplier<Boolean>> switchChecker) {
-
-//        System.out.println("buffParse:" + part);
         //e.g. 自身攻击力+20%
         Pattern pattern = Pattern.compile(
                 "(?<target>(其他友方|自身|目标|敌方全体|ID\\d+|友方|队伍中.{3}|[a|e]?\\{.*}))" +
@@ -313,7 +311,7 @@ public class SkillParser {
             int id = Integer.parseInt(substring.substring(2));
             List<Chara> target = GameBoard.getAlly().stream().filter(c -> c.getCharaId() == id).collect(Collectors.toList());
             if (target.isEmpty()) {
-                System.out.println("未发现指定ID角色：" + id);
+                Logger.INSTANCE.log(LogType.其他, "未发现指定ID角色：" + id);
             }
             return target;
         }

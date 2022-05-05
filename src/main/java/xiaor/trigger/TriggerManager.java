@@ -1,6 +1,8 @@
 package xiaor.trigger;
 
 import lombok.Getter;
+import xiaor.logger.LogType;
+import xiaor.logger.Logger;
 import xiaor.msgpack.BuffCalPack;
 import xiaor.msgpack.MessagePack;
 import xiaor.msgpack.Packable;
@@ -15,7 +17,6 @@ import java.util.Optional;
 
 @Getter
 public class TriggerManager {
-    public static Boolean SKILL_LOG = false;
 
     public static Boolean BUFF_LOG = true;
 
@@ -48,20 +49,21 @@ public class TriggerManager {
     private void addBuff(Buff<BuffCalPack> newBuff) {
         //可堆叠buff特殊处理
         if(newBuff instanceof UniqueBuff newUniqueBuff) {
-            Tools.log("＋新增可堆叠buff: " + newBuff);
+            Logger.INSTANCE.log(LogType.其他, "＋新增可堆叠buff: " + newBuff);
             Optional<UniqueBuff<BuffCalPack>> first = skills.stream().filter(skill -> skill instanceof UniqueBuff)
                     .map(skill -> (UniqueBuff<BuffCalPack>)skill)
                     .filter(buff -> buff.uniqueId.equals(newUniqueBuff.uniqueId))
                     .findFirst();
             if(first.isPresent()){
                 first.get().add(newUniqueBuff);
-                Tools.log("堆叠成功，当前层数" + first.get().currentLevel);
+                Logger.INSTANCE.log(LogType.其他, "＋新增可堆叠buff: " + newBuff);
+
             }else{
                 skills.add(newBuff);
             }
             return;
         }
-        Tools.log("＋新增buff: " + newBuff);
+        Logger.INSTANCE.log(LogType.其他,"＋新增buff: " + newBuff);
         skills.add(newBuff);
     }
 
@@ -75,14 +77,13 @@ public class TriggerManager {
         for (int i = 0; i < size; i++) {
             if (!skills.get(i).getTrigger().equals(trigger) || !skills.get(i).check(pack)) continue;
             if(!skills.get(i).toString().contains("系统规则")) {
-                Tools.log("触发: " + trigger + skills.get(i).toString());
+                Logger.INSTANCE.log(LogType.触发BUFF, "触发" + trigger + skills.get(i).toString());
             }
             skills.get(i).cast(pack);
         }
     }
 
     public static void registerSkill(Skill skill) {
-        if (SKILL_LOG) Tools.log("＋新增：" + skill);
         getInstance().skills.add(skill);
     }
 

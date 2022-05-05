@@ -1,6 +1,8 @@
 package xiaor.damageCal;
 
 import xiaor.charas.Chara;
+import xiaor.logger.LogType;
+import xiaor.logger.Logger;
 import xiaor.msgpack.BuffCalPack;
 import xiaor.msgpack.DamageRecordPack;
 import xiaor.msgpack.MessagePack;
@@ -68,11 +70,11 @@ public class DamageCal {
             msg = "%s对%s造成了%d伤害".formatted(pack.caster, pack.acceptors, finalDamage);
             lifeRemain -= finalDamage;
         }
-        Tools.log(Tools.LogColor.BLUE, msg);
+        Logger.INSTANCE.log(LogType.造成伤害, msg);
         acceptor.setLife(lifeRemain);
         TriggerManager.sendMessage(TriggerEnum.造成伤害, new DamageRecordPack(
                 new DamageRecord(skillTypeEnum, msg, pack.caster, acceptor, finalDamage)));
-        Tools.log(Tools.LogColor.GREEN, acceptor + "剩余" + lifeRemain);
+        Logger.INSTANCE.log(LogType.造成伤害, acceptor + "剩余" + lifeRemain);
         buffMap.clear();
     }
 

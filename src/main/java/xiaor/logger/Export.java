@@ -2,6 +2,7 @@ package xiaor.logger;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Export {
@@ -15,5 +16,8 @@ public class Export {
 
     public Export(String data) {
         this.name = data;
+        this.children = new ArrayList<>();
     }
+
+
 }

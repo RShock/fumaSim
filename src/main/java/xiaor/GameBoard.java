@@ -2,6 +2,7 @@ package xiaor;
 
 import lombok.Getter;
 import xiaor.charas.Chara;
+import xiaor.logger.Logger;
 import xiaor.tools.GlobalDataManager;
 import xiaor.tools.record.DamageRecorder;
 import xiaor.trigger.TriggerEnum;
@@ -73,6 +74,7 @@ public class GameBoard {
         TriggerManager.sendMessage(TriggerEnum.游戏开始时);
         TriggerManager.sendMessage(TriggerEnum.回合开始);
         continueRun(action);
+        Logger.INSTANCE.exportHtmlLog();
     }
 
     public void continueRun(String action) {
@@ -115,6 +117,7 @@ public class GameBoard {
         TriggerManager.getInstance().reset();
         DamageRecorder.getInstance().clear();
         GlobalDataManager.reset();
+        Logger.INSTANCE.reset();
         inited = false;
     }
 
