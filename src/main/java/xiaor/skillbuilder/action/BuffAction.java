@@ -157,6 +157,10 @@ public class BuffAction {
                                     pack.checkAccepter(acceptor) && pack.checkCastor(caster)
                             ).cast(pack -> pack.addBuff(受到自身伤害, pack.buff.getMulti()))
                             .build();
+                    case 受到治疗回复量 -> buff = tempBuff.trigger(没做)
+                            .check(pack -> false)
+                            .cast(pack -> {})
+                            .build();
                     default -> throw new RuntimeException("未支持的buff类型" + buffType);
                 }
 

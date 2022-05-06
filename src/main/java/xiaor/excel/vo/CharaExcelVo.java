@@ -3,8 +3,13 @@ package xiaor.excel.vo;
 import com.poiji.annotation.ExcelCell;
 import com.poiji.annotation.ExcelRow;
 import lombok.Data;
+import xiaor.charas.Chara;
+import xiaor.tools.Tools;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Data
 public class CharaExcelVo {
@@ -37,6 +42,33 @@ public class CharaExcelVo {
 
     @ExcelCell(8)
     public double life;
+
+    public void setSkillExcelVos(List<SkillExcelVo> skillExcelVos) {
+        this.skillExcelVos = skillExcelVos;
+        skillExcelVos.stream().forEach(vo -> checkMatch(vo.getDescription(), vo.getEffect()));
+    }
+
+    /**
+     * description中出现的数据，理应在effect中再出现一次
+     * @param description
+     * @param effect
+     */
+    private void checkMatch(String description, String effect) {
+        if(effect.contains("没做"))return;
+
+        var allNum = Tools.findAllNum(effect);
+        if(effect.contains("自身获得")){
+            Matcher matcher = Tools.find(effect, ".*自身获得技能(?<skillId>\\d+).*");
+            int skillId = Integer.parseInt(matcher.group("skillId"));
+            effect = skillExcelVos.stream().filter(skillExcelVo -> skillExcelVo.getSkillId() == skillId).findFirst().orElseThrow(
+                    () -> new RuntimeException("skillId不存在" + skillId)).getEffect();
+        }
+        allNum.addAll(Tools.findAllNum(effect));
+        allNum.add("50");   //50回合可以省略
+        if(!allNum.containsAll(Tools.findAllNum(description))){
+            System.out.println("warning: 描述中出现了效果里没有的数字："+description+ "  "+effect);
+        }
+    }
 
     private List<SkillExcelVo> skillExcelVos;
 }

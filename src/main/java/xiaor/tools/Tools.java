@@ -6,7 +6,10 @@ import xiaor.excel.ExcelCharaProvider;
 import xiaor.trigger.TriggerManager;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,7 +60,7 @@ public class Tools {
     }
 
     public static void writeToFile(String filepath, String content) {
-        if(!new File("output").exists()){
+        if (!new File("output").exists()) {
             new File("output").mkdir();
         }
         File f = new File(filepath);//新建一个文件对象，如果不存在则创建一个该文件
@@ -69,5 +72,15 @@ public class Tools {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    static final Pattern pattern = Pattern.compile("([1-9]\\d*\\.?\\d*)|(0\\.\\d*[1-9])");
+
+    public static Set<String> findAllNum(String s) {
+        Set<String> nums = new HashSet<>();
+        if (s == null || s.isEmpty()) return nums;
+        Matcher matcher = pattern.matcher(s);
+        while (matcher.find()) nums.add(matcher.group(0));
+        return nums;
     }
 }
