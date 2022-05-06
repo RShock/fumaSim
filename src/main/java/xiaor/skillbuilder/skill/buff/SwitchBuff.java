@@ -16,23 +16,28 @@ import java.util.function.Supplier;
 @Getter
 /*
  * 开关buff 未满足/满足时均会在信息栏提示玩家
+ * 重写了check函数来追加新的checker
  */
-public class SwitchBuff<MsgType extends Packable> extends Buff<MsgType>{
+public class SwitchBuff<MsgType extends Packable> extends Buff<MsgType> {
     List<Supplier<Boolean>> enabledChecks;
 
     @Override
     public void cast(MsgType pack) {
         pack.setBuff(this);
-        if(isEnabled())
-            super._cast(pack);
+        super._cast(pack);
+    }
+
+    @Override
+    public boolean check(MsgType pack) {
+        return super.check(pack) && isEnabled();
     }
 
     @Override
     public String toString() {
         String tempS;
-        if(caster == acceptor)tempS = caster + "给自己";
-        else tempS =  caster + "->" + acceptor;
-        String enabled = isEnabled()?"启用中":"未启动";
+        if (caster == acceptor) tempS = caster + "给自己";
+        else tempS = caster + "->" + acceptor;
+        String enabled = isEnabled() ? "启用中" : "未启动";
 
         return "(%s)%s[%s]".formatted(enabled, name, tempS);
     }

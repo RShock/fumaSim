@@ -137,10 +137,6 @@ public class BuffAction {
                             .check(pack -> pack.caster.getCharaId() == ExcelCharaProvider.searchIdByCharaName("精灵王 塞露西亚"))
                             .cast(pack -> pack.addBuff(受到精灵王伤害, pack.buff.getMulti()))
                             .build();
-                    case 受到暗黑圣诞艾可伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack -> pack.caster.getCharaId() == ExcelCharaProvider.searchIdByCharaName("暗黑圣诞 艾可"))
-                            .cast(pack -> pack.addBuff(受到暗黑圣诞艾可伤害, pack.buff.getMulti()))
-                            .build();
                     case 属性相克效果 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack -> pack.checkAccepter(acceptor))
                             .time(INFINITY)

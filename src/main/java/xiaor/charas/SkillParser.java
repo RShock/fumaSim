@@ -35,6 +35,8 @@ public class SkillParser {
     final int skillId;
     final SkillExcelVo vo;
 
+    final List<Supplier<Boolean>> switchChecker = new ArrayList<>();
+
     public SkillParser(Chara chara, List<SkillExcelVo> vos, int skillId) {
         this.chara = chara;
         this.vos = vos;
@@ -68,15 +70,14 @@ public class SkillParser {
             }
             default -> Trigger.selfAct(chara, triggerEnum);
         };
-        List<Supplier<Boolean>> switchChecker = new ArrayList<>();
         WhenBuilder tempSkill = SkillBuilder.createNewSkill(vo.toString()).when(trigger);
         if (turn != 0) {
             tempSkill.lastedTurn(turn);
         }
         if (skillString.startsWith("如果")) { //这个技能是激活型的，需要额外的检验条件，如果没激活会提示未激活
-            skillString = parseExtraCondition(switchChecker);
+            skillString = parseExtraCondition();
         }
-        parseSkill(tempSkill, skillString, switchChecker, vos).build();
+        parseSkill(tempSkill, skillString, vos).build();
     }
 
     private SkillExcelVo findSkillVoBySkillId(Integer skillId) {
@@ -84,7 +85,7 @@ public class SkillParser {
                 .orElseThrow(() -> new RuntimeException("不存在的Skill Id" + skillId));
     }
 
-    private String parseExtraCondition(List<Supplier<Boolean>> switchChecker) {
+    private String parseExtraCondition() {
         String skillString;
         //这个技能是条件触发型的，触发器触发后还需要额外的校验
         Matcher matcher = Tools.find(vo.getEffect(), "如果(?<condition>.*)则(?<skill>.*)");
@@ -118,7 +119,7 @@ public class SkillParser {
             }
             case 六潜被动 -> {
                 if (!chara.is6()) {
-                    Logger.INSTANCE.log(LogType.其他,chara + "没6潜，6潜技能不触发，是否忘记填写了潜力？");
+                    Logger.INSTANCE.log(LogType.其他, chara + "没6潜，6潜技能不触发，是否忘记填写了潜力？");
                     return false;
                 }
             }
@@ -169,23 +170,22 @@ public class SkillParser {
         throw new RuntimeException(checker + "未受支持");
     }
 
-    private WhenBuilder parseSkill(WhenBuilder tempSkill, String effect, List<Supplier<Boolean>> switchChecker, List<SkillExcelVo> vos) {
+    private WhenBuilder parseSkill(WhenBuilder tempSkill, String effect, List<SkillExcelVo> vos) {
         if (effect.contains(",")) {
             int index = effect.indexOf(",");
             String firstPart = effect.substring(0, index);
             String lastPart = effect.substring(index + 1);
             return parseSkill(
-                    tempSkill.act(parseAction(firstPart, switchChecker, vos)).and(),
+                    tempSkill.act(parseAction(firstPart, vos)).and(),
                     lastPart,
-                    switchChecker,
                     vos);
         } else {
-            tempSkill.act(parseAction(effect, switchChecker, vos));
+            tempSkill.act(parseAction(effect, vos));
         }
         return tempSkill;
     }
 
-    private Action parseAction(String part, List<Supplier<Boolean>> switchChecker, List<SkillExcelVo> vos) {
+    private Action parseAction(String part, List<SkillExcelVo> vos) {
         if (part.startsWith("对")) {
             return parseDamageAction(part);
         }
@@ -209,11 +209,11 @@ public class SkillParser {
                 return true;
             });
         }
-        return parseBuffAction(part, switchChecker);
+        return parseBuffAction(part);
     }
 
     //TODO
-    private Action parseBuffAction(String part, List<Supplier<Boolean>> switchChecker) {
+    private Action parseBuffAction(String part) {
         //e.g. 自身攻击力+20%
         Pattern pattern = Pattern.compile(
                 "(?<target>(其他友方|自身|目标|敌方全体|ID\\d+|友方|队伍中.{3}|[a|e]?\\{.*}))" +
@@ -273,16 +273,14 @@ public class SkillParser {
             char beginSubString = substring.charAt(0);
             String[] pos = substring.substring(2, substring.length() - 1).split("_");
             return switch (beginSubString) {
-                case 'a' ->
-                    Arrays.stream(pos)
-                            .map(Integer::parseInt)
-                            .map(GameBoard::selectAlly)
-                            .collect(Collectors.toList());
-                case 'e' ->
-                    Arrays.stream(pos)
-                            .map(Integer::parseInt)
-                            .map(GameBoard::selectTarget)
-                            .collect(Collectors.toList());
+                case 'a' -> Arrays.stream(pos)
+                        .map(Integer::parseInt)
+                        .map(GameBoard::selectAlly)
+                        .collect(Collectors.toList());
+                case 'e' -> Arrays.stream(pos)
+                        .map(Integer::parseInt)
+                        .map(GameBoard::selectTarget)
+                        .collect(Collectors.toList());
                 default -> throw new RuntimeException("不支持的分类" + beginSubString);
             };
         }

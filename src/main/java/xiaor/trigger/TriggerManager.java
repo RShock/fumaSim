@@ -76,8 +76,9 @@ public class TriggerManager {
         int size = skills.size();
         for (int i = 0; i < size; i++) {
             if (!skills.get(i).getTrigger().equals(trigger) || !skills.get(i).check(pack)) continue;
+            String s= "触发" + trigger + skills.get(i).toString();    //用于debug
             if(!skills.get(i).toString().contains("系统规则")) {
-                Logger.INSTANCE.log(LogType.触发BUFF, "触发" + trigger + skills.get(i).toString());
+                Logger.INSTANCE.log(LogType.触发BUFF, s);
             }
             skills.get(i).cast(pack);
         }

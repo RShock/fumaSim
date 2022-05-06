@@ -5,8 +5,11 @@ import xiaor.GameBoard;
 import xiaor.charas.Chara;
 import xiaor.charas.ImportedChara;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+
+import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 public class TestTools {
     /**
@@ -18,10 +21,10 @@ public class TestTools {
      * @param 被打的角色     被打的角色
      */
     public static void stepCheckRun(GameBoard gameBoard, String action, List<Integer> enemyLife, Chara 被打的角色) {
-        String[] split = action.split("\\s+");
+        List<String> split = Arrays.stream(action.split("\\s+")).filter(s -> !s.isEmpty()).toList() ;
         gameBoard.run("");
         for (int i = 0; i < enemyLife.size(); i++) {
-            gameBoard.continueRun(split[i]);
+            gameBoard.continueRun(split.get(i));
             if (enemyLife.get(i) == 0) continue;
             Assertions.assertEquals(enemyLife.get(i), 被打的角色.getLife(), 10);
         }
