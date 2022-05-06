@@ -77,7 +77,7 @@ public class SkillParser {
         if (skillString.startsWith("如果")) { //这个技能是激活型的，需要额外的检验条件，如果没激活会提示未激活
             skillString = parseExtraCondition();
         }
-        parseSkill(tempSkill, skillString, vos).build();
+        parseSkill(tempSkill, skillString).build();
     }
 
     private SkillExcelVo findSkillVoBySkillId(Integer skillId) {
@@ -170,22 +170,21 @@ public class SkillParser {
         throw new RuntimeException(checker + "未受支持");
     }
 
-    private WhenBuilder parseSkill(WhenBuilder tempSkill, String effect, List<SkillExcelVo> vos) {
+    private WhenBuilder parseSkill(WhenBuilder tempSkill, String effect) {
         if (effect.contains(",")) {
             int index = effect.indexOf(",");
             String firstPart = effect.substring(0, index);
             String lastPart = effect.substring(index + 1);
             return parseSkill(
-                    tempSkill.act(parseAction(firstPart, vos)).and(),
-                    lastPart,
-                    vos);
+                    tempSkill.act(parseAction(firstPart)).and(),
+                    lastPart);
         } else {
-            tempSkill.act(parseAction(effect, vos));
+            tempSkill.act(parseAction(effect));
         }
         return tempSkill;
     }
 
-    private Action parseAction(String part, List<SkillExcelVo> vos) {
+    private Action parseAction(String part) {
         if (part.startsWith("对")) {
             return parseDamageAction(part);
         }
@@ -198,8 +197,11 @@ public class SkillParser {
             if (givenVo.getSkillType() != SkillType.动态技能) {
                 throw new RuntimeException("技能" + givenVo.getSkillId() + "不是动态的");
             }
-            return Action.getFreeAction(() -> {
+            return Action.buildFreeAction(() -> {
                 target.forEach(chara1 -> {
+                    if (!switchChecker.stream().allMatch(Supplier::get)){
+                        return; //获得技能也可能有附加条件
+                    }
                     if (matcher.group("turn") != null) {
                         addSkill(chara1, vos, givenVo.getSkillId(), Integer.parseInt(matcher.group("turn")));
                     } else {

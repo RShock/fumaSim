@@ -2,7 +2,6 @@ package xiaor.skillbuilder.action;
 
 import lombok.Getter;
 import lombok.Setter;
-import xiaor.msgpack.MessagePack;
 import xiaor.msgpack.Packable;
 
 import java.util.function.Consumer;
@@ -15,7 +14,7 @@ public class Action {
     private String name;
     private Consumer<Packable> action;
 
-    public static Action getFreeAction(Supplier<Boolean> action) {
+    public static Action buildFreeAction(Supplier<Boolean> action) {
         Action action1 = new Action();
         action1.setAction((pack -> action.get()));
         return action1;
