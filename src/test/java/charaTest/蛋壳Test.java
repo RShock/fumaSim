@@ -1,11 +1,13 @@
 package charaTest;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import xiaor.GameBoard;
 import xiaor.charas.Chara;
 import xiaor.charas.ImportedChara;
 import xiaor.charas.木桩;
+import xiaor.charas.超级机器人木桩;
 
 public class 蛋壳Test {
     GameBoard board = GameBoard.getInstance();
@@ -23,17 +25,17 @@ public class 蛋壳Test {
 
     @Test
     void 蛋壳行动测试() {
-        Chara 蛋壳 = ImportedChara.initChara("暗黑圣诞_艾可 攻击力100 生命值300 星1 绊1 潜1 队长");
-        木桩 dummy = 木桩.init("生命0");
+        Chara 蛋壳 = ImportedChara.initChara("暗黑圣诞_艾可 攻击力663393 生命值300 星5 绊3 潜6 队长");
+        超级机器人木桩 dummy = 超级机器人木桩.init("");
         board.addOurChara(蛋壳);
         board.addEnemyChara(dummy);
         board.initSkills();
         board.run("""
-                1a1
-                1d
-                1q1
+                1a 1a 1a 1a 1a 1q
+                1a 1a 1a 1a 1q
+                1a 1a 1a 1a 1q
                 """);
-        // 待数值测试
+        Assertions.assertEquals(2106410922, dummy.getLife());
     }
 
     @Test
