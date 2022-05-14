@@ -30,9 +30,16 @@ public abstract class Chara {
 
     protected double baseAttack;
 
+    //当前攻击力
     protected CacheData<Long> attackCache = new CacheData<>(this::_getCurrentAttack);
 
+    //当前最大生命值
     protected CacheData<Long> maxLifeCache = new CacheData<>(this::_getCurrentMaxLife);
+
+    //当前最大技能CD
+    protected CacheData<Short> maxCDCache = new CacheData<>(this::_getCurrentCD);
+
+    protected short baseCD;
 
     protected long life;
 
@@ -54,7 +61,7 @@ public abstract class Chara {
     }
 
     public void shouldUpdateLife() {
-
+        maxLifeCache.shouldUpdate();
     }
 
     protected void setOriginAtk(double attack) {
@@ -224,7 +231,7 @@ public abstract class Chara {
     }
 
     //计算基本攻击力
-    public long _getCurrentAttack() {
+    private long _getCurrentAttack() {
         Logger.INSTANCE.log(LogType.触发BUFF, "----------------%s的攻击力计算-----------------".formatted(this));
         Logger.INSTANCE.log(LogType.触发BUFF,"%s的基础攻击力是%d".formatted(this, this.getBaseAttack()));
 
@@ -235,7 +242,7 @@ public abstract class Chara {
         return pack.getAtk();
     }
 
-    public long _getCurrentMaxLife() {
+    private long _getCurrentMaxLife() {
         Logger.INSTANCE.log(LogType.触发BUFF,"----------------%s的生命值计算-----------------".formatted(this));
         Logger.INSTANCE.log(LogType.触发BUFF,"%s的基础生命值是%d".formatted(this, this.getBaseLife()));
 
@@ -245,5 +252,16 @@ public abstract class Chara {
         Logger.INSTANCE.log(LogType.触发BUFF,"%s当前生命值是%d".formatted(this, pack.getLife()));
         this.life = pack.getLife(); //变更生命上限时，直接将生命回满
         return pack.getLife();
+    }
+
+    private short _getCurrentCD() {
+        Logger.INSTANCE.log(LogType.触发BUFF,"----------------%s的最大CD计算-----------------".formatted(this));
+        Logger.INSTANCE.log(LogType.触发BUFF,"%s的基础CD是%d".formatted(this, this.getBaseCD()));
+
+        BuffCalPack pack = new BuffCalPack(this, null);
+        TriggerManager.sendMessage(TriggerEnum.最大CD计算, pack);
+        Logger.INSTANCE.log(LogType.触发BUFF,"----------------------最大CD计算结束-----------------------");
+        Logger.INSTANCE.log(LogType.触发BUFF,"%s的当前CD是%d".formatted(this, pack.getCD()));
+        return pack.getCD();
     }
 }

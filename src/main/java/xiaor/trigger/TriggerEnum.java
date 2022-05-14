@@ -26,5 +26,7 @@ public enum TriggerEnum {
     回合开始,
     释放防御后,
 
+    最大CD计算,
+
     没做
 }

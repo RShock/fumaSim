@@ -39,4 +39,9 @@ public class BuffCalPack extends MessagePack implements Packable {
         double 攻击力百分比增加 = Optional.ofNullable(buffMap.get(BuffType.生命值)).orElse(0.0);
         return (int) (caster.getBaseLife() * (1 + 攻击力百分比增加));
     }
+
+    public short getCD() {
+        double CD变更 = Optional.ofNullable(buffMap.get(BuffType.必杀技能CD)).orElse(0.0);
+        return (short) (caster.getBaseCD() + Math.round(CD变更));
+    }
 }
