@@ -45,7 +45,6 @@ public class CharaExcelVo {
 
     public void setSkillExcelVos(List<SkillExcelVo> skillExcelVos) {
         this.skillExcelVos = skillExcelVos;
-        skillExcelVos.stream().forEach(vo -> checkMatch(vo.getDescription(), vo.getEffect()));
     }
 
     /**
@@ -53,14 +52,14 @@ public class CharaExcelVo {
      * @param description
      * @param effect
      */
-    private void checkMatch(String description, String effect) {
+    public static void checkMatch(List<SkillExcelVo> vos, String description, String effect) {
         if(effect.contains("没做"))return;
 
         var allNum = Tools.findAllNum(effect);
         if(effect.contains("自身获得")){
             Matcher matcher = Tools.find(effect, ".*自身获得技能(?<skillId>\\d+).*");
             int skillId = Integer.parseInt(matcher.group("skillId"));
-            effect = skillExcelVos.stream().filter(skillExcelVo -> skillExcelVo.getSkillId() == skillId).findFirst().orElseThrow(
+            effect = vos.stream().filter(skillExcelVo -> skillExcelVo.getSkillId() == skillId).findFirst().orElseThrow(
                     () -> new RuntimeException("skillId不存在" + skillId)).getEffect();
         }
         allNum.addAll(Tools.findAllNum(effect));

@@ -7,12 +7,15 @@ import xiaor.skillbuilder.SkillType;
 
 import java.util.List;
 
+import static xiaor.excel.vo.CharaExcelVo.checkMatch;
+
 public class ImportedChara extends Chara {
     private List<SkillExcelVo> uninitedSkills;  //skill需要等到角色正式使用时再初始化
 
     @Override
     public void initSkills() {
         if (isDisabled()) return;
+        uninitedSkills.forEach(vo -> checkMatch(uninitedSkills, vo.getDescription(), vo.getEffect()));
         uninitedSkills.stream()
                 //动态技能在运行中由其他技能注册，自身不注册
                 .filter(skillExcelVo -> skillExcelVo.getSkillType() != SkillType.动态技能)
