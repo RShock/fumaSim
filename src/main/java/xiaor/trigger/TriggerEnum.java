@@ -27,6 +27,6 @@ public enum TriggerEnum {
     释放防御后,
 
     最大CD计算,
-
+    被攻击时,
     没做
 }

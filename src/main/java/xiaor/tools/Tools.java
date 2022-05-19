@@ -34,7 +34,7 @@ public class Tools {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(text);
         if (!matcher.find()) {
-            throw new RuntimeException("mismatch");
+            throw new RuntimeException("mismatch text: %s %s".formatted(text, regex));
         }
         return matcher;
     }
