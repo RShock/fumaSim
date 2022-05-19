@@ -5,6 +5,7 @@ import xiaor.charas.Chara;
 import xiaor.charas.ImportedChara;
 import xiaor.excel.FullTestExcelWriter;
 import xiaor.logger.Export;
+import xiaor.logger.Logger;
 import xiaor.tools.Tools;
 import xiaor.tools.record.DamageRecorder;
 import xiaor.tools.record.ExcelDamageRecord;
@@ -36,11 +37,12 @@ public class FullTest {
         }
         this.charaNames = charaNames;
         init(charaNames);
+        Logger.INSTANCE.setLogLevel(Logger.LogLevel.NONE);
     }
 
     private void init(List<String> charaNames) {
         this.charas = Tools.initMaxChara(charaNames);
-        Chara 测试角色 = ImportedChara.initChara("测试_角色 生命0");
+        Chara 测试角色 = ImportedChara.initChara("测试角色 生命0");
         gameBoard.addEnemyChara(测试角色);
     }
 

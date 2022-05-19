@@ -12,7 +12,7 @@ public class 风队完全测试Test {
     @Disabled
     @Test
     public void 风队测试() throws IOException {
-        FullTest fullTest = new FullTest(Arrays.asList(幼精, 露露, CharaName.精灵王, 千鹤, 沃沃),
+        FullTest fullTest = new FullTest(Arrays.asList(幼精, 露露, 精灵王, 千鹤, 沃沃),
                 """
                             2A 1A 3A 4D 5A
                             2A 1A 3A 4D 5A

@@ -10,7 +10,7 @@ object Logger {
 
     private var logList = arrayListOf<Log>()
 
-    private var logLevel = LogLevel.ALL
+    public var logLevel = LogLevel.ALL
 
     enum class LogLevel {
         DEBUG,      //超全日志

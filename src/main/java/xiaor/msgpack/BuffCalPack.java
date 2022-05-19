@@ -1,6 +1,5 @@
 package xiaor.msgpack;
 
-import lombok.Data;
 import lombok.Getter;
 import xiaor.charas.Chara;
 import xiaor.skillbuilder.skill.BuffType;
@@ -41,7 +40,7 @@ public class BuffCalPack extends MessagePack implements Packable {
     }
 
     public short getCD() {
-        double CD变更 = Optional.ofNullable(buffMap.get(BuffType.必杀技能CD)).orElse(0.0);
+        double CD变更 = Optional.ofNullable(buffMap.get(BuffType.必杀技CD)).orElse(0.0);
         return (short) (caster.getBaseCD() + Math.round(CD变更));
     }
 }

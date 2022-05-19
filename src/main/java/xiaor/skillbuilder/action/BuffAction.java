@@ -4,7 +4,6 @@ import xiaor.charas.Chara;
 import xiaor.charas.Element;
 import xiaor.excel.ExcelCharaProvider;
 import xiaor.msgpack.BuffCalPack;
-import xiaor.msgpack.MessagePack;
 import xiaor.skillbuilder.skill.*;
 import xiaor.skillbuilder.skill.buff.Buff;
 import xiaor.skillbuilder.skill.buff.SwitchBuff;
@@ -142,7 +141,7 @@ public class BuffAction {
                             .time(INFINITY)
                             .cast(pack -> pack.addBuff(属性相克效果, multi))
                             .build();
-                    case 必杀技能CD -> {
+                    case 必杀技CD -> {
                         return;
                     }
                     case 生命值 -> {

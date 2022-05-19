@@ -4,10 +4,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import xiaor.GameBoard;
-import xiaor.charas.Chara;
-import xiaor.charas.ImportedChara;
-import xiaor.charas.木桩;
-import xiaor.charas.超级机器人木桩;
+import xiaor.charas.*;
+import xiaor.tools.tester.FullTest;
+
+import java.io.IOException;
+import java.util.Arrays;
+
+import static xiaor.charas.CharaName.*;
 
 public class 魔王巴尔Test {
     GameBoard board = GameBoard.getInstance();
@@ -35,5 +38,39 @@ public class 魔王巴尔Test {
                 1a 1a 1q 1a 1a 1q
                 """);
         Assertions.assertEquals(7687172, dummy.getLife());
+    }
+
+    @Test
+    void 假如巴尔是风队成员() throws IOException {
+        FullTest fullTest = new FullTest(Arrays.asList(幼精, 露露, 精灵王, 千鹤, 巴尔),
+                """
+                            2A 1A 3A 4D 5A
+                            2A 1A 3A 4D 5A
+                            2A 4Q 1A 3A 5A
+                            2A 1A 3A 4D 5A
+                            2Q 3Q 1Q 4A 5Q
+                            2A 4Q 3A 1A 5A
+                            2A 4A 3A 1A 5Q
+                            2A 3A 1A 4D 5A
+                            2Q 3Q 1Q 4Q 5Q
+                            2A 4A 3A 1A 5A
+                            2A 3A 1A 4A 5Q
+                            2A 3A 1A 4A 5A
+                            2Q 3Q 1Q 4Q 5Q
+                            2A 3A 1A 4A 5A
+                            2A 3A 1A 4A 5Q
+                            2A 3A 1A 4A 5A
+                            2Q 3Q 1Q 4Q 5Q
+                            2A 3A 1A 4A 5A
+                            2A 3A 1A 4A 5Q
+                            2A 3A 1A 4A 5A
+                            2Q 3Q 1Q 4Q 5Q
+                            2A 3A 1A 4A 5A
+                            2A 3A 1A 4A 5Q
+                            2A 3A 1A 4A 5A
+                            2Q 3Q 1Q 4Q 5Q
+                        """);
+        GameBoard.getInstance().getOurChara().get(4).setElement(Element.风属性);
+        fullTest.fullTest();
     }
 }

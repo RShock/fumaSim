@@ -14,4 +14,5 @@ public class CharaName {
 
     public static final String 剑圣 = "剑圣 神无雪";
     public static final String 夏狐 = "夏日 静";
+    public static final String 巴尔 = "魔王 巴尔";
 }
