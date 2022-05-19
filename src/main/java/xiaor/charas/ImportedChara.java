@@ -3,9 +3,13 @@ package xiaor.charas;
 import xiaor.excel.ExcelCharaProvider;
 import xiaor.excel.vo.CharaExcelVo;
 import xiaor.excel.vo.SkillExcelVo;
+import xiaor.logger.LogType;
+import xiaor.logger.Logger;
 import xiaor.skillbuilder.SkillType;
+import xiaor.tools.Tools;
 
 import java.util.List;
+import java.util.regex.Matcher;
 
 import static xiaor.excel.vo.CharaExcelVo.checkMatch;
 
@@ -47,7 +51,22 @@ public class ImportedChara extends Chara {
         importedChara.setUninitiatedSkills(charaVo.getSkillExcelVos());    //初始化技能需要等到所有角色设置好
         importedChara.setNickName(charaVo.getNickName());
         importedChara.setRare(Enum.valueOf(Rare.class, charaVo.rare));
+        //尝试从必杀技栏找到CD
+        List<Short> cds = charaVo.getSkillExcelVos().stream().filter(SkillExcelVo::is必杀).map(SkillExcelVo::getEffect)
+                .map(ImportedChara::parseTurn).toList();
+        importedChara.setCds(cds);
         return importedChara;
+    }
+
+    private static short parseTurn(String effect) {
+        try {
+            Matcher matcher = Tools.find(effect, ".*(CD(?<CD>\\d+)).*");
+            String cd = matcher.group("CD");
+            return Short.parseShort(cd);
+        } catch (RuntimeException e) {
+            Logger.INSTANCE.log(LogType.其他, "警告，该技能的CD未编写于excel内：%s".formatted(effect));
+            return 0;
+        }
     }
 
     /**
@@ -65,10 +84,10 @@ public class ImportedChara extends Chara {
     private int magicConvert(double data, Rare rare) {
         double pow = Math.pow(1.1, 59);
         double starMulti = switch (rare) {
-            case SSR -> 10.0/8;
-            case SR -> 10.0/7;
-            case R -> 10.0/6;
-            case N -> 10.0/5;
+            case SSR -> 10.0 / 8;
+            case SR -> 10.0 / 7;
+            case R -> 10.0 / 6;
+            case N -> 10.0 / 5;
         };
         return (int) (data * pow * 2.6 * starMulti);
     }

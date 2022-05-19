@@ -1,6 +1,5 @@
 package charaTest;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import xiaor.GameBoard;
@@ -30,7 +29,7 @@ public class 梦露Test {
         Chara 千鹤 = ImportedChara.initChara("复生公主_千鹤 攻击力1430 星3 绊1 潜6");
         Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼_沃沃 攻击力1618 星3 绊2 潜6");
 
-        Chara 测试角色 = ImportedChara.initChara("测试_角色 生命7758206");
+        Chara 测试角色 = ImportedChara.initChara("测试角色 生命7758206");
         board.addOurChara(梦露);
         board.addOurChara(露露);
         board.addOurChara(幼精);

@@ -52,6 +52,10 @@ public class SkillParser {
         new SkillParser(chara, vos, skillId).addSkill(turn);
     }
 
+    private static boolean turnCheck(int currentTurn, int a, int b) {
+        return (currentTurn - b) % a == 0 && currentTurn  >= b;
+    }
+
     public void addSkill(int turn) {
         if (vo.getEffect().equals("没做")) return;
         SkillType skillType = vo.getSkillType();
@@ -65,8 +69,7 @@ public class SkillParser {
                 int a = Integer.parseInt(matcher.group("turnsA"));
                 int b = Integer.parseInt(Optional.of(matcher.group("turnsB")).orElse("0"));
                 skillString = matcher.group("effect");
-                yield Trigger.when(triggerEnum, () -> (GlobalDataManager.getIntData(KeyEnum.GAME_TURN) - b) % a == 0 &&
-                        GlobalDataManager.getIntData(KeyEnum.GAME_TURN) != b);
+                yield Trigger.when(triggerEnum, () -> turnCheck(GlobalDataManager.getIntData(KeyEnum.GAME_TURN), a, b));
             }
             default -> Trigger.selfAct(chara, triggerEnum);
         };
@@ -199,7 +202,7 @@ public class SkillParser {
             }
             return Action.buildFreeAction(() -> {
                 target.forEach(chara1 -> {
-                    if (!switchChecker.stream().allMatch(Supplier::get)){
+                    if (!switchChecker.stream().allMatch(Supplier::get)) {
                         return; //获得技能也可能有附加条件
                     }
                     if (matcher.group("turn") != null) {
@@ -289,7 +292,7 @@ public class SkillParser {
         if (substring.matches("\\{.*}")) {     //e.g. {精灵王 塞露西亚}
             String finalSubstring = substring.substring(1, substring.length() - 1);
             return GameBoard.getAlly().stream().filter(chara ->
-                            chara.getCharaId() == ExcelCharaProvider.getCharaByName(finalSubstring).getCharaId())
+                            chara.getCharaId() == ExcelCharaProvider.searchIdByCharaName(finalSubstring))
                     .collect(Collectors.toList());
         }
         if (substring.equals("目标")) {

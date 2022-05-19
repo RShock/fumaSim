@@ -42,6 +42,10 @@ public class SkillExcelVo {
         };
     }
 
+    public Boolean is必杀() {
+        return skillType.equals("必杀技");
+    }
+
     public TriggerEnum getTrigger() {
         return Enum.valueOf(TriggerEnum.class, trigger);
     }

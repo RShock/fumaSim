@@ -90,23 +90,23 @@ public class BuffAction {
                             .cast(pack -> pack.addBuff(必杀技伤害, pack.buff.getMulti()))
                             .build();
                     case 受到风属性伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack -> pack.checkAccepter(acceptor) && caster.getElement().equals(Element.风属性))
+                            .check(pack -> pack.checkAccepter(acceptor) && pack.caster.getElement().equals(Element.风属性))
                             .cast(pack -> pack.addBuff(受到风属性伤害, pack.buff.getMulti()))
                             .build();
                     case 受到水属性伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack -> pack.checkAccepter(acceptor) && caster.getElement().equals(Element.水属性))
+                            .check(pack -> pack.checkAccepter(acceptor) && pack.caster.getElement().equals(Element.水属性))
                             .cast(pack -> pack.addBuff(受到水属性伤害, pack.buff.getMulti()))
                             .build();
                     case 受到光属性伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack -> pack.checkAccepter(acceptor) && caster.getElement().equals(Element.光属性))
+                            .check(pack -> pack.checkAccepter(acceptor) && pack.caster.getElement().equals(Element.光属性))
                             .cast(pack -> pack.addBuff(受到光属性伤害, pack.buff.getMulti()))
                             .build();
                     case 受到暗属性伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack -> pack.checkAccepter(acceptor) && caster.getElement().equals(Element.暗属性))
+                            .check(pack -> pack.checkAccepter(acceptor) && pack.caster.getElement().equals(Element.暗属性))
                             .cast(pack -> pack.addBuff(受到暗属性伤害, pack.buff.getMulti()))
                             .build();
                     case 受到火属性伤害 -> buff = tempBuff.trigger(伤害计算)
-                            .check(pack -> pack.checkAccepter(acceptor) && caster.getElement().equals(Element.火属性))
+                            .check(pack -> pack.checkAccepter(acceptor) && pack.caster.getElement().equals(Element.火属性))
                             .cast(pack -> pack.addBuff(受到火属性伤害, pack.buff.getMulti()))
                             .build();
                     case 受到伤害 -> buff = tempBuff.trigger(伤害计算)

@@ -29,7 +29,7 @@ public class 风队Test {
         Chara 千鹤 = ImportedChara.initChara("复生公主_千鹤 攻击力361418 星3 绊1 潜6");
         Chara 沃沃 = ImportedChara.initChara("胆小纸袋狼_沃沃 攻击力204650 星3 绊2 潜5");
 
-        Chara 测试角色 = ImportedChara.initChara("测试_角色 生命0");
+        Chara 测试角色 = ImportedChara.initChara("测试角色 生命0");
         board.addOurChara(小精灵王);
         board.addOurChara(露露);
         board.addOurChara(精灵王);

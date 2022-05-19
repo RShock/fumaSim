@@ -10,6 +10,7 @@ import xiaor.trigger.TriggerEnum;
 import xiaor.trigger.TriggerManager;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,15 +38,17 @@ public abstract class Chara {
     protected CacheData<Long> maxLifeCache = new CacheData<>(this::_getCurrentMaxLife);
 
     //当前最大技能CD
-    protected CacheData<Short> maxCDCache = new CacheData<>(this::_getCurrentCD);
+    protected CacheData<Short> maxCDCache = new CacheData<>(this::_getCurrentMaxCD);
 
-    protected short baseCD;
+    protected short CD = 0;     //当前CD
+    protected short baseCD;     //最大CD
+    protected List<Short> cds;  //记录了5个羁绊分别的CD
 
     protected long life;
 
     protected long baseLife;
 
-    protected int potential;
+    protected int potential;    //潜力
 
     protected CharaStatus status;   //角色状态
 
@@ -157,6 +160,10 @@ public abstract class Chara {
                 .acceptors(Collections.singletonList(acceptor))
                 .caster(this)
                 .build();
+        if (CD < getCurrentCD()) {
+            Logger.INSTANCE.log(LogType.其他, "%s的CD本应尚未准备完毕:(%s/%s)".formatted(this, CD, maxCDCache.getData()));
+        }
+        CD = 0;
         if (disabled)
             TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
         TriggerManager.sendMessage(TriggerEnum.释放行动, pack);
@@ -165,6 +172,12 @@ public abstract class Chara {
         TriggerManager.sendMessage(TriggerEnum.释放必杀后, pack);
         TriggerManager.sendMessage(TriggerEnum.攻击后, pack);
         TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
+    }
+
+    public void cdChange(int incCD) {
+        //todo 检测是否有免疫变动
+
+        CD = (short) Math.min(CD + incCD, getCurrentCD());
     }
 
     protected static void baseInit(Chara chara, String initString) {
@@ -176,7 +189,10 @@ public abstract class Chara {
         for (String s : split) {
             if (s.contains("攻击力")) chara.baseAttack = getNumFromString(s);
             if (s.contains("星")) chara.star = getNumFromString(s);
-            if (s.contains("绊")) chara.skillLevel = getNumFromString(s);
+            if (s.contains("绊")) {
+                chara.skillLevel = getNumFromString(s);
+                chara.baseCD = chara.getCds().get(chara.skillLevel - 1);
+            }
             if (s.contains("潜")) chara.potential = getNumFromString(s);
             if (s.contains("队长")) chara.isLeader = true;
             if (s.contains("生命")) chara.baseLife = chara.life = getNumFromString(s);
@@ -199,6 +215,10 @@ public abstract class Chara {
 
     public long getCurrentMaxLife() {
         return maxLifeCache.getData();
+    }
+
+    public short getCurrentCD() {
+        return maxCDCache.getData();
     }
 
     public int getBaseAttack() {
@@ -233,35 +253,35 @@ public abstract class Chara {
     //计算基本攻击力
     private long _getCurrentAttack() {
         Logger.INSTANCE.log(LogType.触发BUFF, "----------------%s的攻击力计算-----------------".formatted(this));
-        Logger.INSTANCE.log(LogType.触发BUFF,"%s的基础攻击力是%d".formatted(this, this.getBaseAttack()));
+        Logger.INSTANCE.log(LogType.触发BUFF, "%s的基础攻击力是%d".formatted(this, this.getBaseAttack()));
 
         BuffCalPack pack = new BuffCalPack(this, null);
         TriggerManager.sendMessage(TriggerEnum.攻击力计算, pack);
-        Logger.INSTANCE.log(LogType.触发BUFF,"----------------------攻击力计算结束-----------------------");
-        Logger.INSTANCE.log(LogType.触发BUFF,"%s当前攻击力是%d".formatted(this, pack.getAtk()));
+        Logger.INSTANCE.log(LogType.触发BUFF, "----------------------攻击力计算结束-----------------------");
+        Logger.INSTANCE.log(LogType.触发BUFF, "%s当前攻击力是%d".formatted(this, pack.getAtk()));
         return pack.getAtk();
     }
 
     private long _getCurrentMaxLife() {
-        Logger.INSTANCE.log(LogType.触发BUFF,"----------------%s的生命值计算-----------------".formatted(this));
-        Logger.INSTANCE.log(LogType.触发BUFF,"%s的基础生命值是%d".formatted(this, this.getBaseLife()));
+        Logger.INSTANCE.log(LogType.触发BUFF, "----------------%s的生命值计算-----------------".formatted(this));
+        Logger.INSTANCE.log(LogType.触发BUFF, "%s的基础生命值是%d".formatted(this, this.getBaseLife()));
 
         BuffCalPack pack = new BuffCalPack(this, null);
         TriggerManager.sendMessage(TriggerEnum.生命值计算, pack);
-        Logger.INSTANCE.log(LogType.触发BUFF,"----------------------生命值计算结束-----------------------");
-        Logger.INSTANCE.log(LogType.触发BUFF,"%s当前生命值是%d".formatted(this, pack.getLife()));
+        Logger.INSTANCE.log(LogType.触发BUFF, "----------------------生命值计算结束-----------------------");
+        Logger.INSTANCE.log(LogType.触发BUFF, "%s当前生命值是%d".formatted(this, pack.getLife()));
         this.life = pack.getLife(); //变更生命上限时，直接将生命回满
         return pack.getLife();
     }
 
-    private short _getCurrentCD() {
-        Logger.INSTANCE.log(LogType.触发BUFF,"----------------%s的最大CD计算-----------------".formatted(this));
-        Logger.INSTANCE.log(LogType.触发BUFF,"%s的基础CD是%d".formatted(this, this.getBaseCD()));
+    private short _getCurrentMaxCD() {
+        Logger.INSTANCE.log(LogType.触发BUFF, "----------------%s的最大CD计算-----------------".formatted(this));
+        Logger.INSTANCE.log(LogType.触发BUFF, "%s的基础CD是%d".formatted(this, this.getBaseCD()));
 
         BuffCalPack pack = new BuffCalPack(this, null);
         TriggerManager.sendMessage(TriggerEnum.最大CD计算, pack);
-        Logger.INSTANCE.log(LogType.触发BUFF,"----------------------最大CD计算结束-----------------------");
-        Logger.INSTANCE.log(LogType.触发BUFF,"%s的当前CD是%d".formatted(this, pack.getCD()));
+        Logger.INSTANCE.log(LogType.触发BUFF, "----------------------最大CD计算结束-----------------------");
+        Logger.INSTANCE.log(LogType.触发BUFF, "%s的当前CD是%d".formatted(this, pack.getCD()));
         return pack.getCD();
     }
 }

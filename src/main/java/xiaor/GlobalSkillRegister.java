@@ -62,6 +62,14 @@ public class GlobalSkillRegister {
                     TriggerManager.sendMessage(TriggerEnum.回合开始, null);
                 }).build();
         TriggerManager.registerSkill(skill);
+        //回合开始时所有角色CD推进
+        skill = BaseSkill.builder().name("【系统规则】回合开始时所有角色CD推进").trigger(TriggerEnum.回合开始)
+                .time(INFINITY)
+                .check(pack -> true)
+                .cast(pack -> {
+                    GameBoard.getAlly().forEach(chara -> chara.cdChange(+1));
+                }).build();
+        TriggerManager.registerSkill(skill);
         skill = BaseSkill.builder().name("【系统规则】回合开始时所有角色恢复可用状态").trigger(TriggerEnum.回合开始)
                 .time(INFINITY)
                 .check(pack -> true)

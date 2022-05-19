@@ -21,17 +21,13 @@ public class TestTools {
      * @param 被打的角色     被打的角色
      */
     public static void stepCheckRun(GameBoard gameBoard, String action, List<Integer> enemyLife, Chara 被打的角色) {
-        List<String> split = Arrays.stream(action.split("\\s+")).filter(s -> !s.isEmpty()).toList() ;
+        List<String> split = Arrays.stream(action.split("\\s+")).filter(s -> !s.isEmpty()).toList();
         gameBoard.run("");
         for (int i = 0; i < enemyLife.size(); i++) {
             gameBoard.continueRun(split.get(i));
             if (enemyLife.get(i) == 0) continue;
             Assertions.assertEquals(enemyLife.get(i), 被打的角色.getLife(), 10);
         }
-    }
-
-    public static void fullCheck(String action, List<String> troop) {
-        Chara 测试角色 = ImportedChara.initChara("测试_角色 生命7758206");
     }
 
     /**
