@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import xiaor.GameBoard;
 import xiaor.charas.Chara;
 import xiaor.charas.ImportedChara;
+import xiaor.logger.Logger;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,11 +24,17 @@ public class TestTools {
     public static void stepCheckRun(GameBoard gameBoard, String action, List<Integer> enemyLife, Chara 被打的角色) {
         List<String> split = Arrays.stream(action.split("\\s+")).filter(s -> !s.isEmpty()).toList();
         gameBoard.run("");
-        for (int i = 0; i < enemyLife.size(); i++) {
-            gameBoard.continueRun(split.get(i));
-            if (enemyLife.get(i) == 0) continue;
-            Assertions.assertEquals(enemyLife.get(i), 被打的角色.getLife(), 10);
+        int count = 0;
+        for (int life : enemyLife) {
+            gameBoard.continueRun(split.get(count++));
+            if(split.get(count).equals("|")) {
+                gameBoard.continueRun("|");
+                count++;
+            }
+            if (life == 0) continue;
+            Assertions.assertEquals(life, 被打的角色.getLife(), 10);
         }
+        Logger.INSTANCE.exportHtmlLog();
     }
 
     /**

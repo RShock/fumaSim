@@ -2,6 +2,7 @@ package charaTest;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import xiaor.GameBoard;
 import xiaor.charas.*;
@@ -41,6 +42,7 @@ public class 魔王巴尔Test {
     }
 
     @Test
+    @Disabled
     void 假如巴尔是风队成员() throws IOException {
         FullTest fullTest = new FullTest(Arrays.asList(幼精, 露露, 精灵王, 千鹤, 巴尔),
                 """
