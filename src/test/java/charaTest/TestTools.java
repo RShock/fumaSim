@@ -27,7 +27,7 @@ public class TestTools {
         int count = 0;
         for (int life : enemyLife) {
             gameBoard.continueRun(split.get(count++));
-            if(split.get(count).equals("|")) {
+            if (count < split.size() && split.get(count).equals("|")) {
                 gameBoard.continueRun("|");
                 count++;
             }
