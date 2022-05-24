@@ -15,15 +15,19 @@ public class DamageAction {
 
     public double multi;    //伤害倍率
 
+    public long dotDamage;  //流血伤害专用
+
     public DamageBase baseType = DamageBase.攻击;
 
     public DamageAction damageBase(DamageBase base) {
         this.baseType = base;
         return this;
     }
+
     public enum DamageType {
         普通伤害,
         必杀伤害,
+        流血伤害    //dot,无来源伤害
     }
 
     public static DamageAction create(DamageType damageType) {
@@ -43,6 +47,11 @@ public class DamageAction {
         return this;
     }
 
+    public DamageAction dotDamage(long dotDamage) {
+        this.dotDamage = dotDamage;
+        return this;
+    }
+
     public Action build() {
         Action action = new Action();
         switch (damageType) {
@@ -57,6 +66,12 @@ public class DamageAction {
                     ((MessagePack)pack).acceptors = target;
                 }
                 new DamageCal(((MessagePack)pack)).normalAttack(multi, baseType);
+            });
+            case 流血伤害 -> action.setAction(pack -> {
+                if (target != null && !target.isEmpty()) {
+                    ((MessagePack)pack).acceptors = target;
+                }
+                new DamageCal(((MessagePack)pack)).dotAttack(multi, baseType);
             });
             default -> throw new RuntimeException("未定义技能类型");
         }

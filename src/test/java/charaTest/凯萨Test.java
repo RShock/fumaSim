@@ -58,6 +58,4 @@ class 凯萨Test {
                 """);
         assertEquals(-769, dummy.getLife());
     }
-
-
 }

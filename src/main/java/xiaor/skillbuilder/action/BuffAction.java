@@ -2,6 +2,7 @@ package xiaor.skillbuilder.action;
 
 import xiaor.charas.Chara;
 import xiaor.charas.Element;
+import xiaor.damageCal.DamageBase;
 import xiaor.excel.ExcelCharaProvider;
 import xiaor.msgpack.BuffCalPack;
 import xiaor.skillbuilder.skill.*;
@@ -13,6 +14,7 @@ import xiaor.trigger.TriggerManager;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Supplier;
 
 import static xiaor.Common.*;
@@ -160,6 +162,19 @@ public class BuffAction {
                             .check(pack -> false)
                             .cast(pack -> {})
                             .build();
+                    //dot伤害比较独特需要仔细处理
+                    case 持续伤害 -> {
+                        long dot =  (long) (caster.getCurrentAttack() * multi);
+                        buff = tempBuff.trigger(回合结束)
+                                .check(pack -> true)
+                                .cast(pack -> {
+                                    DamageAction.create(DamageAction.DamageType.流血伤害)
+                                            .to(Collections.singletonList(acceptor))
+                                            .damageBase(DamageBase.攻击).dotDamage(dot)
+                                            .build();
+                                })
+                                .build();
+                    }
                     default -> throw new RuntimeException("未支持的buff类型" + buffType);
                 }
 

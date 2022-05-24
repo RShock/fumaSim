@@ -238,7 +238,7 @@ public class SkillParser {
         }
         List<Chara> target = parseChooser(matcher.group("target"));
         BuffType buffType = Enum.valueOf(BuffType.class, matcher.group("buffType"));
-        int symbol = matcher.group("incDec").equals("+") ? 1 : -1;
+        int symbol = matcher.group("incDec").equals("-") ? -1 : 1;  //兼顾了null的情况
         double multi = Double.parseDouble(matcher.group("multi")) / 100.0;
         BuffAction buff = BuffAction.create(chara, buffType)
                 .to(target)

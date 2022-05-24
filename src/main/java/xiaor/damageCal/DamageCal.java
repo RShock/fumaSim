@@ -78,6 +78,13 @@ public class DamageCal {
         buffMap.clear();
     }
 
+    public void dotAttack(double multi, DamageBase baseType) {
+        /**
+         * dot攻击的特点是伤害并非事实结算，而是附加了一个只吃易伤的dot buff
+         * 回合结束时。buff才会真正的调用dotAttack
+         */
+    }
+
     /*
         伤害计算分为6大区
         基本攻击力计算
