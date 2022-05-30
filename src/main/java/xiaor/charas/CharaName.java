@@ -8,6 +8,9 @@ public class CharaName {
     public static final String 沃沃 = "胆小纸袋狼 沃沃";
     public static final String 梦露 = "梦游魔境 露露";
 
+    public static final String 凯萨 = "异界 凯萨";
+    public static final String 兔姬 = "恶兔魔王 兔姬";
+
     public static final String 梦鹤 = "梦游魔境 千鹤";
     public static final String 圣女 = "丰收圣女 菲欧拉";
     public static final String 春忍 = "新春 凛月";

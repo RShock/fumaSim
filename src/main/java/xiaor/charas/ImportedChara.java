@@ -44,7 +44,7 @@ public class ImportedChara extends Chara {
         ImportedChara importedChara = new ImportedChara();
         importedChara.setCharaId(charaVo.charaId);
         importedChara.setOriginAtk(charaVo.attack);
-        importedChara.setLife((int) charaVo.life);
+        importedChara.setOriginLife((int) charaVo.life);
         importedChara.setElement(Enum.valueOf(Element.class, charaVo.charaElement));
         importedChara.setName(charaVo.charaName);
         importedChara.setRole(Enum.valueOf(Role.class, charaVo.charaRole));
@@ -74,7 +74,7 @@ public class ImportedChara extends Chara {
      */
     public void maxData() {
         baseAttack = magicConvert(baseAttack, rare);
-        life = magicConvert(baseLife, rare);
+        baseLife = magicConvert(baseLife, rare);
         star = 5;
         potential = 12;
         skillLevel = 5;

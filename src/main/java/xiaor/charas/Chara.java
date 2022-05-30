@@ -75,6 +75,10 @@ public abstract class Chara {
         this.disabled = true;
     }
 
+    protected void setOriginLife(int life) {
+        this.baseLife = life;
+    }
+
     public enum CharaStatus {
         @SuppressWarnings("unused") DEAD,
         ACTIVE,
@@ -252,35 +256,35 @@ public abstract class Chara {
 
     //计算基本攻击力
     private long _getCurrentAttack() {
-        Logger.INSTANCE.log(LogType.触发BUFF, "----------------%s的攻击力计算-----------------".formatted(this));
+        Logger.INSTANCE.log(LogType.触发BUFF, "============%s的攻击力计算============-".formatted(this));
         Logger.INSTANCE.log(LogType.触发BUFF, "%s的基础攻击力是%d".formatted(this, this.getBaseAttack()));
 
         BuffCalPack pack = new BuffCalPack(this, null);
         TriggerManager.sendMessage(TriggerEnum.攻击力计算, pack);
-        Logger.INSTANCE.log(LogType.触发BUFF, "----------------------攻击力计算结束-----------------------");
+        Logger.INSTANCE.log(LogType.触发BUFF, "=================攻击力计算结束=================");
         Logger.INSTANCE.log(LogType.触发BUFF, "%s当前攻击力是%d".formatted(this, pack.getAtk()));
         return pack.getAtk();
     }
 
     private long _getCurrentMaxLife() {
-        Logger.INSTANCE.log(LogType.触发BUFF, "----------------%s的生命值计算-----------------".formatted(this));
+        Logger.INSTANCE.log(LogType.触发BUFF, "============%s的生命值计算============".formatted(this));
         Logger.INSTANCE.log(LogType.触发BUFF, "%s的基础生命值是%d".formatted(this, this.getBaseLife()));
 
         BuffCalPack pack = new BuffCalPack(this, null);
         TriggerManager.sendMessage(TriggerEnum.生命值计算, pack);
-        Logger.INSTANCE.log(LogType.触发BUFF, "----------------------生命值计算结束-----------------------");
+        Logger.INSTANCE.log(LogType.触发BUFF, "=================生命值计算结束=================");
         Logger.INSTANCE.log(LogType.触发BUFF, "%s当前生命值是%d".formatted(this, pack.getLife()));
         this.life = pack.getLife(); //变更生命上限时，直接将生命回满
         return pack.getLife();
     }
 
     private short _getCurrentMaxCD() {
-        Logger.INSTANCE.log(LogType.触发BUFF, "----------------%s的最大CD计算-----------------".formatted(this));
+        Logger.INSTANCE.log(LogType.触发BUFF, "============%s的最大CD计算============".formatted(this));
         Logger.INSTANCE.log(LogType.触发BUFF, "%s的基础CD是%d".formatted(this, this.getBaseCD()));
 
         BuffCalPack pack = new BuffCalPack(this, null);
         TriggerManager.sendMessage(TriggerEnum.最大CD计算, pack);
-        Logger.INSTANCE.log(LogType.触发BUFF, "----------------------最大CD计算结束-----------------------");
+        Logger.INSTANCE.log(LogType.触发BUFF, "=================最大CD计算结束=================");
         Logger.INSTANCE.log(LogType.触发BUFF, "%s的当前CD是%d".formatted(this, pack.getCD()));
         return pack.getCD();
     }

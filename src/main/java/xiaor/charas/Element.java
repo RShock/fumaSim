@@ -5,7 +5,9 @@ public enum Element {
     风属性,
     光属性,
     暗属性,
-    火属性;
+    火属性,
+
+    无属性;
 
     public static int counter(Element a, Element b) {
         if(a == 水属性 && b == 风属性)

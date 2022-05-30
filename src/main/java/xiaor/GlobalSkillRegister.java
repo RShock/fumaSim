@@ -18,7 +18,7 @@ import static xiaor.tools.GlobalDataManager.incIntData;
 
 public class GlobalSkillRegister {
     public static void registerSkill() {
-        Skill skill = BaseSkill.builder().name("【系统规则】属性克制 优势方+50%伤害").trigger(TriggerEnum.伤害计算)
+        Skill skill = BaseSkill.builder().name("属性克制 优势方+50%伤害").trigger(TriggerEnum.伤害计算)
                 .time(INFINITY)
                 .check(pack -> {
                     if (pack instanceof BuffCalPack pack1) {
@@ -27,7 +27,7 @@ public class GlobalSkillRegister {
                     return false;
                 }).cast(pack -> ((BuffCalPack)pack).addBuff(BuffType.属性克制, 0.5)).build();
         TriggerManager.registerSkill(skill);
-        skill = BaseSkill.builder().name("【系统规则】属性克制 劣势方-25%伤害").trigger(TriggerEnum.伤害计算)
+        skill = BaseSkill.builder().name("属性克制 劣势方-25%伤害").trigger(TriggerEnum.伤害计算)
                 .time(INFINITY)
                 .check(pack -> {
                     if (pack instanceof BuffCalPack pack1) {

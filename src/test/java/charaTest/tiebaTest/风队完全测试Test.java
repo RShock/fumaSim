@@ -1,3 +1,5 @@
+package charaTest.tiebaTest;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import xiaor.charas.CharaName;

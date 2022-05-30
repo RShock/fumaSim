@@ -46,6 +46,7 @@ public class DamageCal {
         //属性克制特殊逻辑
         double 属性克制 = 0;
         if(buffMap.containsKey(BuffType.属性克制)) {
+
             属性克制 = buffMap.get(BuffType.属性克制);
         }
         double 属性相克效果增减 = 0;

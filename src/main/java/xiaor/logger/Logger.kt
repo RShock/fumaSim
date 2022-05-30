@@ -67,7 +67,7 @@ object Logger {
         var currentH = h0
 
         logList.forEach {
-            it.msg = it.msg.replace(Regex("[-=]"),"")
+            it.msg = it.msg.replace(Regex("="),"")
             when (it.type) {
                 LogType.回合开始 -> {
                     h1 = Export(it.msg)
