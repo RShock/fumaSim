@@ -6,6 +6,7 @@ import xiaor.GameBoard;
 import xiaor.charas.Chara;
 import xiaor.charas.ImportedChara;
 import xiaor.charas.木桩;
+import xiaor.charas.超级机器人木桩;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -57,5 +58,21 @@ class 凯萨Test {
                 1q1
                 """);
         assertEquals(-769, dummy.getLife());
+    }
+
+    @Test
+    void 单体打桩() {
+        Chara 凯萨 = ImportedChara.initChara("异界_凯萨 攻击力588258 生命值2941292 星5 绊2 潜6 队长");
+        超级机器人木桩 dummy = 超级机器人木桩.init("");
+        board.addOurChara(凯萨);
+        board.addEnemyChara(dummy);
+        board.initSkills();
+        board.run("""
+                1a1 1a1 1a1 1a1 1q1
+                1a1 1a1 1a1 1q1
+                1a1 1a1 1a1 1q1
+                1a1 1a1 1a1 1q1
+                """);
+        assertEquals(1811017746, dummy.getLife());
     }
 }
