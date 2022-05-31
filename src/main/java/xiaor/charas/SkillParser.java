@@ -64,7 +64,7 @@ public class SkillParser {
         String skillString = vo.getEffect();
         Trigger trigger = switch (triggerEnum) {
             case 游戏开始时, 被动光环, 回合结束 -> Trigger.when(triggerEnum);
-            case 回合开始 -> {
+            case 回合开始时 -> {
                 Matcher matcher = Tools.find(skillString, "(?<turnsA>\\d+)N(\\+(?<turnsB>\\d+))?回合触发:(?<effect>.*)");
                 int a = Integer.parseInt(matcher.group("turnsA"));
                 int b = Integer.parseInt(Optional.of(matcher.group("turnsB")).orElse("0"));
@@ -323,7 +323,7 @@ public class SkillParser {
 
     private Action parseDamageAction(String part) {
 //        System.out.println("normalAtkParse:" + part);
-        Matcher matcher = Tools.find(part, "对(?<target>.*?)(?<multi>\\d+(\\.\\d+)?)%(?<base>自身生命)?(?<type>(技能|普攻))伤害");
+        Matcher matcher = Tools.find(part, "对(?<target>.*?)(?<multi>\\d+(\\.\\d+)?)%(?<base>自身生命)?(?<type>(技能|普攻))伤害((?<times>\\d+)次)?");
         DamageAction.DamageType type;
         List<Chara> target = parseChooser(matcher.group("target"));
         type = switch (matcher.group("type")) {
@@ -331,9 +331,11 @@ public class SkillParser {
             case "普攻" -> DamageAction.DamageType.普通伤害;
             default -> throw new RuntimeException("不支持的伤害类型：" + matcher.group("type"));
         };
+        int times = matcher.group("times") == null ? 1 : Integer.parseInt(matcher.group("times"));
         return DamageAction.create(type)
                 .multi(Double.parseDouble(matcher.group("multi")) / 100)
                 .to(target)
+                .times(times)
                 .damageBase(matcher.group("base") == null ? DamageBase.攻击 :
                         DamageBase.生命)
                 .build();

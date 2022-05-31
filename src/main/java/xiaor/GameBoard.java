@@ -72,7 +72,7 @@ public class GameBoard {
         if(!inited)initSkills();
         TriggerManager.sendMessage(TriggerEnum.被动光环);
         TriggerManager.sendMessage(TriggerEnum.游戏开始时);
-        TriggerManager.sendMessage(TriggerEnum.回合开始);
+        TriggerManager.sendMessage(TriggerEnum.回合开始时);
         continueRun(action);
         Logger.INSTANCE.exportHtmlLog();
     }

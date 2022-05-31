@@ -1,10 +1,12 @@
 package charaTest;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import xiaor.GameBoard;
 import xiaor.charas.Chara;
 import xiaor.charas.ImportedChara;
 import xiaor.logger.Logger;
+import xiaor.tools.Tools;
 
 import java.util.Arrays;
 import java.util.List;
@@ -55,5 +57,56 @@ public class TestTools {
             }
         }
         return high;
+    }
+
+    @Test
+    void should_convert_action() {
+        String action = """
+                5A 1A 2A 3A 4A
+                5A 1A 2A 3A 4A
+                5A 1A 2A 3A 4A
+                5A 1A 2A 3A 4A
+                5Q 1A 2Q 3Q 4Q
+                5A 1Q 3A 2A 4A
+                5A 1A 2A 3A 4A
+                5A 1A 3Q 4Q 2Q
+                5Q 1A 2A 3A 4A
+                5A 1A 2A 3A 4A
+                5A 1Q 3A 4A 2Q
+                5A 1A 2Q 3Q 4A
+                5Q 1A 2A 3A 4A
+                5A 1A 2A 3A 4A
+                5A 1A 3A 4A 2Q
+                5A 1Q 2Q 3Q 4A
+                5Q 1A 2A 3A 4A
+                5A 1A 2A 3A 4A
+                5A 1A 3A 4A 2Q
+                5A 1A 2Q 3Q 4A
+                5Q 1Q 2A 3A 4A
+                    """;
+        String result = Tools.handleAction(action, true);
+        Assertions.assertEquals("""
+                2A 3A 4A 5A 1A\s
+                2A 3A 4A 5A 1A\s
+                2A 3A 4A 5A 1A\s
+                2A 3A 4A 5A 1A\s
+                2A 3Q 4Q 5Q 1Q\s
+                2Q 4A 3A 5A 1A\s
+                2A 3A 4A 5A 1A\s
+                2A 5Q 3Q 4Q 1A\s
+                2A 3A 4A 5A 1Q\s
+                2A 3A 4A 5A 1A\s
+                2Q 5Q 3A 4A 1A\s
+                2A 3Q 4Q 5A 1A\s
+                2A 3A 4A 5A 1Q\s
+                2A 3A 4A 5A 1A\s
+                2A 5Q 3A 4A 1A\s
+                2Q 3Q 4Q 5A 1A\s
+                2A 3A 4A 5A 1Q\s
+                2A 3A 4A 5A 1A\s
+                2A 5Q 3A 4A 1A\s
+                2A 3Q 4Q 5A 1A\s
+                2Q 3A 4A 5A 1Q\s
+                """, result);
     }
 }

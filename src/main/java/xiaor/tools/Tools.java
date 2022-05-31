@@ -6,10 +6,7 @@ import xiaor.excel.ExcelCharaProvider;
 import xiaor.trigger.TriggerManager;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -82,5 +79,44 @@ public class Tools {
         Matcher matcher = pattern.matcher(s);
         while (matcher.find()) nums.add(matcher.group(0));
         return nums;
+    }
+
+    /**
+     * 检查action内同一回合有没有一个角色行动了2次
+     * 模式1： 5a 1a 2a 3a 4a 代表 第五个人先动 然后第一个...
+     * 模式2： 上面代表第一个人第五个动，第二个人第一个动...
+     * 对于模式2 该函数可以将其转换为模式1返回
+     * 目前只支持5人轴使用
+     * @param action
+     * @param isType2
+     * @return
+     */
+    public static String handleAction(String action, boolean isType2) {
+        String[] split = action.split("\n");
+        for (String s : split) {
+            Pattern pattern = Pattern.compile(".*(\\d).*\\1.*");
+            Matcher matcher = pattern.matcher(s);
+            if(matcher.find()) {
+                throw new RuntimeException("同一个回合一个角色只能行动一次！" + s);
+            }
+        }
+        if(isType2) {
+            StringBuilder newS=  new StringBuilder();
+            for (String s : split) {
+                var s2 = Arrays.stream(s.split("\\s+")).filter(_s -> !_s.isBlank()).toList();
+                String[] tmp = new String[5];
+                for (int i = 0; i < s2.size(); i++) {
+                    int pos = Integer.parseInt(s2.get(i).substring(0, 1));
+                    tmp[pos-1] = (i+1) + s2.get(i).substring(1);
+                }
+                for (int i = 0; i < s2.size(); i++) {
+                    newS.append(tmp[i]);
+                    newS.append(" ");
+                }
+                newS.append("\n");
+            }
+            return newS.toString();
+        }
+        return action;
     }
 }

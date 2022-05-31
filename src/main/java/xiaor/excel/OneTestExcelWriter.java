@@ -22,15 +22,14 @@ import static xiaor.Common.getResourcePath;
  * 把测试结果输出到excel里
  * 读取excel用的是另一个库，写入时因为全是方格操作不能用那个库
  */
-public class FullTestExcelWriter {
-    Sheet dataSheet;
+public class OneTestExcelWriter {
     Sheet damageSheet;
-    public final String excelPath = getResourcePath(this.getClass(),"全方位测试输出表样板.xlsx");
-    String exportPath = "output\\全测试" + new SimpleDateFormat("MM_dd_HH_mm_ss").format(new Date()) + ".xlsx";
+    public final String excelPath = getResourcePath(this.getClass(),"单次测试输出表样板.xlsx");
+    String exportPath = "output\\单测试"+ new SimpleDateFormat("MM_dd_HH_mm_ss").format(new Date()) + ".xlsx";
     Workbook book = new XSSFWorkbook(excelPath);
 
-    private static final int charaStartRow = 1;       //角色数据 第一行
-    private static final int charaStartCell = 1;      //角色数据 第一列
+    private static final int charaStartRow = 31;       //角色数据 第一行
+    private static final int charaStartCell = 15;      //角色数据 第一列
 
     private static final int damageStartRow = 5;        //伤害数据 第一行
 
@@ -40,9 +39,8 @@ public class FullTestExcelWriter {
 
     private static final int damageCharaStartCell = 1;  //伤害数据页的角色数据 第一列
 
-    public FullTestExcelWriter() throws IOException {
-        dataSheet = book.getSheet("角色信息");
-        damageSheet = book.getSheet("满配伤害");
+    public OneTestExcelWriter() throws IOException {
+        damageSheet = book.getSheet("伤害");
     }
 
     public void setName(String name) {
@@ -62,7 +60,7 @@ public class FullTestExcelWriter {
     }
 
     private void writeCharaRow(int rowNum, Chara chara) {
-        Row row = getRow(dataSheet, rowNum);
+        Row row = getRow(damageSheet, rowNum);
 //         dataSheet.getRow(rowNum);
         Cell nameCell = row.createCell(charaStartCell);
         Cell starCell = row.createCell(charaStartCell + 1);
@@ -105,54 +103,5 @@ public class FullTestExcelWriter {
             return sheet.createRow(rowNum);
         }
         return row;
-    }
-
-    public void writeSkillLevelMatrix(Long[][] skillLevelMatrix) {
-        final int startCell = 15, startRow = 54;
-        for (int i = 0; i < 6; i++) {
-            Row row = getRow(damageSheet, startRow + i);
-            for (int j = 0; j < 4; j++) {
-                Cell cell = row.createCell(startCell + j);
-                cell.setCellValue(skillLevelMatrix[i][j]);
-            }
-        }
-    }
-
-    public void writeProficiencyMatrix(Long[][] skillLevelMatrix) {
-        final int startCell = 15, startRow = 63;
-        for (int i = 0; i < 6; i++) {
-            Row row = getRow(damageSheet, startRow + i);
-            for (int j = 0; j < 4; j++) {
-                Cell cell = row.createCell(startCell + j);
-                cell.setCellValue(skillLevelMatrix[i][j]);
-            }
-        }
-    }
-
-    public void writeStarList(Long[] starList) {
-        final int startCell = 22, startRow = 54;
-        for (int i = 0; i < 6; i++) {
-            Row row = getRow(damageSheet, startRow + i);
-            Cell cell = row.createCell(startCell);
-            cell.setCellValue(starList[i]);
-        }
-    }
-
-    public void writeContributeList(Long[] starList) {
-        final int startCell = 22, startRow = 63;
-        Row row = getRow(damageSheet, startRow);
-        for (int i = 0; i < 5; i++) {
-            Cell cell = row.createCell(startCell + i);
-            cell.setCellValue(starList[i]);
-        }
-    }
-
-    public void writeDamagePart(Long[] damagePart) {
-        final int startCell = 15, startRow = 71;
-        Row row = getRow(damageSheet, startRow);
-        for (int i = 0; i < 2; i++) {
-            Cell cell = row.createCell(startCell + i);
-            cell.setCellValue(damagePart[i]);
-        }
     }
 }

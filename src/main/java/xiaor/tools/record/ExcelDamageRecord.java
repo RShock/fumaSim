@@ -34,7 +34,7 @@ public class ExcelDamageRecord {
      * 这导致列表显示伤害时无法直观显示每个角色的伤害，因为它们分布在不同的列
      * 为此需要重新排序成角色位置固定的情况 这种情况下action记录的是每个角色行动的次序。
      */
-    private void convert() {
+    public void convert() {
         List<DamagePair> newPair = new ArrayList<>(damagePairs);    //角色位固定的伤害
         for (int i = 0; i < damagePairs.size(); i++) {
             int turn = i / 5; //回合数 从0开始

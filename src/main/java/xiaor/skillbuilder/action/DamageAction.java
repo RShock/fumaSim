@@ -15,6 +15,7 @@ public class DamageAction {
 
     public double multi;    //伤害倍率
 
+    public int times;   //多次伤害
     public long dotDamage;  //流血伤害专用
 
     public DamageBase baseType = DamageBase.攻击;
@@ -42,6 +43,11 @@ public class DamageAction {
         return this;
     }
 
+    public DamageAction times(int times) {
+        this.times = times;
+        return this;
+    }
+
     public DamageAction to(List<Chara> enemy) {
         this.target = enemy;
         return this;
@@ -59,13 +65,13 @@ public class DamageAction {
                 if (target != null && !target.isEmpty()) {
                     ((MessagePack)pack).acceptors = target;
                 }
-                new DamageCal(((MessagePack)pack)).skillAttack(multi, baseType);
+                new DamageCal(((MessagePack)pack)).skillAttack(multi, baseType, times);
             });
             case 普通伤害 -> action.setAction(pack -> {
                 if (target != null && !target.isEmpty()) {
                     ((MessagePack)pack).acceptors = target;
                 }
-                new DamageCal(((MessagePack)pack)).normalAttack(multi, baseType);
+                new DamageCal(((MessagePack)pack)).normalAttack(multi, baseType, times);
             });
             case 流血伤害 -> action.setAction(pack -> {
                 if (target != null && !target.isEmpty()) {

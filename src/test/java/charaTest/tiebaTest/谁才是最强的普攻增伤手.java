@@ -11,6 +11,7 @@ import xiaor.charas.木桩;
 import xiaor.charas.超级机器人木桩;
 import xiaor.tools.Tools;
 import xiaor.tools.tester.FullTest;
+import xiaor.tools.tester.OneTest;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -172,8 +173,41 @@ public class 谁才是最强的普攻增伤手 {
                     
                     2q 3q 4q 5q 1q
                 """);
-        Assertions.assertEquals(-5167043446L, 木桩1.getLife());
+        Assertions.assertEquals(-3692573854L, 木桩1.getLife());
 
+    }
+
+    @Test
+    @Disabled
+    void 咩让我完成的测试() throws IOException {
+        OneTest oneTest = new OneTest(Arrays.asList(凯萨,圣女,春忍,夏狐,梦露),
+                Tools.handleAction("""
+                        5A 1A 2A 3A 4A
+                        5A 1A 2A 3A 4A
+                        5A 1A 2A 3A 4A
+                        5A 1A 2A 3A 4A
+                        5Q 1A 2Q 3Q 4Q
+                        
+                        5A 1Q 3A 2A 4A
+                        5A 1A 2A 3A 4A
+                        5A 1A 3Q 4Q 2Q
+                        5Q 1A 2A 3A 4A
+                        5A 1A 2A 3A 4A
+                        
+                        5A 1Q 3A 4A 2Q
+                        5A 1A 2Q 3Q 4A
+                        5Q 1A 2A 3A 4A
+                        5A 1A 2A 3A 4A
+                        5A 1A 3A 4A 2Q
+                        5A 1Q 2Q 3Q 4A
+                        5Q 1A 2A 3A 4A
+                        5A 1A 2A 3A 4A
+                        5A 1A 3A 4A 2Q
+                        5A 1A 2Q 3Q 4A
+                        5Q 1Q 2A 3A 4A
+                        """,true));
+        GameBoard.getInstance().getOurChara().forEach(chara -> chara.setSkillLevel(1));
+        oneTest.test();
     }
 
 
