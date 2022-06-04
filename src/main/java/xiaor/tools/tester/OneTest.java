@@ -21,16 +21,32 @@ public class OneTest {
      * 有的时候 不同羁绊CD不同 action也不同，所以准备了一个数组（对于星不同CD不同的，暂时不做）
      * 第6列用于全队羁绊控制
      */
-    private final List<String> charaNames;
     private final String action;
     List<ImportedChara> charas;
     GameBoard gameBoard = GameBoard.getInstance();
     DamageRecorder damageRecorder = DamageRecorder.getInstance();
 
     public OneTest(List<String> charaNames, String action) {
-        this.charaNames = charaNames;
         this.action = action;
         init(charaNames);
+        Logger.INSTANCE.setLogLevel(Logger.LogLevel.NONE);
+    }
+
+    public OneTest(String action) {
+        if(GameBoard.getAlly().size() == 0){
+            throw new RuntimeException("需要先初始化角色");
+        }
+        Chara 测试角色 = ImportedChara.initChara("测试角色 生命0");
+        Chara 测试角色2 = ImportedChara.initChara("测试角色 生命0");
+        Chara 测试角色3 = ImportedChara.initChara("测试角色 生命0");
+        Chara 测试角色4 = ImportedChara.initChara("测试角色 生命0");
+        Chara 测试角色5 = ImportedChara.initChara("测试角色 生命0");
+        gameBoard.addEnemyChara(测试角色);
+        gameBoard.addEnemyChara(测试角色2);
+        gameBoard.addEnemyChara(测试角色3);
+        gameBoard.addEnemyChara(测试角色4);
+        gameBoard.addEnemyChara(测试角色5);
+        this.action = action;
         Logger.INSTANCE.setLogLevel(Logger.LogLevel.NONE);
     }
 

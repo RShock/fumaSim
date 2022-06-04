@@ -26,6 +26,7 @@ public class DamageCal {
     }
 
     public void finalDamage(Chara acceptor, double percent, DamageBase baseType, int times, TriggerEnum skillTypeEnum) {
+        Logger.INSTANCE.log(LogType.触发BUFF, "伤害倍率%s%%，伤害类型:%s，%s次".formatted(percent*100, baseType, times));
         double baseDamage = percent * switch (baseType) {
             case 攻击 -> pack.caster.getCurrentAttack();
             case 生命 -> pack.caster.getCurrentMaxLife();
@@ -34,8 +35,8 @@ public class DamageCal {
         BuffCalPack damageCalPack = new BuffCalPack(pack.caster, acceptor);
         TriggerManager.sendMessage(skillTypeEnum, damageCalPack);
         TriggerManager.sendMessage(TriggerEnum.伤害计算, damageCalPack);
-        var buffMap  =damageCalPack.getBuffMap();
-        int finalDamage = (int)damageCalPack.getBuffMap().entrySet().stream()
+        var buffMap = damageCalPack.getBuffMap();
+        int finalDamage = (int) damageCalPack.getBuffMap().entrySet().stream()
                 .filter(entry -> buffTypeMap.get(entry.getKey()) != 属性克制)
                 .collect(Collectors.groupingBy(entry -> buffTypeMap.get(entry.getKey())))
                 .values()
@@ -45,30 +46,30 @@ public class DamageCal {
 
         //属性克制特殊逻辑
         double 属性克制 = 0;
-        if(buffMap.containsKey(BuffType.属性克制)) {
+        if (buffMap.containsKey(BuffType.属性克制)) {
 
             属性克制 = buffMap.get(BuffType.属性克制);
         }
         double 属性相克效果增减 = 0;
-        if(buffMap.containsKey(BuffType.属性相克效果)) {
+        if (buffMap.containsKey(BuffType.属性相克效果)) {
             属性相克效果增减 = buffMap.get(BuffType.属性相克效果);
         }
-        finalDamage *= (1+属性克制 * (1-属性相克效果增减));
+        finalDamage *= (1 + 属性克制 * (1 - 属性相克效果增减));
 
-        for(int i=0;i<times;i++) {
+        for (int i = 0; i < times; i++) {
             int currentES = acceptor.getShield();
             long lifeRemain = acceptor.getLife();
             String msg;
-            if(currentES != 0) {
-                if(finalDamage > currentES) {
-                    msg = "%s对%s造成了%d(%d)伤害".formatted(pack.caster, pack.acceptors, finalDamage-currentES, currentES);
-                    lifeRemain -= finalDamage-currentES;
+            if (currentES != 0) {
+                if (finalDamage > currentES) {
+                    msg = "%s对%s造成了%d(%d)伤害".formatted(pack.caster, pack.acceptors, finalDamage - currentES, currentES);
+                    lifeRemain -= finalDamage - currentES;
                     acceptor.setShield(0);
-                }else{
+                } else {
                     msg = "%s对%s造成了0(%d)伤害".formatted(pack.caster, pack.acceptors, finalDamage);
                     acceptor.setShield(currentES - finalDamage);
                 }
-            }else{
+            } else {
                 msg = "%s对%s造成了%d伤害".formatted(pack.caster, pack.acceptors, finalDamage);
                 lifeRemain -= finalDamage;
             }
@@ -138,6 +139,6 @@ public class DamageCal {
 
     //普攻
     public void normalAttack(double percent, DamageBase baseType, int times) {
-        pack.acceptors.forEach(acceptor -> finalDamage(acceptor, percent, baseType, times,TriggerEnum.普攻伤害计算));
+        pack.acceptors.forEach(acceptor -> finalDamage(acceptor, percent, baseType, times, TriggerEnum.普攻伤害计算));
     }
 }

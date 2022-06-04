@@ -2,6 +2,7 @@ package xiaor;
 
 import lombok.Getter;
 import xiaor.charas.Chara;
+import xiaor.logger.LogType;
 import xiaor.logger.Logger;
 import xiaor.tools.GlobalDataManager;
 import xiaor.tools.record.DamageRecorder;
@@ -70,6 +71,9 @@ public class GameBoard {
 
     public void run(String action) {
         if(!inited)initSkills();
+        if(!ourChara.get(0).isLeader()){
+            Logger.INSTANCE.log(LogType.其他,"警告:队长位没有设置队长标识");
+        }
         TriggerManager.sendMessage(TriggerEnum.被动光环);
         TriggerManager.sendMessage(TriggerEnum.游戏开始时);
         TriggerManager.sendMessage(TriggerEnum.回合开始时);

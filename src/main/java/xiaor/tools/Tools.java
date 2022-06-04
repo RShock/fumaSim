@@ -27,6 +27,15 @@ public class Tools {
         return charas;
     }
 
+    public static List<ImportedChara> init4星1绊Chara(List<String> charaNames) {
+        var charas = charaNames.stream().map(ExcelCharaProvider::getCharaByName)
+                .peek(ImportedChara::to4星1绊Data)
+                .peek(chara -> GameBoard.getInstance().addOurChara(chara))
+                .collect(toList());
+        charas.get(0).setLeader(true);
+        return charas;
+    }
+
     public static Matcher find(String text, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(text);

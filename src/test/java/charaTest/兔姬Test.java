@@ -31,7 +31,7 @@ class 兔姬Test {
         board.addEnemyChara(木桩1);
         board.initSkills();
         board.run("1a1 1q1");
-        assertEquals(-925, 木桩1.getLife(), 1);
+        assertEquals(-795, 木桩1.getLife(), 1);
     }
 
     @Test

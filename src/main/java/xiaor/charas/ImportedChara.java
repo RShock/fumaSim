@@ -80,6 +80,14 @@ public class ImportedChara extends Chara {
         skillLevel = 5;
     }
 
+    public void to4星1绊Data() {
+        baseAttack = magicConvert(baseAttack, rare);
+        baseLife = magicConvert(baseLife, rare);
+        star = 4;
+        potential = 12;
+        skillLevel = 1;
+    }
+
     //把图鉴上的攻击/生命转化为满配的实际数值
     private int magicConvert(double data, Rare rare) {
         double pow = Math.pow(1.1, 59);

@@ -132,13 +132,15 @@ public class FullTest {
     }
 
     Long[][] proficiencyTest() {
+        double proficiencyTable[] = {0,0,0.43,0.61,0.82,1};
         Long[][] damageMatrix = new Long[6][4];
         for (int charaIndex = 0; charaIndex < 5; charaIndex++) {
             for (int proficiency = 1; proficiency <= 4; proficiency++) {
                 gameBoard.resetBoard();
                 init(charaNames);
                 Chara chara = charas.get(charaIndex);
-                chara.setBaseAttack((int) (chara.getBaseAttack() * proficiency * 0.2));
+                chara.setBaseAttack((int) (chara.getBaseAttack() * proficiencyTable[proficiency]));
+                chara.setBaseLife((int) (chara.getBaseLife() * proficiencyTable[proficiency]));
                 gameBoard.run(action[4][4]);
                 damageMatrix[charaIndex][proficiency - 1] = DamageRecorder.getInstance().calAllDamage();
             }
@@ -146,8 +148,9 @@ public class FullTest {
         for (int i = 1; i <= 4; i++) {
             gameBoard.resetBoard();
             init(charaNames);
-            double proficiency = i * 0.2;
+            double proficiency = proficiencyTable[i];
             charas.forEach(c -> c.setBaseAttack((int) (proficiency * c.getBaseAttack())));
+            charas.forEach(c -> c.setBaseLife((int) (proficiency * c.getBaseLife())));
             gameBoard.run(action[4][4]);
             damageMatrix[5][i - 1] = DamageRecorder.getInstance().calAllDamage();
         }
