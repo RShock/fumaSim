@@ -8,8 +8,10 @@ import xiaor.tools.Tools;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 @Data
 public class CharaExcelVo {
@@ -64,6 +66,8 @@ public class CharaExcelVo {
         }
         allNum.addAll(Tools.findAllNum(effect));
         allNum.add("50");   //50回合可以省略
+        IntStream.range(1,5).mapToObj(Objects::toString).forEach(allNum::add);  //1-5太小了也省略吧
+        allNum.add("1");    //第一回合也可以省略
         if(!allNum.containsAll(Tools.findAllNum(description))){
             System.out.println("warning: 描述中出现了效果里没有的数字："+description+ "  "+effect);
         }

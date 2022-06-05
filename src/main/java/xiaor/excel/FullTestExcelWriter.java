@@ -28,26 +28,25 @@ import static xiaor.Common.getResourcePath;
 public class FullTestExcelWriter {
     private final Map<String, Pair<Integer, Integer>> result;
     Sheet damageSheet;
-    public final String excelPath = getResourcePath(this.getClass(),"全方位测试输出表样板.xlsx");
-    String exportPath = "output\\全测试" + new SimpleDateFormat("MM_dd_HH_mm_ss").format(new Date()) + ".xlsx";
+    public final String excelPath = getResourcePath(this.getClass(), "全方位测试输出表样板.xlsx");
+    String exportPath = "output\\全测试" + new SimpleDateFormat("MM月dd日HH点mm分ss秒").format(new Date()) + ".xlsx";
     Workbook book = new XSSFWorkbook(excelPath);
 
     public FullTestExcelWriter() throws IOException {
         damageSheet = book.getSheet("满配伤害");
 
         this.result = new ExcelTagFinder(damageSheet,
-                Set.of("{伤害表}", "{角色简表}", "{角色信息表}","{羁绊表}","{五星表}","{练度表}","{贡献度表}","{伤害构成}")).getResult();
+                Set.of("{伤害表}", "{角色简表}", "{角色信息表}", "{羁绊表}", "{五星表}", "{练度表}", "{贡献度表}", "{伤害构成}", "{行动轴}")).getResult();
     }
 
     public void setName(String name) {
-        this.exportPath = name + new SimpleDateFormat("MM_dd_HH_mm_ss").format(new Date()) + ".xlsx";
+        this.exportPath = name + new SimpleDateFormat("MM月dd日HH点mm分ss秒").format(new Date()) + ".xlsx";
     }
 
     public void writeCharaData(List<Chara> chara) {
         int damageCharaStartRow = result.get("{角色简表}").getFirst();
         int damageCharaStartCell = result.get("{角色简表}").getSecond();
         int charaStartRow = result.get("{角色信息表}").getFirst();
-
         IntStream.range(0, 5)
                 .forEach(i -> writeCharaRow(charaStartRow + i, chara.get(i)));
 
@@ -160,6 +159,20 @@ public class FullTestExcelWriter {
         for (int i = 0; i < 2; i++) {
             Cell cell = row.createCell(startCell + i);
             cell.setCellValue(damagePart[i]);
+        }
+    }
+
+    public void writeAction(List<String> action) {
+        int actionCharaStartRow = result.get("{行动轴}").getFirst();
+        int actionCharaStartCell = result.get("{行动轴}").getSecond();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < action.size(); i++) {
+            if (i % 5 == 4 || i == action.size() - 1) {
+                Row row = getRow(damageSheet, actionCharaStartRow + i / 5);
+                Cell cell = ExcelTagFinder.getCell(row, actionCharaStartCell);
+                cell.setCellValue(sb.append(action.get(i)).toString());
+                sb.setLength(0);
+            } else sb.append(action.get(i)).append(" ");
         }
     }
 }

@@ -38,9 +38,15 @@ public class ExcelDamageRecord {
         List<DamagePair> newPair = new ArrayList<>(damagePairs);    //角色位固定的伤害
         for (int i = 0; i < damagePairs.size(); i++) {
             int turn = i / 5; //回合数 从0开始
-            int charaIndex = Integer.parseInt(damagePairs.get(i).action.substring(0, 1)) - 1;
+            String action = damagePairs.get(i).action;
+            int charaIndex = Integer.parseInt(action.substring(0, 1)) - 1;
             int realPos = turn * 5 + charaIndex;
-            String actionWord = i % 5 + 1 + toActionString(damagePairs.get(i).action.substring(1));
+            String target = switch (action.length()) {
+                case 2 -> "1";
+                case 3 -> action.substring(action.length() - 1);
+                default -> throw new IllegalStateException("Unexpected value: " + action.length());
+            };
+            String actionWord = i % 5 + 1 + toActionString(action.substring(1)) + target;
             newPair.set(realPos, new DamagePair(actionWord, damagePairs.get(i).damage));
         }
         damagePairs = newPair;

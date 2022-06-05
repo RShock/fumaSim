@@ -63,10 +63,9 @@ public class FullTest {
         FullTestExcelWriter excelWriter = new FullTestExcelWriter();
         gameBoard.run(action[4][4]);
         excelWriter.writeCharaData(GameBoard.getAlly());
-        ExcelDamageRecord excelDamageRecord = new ExcelDamageRecord(
-                Arrays.stream(action[4][4].split("\\s+")).filter(s -> !s.isEmpty()).toList(),
-                damageRecorder.exportDamagePerAction()
-        );
+        var actionList = Arrays.stream(action[4][4].split("\\s+")).filter(s -> !s.isEmpty()).toList();
+        excelWriter.writeAction(actionList);
+        ExcelDamageRecord excelDamageRecord = new ExcelDamageRecord(actionList, damageRecorder.exportDamagePerAction());
         excelWriter.writeDamageData(excelDamageRecord);
         Long[][] skillLevelMatrix = skillLevelTest();
         excelWriter.writeSkillLevelMatrix(skillLevelMatrix);
@@ -132,7 +131,7 @@ public class FullTest {
     }
 
     Long[][] proficiencyTest() {
-        double proficiencyTable[] = {0,0,0.43,0.61,0.82,1};
+        double proficiencyTable[] = {0, 0, 0.43, 0.61, 0.82, 1};
         Long[][] damageMatrix = new Long[6][4];
         for (int charaIndex = 0; charaIndex < 5; charaIndex++) {
             for (int proficiency = 1; proficiency <= 4; proficiency++) {

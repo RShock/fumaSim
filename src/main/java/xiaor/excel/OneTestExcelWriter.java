@@ -22,6 +22,7 @@ import static xiaor.Common.getResourcePath;
  * 读取excel用的是另一个库，写入时因为全是方格操作不能用那个库
  */
 public class OneTestExcelWriter {
+    private final Map<String, Pair<Integer, Integer>> result;
     Sheet damageSheet;
     public final String excelPath = getResourcePath(this.getClass(),"单次测试输出表样板.xlsx");
     String exportPath = "output\\单测试"+ new SimpleDateFormat("MM月dd日HH点mm分ss秒").format(new Date()) + ".xlsx";
@@ -40,13 +41,15 @@ public class OneTestExcelWriter {
 
     public OneTestExcelWriter() throws IOException {
         damageSheet = book.getSheet("伤害");
-        var result = new ExcelTagFinder(damageSheet, Set.of("{伤害表}", "{角色简表}", "{角色信息表}")).getResult();
+        var result = new ExcelTagFinder(damageSheet,
+                Set.of("{伤害表}", "{角色简表}", "{角色信息表}", "{行动轴}")).getResult();
         charaStartRow = result.get("{角色信息表}").getFirst();
         charaStartCell = result.get("{角色信息表}").getSecond();
         damageStartRow = result.get("{伤害表}").getFirst();
         damageStartCell = result.get("{伤害表}").getSecond();
         damageCharaStartRow = result.get("{角色简表}").getFirst();
         damageCharaStartCell = result.get("{角色简表}").getSecond();
+        this.result = result;
     }
 
     public void setName(String name) {
@@ -109,5 +112,19 @@ public class OneTestExcelWriter {
             return sheet.createRow(rowNum);
         }
         return row;
+    }
+
+    public void writeAction(List<String> action) {
+        int actionCharaStartRow = result.get("{行动轴}").getFirst();
+        int actionCharaStartCell = result.get("{行动轴}").getSecond();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < action.size(); i++) {
+            if (i % 5 == 4 || i == action.size() - 1) {
+                Row row = getRow(damageSheet, actionCharaStartRow + i / 5);
+                Cell cell = ExcelTagFinder.getCell(row, actionCharaStartCell);
+                cell.setCellValue(sb.append(action.get(i)).toString());
+                sb.setLength(0);
+            } else sb.append(action.get(i)).append(" ");
+        }
     }
 }

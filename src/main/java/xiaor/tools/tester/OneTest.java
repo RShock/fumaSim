@@ -59,9 +59,11 @@ public class OneTest {
     public void test() throws IOException {
         OneTestExcelWriter excelWriter = new OneTestExcelWriter();
         gameBoard.run(action);
+        var actionList = Arrays.stream(action.split("\\s+")).filter(s -> !s.isEmpty()).toList();
+        excelWriter.writeAction(actionList);
         excelWriter.writeCharaData(GameBoard.getAlly());
         ExcelDamageRecord excelDamageRecord = new ExcelDamageRecord(
-                Arrays.stream(action.split("\\s+")).filter(s -> !s.isEmpty()).toList(),
+                actionList,
                 damageRecorder.exportDamagePerAction()
         );
         excelWriter.writeDamageData(excelDamageRecord);
