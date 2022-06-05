@@ -1,5 +1,7 @@
 package xiaor.tools;
 
+import kotlin.Pair;
+import org.apache.poi.sl.usermodel.Sheet;
 import xiaor.GameBoard;
 import xiaor.charas.ImportedChara;
 import xiaor.excel.ExcelCharaProvider;

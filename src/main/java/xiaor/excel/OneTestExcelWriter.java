@@ -1,5 +1,6 @@
 package xiaor.excel;
 
+import kotlin.Pair;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -11,9 +12,7 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.IntStream;
 
 import static xiaor.Common.getResourcePath;
@@ -25,26 +24,33 @@ import static xiaor.Common.getResourcePath;
 public class OneTestExcelWriter {
     Sheet damageSheet;
     public final String excelPath = getResourcePath(this.getClass(),"单次测试输出表样板.xlsx");
-    String exportPath = "output\\单测试"+ new SimpleDateFormat("MM_dd_HH_mm_ss").format(new Date()) + ".xlsx";
+    String exportPath = "output\\单测试"+ new SimpleDateFormat("MM月dd日HH点mm分ss秒").format(new Date()) + ".xlsx";
     Workbook book = new XSSFWorkbook(excelPath);
 
-    private static final int charaStartRow = 31;       //角色数据 第一行
-    private static final int charaStartCell = 15;      //角色数据 第一列
+    private static int charaStartRow;       //角色数据 第一行
+    private static int charaStartCell;      //角色数据 第一列
 
-    private static final int damageStartRow = 5;        //伤害数据 第一行
+    private static int damageStartRow;        //伤害数据 第一行
 
-    private static final int damageStartCell = 1;       //伤害数据 第一列
+    private static int damageStartCell;       //伤害数据 第一列
 
-    private static final int damageCharaStartRow = 2;   //伤害数据页的角色数据 第一行
+    private static int damageCharaStartRow;   //伤害数据页的角色数据 第一行
 
-    private static final int damageCharaStartCell = 1;  //伤害数据页的角色数据 第一列
+    private static int damageCharaStartCell;  //伤害数据页的角色数据 第一列
 
     public OneTestExcelWriter() throws IOException {
         damageSheet = book.getSheet("伤害");
+        var result = new ExcelTagFinder(damageSheet, Set.of("{伤害表}", "{角色简表}", "{角色信息表}")).getResult();
+        charaStartRow = result.get("{角色信息表}").getFirst();
+        charaStartCell = result.get("{角色信息表}").getSecond();
+        damageStartRow = result.get("{伤害表}").getFirst();
+        damageStartCell = result.get("{伤害表}").getSecond();
+        damageCharaStartRow = result.get("{角色简表}").getFirst();
+        damageCharaStartCell = result.get("{角色简表}").getSecond();
     }
 
     public void setName(String name) {
-        this.exportPath = name + new SimpleDateFormat("MM_dd_HH_mm_ss").format(new Date()) + ".xlsx";
+        this.exportPath = name + new SimpleDateFormat("MM月dd日HH点mm分ss秒").format(new Date()) + ".xlsx";
     }
 
     public void writeCharaData(List<Chara> chara) {
