@@ -1,7 +1,7 @@
-name: Java CI with Maven
+name: Java CI with Gradle
 on:
   push:
-    branches: [ main, maven_to_gradle ]
+    branches: [ main ]
 
 
 jobs:

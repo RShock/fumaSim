@@ -1,4 +1,4 @@
-![fumaSim](https://github.com/RShock/fumaSim/actions/workflows/maven.yml/badge.svg?branch=main)
+![fumaSim](https://github.com/RShock/fumaSim/actions/workflows/gradle.yml/badge.svg?branch=main)
 
 # 布魔SIM
 
