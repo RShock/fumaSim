@@ -39,7 +39,7 @@ public class ExcelTagFinder {
             });
         });
         if (findCount.get() != tags.size()) {
-            throw new RuntimeException("表里面没有找到所有tag: %s".formatted(tags));
+            throw new RuntimeException("表里面没有找到所有tag: %s %s".formatted(tags, result));
         }
         this.result = result;
     }
