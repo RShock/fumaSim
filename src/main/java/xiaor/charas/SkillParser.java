@@ -63,7 +63,7 @@ public class SkillParser {
         TriggerEnum triggerEnum = vo.getTrigger();
         String skillString = vo.getEffect();
         Trigger trigger = switch (triggerEnum) {
-            case 游戏开始时, 被动光环, 回合结束 -> Trigger.when(triggerEnum);
+            case 游戏开始时, 被动光环, 回合结束, 游戏开始时2 -> Trigger.when(triggerEnum);
             case 回合开始时 -> {
                 Matcher matcher = Tools.find(skillString, "(?<turnsA>\\d+)N(\\+(?<turnsB>\\d+))?回合触发:(?<effect>.*)");
                 int a = Integer.parseInt(matcher.group("turnsA"));
