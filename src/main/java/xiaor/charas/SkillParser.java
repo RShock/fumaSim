@@ -80,7 +80,7 @@ public class SkillParser {
         if (skillString.startsWith("如果")) { //这个技能是激活型的，需要额外的检验条件，如果没激活会提示未激活
             skillString = parseExtraCondition();
         }
-        parseSkill(tempSkill, skillString).build();
+        parseSkill(tempSkill, skillString, 0).build();
     }
 
     private SkillExcelVo findSkillVoBySkillId(Integer skillId) {
@@ -173,21 +173,23 @@ public class SkillParser {
         throw new RuntimeException(checker + "未受支持");
     }
 
-    private WhenBuilder parseSkill(WhenBuilder tempSkill, String effect) {
+    private WhenBuilder parseSkill(WhenBuilder tempSkill, String effect, int partCnt) {   //标记当前技能是当前字符串的第几个（以逗号分割）
+
         if (effect.contains(",")) {
             int index = effect.indexOf(",");
             String firstPart = effect.substring(0, index);
             String lastPart = effect.substring(index + 1);
             return parseSkill(
-                    tempSkill.act(parseAction(firstPart)).and(),
-                    lastPart);
+                    tempSkill.act(parseAction(firstPart, partCnt)).and(),
+                    lastPart,
+                    partCnt+1);
         } else {
-            tempSkill.act(parseAction(effect));
+            tempSkill.act(parseAction(effect, partCnt));
         }
         return tempSkill;
     }
 
-    private Action parseAction(String part) {
+    private Action parseAction(String part,int partCnt) {
         if (part.startsWith("对")) {
             return parseDamageAction(part);
         }
@@ -214,11 +216,11 @@ public class SkillParser {
                 return true;
             });
         }
-        return parseBuffAction(part);
+        return parseBuffAction(part, partCnt);
     }
 
     //TODO
-    private Action parseBuffAction(String part) {
+    private Action parseBuffAction(String part, int partCnt) {
         //e.g. 自身攻击力+20%
         Pattern pattern = Pattern.compile(
                 "(?<target>(其他友方|自身|目标|敌方全体|ID\\d+|友方|队伍中.{3}|[a|e]?\\{.*}))" +
@@ -242,6 +244,7 @@ public class SkillParser {
         double multi = Double.parseDouble(matcher.group("multi")) / 100.0;
         BuffAction buff = BuffAction.create(chara, buffType)
                 .to(target)
+                .id(skillId + " "+ partCnt)
                 .multi(symbol * multi)
                 .lastedTurn(INFINITY)
                 .name("%s %s%s%s%%".formatted(vo, buffType, matcher.group("incDec"), Double.parseDouble(matcher.group("multi"))));

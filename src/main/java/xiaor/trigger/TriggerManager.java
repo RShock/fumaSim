@@ -49,17 +49,17 @@ public class TriggerManager {
     private void addBuff(Buff<BuffCalPack> newBuff) {
         //可堆叠buff特殊处理
         if(newBuff instanceof UniqueBuff newUniqueBuff) {
-            Logger.INSTANCE.log(LogType.其他, "＋新增可堆叠buff: " + newBuff);
             Optional<UniqueBuff<BuffCalPack>> first = skills.stream().filter(skill -> skill instanceof UniqueBuff)
                     .map(skill -> (UniqueBuff<BuffCalPack>)skill)
                     .filter(buff -> buff.uniqueId.equals(newUniqueBuff.uniqueId))
                     .findFirst();
             if(first.isPresent()){
                 first.get().add(newUniqueBuff);
-                Logger.INSTANCE.log(LogType.其他, "＋新增可堆叠buff: " + newBuff);
+                Logger.INSTANCE.log(LogType.其他, "＋新增可堆叠buff: %s %s".formatted(first.get(), ((UniqueBuff<BuffCalPack>) newBuff).uniqueId) );
 
             }else{
                 skills.add(newBuff);
+                Logger.INSTANCE.log(LogType.其他, "＋创建可堆叠buff: %s %s".formatted(newBuff, ((UniqueBuff<BuffCalPack>) newBuff).uniqueId) );
             }
             return;
         }

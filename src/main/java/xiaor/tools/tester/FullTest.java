@@ -30,6 +30,7 @@ public class FullTest {
     DamageRecorder damageRecorder = DamageRecorder.getInstance();
 
     public FullTest(List<String> charaNames, String action) {
+        gameBoard.resetBoard();
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
                 this.action[i][j] = action;

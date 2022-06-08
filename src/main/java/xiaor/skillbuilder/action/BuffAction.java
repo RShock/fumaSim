@@ -14,7 +14,6 @@ import xiaor.trigger.TriggerManager;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Supplier;
 
 import static xiaor.Common.*;
@@ -30,12 +29,12 @@ public class BuffAction {
     private List<Chara> acceptors;
     private int turn;
     private boolean isUniqueBuff;
-    private String uniqueId;
     protected int level;
     protected int maxLevel;
     private String name;
     private boolean isSwitchBuff = false;
     private List<Supplier<Boolean>> additionalCheckers;
+    private String id;
 
     public static BuffAction create(Chara castor, BuffType type) {
         BuffAction buffAction = new BuffAction();
@@ -191,7 +190,7 @@ public class BuffAction {
                     .maxLevel(maxLevel)
                     .incLv(level)
                     .currentLevel(level)
-                    .uniqueId(uniqueId + acceptor.uniqueId());
+                    .uniqueId(id + " " +acceptor.uniqueId());
         } else if (isSwitchBuff) {
             tempBuff = SwitchBuff.<BuffCalPack>builder().enabledChecks(additionalCheckers);
         } else {
@@ -212,7 +211,6 @@ public class BuffAction {
     public BuffAction maxLevel(int maxLevel) {
         this.maxLevel = maxLevel;
         this.isUniqueBuff = true;
-        this.uniqueId = "Buff: " + Tools.getNewID();
         return this;
     }
 
@@ -224,6 +222,11 @@ public class BuffAction {
     public BuffAction enabledCheck(List<Supplier<Boolean>> additionalCheckers) {
         this.isSwitchBuff = true;
         this.additionalCheckers = additionalCheckers;
+        return this;
+    }
+
+    public BuffAction id(String id) {
+        this.id = id;
         return this;
     }
 }

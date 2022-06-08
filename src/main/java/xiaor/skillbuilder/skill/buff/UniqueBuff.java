@@ -33,6 +33,9 @@ public class UniqueBuff<MsgType extends Packable> extends Buff<MsgType>{
 
     public void add(UniqueBuff<MsgType> buff) {
         currentLevel = Math.min(currentLevel+buff.incLv, maxLevel);
+        if(buff.caster != this.caster) {
+            this.caster = buff.caster;  //多个人施加同一个buff,就以最后一个人为准吧！
+        }
     }
 
     @Override
