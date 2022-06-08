@@ -18,6 +18,12 @@ public class GameBoard {
     private static final GameBoard gameBoard = new GameBoard();
     private boolean inited;
 
+    public boolean isSilent() {
+        return isSilent;
+    }
+
+    private boolean isSilent;
+
     public static GameBoard getInstance() {
         return gameBoard;
     }
@@ -79,7 +85,16 @@ public class GameBoard {
         TriggerManager.sendMessage(TriggerEnum.游戏开始时2);
         TriggerManager.sendMessage(TriggerEnum.回合开始时);
         continueRun(action);
-        Logger.INSTANCE.exportHtmlLog();
+        if(!isSilent)Logger.INSTANCE.exportHtmlLog();
+    }
+
+    /**
+     * 运行 但是不给任何日志
+     * @param action 行动顺序
+     */
+    public void silentRun(String action) {
+        this.isSilent = true;
+        run(action);
     }
 
     public void continueRun(String action) {
@@ -123,6 +138,7 @@ public class GameBoard {
         DamageRecorder.getInstance().clear();
         GlobalDataManager.reset();
         Logger.INSTANCE.reset();
+        isSilent = false;
         inited = false;
     }
 

@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * 对一个队伍进行全面的检测，输出模板为全方位测试输出表
  */
@@ -62,9 +64,12 @@ public class FullTest {
 
     public void fullTest() throws IOException {
         FullTestExcelWriter excelWriter = new FullTestExcelWriter();
-        gameBoard.run(action[4][4]);
+        gameBoard.silentRun(action[4][4]);
         excelWriter.writeCharaData(GameBoard.getAlly());
-        var actionList = Arrays.stream(action[4][4].split("\\s+")).filter(s -> !s.isEmpty()).toList();
+        var actionList = Arrays.stream(action[4][4].split("\\s+"))
+                .filter(s -> !s.isEmpty())
+                .map(s -> s.length() == 2? s+="1": s)
+                .toList();
         excelWriter.writeAction(actionList);
         ExcelDamageRecord excelDamageRecord = new ExcelDamageRecord(actionList, damageRecorder.exportDamagePerAction());
         excelWriter.writeDamageData(excelDamageRecord);
@@ -86,7 +91,7 @@ public class FullTest {
             gameBoard.resetBoard();
             init(charaNames);
             charas.get(charaIndex).setDisabled();
-            gameBoard.run(action[4][4]);
+            gameBoard.silentRun(action[4][4]);
             contributeList[charaIndex] = DamageRecorder.getInstance().calAllDamage();
         }
         return contributeList;
@@ -98,13 +103,13 @@ public class FullTest {
             gameBoard.resetBoard();
             init(charaNames);
             charas.get(charaIndex).setStar(4);
-            gameBoard.run(action[4][4]);
+            gameBoard.silentRun(action[4][4]);
             starMatrix[charaIndex] = DamageRecorder.getInstance().calAllDamage();
         }
         gameBoard.resetBoard();
         init(charaNames);
         charas.forEach(chara -> chara.setStar(4));
-        gameBoard.run(action[4][4]);
+        gameBoard.silentRun(action[4][4]);
         starMatrix[5] = DamageRecorder.getInstance().calAllDamage();
         return starMatrix;
     }
@@ -116,7 +121,7 @@ public class FullTest {
                 gameBoard.resetBoard();
                 init(charaNames);
                 charas.get(charaIndex).setSkillLevel(skillLevel);
-                gameBoard.run(action[charaIndex][skillLevel - 1]);
+                gameBoard.silentRun(action[charaIndex][skillLevel - 1]);
                 damageMatrix[charaIndex][skillLevel - 1] = DamageRecorder.getInstance().calAllDamage();
             }
         }
@@ -125,7 +130,7 @@ public class FullTest {
             init(charaNames);
             int finalSkillLevel = skillLevel;
             charas.forEach(c -> c.setSkillLevel(finalSkillLevel));
-            gameBoard.run(action[5][skillLevel - 1]);
+            gameBoard.silentRun(action[5][skillLevel - 1]);
             damageMatrix[5][skillLevel - 1] = DamageRecorder.getInstance().calAllDamage();
         }
         return damageMatrix;
@@ -141,7 +146,7 @@ public class FullTest {
                 Chara chara = charas.get(charaIndex);
                 chara.setBaseAttack((int) (chara.getBaseAttack() * proficiencyTable[proficiency]));
                 chara.setBaseLife((int) (chara.getBaseLife() * proficiencyTable[proficiency]));
-                gameBoard.run(action[4][4]);
+                gameBoard.silentRun(action[4][4]);
                 damageMatrix[charaIndex][proficiency - 1] = DamageRecorder.getInstance().calAllDamage();
             }
         }
@@ -151,7 +156,7 @@ public class FullTest {
             double proficiency = proficiencyTable[i];
             charas.forEach(c -> c.setBaseAttack((int) (proficiency * c.getBaseAttack())));
             charas.forEach(c -> c.setBaseLife((int) (proficiency * c.getBaseLife())));
-            gameBoard.run(action[4][4]);
+            gameBoard.silentRun(action[4][4]);
             damageMatrix[5][i - 1] = DamageRecorder.getInstance().calAllDamage();
         }
         return damageMatrix;

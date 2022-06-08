@@ -2,6 +2,7 @@ package xiaor.logger
 
 import com.google.gson.Gson
 import xiaor.Common
+import xiaor.GameBoard
 import xiaor.tools.Tools
 import java.io.File
 
@@ -42,6 +43,7 @@ object Logger {
     }
 
     fun log(type: LogType, msg: String) {
+        if (GameBoard.getInstance().isSilent) return;
         val color = when (type) {
             LogType.回合开始 -> LogColor.BLUE
             LogType.角色行动 -> LogColor.YELLOW
@@ -62,12 +64,12 @@ object Logger {
     fun exportHtmlLog() {
         val h0 = Export("root")
         var h1 = h0
-        var h2:Export = h0
-        var h3:Export
+        var h2: Export = h0
+        var h3: Export
         var currentH = h0
 
         logList.forEach {
-            it.msg = it.msg.replace(Regex("="),"")
+            it.msg = it.msg.replace(Regex("="), "")
             when (it.type) {
                 LogType.回合开始 -> {
                     h1 = Export(it.msg)

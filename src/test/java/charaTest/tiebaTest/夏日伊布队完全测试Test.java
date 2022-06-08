@@ -17,30 +17,30 @@ public class 夏日伊布队完全测试Test {
     @Disabled
     @Test
     public void  夏日伊布队测试() throws IOException {
-        FullTest fullTest = new FullTest(Arrays.asList(夏伊, 梦露, 春忍, 夏狐, 剑圣),
+        FullTest fullTest = new FullTest(Arrays.asList(夏伊, 巴尔, 春忍, 夏狐, 剑圣),
                 """
                           2A 3A 4A 5A 1A
                           2A 3A 4A 5A 1A
-                          2A 3A 4A 5A 1A
+                          2Q 3A 4A 5A 1A
                           2A 5Q 3A 4A 1A
                           1Q 4Q 2Q 3Q 5A
                           
                           1A 2A 3A 4A 5A
-                          5Q 1A 2A 3A 4A
+                          5Q 1A 2Q 3A 4A
                           1A 2A 3A 4A 5A
                           1Q 4Q 2Q 3Q 5A
                           1A 2A 3A 4A 5Q
                           
-                          1A 2A 3A 4A 5A
+                          1A 2Q 3A 4A 5A
                           1A 2A 3A 4A 5A
                           1Q 4Q 2Q 3Q 5Q
                           1A 2A 3A 4A 5A
-                          1A 2A 3A 4A 5A
+                          1A 2Q 3A 4A 5A
                           
                           1A 2A 3A 4A 5Q
                           1Q 4Q 2Q 3Q 5A
                           1A 2A 3A 4A 5A
-                          1A 2A 3A 4A 5Q
+                          1A 2Q 3A 4A 5Q
                           1A 2A 3A 4A 5A
                         
                           1Q 4Q 2Q 3A 5A
