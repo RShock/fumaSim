@@ -2,17 +2,14 @@ package charaTest;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import xiaor.GameBoard;
-import xiaor.charas.Chara;
-import xiaor.charas.ImportedChara;
-import xiaor.logger.Logger;
-import xiaor.tools.Tools;
+import xiaor.core.GameBoard;
+import xiaor.core.charas.Chara;
+import xiaor.core.logger.Logger;
+import xiaor.core.Tools;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
-
-import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 public class TestTools {
     /**

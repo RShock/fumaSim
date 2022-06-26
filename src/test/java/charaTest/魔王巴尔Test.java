@@ -4,14 +4,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import xiaor.GameBoard;
-import xiaor.charas.*;
-import xiaor.tools.tester.FullTest;
+import xiaor.core.GameBoard;
+import xiaor.core.charas.Chara;
+import xiaor.core.charas.Element;
+import xiaor.core.charas.ImportedChara;
+import xiaor.core.charas.超级机器人木桩;
+import xiaor.mutual.tester.FullTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import static xiaor.charas.CharaName.*;
+import static xiaor.core.charas.CharaName.*;
 
 public class 魔王巴尔Test {
     GameBoard board = GameBoard.getInstance();

@@ -1,7 +1,5 @@
 package xiaor.gui;
 
-import xiaor.charas.ImportedChara;
-
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;

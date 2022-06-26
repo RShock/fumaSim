@@ -1,6 +1,6 @@
 package xiaor.gui;
 
-import xiaor.GameBoard;
+import xiaor.core.GameBoard;
 import xiaor.gui.buttons.CalculationButton;
 import xiaor.gui.buttons.HelpButton;
 import xiaor.gui.buttons.LoadFileButton;
@@ -8,7 +8,6 @@ import xiaor.gui.buttons.LoadFileButton;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.nio.file.Path;
 
 public class FumaSimulator extends JFrame{
 

@@ -2,12 +2,12 @@ package charaTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import xiaor.GameBoard;
-import xiaor.charas.Chara;
-import xiaor.charas.木桩;
+import xiaor.core.GameBoard;
+import xiaor.core.charas.Chara;
+import xiaor.core.charas.木桩;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static xiaor.charas.ImportedChara.initChara;
+import static xiaor.core.charas.ImportedChara.initChara;
 
 public class 圣女Test {
 

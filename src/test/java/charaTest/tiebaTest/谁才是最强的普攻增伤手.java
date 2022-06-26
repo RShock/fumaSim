@@ -4,17 +4,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import xiaor.GameBoard;
-import xiaor.charas.*;
-import xiaor.tools.Tools;
-import xiaor.tools.tester.FullTest;
-import xiaor.tools.tester.OneTest;
+import xiaor.core.GameBoard;
+import xiaor.core.charas.Chara;
+import xiaor.core.charas.ImportedChara;
+import xiaor.core.charas.木桩;
+import xiaor.core.charas.超级机器人木桩;
+import xiaor.core.Tools;
+import xiaor.mutual.tester.FullTest;
+import xiaor.mutual.tester.OneTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static xiaor.charas.CharaName.*;
+import static xiaor.core.charas.CharaName.*;
 
 public class 谁才是最强的普攻增伤手 {
     GameBoard board = GameBoard.getInstance();
@@ -393,7 +396,6 @@ public class 谁才是最强的普攻增伤手 {
                     
                     2q 3q 4q 5q 1q
                 """).test();
-
     }
 
     @Test

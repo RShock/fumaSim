@@ -3,15 +3,15 @@ package charaTest.tiebaTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import xiaor.GameBoard;
-import xiaor.charas.木桩;
-import xiaor.tools.Tools;
-import xiaor.tools.tester.FullTest;
+import xiaor.core.GameBoard;
+import xiaor.core.charas.木桩;
+import xiaor.core.Tools;
+import xiaor.mutual.tester.FullTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import static xiaor.charas.CharaName.*;
+import static xiaor.core.charas.CharaName.*;
 
 public class 夏日伊布队完全测试Test {
     @Disabled

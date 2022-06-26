@@ -1,11 +1,12 @@
 package charaTest;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import xiaor.GameBoard;
-import xiaor.charas.*;
-import xiaor.excel.ExcelCharaProvider;
+import xiaor.core.GameBoard;
+import xiaor.core.charas.Chara;
+import xiaor.core.charas.ImportedChara;
+import xiaor.core.charas.木桩;
+import xiaor.core.excel.ExcelCharaProvider;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -7,25 +7,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import xiaor.GameBoard;
-import xiaor.gui.FumaSimulator;
-import xiaor.gui.TeamPanel;
-import xiaor.gui.buttons.CalculationButton;
-import xiaor.gui.buttons.HelpButton;
-import xiaor.gui.buttons.LoadFileButton;
-import xiaor.tools.Tools;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 import java.util.Scanner;
 
-import static xiaor.excel.ExcelReader.getXlsxPictures;
+import static xiaor.core.excel.ExcelReader.getXlsxPictures;
 
 @Disabled
 public class TestGUI extends JFrame {

@@ -2,14 +2,15 @@ package charaTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import xiaor.GameBoard;
-import xiaor.charas.*;
-import xiaor.tools.Tools;
-import xiaor.tools.record.DamageRecorder;
+import xiaor.core.GameBoard;
+import xiaor.core.charas.Chara;
+import xiaor.core.charas.ImportedChara;
+import xiaor.core.charas.木桩;
+import xiaor.core.charas.超级机器人木桩;
+import xiaor.core.Tools;
+import xiaor.core.tools.record.DamageRecorder;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -2,13 +2,12 @@ package charaTest.tiebaTest;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import xiaor.charas.CharaName;
-import xiaor.tools.tester.FullTest;
+import xiaor.mutual.tester.FullTest;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import static xiaor.charas.CharaName.*;
+import static xiaor.core.charas.CharaName.*;
 
 public class 风队完全测试Test {
     @Disabled

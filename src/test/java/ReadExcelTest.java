@@ -6,19 +6,15 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import xiaor.excel.vo.CharaExcelVo;
-import xiaor.excel.vo.SkillExcelVo;
-import xiaor.tools.Tools;
+import xiaor.core.excel.vo.CharaExcelVo;
+import xiaor.core.excel.vo.SkillExcelVo;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Objects;
 
-import static xiaor.excel.ExcelReader.getInstance;
-import static xiaor.excel.ExcelReader.getXlsxPictures;
+import static xiaor.core.excel.ExcelReader.getInstance;
+import static xiaor.core.excel.ExcelReader.getXlsxPictures;
 
 public class ReadExcelTest {
     @Test

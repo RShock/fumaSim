@@ -1,13 +1,12 @@
 package xiaor.gui.buttons;
 
-import xiaor.GameBoard;
-import xiaor.charas.Chara;
-import xiaor.charas.ImportedChara;
-import xiaor.charas.木桩;
-import xiaor.gui.CharaPanel;
+import xiaor.core.GameBoard;
+import xiaor.core.charas.Chara;
+import xiaor.core.charas.ImportedChara;
+import xiaor.core.charas.木桩;
 import xiaor.gui.FumaSimulator;
 import xiaor.gui.TeamPanel;
-import xiaor.tools.record.DamageRecorder;
+import xiaor.core.tools.record.DamageRecorder;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

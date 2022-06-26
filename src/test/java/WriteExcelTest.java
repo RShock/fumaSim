@@ -1,9 +1,9 @@
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import xiaor.charas.Chara;
-import xiaor.charas.ImportedChara;
-import xiaor.excel.FullTestExcelWriter;
-import xiaor.tools.record.ExcelDamageRecord;
+import xiaor.core.charas.Chara;
+import xiaor.core.charas.ImportedChara;
+import xiaor.core.excel.FullTestExcelWriter;
+import xiaor.core.tools.record.ExcelDamageRecord;
 
 import java.io.IOException;
 import java.util.Arrays;
