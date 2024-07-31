@@ -155,7 +155,7 @@ public class SkillParser {
 
     private Boolean parseCondition(String condition) {
 //        System.out.println("parse:" + condition);
-        Matcher matcher = Tools.find(condition, "^(?<target>.*)(?<checker>(有ID为|数量为|数量大于).*)$");
+        Matcher matcher = Tools.find(condition, "^(?<target>.*)(?<checker>(有ID为|数量为|数量大于|检查).*)$");
         List<Chara> target = parseChooser(matcher.group("target"));
         String checker = matcher.group("checker");
         if (checker.startsWith("有ID为")) {
@@ -169,6 +169,11 @@ public class SkillParser {
         if (checker.startsWith("数量大于")) {
             Matcher matcher1 = Tools.find(checker, "数量大于(?<amount>\\d+)");
             return target.size() >= Integer.parseInt(matcher1.group("amount"));
+        }
+        if (checker.startsWith("检查")){
+            Matcher matcher1 = Tools.find(checker, "检查(?<buffType>.*)大于(?<amount>\\d+)");
+            //todo 查询角色buff层数
+
         }
         throw new RuntimeException(checker + "未受支持");
     }
@@ -221,6 +226,17 @@ public class SkillParser {
 
     //TODO
     private Action parseBuffAction(String part, int partCnt) {
+        // 先判断变量型的数据 如：睡托的队长被动之一：{魔法少女之力}+1
+//        Pattern pattern = Pattern.compile("\\{?<name>(.*)}(?<incDec>[+-])(?<num>\\d+)");
+//        Matcher matcher = pattern.matcher(part);
+//        if (matcher.find()){
+//            String name = matcher.group("name");
+//            String incDec = matcher.group("incDec");
+//            int num = Integer.parseInt(matcher.group("num"));
+//            BuffAction buff = BuffAction.create(chara, "变量型")
+//                    .id(skillId).id(skillId + " "+ partCnt).lastedTurn(INFINITY).
+//            return null;
+//        }
         //e.g. 自身攻击力+20%
         Pattern pattern = Pattern.compile(
                 "(?<target>(其他友方|自身|目标|敌方全体|ID\\d+|友方|队伍中.{3}|[a|e]?\\{.*}))" +
@@ -238,6 +254,7 @@ public class SkillParser {
         if (!matcher.find()) {
             throw new RuntimeException("%s匹配失败".formatted(part));
         }
+
         List<Chara> target = parseChooser(matcher.group("target"));
         BuffType buffType = Enum.valueOf(BuffType.class, matcher.group("buffType"));
         int symbol = matcher.group("incDec").equals("-") ? -1 : 1;  //兼顾了null的情况

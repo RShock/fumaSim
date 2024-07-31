@@ -174,6 +174,17 @@ public class BuffAction {
                                 })
                                 .build();
                     }
+                    case 魔法少女之力 -> {    // 睡托的特殊Buff，只有计数作用
+                        buff = tempBuff.trigger(没做)
+                            .check(pack -> false)
+                            .cast(pack -> {})
+                            .build();
+                    }
+                    case 触发伤害 -> buff = tempBuff.trigger(触发伤害计算)
+                            .check(pack ->
+                                    pack.checkAccepter(acceptor) && pack.checkCastor(caster)
+                            ).cast(pack -> pack.addBuff(触发伤害, pack.buff.getMulti()))
+                            .build();
                     default -> throw new RuntimeException("未支持的buff类型" + buffType);
                 }
 

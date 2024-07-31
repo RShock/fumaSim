@@ -30,9 +30,23 @@ public class DamageCal {
             case 攻击 -> pack.caster.getCurrentAttack();
             case 生命 -> pack.caster.getCurrentMaxLife();
         };
-
+         /**
+         * 伤害分为5种 普攻 必杀 普攻触发 必杀触发 反伤触发 流血
+         */
         BuffCalPack damageCalPack = new BuffCalPack(pack.caster, acceptor);
-        TriggerManager.sendMessage(skillTypeEnum, damageCalPack);
+
+        switch (skillTypeEnum){
+            case 普攻伤害计算,技能伤害计算 ->
+                TriggerManager.sendMessage(skillTypeEnum, damageCalPack);
+            case 普攻触发伤害计算 -> {
+                TriggerManager.sendMessage(TriggerEnum.普攻伤害计算, damageCalPack);
+                TriggerManager.sendMessage(TriggerEnum.触发伤害计算, damageCalPack);
+            }
+            case 技能触发伤害计算 -> {
+                TriggerManager.sendMessage(TriggerEnum.技能伤害计算, damageCalPack);
+                TriggerManager.sendMessage(TriggerEnum.触发伤害计算, damageCalPack);
+            }
+        }
         TriggerManager.sendMessage(TriggerEnum.伤害计算, damageCalPack);
         var buffMap = damageCalPack.getBuffMap();
         int finalDamage = (int) damageCalPack.getBuffMap().entrySet().stream()
@@ -88,14 +102,23 @@ public class DamageCal {
          */
     }
 
+    public void normalAddAttack(double multi, DamageBase baseType, int times) {
+        pack.acceptors.forEach(acceptor -> finalDamage(acceptor, multi, baseType, times, TriggerEnum.普攻触发伤害计算));
+    }
+
+    public void skillAddAttack(double multi, DamageBase baseType, int times) {
+        pack.acceptors.forEach(acceptor -> finalDamage(acceptor, multi, baseType, times, TriggerEnum.技能触发伤害计算));
+    }
+
     /*
-        伤害计算分为6大区
+        伤害计算分为7大区
         基本攻击力计算
         易伤
         属性易伤
         造成伤害增加
         杂项
         属性克制
+        触发
         内部是加减法，外部是乘法，这里需要分类
      */
     public enum InternalBuffType {
@@ -104,7 +127,8 @@ public class DamageCal {
         属性易伤,
         造成伤害增加,
         杂项,
-        属性克制
+        属性克制,
+        触发
     }
 
     private static final HashMap<BuffType, InternalBuffType> buffTypeMap = getBuffTypeMap();
@@ -128,7 +152,7 @@ public class DamageCal {
         buffMap.put(BuffType.必杀技伤害, 杂项);
         buffMap.put(BuffType.受到普攻伤害, 杂项);
         buffMap.put(BuffType.受到必杀伤害, 杂项);
-        buffMap.put(BuffType.属性相克效果, 属性克制);
+        buffMap.put(BuffType.触发伤害, 触发);
         return buffMap;
     }
 

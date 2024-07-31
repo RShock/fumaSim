@@ -78,7 +78,7 @@ class 沃沃Test {
     }
 
     @Test
-    void 沃沃大战矮子王测试() {
+    void 沃沃大战矮子王测试() {      // 本测试涉及属性克制，出错即为属性克制不生效
         Chara wowo = ImportedChara.initChara("胆小纸袋狼_沃沃 攻击力48991 队长 羁绊2 星3 潜力5");
 
         木桩 矮子王 = 木桩.init("生命2341894 水属性");

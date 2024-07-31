@@ -28,7 +28,9 @@ public class DamageAction {
     public enum DamageType {
         普通伤害,
         必杀伤害,
-        流血伤害    //dot,无来源伤害
+        流血伤害,    //dot,无来源伤害
+        普攻触发伤害,
+        必杀触发伤害
     }
 
     public static DamageAction create(DamageType damageType) {
@@ -78,6 +80,18 @@ public class DamageAction {
                     ((MessagePack)pack).acceptors = target;
                 }
                 new DamageCal(((MessagePack)pack)).dotAttack(multi, baseType);
+            });
+            case 普攻触发伤害 -> action.setAction(pack -> {
+                if (target != null && !target.isEmpty()) {
+                    ((MessagePack)pack).acceptors = target;
+                }
+                new DamageCal(((MessagePack)pack)).normalAddAttack(multi, baseType, times);
+            });
+            case 必杀触发伤害 -> action.setAction(pack -> {
+                if (target != null && !target.isEmpty()) {
+                    ((MessagePack)pack).acceptors = target;
+                }
+                new DamageCal(((MessagePack)pack)).skillAddAttack(multi, baseType, times);
             });
             default -> throw new RuntimeException("未定义技能类型");
         }

@@ -57,6 +57,7 @@ public abstract class Chara {
     protected int shield;   //护盾
 
     protected String hint;  //备注
+
     private boolean disabled;   //不激活的角色会失去所有技能（包括普攻）
 
     public void shouldUpdateAtk() {
