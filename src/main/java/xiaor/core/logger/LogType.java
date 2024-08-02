@@ -6,5 +6,6 @@ public enum LogType {
     触发BUFF,
     造成伤害,
     其他,
-    测试用
+    测试用,
+    警告
 }

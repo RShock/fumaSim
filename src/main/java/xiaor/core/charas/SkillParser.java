@@ -12,7 +12,9 @@ import xiaor.core.skillbuilder.action.BuffAction;
 import xiaor.core.damageCal.DamageBase;
 import xiaor.core.skillbuilder.skill.BuffType;
 import xiaor.core.skillbuilder.action.DamageAction;
+import xiaor.core.skillbuilder.skill.Skill;
 import xiaor.core.skillbuilder.skill.buff.Buff;
+import xiaor.core.skillbuilder.skill.buff.UniqueBuff;
 import xiaor.core.skillbuilder.trigger.Trigger;
 import xiaor.core.skillbuilder.when.WhenBuilder;
 import xiaor.core.tools.GlobalDataManager;
@@ -228,6 +230,22 @@ public class SkillParser {
                         addSkill(chara1, vos, givenVo.getSkillId());
                     }
                 });
+                return true;
+            });
+        }
+        if (part.matches("自身技能.*层")) {   //驯鹿技能：被攻击时，触发[使“油门当刹车踩”的我方全体必杀技伤害增加效果增加1层]的处理
+            Matcher matcher = Tools.find(part, "自身技能(?<skillId>\\d+)\\+1层");
+            String skillId = matcher.group("skillId");
+            return Action.buildFreeAction(() -> {
+                Optional<Skill> first = TriggerManager.getInstance().getSkills().stream()
+                        .filter(skill -> skill instanceof UniqueBuff<?>)
+                        .filter(skill -> ((UniqueBuff<?>) skill).uniqueId.startsWith(skillId))
+                        .findFirst();
+                if (first.isEmpty()) {
+                    Logger.INSTANCE.log(LogType.警告, "未找到指定buff" + skillId);
+                }
+                UniqueBuff buff = (UniqueBuff) first.get();
+                buff.add(1);
                 return true;
             });
         }

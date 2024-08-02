@@ -36,6 +36,10 @@ public class UniqueBuff<MsgType extends Packable> extends Buff<MsgType>{
         }
     }
 
+    public void add(int buffLevel) {
+        currentLevel = Math.min(currentLevel+buffLevel, maxLevel);
+    }
+
     @Override
     public String toString() {
         String tempS;
