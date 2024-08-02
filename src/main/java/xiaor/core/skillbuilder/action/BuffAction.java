@@ -3,6 +3,8 @@ package xiaor.core.skillbuilder.action;
 import xiaor.core.charas.Chara;
 import xiaor.core.charas.Element;
 import xiaor.core.damageCal.DamageBase;
+import xiaor.core.logger.LogType;
+import xiaor.core.logger.Logger;
 import xiaor.core.skillbuilder.skill.BuffType;
 import xiaor.core.skillbuilder.skill.SkillStatus;
 import xiaor.core.excel.ExcelCharaProvider;
@@ -142,6 +144,14 @@ public class BuffAction {
                             .time(INFINITY)
                             .cast(pack -> pack.addBuff(属性相克效果, multi))
                             .build();
+                    case 受到连环陷阱属性伤害 -> {        // 特殊逻辑，和连环陷阱buff联动。代码写的很丑。
+                        double level = TriggerManager.queryBuff(连环陷阱, caster).map(Buff::getMulti).orElse(0.0);
+                        buff = tempBuff.trigger(伤害计算)
+                            .check(pack -> pack.checkAccepter(acceptor) && (pack.caster.is(Element.水属性) || pack.caster.is(Element.火属性)) )
+                            .cast(pack -> pack.addBuff(受到连环陷阱属性伤害, multi*level))
+                            .build();
+                        Logger.INSTANCE.log(LogType.其他, "实际连环陷阱层数附加："+ (int)level);
+                    }
                     case 必杀技CD -> {
                         return;
                     }
@@ -166,20 +176,17 @@ public class BuffAction {
                         long dot =  (long) (caster.getCurrentAttack() * multi);
                         buff = tempBuff.trigger(回合结束)
                                 .check(pack -> true)
-                                .cast(pack -> {
-                                    DamageAction.create(DamageAction.DamageType.流血伤害)
-                                            .to(Collections.singletonList(acceptor))
-                                            .damageBase(DamageBase.攻击).dotDamage(dot)
-                                            .build();
-                                })
+                                .cast(pack -> DamageAction.create(DamageAction.DamageType.流血伤害)
+                                        .to(Collections.singletonList(acceptor))
+                                        .damageBase(DamageBase.攻击).dotDamage(dot)
+                                        .build())
                                 .build();
                     }
-                    case 魔法少女之力 -> {    // 睡托的特殊Buff，只有计数作用
-                        buff = tempBuff.trigger(没做)
-                            .check(pack -> false)
-                            .cast(pack -> {})
-                            .build();
-                    }
+                    case 魔法少女之力, 连环陷阱 -> // 睡托的特殊Buff，只有计数作用
+                            buff = tempBuff.trigger(没做)
+                                .check(pack -> false)
+                                .cast(pack -> {})
+                                .build();
                     case 触发伤害 -> buff = tempBuff.trigger(触发伤害计算)
                             .check(pack ->
                                     pack.checkAccepter(acceptor) && pack.checkCastor(caster)

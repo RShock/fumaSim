@@ -1,11 +1,13 @@
 package xiaor.core.trigger;
 
 import lombok.Getter;
+import xiaor.core.charas.Chara;
 import xiaor.core.logger.LogType;
 import xiaor.core.logger.Logger;
 import xiaor.core.msgpack.BuffCalPack;
 
 import xiaor.core.msgpack.Packable;
+import xiaor.core.skillbuilder.skill.BuffType;
 import xiaor.core.skillbuilder.skill.buff.Buff;
 import xiaor.core.skillbuilder.skill.Skill;
 import xiaor.core.skillbuilder.skill.buff.UniqueBuff;
@@ -43,6 +45,14 @@ public class TriggerManager {
 
     public static void registerBuff(Buff buff) {
         TriggerManager.getInstance().addBuff(buff);
+    }
+
+    public static Optional<? extends Buff<?>> queryBuff(BuffType type, Chara owner){
+        return TriggerManager.getInstance().skills.stream().filter(skill -> skill instanceof Buff<?>)
+                .map(skill -> (Buff<?>) skill)
+                .filter(buff -> buff.getBuffType() == type)
+                .filter(buff -> buff.getAcceptor() == owner)
+                .findFirst();
     }
 
     private void addBuff(Buff<BuffCalPack> newBuff) {

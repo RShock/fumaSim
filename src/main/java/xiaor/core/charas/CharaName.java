@@ -20,4 +20,9 @@ public class CharaName {
     public static final String 夏狐 = "夏日 静";
     public static final String 夏静 = "夏日 静";
     public static final String 巴尔 = "魔王 巴尔";
+    public static final String 睡托 = "不健全遐想 托特拉";
+    public static final String 小白 = "调皮捣蛋 白";
+    public static final String 可巴 = "甜心可可 巴尔";
+    public static final String 星红 = "双星之红 安丝蒂";
+    public static final String 可伊 = "性诞恋歌 伊布力斯";
 }

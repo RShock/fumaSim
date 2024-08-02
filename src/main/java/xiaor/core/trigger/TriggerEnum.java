@@ -29,7 +29,7 @@ public enum TriggerEnum {
     回合结束,
     回合开始时,
     释放防御后,
-
+    行动后,
     最大CD计算,
     被攻击时,
     没做

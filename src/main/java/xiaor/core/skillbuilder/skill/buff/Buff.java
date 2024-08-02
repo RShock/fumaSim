@@ -22,11 +22,6 @@ public class Buff<MsgType extends Packable> extends BaseSkill<MsgType> {
 
     Consumer<MsgType> buffCast;
     double multi;
-
-    public double getMulti() {
-        return multi;
-    }
-
     @Override
     public void cast(MsgType pack) {
         pack.setBuff(this);
@@ -44,6 +39,7 @@ public class Buff<MsgType extends Packable> extends BaseSkill<MsgType> {
         else tempS = caster + "->" + acceptor;
         if (time > 50) {
             return "%s[%s] (永久)".formatted(name, tempS);
+//            return "%s[%s] (永久) 实际值%s%%".formatted(name, tempS, multi*100);
         }
         return "%s[%s] 持续%d回合".formatted(name, tempS, time);
     }

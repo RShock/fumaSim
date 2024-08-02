@@ -55,6 +55,7 @@ public class DamageCal {
                 .values()
                 .stream()
                 .mapToDouble(entries -> entries.stream().mapToDouble(Map.Entry::getValue).sum())
+                .peek(num -> Logger.INSTANCE.log(LogType.测试用, String.valueOf(num)))
                 .reduce(baseDamage, (a, b) -> (a * (1 + b)));
 
         //属性克制特殊逻辑
@@ -153,6 +154,7 @@ public class DamageCal {
         buffMap.put(BuffType.受到普攻伤害, 杂项);
         buffMap.put(BuffType.受到必杀伤害, 杂项);
         buffMap.put(BuffType.触发伤害, 触发);
+        buffMap.put(BuffType.受到连环陷阱属性伤害, 属性易伤);
         return buffMap;
     }
 

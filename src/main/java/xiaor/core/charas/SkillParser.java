@@ -12,12 +12,14 @@ import xiaor.core.skillbuilder.action.BuffAction;
 import xiaor.core.damageCal.DamageBase;
 import xiaor.core.skillbuilder.skill.BuffType;
 import xiaor.core.skillbuilder.action.DamageAction;
+import xiaor.core.skillbuilder.skill.buff.Buff;
 import xiaor.core.skillbuilder.trigger.Trigger;
 import xiaor.core.skillbuilder.when.WhenBuilder;
 import xiaor.core.tools.GlobalDataManager;
 import xiaor.core.tools.KeyEnum;
 import xiaor.core.Tools;
 import xiaor.core.trigger.TriggerEnum;
+import xiaor.core.trigger.TriggerManager;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -53,7 +55,7 @@ public class SkillParser {
     }
 
     private static boolean turnCheck(int currentTurn, int a, int b) {
-        return (currentTurn - b) % a == 0 && currentTurn  >= b;
+        return (currentTurn - b) % a == 0 && currentTurn >= b;
     }
 
     public void addSkill(int turn) {
@@ -156,8 +158,10 @@ public class SkillParser {
     private Boolean parseCondition(String condition) {
 //        System.out.println("parse:" + condition);
         Matcher matcher = Tools.find(condition, "^(?<target>.*)(?<checker>(有ID为|数量为|数量大于|检查).*)$");
-        List<Chara> target = parseChooser(matcher.group("target"));
         String checker = matcher.group("checker");
+
+        String target1 = matcher.group("target");
+        List<Chara> target = parseChooser(target1);
         if (checker.startsWith("有ID为")) {
             Matcher matcher1 = Tools.find(checker, "有ID为(?<id>\\d+)");
             return target.stream().anyMatch(chara -> chara.getCharaId() == Integer.parseInt(matcher1.group("id")));
@@ -170,9 +174,15 @@ public class SkillParser {
             Matcher matcher1 = Tools.find(checker, "数量大于(?<amount>\\d+)");
             return target.size() >= Integer.parseInt(matcher1.group("amount"));
         }
-        if (checker.startsWith("检查")){
+
+        if (checker.startsWith("检查")) {
             Matcher matcher1 = Tools.find(checker, "检查(?<buffType>.*)大于(?<amount>\\d+)");
+            String type = matcher1.group("buffType");
+            BuffType buffType = Enum.valueOf(BuffType.class, type);
+            int amount = Integer.parseInt(matcher1.group("amount"));
             //todo 查询角色buff层数
+            double buffAmount = TriggerManager.queryBuff(buffType, target.get(0)).map(Buff::getMulti).orElse(0.0);
+            return buffAmount >= amount;
 
         }
         throw new RuntimeException(checker + "未受支持");
@@ -187,14 +197,14 @@ public class SkillParser {
             return parseSkill(
                     tempSkill.act(parseAction(firstPart, partCnt)).and(),
                     lastPart,
-                    partCnt+1);
+                    partCnt + 1);
         } else {
             tempSkill.act(parseAction(effect, partCnt));
         }
         return tempSkill;
     }
 
-    private Action parseAction(String part,int partCnt) {
+    private Action parseAction(String part, int partCnt) {
         if (part.startsWith("对")) {
             return parseDamageAction(part);
         }
@@ -244,7 +254,8 @@ public class SkillParser {
                         "(?<incDec>[+-])" +
                         "(" +
                         "(BUFF(?<buffId>\\d+))|" +
-                        "((?<multi>\\d+(\\.\\d+)?)%?)" +
+                        "((?<multi>\\d+(\\.\\d+)?)" +
+                        "(?<isPercent>%?))" +
                         ")" +
                         "(\\(最多(?<maxLevel>\\d+)层\\))?" +
                         "(\\((?<lastedTurn>\\d+)回合\\))?"
@@ -258,14 +269,18 @@ public class SkillParser {
         List<Chara> target = parseChooser(matcher.group("target"));
         BuffType buffType = Enum.valueOf(BuffType.class, matcher.group("buffType"));
         int symbol = matcher.group("incDec").equals("-") ? -1 : 1;  //兼顾了null的情况
-        double multi = Double.parseDouble(matcher.group("multi")) / 100.0;
+
+        double multi = Double.parseDouble(matcher.group("multi"));
+        if (!matcher.group("isPercent").isEmpty()) {
+            multi /= 100.0;
+        }
         BuffAction buff = BuffAction.create(chara, buffType)
                 .to(target)
-                .id(skillId + " "+ partCnt)
+                .id(skillId + " " + partCnt)
                 .multi(symbol * multi)
                 .lastedTurn(INFINITY)
                 .name("%s %s%s%s%%".formatted(vo, buffType, matcher.group("incDec"), Double.parseDouble(matcher.group("multi"))));
-        if (switchChecker.size() != 0) {
+        if (!switchChecker.isEmpty()) {
             buff = buff.enabledCheck(switchChecker);
         }
         String maxLevel = matcher.group("maxLevel");
@@ -315,20 +330,22 @@ public class SkillParser {
                             chara.getCharaId() == ExcelCharaProvider.searchIdByCharaName(finalSubstring))
                     .collect(Collectors.toList());
         }
-        if (substring.equals("目标")) {
-            return Collections.singletonList(GameBoard.getCurrentEnemy());
-        }
-        if (substring.equals("自身")) {
-            return Collections.singletonList(chara);
-        }
-        if (substring.equals("友方")) {
-            return GameBoard.getAlly();
-        }
-        if (substring.equals("敌方全体")) {
-            return GameBoard.getEnemy();
-        }
-        if (substring.equals("其他友方")) {
-            return GameBoard.getAlly().stream().filter(chara1 -> !chara1.equals(chara)).collect(Collectors.toList());
+        switch (substring) {
+            case "目标" -> {
+                return Collections.singletonList(GameBoard.getCurrentEnemy());
+            }
+            case "自身" -> {
+                return Collections.singletonList(chara);
+            }
+            case "友方" -> {
+                return GameBoard.getAlly();
+            }
+            case "敌方全体" -> {
+                return GameBoard.getEnemy();
+            }
+            case "其他友方" -> {
+                return GameBoard.getAlly().stream().filter(chara1 -> !chara1.equals(chara)).collect(Collectors.toList());
+            }
         }
         if (substring.startsWith("ID")) {
             int id = Integer.parseInt(substring.substring(2));
@@ -343,12 +360,14 @@ public class SkillParser {
 
     private Action parseDamageAction(String part) {
 //        System.out.println("normalAtkParse:" + part);
-        Matcher matcher = Tools.find(part, "对(?<target>.*?)(?<multi>\\d+(\\.\\d+)?)%(?<base>自身生命)?(?<type>(技能|普攻))伤害((?<times>\\d+)次)?");
+        Matcher matcher = Tools.find(part, "对(?<target>.*?)(?<multi>\\d+(\\.\\d+)?)%(?<base>自身生命)?(?<type>(技能|普攻|必杀触发|普攻触发))伤害((?<times>\\d+)次)?");
         DamageAction.DamageType type;
         List<Chara> target = parseChooser(matcher.group("target"));
         type = switch (matcher.group("type")) {
             case "技能" -> DamageAction.DamageType.必杀伤害;
             case "普攻" -> DamageAction.DamageType.普通伤害;
+            case "普攻触发" -> DamageAction.DamageType.普攻触发伤害;
+            case "必杀触发" -> DamageAction.DamageType.必杀触发伤害;
             default -> throw new RuntimeException("不支持的伤害类型：" + matcher.group("type"));
         };
         int times = matcher.group("times") == null ? 1 : Integer.parseInt(matcher.group("times"));

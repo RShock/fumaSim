@@ -3,6 +3,8 @@ package xiaor.core.excel.vo;
 import com.poiji.annotation.ExcelCell;
 import com.poiji.annotation.ExcelRow;
 import lombok.Getter;
+import xiaor.core.logger.LogType;
+import xiaor.core.logger.Logger;
 import xiaor.core.skillbuilder.SkillType;
 import xiaor.core.trigger.TriggerEnum;
 
@@ -41,6 +43,10 @@ public class SkillExcelVo {
     }
 
     public Boolean is必杀() {
+        if (skillType == null){
+            Logger.INSTANCE.log(LogType.其他, "警告，该技能未标注技能类型"+skillId);
+            return false;
+        }
         return skillType.equals("必杀技");
     }
 

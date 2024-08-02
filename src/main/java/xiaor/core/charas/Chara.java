@@ -126,6 +126,10 @@ public abstract class Chara {
         return role == this.role;
     }
 
+    public boolean is(Element element) {
+         return element == this.element;
+    }
+
     public void defend(Chara acceptor) {
         Logger.INSTANCE.log(LogType.角色行动, "==============%s的防御==============%n".formatted(name));
         MessagePack pack = MessagePack.builder()
@@ -138,6 +142,7 @@ public abstract class Chara {
         TriggerManager.sendMessage(TriggerEnum.释放防御, pack);
         setStatus(Chara.CharaStatus.INACTIVE);
         TriggerManager.sendMessage(TriggerEnum.释放防御后, pack);
+        TriggerManager.sendMessage(TriggerEnum.行动后, pack);
 
         TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
     }
@@ -156,6 +161,7 @@ public abstract class Chara {
         TriggerManager.sendMessage(TriggerEnum.快速普攻追击, pack);
         TriggerManager.sendMessage(TriggerEnum.释放普攻后, pack);
         TriggerManager.sendMessage(TriggerEnum.攻击后, pack);
+        TriggerManager.sendMessage(TriggerEnum.行动后, pack);
         TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
     }
 
@@ -176,6 +182,7 @@ public abstract class Chara {
         setStatus(Chara.CharaStatus.INACTIVE);
         TriggerManager.sendMessage(TriggerEnum.释放必杀后, pack);
         TriggerManager.sendMessage(TriggerEnum.攻击后, pack);
+        TriggerManager.sendMessage(TriggerEnum.行动后, pack);
         TriggerManager.sendMessage(TriggerEnum.角色行动结束, pack);
     }
 
@@ -200,7 +207,7 @@ public abstract class Chara {
             }
             if (s.contains("潜")) chara.potential = getNumFromString(s);
             if (s.contains("队长")) chara.isLeader = true;
-            if (s.contains("生命")) chara.baseLife = chara.life = getNumFromString(s);
+            if (s.contains("生命")) chara.baseLife = chara.life = getNumLFromString(s);
             if (s.contains("水属性") || s.contains("风属性") || s.contains("光属性") ||
                     s.contains("火属性") || s.contains("暗属性")) chara.element = Enum.valueOf(Element.class, s);
             if (s.contains("闇属性")) chara.element = Element.暗属性;
@@ -212,6 +219,12 @@ public abstract class Chara {
         Pattern p = Pattern.compile("[^0-9]");
         Matcher m = p.matcher(s);
         return Integer.parseInt(m.replaceAll("").trim());
+    }
+
+    public static long getNumLFromString(String s) {
+        Pattern p = Pattern.compile("[^0-9]");
+        Matcher m = p.matcher(s);
+        return Long.parseLong(m.replaceAll("").trim());
     }
 
     public long getCurrentAttack() {
