@@ -72,14 +72,13 @@ public class 睡托测试队Test {
                         2A 3A 1A 4A 5A
                         2A 3A 4Q 1Q 5A
                         2Q 3Q 5Q 1A 4A
-                                                
+                        
                         2A 3A 1A 4A 5A
                         2A 3A 4Q 1Q 5A
                         2A 3A 1A 4A 5A
                         2Q 3Q 5Q 1A 4A
                         2A 3A 4Q 1Q 5A
                         2A 3A 1A 4A 5A
-                                                
                         2A 3A 1A 4A 5A
                         2Q 3Q 4Q 1Q 5Q
                         """);
