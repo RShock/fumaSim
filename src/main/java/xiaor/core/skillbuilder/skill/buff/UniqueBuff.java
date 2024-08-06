@@ -3,6 +3,7 @@ package xiaor.core.skillbuilder.skill.buff;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import xiaor.core.msgpack.Packable;
 

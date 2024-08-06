@@ -43,4 +43,8 @@ public class Buff<MsgType extends Packable> extends BaseSkill<MsgType> {
         }
         return "%s[%s] 持续%d回合".formatted(name, tempS, time);
     }
+
+    public String getId(){
+        return "";
+    }
 }

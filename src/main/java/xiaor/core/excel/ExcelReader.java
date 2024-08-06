@@ -9,6 +9,7 @@ import org.apache.poi.xssf.usermodel.*;
 import xiaor.core.excel.vo.CharaExcelVo;
 import xiaor.core.excel.vo.SkillExcelVo;
 
+import java.io.Console;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -53,12 +54,23 @@ public class ExcelReader {
         );
     }
 
-    private void checkSkillVos(List<SkillExcelVo> skillVos) {
-        if (skillVos.stream().mapToInt(SkillExcelVo::getSkillId).distinct().count() != skillVos.size()){
-            throw new RuntimeException("存在相同的skillId");
-        }
+     private static void checkSkillVos(List<SkillExcelVo> skillVos) {
+            // 使用HashMap来收集skillId及其出现的次数
+            Map<Integer, Long> skillIdCounts = skillVos.stream()
+                    .filter(skillExcelVo -> skillExcelVo.getSkillId() != 0)
+                    .collect(Collectors.groupingBy(SkillExcelVo::getSkillId, Collectors.counting()));
 
-    }
+            // 找出重复的skillId
+            List<Integer> duplicateSkillIds = skillIdCounts.entrySet().stream()
+                    .filter(entry -> entry.getValue() > 1)
+                    .map(Map.Entry::getKey)
+                    .toList();
+
+            // 如果存在重复的skillId，抛出异常并包含这些重复的skillId
+            if (!duplicateSkillIds.isEmpty()) {
+                throw new RuntimeException("存在相同的skillId: " + duplicateSkillIds);
+            }
+        }
 
     /**
      * 获取图片和位置 (xlsx)

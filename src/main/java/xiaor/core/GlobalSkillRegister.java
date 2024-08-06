@@ -13,6 +13,7 @@ import xiaor.core.trigger.TriggerEnum;
 import xiaor.core.trigger.TriggerManager;
 
 import static xiaor.core.Common.INFINITY;
+import static xiaor.core.tools.GlobalDataManager.getIntData;
 import static xiaor.core.tools.GlobalDataManager.incIntData;
 
 public class GlobalSkillRegister {
@@ -49,7 +50,7 @@ public class GlobalSkillRegister {
         skill = BaseSkill.builder().name("【系统规则】角色行动完进入下一回合").trigger(TriggerEnum.角色行动结束)
                 .time(INFINITY)
                 .check(pack -> GameBoard.getAlly().stream().noneMatch(chara -> chara.getStatus().equals(Chara.CharaStatus.ACTIVE)))
-                .cast(pack -> TriggerManager.sendMessage(TriggerEnum.回合结束, null)).build();
+                .cast(pack -> GameBoard.getInstance().endTurn()).build();
         TriggerManager.registerSkill(skill);
         //buff消退：回合结束时所有非永久buff都会消退1层
         skill = BaseSkill.builder().name("【系统规则】回合结束时所有非永久buff都会消退1层").trigger(TriggerEnum.回合结束)
@@ -57,8 +58,6 @@ public class GlobalSkillRegister {
                 .check(pack -> true)
                 .cast(pack -> {
                     TriggerManager.getInstance().getSkills().forEach(Skill::decrease);
-                    Logger.INSTANCE.log(LogType.回合开始, "第" + (incIntData(KeyEnum.GAME_TURN)) + "回合开始");
-                    TriggerManager.sendMessage(TriggerEnum.回合开始时, null);
                 }).build();
         TriggerManager.registerSkill(skill);
         //回合开始时所有角色CD推进

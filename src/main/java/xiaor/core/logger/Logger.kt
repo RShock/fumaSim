@@ -51,6 +51,7 @@ object Logger {
             LogType.其他 -> LogColor.GREEN
             LogType.造成伤害 -> LogColor.RED
             LogType.测试用 -> LogColor.GREY
+            else -> LogColor.RED
         }
         logList.add(Log(type, msg))
         when (logLevel) {
@@ -95,6 +96,8 @@ object Logger {
                 }
                 LogType.测试用 -> {
                 }
+
+                else -> {}
             }
         }
         val resourcePath = Common.getResourcePath(this.javaClass, Common.目录型输出path)

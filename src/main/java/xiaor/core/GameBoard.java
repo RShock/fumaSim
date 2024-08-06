@@ -5,6 +5,7 @@ import xiaor.core.charas.Chara;
 import xiaor.core.logger.LogType;
 import xiaor.core.logger.Logger;
 import xiaor.core.tools.GlobalDataManager;
+import xiaor.core.tools.KeyEnum;
 import xiaor.core.tools.record.DamageRecorder;
 import xiaor.core.trigger.TriggerEnum;
 import xiaor.core.trigger.TriggerManager;
@@ -12,6 +13,9 @@ import xiaor.core.trigger.TriggerManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static xiaor.core.tools.GlobalDataManager.getIntData;
+import static xiaor.core.tools.GlobalDataManager.incIntData;
 
 @Getter
 public class GameBoard {
@@ -36,6 +40,10 @@ public class GameBoard {
     private List<Chara> enemyChara;
 
     private List<Chara> ourChara;
+
+    private String currentTurn = "我方";
+    private String mode = "敌方不行动";
+    private int turnActCount = 0;    //记录当前回合有几个人行动过了
 
     public static List<Chara> getAlly() {
         return getInstance().getOurChara();
@@ -104,12 +112,12 @@ public class GameBoard {
 
     public void continueRun(String action) {
         int our, their;
-        char mode;
         String[] split = action.split("\\s+");
+
         for (String s : split) {
             if (s.equals("")) continue;
             if (s.equals("|")) {
-                TriggerManager.sendMessage(TriggerEnum.回合结束, null);
+                endTurn();
                 continue;
             }
             our = s.charAt(0) - '0' - 1;
@@ -117,14 +125,44 @@ public class GameBoard {
                 their = 0;
             else
                 their = s.charAt(2) - '0' - 1;
-            mode = s.charAt(1);
-            if (mode == 'a' || mode == 'A') {
-                ourChara.get(our).attack(enemyChara.get(their));
-            } else if (mode == 'd' || mode == 'D') {
-                ourChara.get(our).defend(enemyChara.get(their));
-            } else {
-                ourChara.get(our).skill(enemyChara.get(their));
+            Chara a = ourChara.get(our);
+            Chara b = enemyChara.get(their);
+            if (currentTurn.equals("敌方")) {
+                Chara tmp = a;
+                a = b;
+                b = tmp;
             }
+            switch (s.charAt(1)) {
+                case 'a', 'A':
+                    a.attack(b);
+                    break;
+                case 'd', 'D':
+                    a.defend(b);
+                    break;
+                default:
+                    a.skill(b);
+            }
+        }
+    }
+
+    public void endTurn() {
+        if (mode.equals("敌方不行动")) {
+            TriggerManager.sendMessage(TriggerEnum.回合结束, null);
+            Logger.INSTANCE.log(LogType.回合开始, "第" + (incIntData(KeyEnum.GAME_TURN)) + "回合开始");
+            TriggerManager.sendMessage(TriggerEnum.回合开始时, null);
+            return;
+        }
+        switch (currentTurn) {
+            case "我方":
+                currentTurn = "敌方";
+                TriggerManager.sendMessage(TriggerEnum.敌方回合开始, null);
+                Logger.INSTANCE.log(LogType.敌方回合开始, "第" + getIntData(KeyEnum.GAME_TURN) + "敌方回合开始");
+                break;
+            case "敌方":
+                currentTurn = "我方";
+                TriggerManager.sendMessage(TriggerEnum.回合结束, null);
+                Logger.INSTANCE.log(LogType.回合开始, "第" + (incIntData(KeyEnum.GAME_TURN)) + "回合开始");
+                TriggerManager.sendMessage(TriggerEnum.回合开始时, null);
         }
     }
 
@@ -145,6 +183,7 @@ public class GameBoard {
         Logger.INSTANCE.reset();
         isSilent = false;
         inited = false;
+        currentTurn = "我方";
     }
 
     public static Chara getCurrentEnemy() {

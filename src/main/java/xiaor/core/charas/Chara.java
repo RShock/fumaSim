@@ -6,9 +6,11 @@ import xiaor.core.logger.Logger;
 import xiaor.core.msgpack.BuffCalPack;
 import xiaor.core.msgpack.MessagePack;
 import xiaor.core.Tools;
+import xiaor.core.skillbuilder.skill.Skill;
 import xiaor.core.trigger.TriggerEnum;
 import xiaor.core.trigger.TriggerManager;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
@@ -78,6 +80,12 @@ public abstract class Chara {
 
     protected void setOriginLife(int life) {
         this.baseLife = life;
+    }
+
+    protected List<Skill> skills = new ArrayList<>();      // chara会保存自己的skill以方便查阅，但是真正的skill依然由TriggerManager维护
+
+    public void addSkill(Skill skill) {
+        skills.add(skill);
     }
 
     public enum CharaStatus {

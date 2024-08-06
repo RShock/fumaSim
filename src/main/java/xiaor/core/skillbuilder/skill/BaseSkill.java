@@ -21,6 +21,7 @@ public class BaseSkill<MsgType extends Packable> implements Skill<MsgType> {
     SkillStatus skillStatus;
     protected int time;   //持续时间
     protected String name; //名字
+    int skillId;    //id参见excel，多个角色的相同技能具有相同id，此id并非唯一id
 
     @Override
     public TriggerEnum getTrigger() {
@@ -29,7 +30,7 @@ public class BaseSkill<MsgType extends Packable> implements Skill<MsgType> {
 
     @Override
     public boolean check(MsgType pack) {
-        if(skillStatus == SkillStatus.已经失效 || skillStatus == SkillStatus.未发动){
+        if (skillStatus == SkillStatus.已经失效 || skillStatus == SkillStatus.未发动) {
             return false;
         }
         return check.apply(pack);
@@ -37,10 +38,10 @@ public class BaseSkill<MsgType extends Packable> implements Skill<MsgType> {
 
     @Override
     public void cast(MsgType pack) {
-        if(skillStatus == SkillStatus.已经失效) {
+        if (skillStatus == SkillStatus.已经失效) {
             return;
         }
-        if(skillStatus == SkillStatus.仅生效一次){
+        if (skillStatus == SkillStatus.仅生效一次) {
             skillStatus = SkillStatus.已经失效;
         }
         cast.accept(pack);
@@ -48,18 +49,27 @@ public class BaseSkill<MsgType extends Packable> implements Skill<MsgType> {
 
     @Override
     public void decrease() {    //限时buff随时间的衰减
-        if(time == INFINITY) {
+        if (time == INFINITY) {
             return;
-        }
-        else time--;
-        if(time == 0) {
+        } else time--;
+        if (time == 0) {
             skillStatus = SkillStatus.已经失效;
         }
     }
 
     public String toString() {
-        if(time > 50)
+        if (time > 50)
             return "%s (永久)".formatted(name);
         return "%s 持续%d回合".formatted(name, time);
+    }
+
+    @Override
+    public String getId() {
+        return skillId+"";
+    }
+
+    @Override
+    public void disable(){
+        skillStatus = SkillStatus.已经失效;
     }
 }

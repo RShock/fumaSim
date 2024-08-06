@@ -13,4 +13,9 @@ public interface Skill<MsgType extends Packable>{
     //随着时间流逝Buff消退
     void decrease();
 
+    String getId();
+
+    // 失效
+    void disable();
+
 }

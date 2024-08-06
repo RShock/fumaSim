@@ -29,9 +29,9 @@ public class WhenBuilder {
         return this;
     }
 
-    public void build() {
+    public BaseSkill build(int skillId) {
         if(preBuilder != this)
-            preBuilder.build();
+            preBuilder.build(skillId);
         this.action.setTime(turn);
         BaseSkill skill = BaseSkill.builder()
                 .name(name)
@@ -40,8 +40,10 @@ public class WhenBuilder {
                 .check(trigger.getChecker())
                 .cast(action.getAction())
                 .time(action.getTime())
+                .skillId(skillId)
                 .build();
         TriggerManager.registerSkill(skill);
+        return skill;
     }
 
     public WhenBuilder and() {

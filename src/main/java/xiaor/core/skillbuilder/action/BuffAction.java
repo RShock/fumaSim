@@ -182,7 +182,7 @@ public class BuffAction {
                                         .build())
                                 .build();
                     }
-                    case 魔法少女之力, 连环陷阱 -> // 睡托的特殊Buff，只有计数作用
+                    case 魔法少女之力, 连环陷阱, 妾身蛇后小白脸 -> // 睡托的特殊Buff，只有计数作用
                             buff = tempBuff.trigger(没做)
                                 .check(pack -> false)
                                 .cast(pack -> {})

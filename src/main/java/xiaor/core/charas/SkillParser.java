@@ -84,7 +84,8 @@ public class SkillParser {
         if (skillString.startsWith("如果")) { //这个技能是激活型的，需要额外的检验条件，如果没激活会提示未激活
             skillString = parseExtraCondition();
         }
-        parseSkill(tempSkill, skillString, 0).build();
+        Skill skill = parseSkill(tempSkill, skillString, 0).build(skillId);
+        chara.addSkill(skill);
     }
 
     private SkillExcelVo findSkillVoBySkillId(Integer skillId) {
@@ -239,7 +240,7 @@ public class SkillParser {
             return Action.buildFreeAction(() -> {
                 Optional<Skill> first = TriggerManager.getInstance().getSkills().stream()
                         .filter(skill -> skill instanceof UniqueBuff<?>)
-                        .filter(skill -> ((UniqueBuff<?>) skill).uniqueId.startsWith(skillId))
+                        .filter(skill -> ((UniqueBuff<?>) skill).getId().equals(skillId))
                         .findFirst();
                 if (first.isEmpty()) {
                     Logger.INSTANCE.log(LogType.警告, "未找到指定buff" + skillId);
@@ -249,32 +250,35 @@ public class SkillParser {
                 return true;
             });
         }
+        if (part.matches(".*失去技能.*")) {
+            Matcher matcher = Tools.find(part, "(?<target>(其他友方|自身|目标|敌方全体|ID\\d+|友方|队伍中.{3}|[a|e]?\\{.*}))" +
+                    "失去技能(?<skillId>\\d+)");
+            List<Chara> target = parseChooser(matcher.group("target"));
+            String skillId = matcher.group("skillId");
+
+            return Action.buildFreeAction(() -> {
+                target.forEach(t -> {
+                    t.skills.forEach(skill -> {
+                        if (skill.getId().equals(skillId)){
+                            skill.disable();
+                        }
+                    });
+                });
+                return true;
+            });
+        }
         return parseBuffAction(part, partCnt);
     }
 
     //TODO
     private Action parseBuffAction(String part, int partCnt) {
-        // 先判断变量型的数据 如：睡托的队长被动之一：{魔法少女之力}+1
-//        Pattern pattern = Pattern.compile("\\{?<name>(.*)}(?<incDec>[+-])(?<num>\\d+)");
-//        Matcher matcher = pattern.matcher(part);
-//        if (matcher.find()){
-//            String name = matcher.group("name");
-//            String incDec = matcher.group("incDec");
-//            int num = Integer.parseInt(matcher.group("num"));
-//            BuffAction buff = BuffAction.create(chara, "变量型")
-//                    .id(skillId).id(skillId + " "+ partCnt).lastedTurn(INFINITY).
-//            return null;
-//        }
         //e.g. 自身攻击力+20%
         Pattern pattern = Pattern.compile(
                 "(?<target>(其他友方|自身|目标|敌方全体|ID\\d+|友方|队伍中.{3}|[a|e]?\\{.*}))" +
                         "(?<buffType>.*)" +
-                        "(?<incDec>[+-])" +
-                        "(" +
-                        "(BUFF(?<buffId>\\d+))|" +
+                        "(?<incDec>[+=-])" +
                         "((?<multi>\\d+(\\.\\d+)?)" +
                         "(?<isPercent>%?))" +
-                        ")" +
                         "(\\(最多(?<maxLevel>\\d+)层\\))?" +
                         "(\\((?<lastedTurn>\\d+)回合\\))?"
         );
@@ -286,18 +290,35 @@ public class SkillParser {
 
         List<Chara> target = parseChooser(matcher.group("target"));
         BuffType buffType = Enum.valueOf(BuffType.class, matcher.group("buffType"));
-        int symbol = matcher.group("incDec").equals("-") ? -1 : 1;  //兼顾了null的情况
-
         double multi = Double.parseDouble(matcher.group("multi"));
-        if (!matcher.group("isPercent").isEmpty()) {
+        if (!matcher.group("isPercent").isEmpty()) {    // 数字后面有百分号的，需要把数字除以100
             multi /= 100.0;
         }
-        BuffAction buff = BuffAction.create(chara, buffType)
-                .to(target)
-                .id(skillId + " " + partCnt)
-                .multi(symbol * multi)
-                .lastedTurn(INFINITY)
-                .name("%s %s%s%s%%".formatted(vo, buffType, matcher.group("incDec"), Double.parseDouble(matcher.group("multi"))));
+        BuffAction buff;
+        switch (matcher.group("incDec")) {          // +-为正常Buff, =为移除层数的buff
+            case "-":
+                multi *= -1;
+            case "+", "":
+                buff = BuffAction.create(chara, buffType)
+                        .to(target)
+                        .id(skillId + " " + partCnt)
+                        .multi(multi)
+                        .lastedTurn(INFINITY)
+                        .name("%s %s%s%s%%".formatted(vo, buffType, matcher.group("incDec"), Double.parseDouble(matcher.group("multi"))));
+                break;
+            case "=":
+                return Action.buildFreeAction(() -> {
+                    TriggerManager.getInstance().getSkills().stream()
+                            .filter(skill -> skill instanceof UniqueBuff<?>)
+                            .map(skill -> (UniqueBuff<?>) skill)
+                            .filter(ub -> (ub.getBuffType().equals(buffType) && target.contains(ub.getAcceptor())))         // 找到buff类型相同且角色正确的buff移除
+                            .forEach(uniqueBuff -> uniqueBuff.currentLevel = 0);
+                    return true;
+                });
+            default:
+                throw new IllegalStateException("Unexpected value: " + matcher.group("incDec"));
+        }
+
         if (!switchChecker.isEmpty()) {
             buff = buff.enabledCheck(switchChecker);
         }

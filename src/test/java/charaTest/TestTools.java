@@ -35,6 +35,7 @@ public class TestTools {
         }
         Logger.INSTANCE.exportHtmlLog();
     }
+
     /**
      * 逐步检测伤害，不支持 | 符号强行结束回合
      *
@@ -48,10 +49,11 @@ public class TestTools {
         gameBoard.run("");
         int count = 0;
         for (long life : enemyLife) {
-            gameBoard.continueRun(split.get(count++));
-            if (count < split.size() && split.get(count).equals("|")) {
-                gameBoard.continueRun("|");
-                count++;
+            while (gameBoard.getCurrentTurn().equals("敌方")) {
+                gameBoard.continueRun(split.get(count++));
+            }
+            if (count < split.size()) {
+                gameBoard.continueRun(split.get(count++));
             }
             if (life == 0) continue;
             Assertions.assertEquals(life, 被打的角色.getLife(), 10);
