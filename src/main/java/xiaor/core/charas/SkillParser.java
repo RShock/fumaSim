@@ -401,7 +401,8 @@ public class SkillParser {
 //        System.out.println("normalAtkParse:" + part);
         Matcher matcher = Tools.find(part, "对(?<target>.*?)(?<multi>\\d+(\\.\\d+)?)%(?<base>自身生命)?(?<type>(技能|普攻|必杀触发|普攻触发))伤害((?<times>\\d+)次)?");
         DamageAction.DamageType type;
-        List<Chara> target = parseChooser(matcher.group("target"));
+        String target1 = matcher.group("target");
+        List<Chara> target = parseChooser(target1);
         type = switch (matcher.group("type")) {
             case "技能" -> DamageAction.DamageType.必杀伤害;
             case "普攻" -> DamageAction.DamageType.普通伤害;
@@ -410,9 +411,11 @@ public class SkillParser {
             default -> throw new RuntimeException("不支持的伤害类型：" + matcher.group("type"));
         };
         int times = matcher.group("times") == null ? 1 : Integer.parseInt(matcher.group("times"));
+
         return DamageAction.create(type)
                 .multi(Double.parseDouble(matcher.group("multi")) / 100)
-                .to(target)
+                .to(tar -> target)
+//                .to(tar -> target1.equals("目标")?tar:target)
                 .times(times)
                 .damageBase(matcher.group("base") == null ? DamageBase.攻击 :
                         DamageBase.生命)

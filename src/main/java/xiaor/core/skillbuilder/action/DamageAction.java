@@ -6,10 +6,11 @@ import xiaor.core.damageCal.DamageBase;
 import xiaor.core.msgpack.MessagePack;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class DamageAction {
 
-    private List<Chara> target;
+    private Function<List<Chara>, List<Chara>>  target;
 
     private DamageType damageType;
 
@@ -50,8 +51,8 @@ public class DamageAction {
         return this;
     }
 
-    public DamageAction to(List<Chara> enemy) {
-        this.target = enemy;
+    public DamageAction to(Function<List<Chara>, List<Chara>> func) {
+        this.target = func;
         return this;
     }
 
@@ -64,33 +65,27 @@ public class DamageAction {
         Action action = new Action();
         switch (damageType) {
             case 必杀伤害 -> action.setAction(pack -> {
-                if (target != null && !target.isEmpty()) {
-                    ((MessagePack)pack).acceptors = target;
-                }
+                    ((MessagePack)pack).acceptors = target.apply(((MessagePack)pack).acceptors);
                 new DamageCal(((MessagePack)pack)).skillAttack(multi, baseType, times);
             });
             case 普通伤害 -> action.setAction(pack -> {
-                if (target != null && !target.isEmpty()) {
-                    ((MessagePack)pack).acceptors = target;
-                }
+                    ((MessagePack)pack).acceptors = target.apply(((MessagePack)pack).acceptors);
+
                 new DamageCal(((MessagePack)pack)).normalAttack(multi, baseType, times);
             });
             case 流血伤害 -> action.setAction(pack -> {
-                if (target != null && !target.isEmpty()) {
-                    ((MessagePack)pack).acceptors = target;
-                }
+                    ((MessagePack)pack).acceptors = target.apply(((MessagePack)pack).acceptors);
+
                 new DamageCal(((MessagePack)pack)).dotAttack(multi, baseType);
             });
             case 普攻触发伤害 -> action.setAction(pack -> {
-                if (target != null && !target.isEmpty()) {
-                    ((MessagePack)pack).acceptors = target;
-                }
+                    ((MessagePack)pack).acceptors = target.apply(((MessagePack)pack).acceptors);
+
                 new DamageCal(((MessagePack)pack)).normalAddAttack(multi, baseType, times);
             });
             case 必杀触发伤害 -> action.setAction(pack -> {
-                if (target != null && !target.isEmpty()) {
-                    ((MessagePack)pack).acceptors = target;
-                }
+                    ((MessagePack)pack).acceptors = target.apply(((MessagePack)pack).acceptors);
+
                 new DamageCal(((MessagePack)pack)).skillAddAttack(multi, baseType, times);
             });
             default -> throw new RuntimeException("未定义技能类型");

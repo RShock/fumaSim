@@ -9,6 +9,7 @@ import xiaor.core.Tools;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class TestTools {
@@ -25,10 +26,11 @@ public class TestTools {
         gameBoard.run("");
         int count = 0;
         for (int life : enemyLife) {
-            gameBoard.continueRun(split.get(count++));
-            if (count < split.size() && split.get(count).equals("|")) {
-                gameBoard.continueRun("|");
-                count++;
+            while (gameBoard.getCurrentTurn().equals("敌方") || split.get(count).equals("|")) {
+                gameBoard.continueRun(split.get(count++));
+            }
+            if (count < split.size()) {
+                gameBoard.continueRun(split.get(count++));
             }
             if (life == 0) continue;
             Assertions.assertEquals(life, 被打的角色.getLife(), 10);
@@ -49,7 +51,7 @@ public class TestTools {
         gameBoard.run("");
         int count = 0;
         for (long life : enemyLife) {
-            while (gameBoard.getCurrentTurn().equals("敌方")) {
+            while (gameBoard.getCurrentTurn().equals("敌方") || split.get(count).equals("|")) {
                 gameBoard.continueRun(split.get(count++));
             }
             if (count < split.size()) {

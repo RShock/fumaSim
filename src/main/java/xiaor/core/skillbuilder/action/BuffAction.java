@@ -5,6 +5,7 @@ import xiaor.core.charas.Element;
 import xiaor.core.damageCal.DamageBase;
 import xiaor.core.logger.LogType;
 import xiaor.core.logger.Logger;
+import xiaor.core.msgpack.MessagePack;
 import xiaor.core.skillbuilder.skill.BuffType;
 import xiaor.core.skillbuilder.skill.SkillStatus;
 import xiaor.core.excel.ExcelCharaProvider;
@@ -177,7 +178,7 @@ public class BuffAction {
                         buff = tempBuff.trigger(回合结束)
                                 .check(pack -> true)
                                 .cast(pack -> DamageAction.create(DamageAction.DamageType.流血伤害)
-                                        .to(Collections.singletonList(acceptor))
+                                        .to(pack1 -> pack1)
                                         .damageBase(DamageBase.攻击).dotDamage(dot)
                                         .build())
                                 .build();
