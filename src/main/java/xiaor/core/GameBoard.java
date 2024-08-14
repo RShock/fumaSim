@@ -42,7 +42,7 @@ public class GameBoard {
     private List<Chara> ourChara;
 
     private String currentTurn = "我方";
-    private String mode = "敌方不行动";
+    public String mode = "敌方不行动";
     private int turnActCount = 0;    //记录当前回合有几个人行动过了
 
     public static List<Chara> getAlly() {
@@ -184,6 +184,7 @@ public class GameBoard {
         isSilent = false;
         inited = false;
         currentTurn = "我方";
+        mode = "敌方不行动";
     }
 
     public static Chara getCurrentEnemy() {
