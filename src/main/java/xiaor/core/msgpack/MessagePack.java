@@ -21,7 +21,6 @@ public class MessagePack implements Packable{
         return caster.equals(this.caster);
     }
 
-
     public Boolean checkAccepter(Chara acceptor) {
         return this.acceptors.contains(acceptor);
     }

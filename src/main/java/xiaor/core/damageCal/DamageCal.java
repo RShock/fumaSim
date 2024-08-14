@@ -12,6 +12,7 @@ import xiaor.core.trigger.TriggerEnum;
 import xiaor.core.trigger.TriggerManager;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -103,12 +104,12 @@ public class DamageCal {
          */
     }
 
-    public void normalAddAttack(double multi, DamageBase baseType, int times) {
-        pack.acceptors.forEach(acceptor -> finalDamage(acceptor, multi, baseType, times, TriggerEnum.普攻触发伤害计算));
+    public void normalAddAttack(List<Chara> acceptors, double multi, DamageBase baseType, int times) {
+        acceptors.forEach(acceptor -> finalDamage(acceptor, multi, baseType, times, TriggerEnum.普攻触发伤害计算));
     }
 
-    public void skillAddAttack(double multi, DamageBase baseType, int times) {
-        pack.acceptors.forEach(acceptor -> finalDamage(acceptor, multi, baseType, times, TriggerEnum.技能触发伤害计算));
+    public void skillAddAttack(List<Chara> acceptors, double multi, DamageBase baseType, int times) {
+        acceptors.forEach(acceptor -> finalDamage(acceptor, multi, baseType, times, TriggerEnum.技能触发伤害计算));
     }
 
     /*
@@ -158,12 +159,12 @@ public class DamageCal {
         return buffMap;
     }
 
-    public void skillAttack(double multi, DamageBase baseType, int times) {
-        pack.acceptors.forEach(acceptor -> finalDamage(acceptor, multi, baseType, times, TriggerEnum.技能伤害计算));
+    public void skillAttack(List<Chara> acceptors, double multi, DamageBase baseType, int times) {
+        acceptors.forEach(acceptor -> finalDamage(acceptor, multi, baseType, times, TriggerEnum.技能伤害计算));
     }
 
     //普攻
-    public void normalAttack(double percent, DamageBase baseType, int times) {
-        pack.acceptors.forEach(acceptor -> finalDamage(acceptor, percent, baseType, times, TriggerEnum.普攻伤害计算));
+    public void normalAttack(List<Chara> acceptors, double percent, DamageBase baseType, int times) {
+        acceptors.forEach(acceptor -> finalDamage(acceptor, percent, baseType, times, TriggerEnum.普攻伤害计算));
     }
 }

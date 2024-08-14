@@ -414,8 +414,8 @@ public class SkillParser {
 
         return DamageAction.create(type)
                 .multi(Double.parseDouble(matcher.group("multi")) / 100)
-                .to(tar -> target)
-//                .to(tar -> target1.equals("目标")?tar:target)
+//                .to(tar -> target)
+                .to(tar -> target1.equals("目标")?tar:target)
                 .times(times)
                 .damageBase(matcher.group("base") == null ? DamageBase.攻击 :
                         DamageBase.生命)
