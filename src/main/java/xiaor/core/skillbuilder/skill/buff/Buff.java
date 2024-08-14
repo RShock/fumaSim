@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import xiaor.core.charas.Chara;
+import xiaor.core.logger.LogType;
+import xiaor.core.logger.Logger;
 import xiaor.core.msgpack.Packable;
 import xiaor.core.skillbuilder.skill.BaseSkill;
 import xiaor.core.skillbuilder.skill.BuffType;
@@ -22,6 +24,7 @@ public class Buff<MsgType extends Packable> extends BaseSkill<MsgType> {
 
     Consumer<MsgType> buffCast;
     double multi;
+
     @Override
     public void cast(MsgType pack) {
         pack.setBuff(this);
@@ -44,7 +47,12 @@ public class Buff<MsgType extends Packable> extends BaseSkill<MsgType> {
         return "%s[%s] 持续%d回合".formatted(name, tempS, time);
     }
 
-    public String getId(){
-        return "";
+    @Override
+    public void disable() {
+        super.disable();
+        if (name.contains("魔物终结 鬼醉木 被动 一星")) {
+            Logger.INSTANCE.log(LogType.测试用, "disable");
+        }
     }
+
 }

@@ -72,4 +72,9 @@ public class BaseSkill<MsgType extends Packable> implements Skill<MsgType> {
     public void disable(){
         skillStatus = SkillStatus.已经失效;
     }
+
+    @Override
+    public boolean isEnable() {
+        return skillStatus != SkillStatus.已经失效;
+    }
 }

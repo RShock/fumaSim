@@ -34,6 +34,8 @@ public class TestTools {
             }
             if (life == 0) continue;
             Assertions.assertEquals(life, 被打的角色.getLife(), 10);
+            Assertions.assertEquals(String.valueOf(life), String.valueOf(被打的角色.getLife()));
+
         }
         Logger.INSTANCE.exportHtmlLog();
     }
@@ -58,7 +60,7 @@ public class TestTools {
                 gameBoard.continueRun(split.get(count++));
             }
             if (life == 0) continue;
-            Assertions.assertEquals(life, 被打的角色.getLife(), 10);
+            Assertions.assertEquals(String.valueOf(life), String.valueOf(被打的角色.getLife()));
         }
         Logger.INSTANCE.exportHtmlLog();
     }

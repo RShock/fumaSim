@@ -11,6 +11,7 @@ import xiaor.core.tools.record.DamageRecord;
 import xiaor.core.trigger.TriggerEnum;
 import xiaor.core.trigger.TriggerManager;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,19 +27,18 @@ public class DamageCal {
     }
 
     public void finalDamage(Chara acceptor, double percent, DamageBase baseType, int times, TriggerEnum skillTypeEnum) {
-        Logger.INSTANCE.log(LogType.触发BUFF, "伤害倍率%s%%，伤害类型:%s，%s次".formatted(percent*100, baseType, times));
+        Logger.INSTANCE.log(LogType.触发BUFF, "伤害倍率%s%%，伤害类型:%s，%s次".formatted(percent * 100, baseType, times));
         double baseDamage = percent * switch (baseType) {
             case 攻击 -> pack.caster.getCurrentAttack();
             case 生命 -> pack.caster.getCurrentMaxLife();
         };
-         /**
+        /**
          * 伤害分为5种 普攻 必杀 普攻触发 必杀触发 反伤触发 流血
          */
         BuffCalPack damageCalPack = new BuffCalPack(pack.caster, acceptor);
 
-        switch (skillTypeEnum){
-            case 普攻伤害计算,技能伤害计算 ->
-                TriggerManager.sendMessage(skillTypeEnum, damageCalPack);
+        switch (skillTypeEnum) {
+            case 普攻伤害计算, 技能伤害计算 -> TriggerManager.sendMessage(skillTypeEnum, damageCalPack);
             case 普攻触发伤害计算 -> {
                 TriggerManager.sendMessage(TriggerEnum.普攻伤害计算, damageCalPack);
                 TriggerManager.sendMessage(TriggerEnum.触发伤害计算, damageCalPack);
@@ -51,7 +51,6 @@ public class DamageCal {
         TriggerManager.sendMessage(TriggerEnum.伤害计算, damageCalPack);
         var buffMap = damageCalPack.getBuffMap();
         int finalDamage = (int) damageCalPack.getBuffMap().entrySet().stream()
-                .filter(entry -> buffTypeMap.get(entry.getKey()) != 属性克制)
                 .collect(Collectors.groupingBy(entry -> buffTypeMap.get(entry.getKey())))
                 .values()
                 .stream()
@@ -60,16 +59,20 @@ public class DamageCal {
                 .reduce(baseDamage, (a, b) -> (a * (1 + b)));
 
         //属性克制特殊逻辑
-        double 属性克制 = 0;
-        if (buffMap.containsKey(BuffType.属性克制)) {
+//        double 属性克制 = 0;
+//        if (buffMap.containsKey(BuffType.属性克制)) {
+//
+//            属性克制 = buffMap.get(BuffType.属性克制);
+//        }
+//        double 属性相克效果增减 = 0;
+//        if (buffMap.containsKey(BuffType.属性相克效果)) {
+//            属性相克效果增减 = buffMap.get(BuffType.属性相克效果);
+//        }
+//        finalDamage *= (1 + 属性克制 * (1 - 属性相克效果增减));
+        /*
 
-            属性克制 = buffMap.get(BuffType.属性克制);
-        }
-        double 属性相克效果增减 = 0;
-        if (buffMap.containsKey(BuffType.属性相克效果)) {
-            属性相克效果增减 = buffMap.get(BuffType.属性相克效果);
-        }
-        finalDamage *= (1 + 属性克制 * (1 - 属性相克效果增减));
+        注意：属性相克效果增减没做
+         */
 
         for (int i = 0; i < times; i++) {
             int currentES = acceptor.getShield();
@@ -92,6 +95,8 @@ public class DamageCal {
             acceptor.setLife(lifeRemain);
             TriggerManager.sendMessage(TriggerEnum.造成伤害, new DamageRecordPack(
                     new DamageRecord(skillTypeEnum, msg, pack.caster, acceptor, finalDamage)));
+            TriggerManager.sendMessage(TriggerEnum.受到攻击时, MessagePack.builder().caster(acceptor).acceptors(Collections.singletonList(pack.caster)).build());
+
         }
         Logger.INSTANCE.log(LogType.造成伤害, acceptor + "剩余" + acceptor.getLife());
         buffMap.clear();

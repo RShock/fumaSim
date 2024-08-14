@@ -111,7 +111,7 @@ public class GameBoard {
     }
 
     public void continueRun(String action) {
-        int our, their;
+        int firstNum, secondNum;
         String[] split = action.split("\\s+");
 
         for (String s : split) {
@@ -120,18 +120,14 @@ public class GameBoard {
                 endTurn();
                 continue;
             }
-            our = s.charAt(0) - '0' - 1;
+            firstNum = s.charAt(0) - '0' - 1;
             if (s.length() == 2)
-                their = 0;
+                secondNum = 0;
             else
-                their = s.charAt(2) - '0' - 1;
-            Chara a = ourChara.get(our);
-            Chara b = enemyChara.get(their);
-            if (currentTurn.equals("敌方")) {
-                Chara tmp = a;
-                a = b;
-                b = tmp;
-            }
+                secondNum = s.charAt(2) - '0' - 1;
+
+            Chara a = currentTurn.equals("敌方")?enemyChara.get(firstNum):ourChara.get(firstNum);
+            Chara b = currentTurn.equals("敌方")?ourChara.get(secondNum):enemyChara.get(secondNum);
             switch (s.charAt(1)) {
                 case 'a', 'A':
                     a.attack(b);
@@ -166,6 +162,9 @@ public class GameBoard {
         }
     }
 
+    public int getCurrentT(){
+        return getIntData(KeyEnum.GAME_TURN);
+    }
     public void initSkills() {
         inited = true;
         GlobalSkillRegister.registerSkill();

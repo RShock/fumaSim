@@ -18,4 +18,5 @@ public interface Skill<MsgType extends Packable>{
     // 失效
     void disable();
 
+    boolean isEnable();
 }

@@ -21,6 +21,7 @@ import java.util.function.Supplier;
 
 import static xiaor.core.Common.*;
 import static xiaor.core.charas.Role.*;
+import static xiaor.core.skillbuilder.skill.BuffType.受到伤害;
 import static xiaor.core.trigger.TriggerEnum.*;
 import static xiaor.core.skillbuilder.skill.BuffType.*;
 
@@ -38,6 +39,7 @@ public class BuffAction {
     private boolean isSwitchBuff = false;
     private List<Supplier<Boolean>> additionalCheckers;
     private String id;
+    private int skillId;
 
     public static BuffAction create(Chara castor, BuffType type) {
         BuffAction buffAction = new BuffAction();
@@ -76,6 +78,7 @@ public class BuffAction {
             for (Chara acceptor : acceptors) {
                 Buff<BuffCalPack> buff;
                 var tempBuff = getTempBuffBuilder(acceptor);
+                tempBuff = tempBuff.skillId(skillId);
                 switch (buffType) {
                     case 攻击力 -> {
                         buff = tempBuff.trigger(攻击力计算)
@@ -197,6 +200,7 @@ public class BuffAction {
                 }
 
                 TriggerManager.registerBuff(buff);
+                acceptor.addSkill(buff);
             }
         });
         return action;
@@ -246,6 +250,11 @@ public class BuffAction {
 
     public BuffAction id(String id) {
         this.id = id;
+        return this;
+    }
+
+    public BuffAction skillId(int skillId) {
+        this.skillId = skillId;
         return this;
     }
 }

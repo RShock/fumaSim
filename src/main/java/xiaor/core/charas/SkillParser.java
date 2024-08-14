@@ -84,8 +84,7 @@ public class SkillParser {
         if (skillString.startsWith("如果")) { //这个技能是激活型的，需要额外的检验条件，如果没激活会提示未激活
             skillString = parseExtraCondition();
         }
-        Skill skill = parseSkill(tempSkill, skillString, 0).build(skillId);
-        chara.addSkill(skill);
+        Skill skill = parseSkill(tempSkill, skillString, 0).build(chara, skillId);
     }
 
     private SkillExcelVo findSkillVoBySkillId(Integer skillId) {
@@ -215,12 +214,15 @@ public class SkillParser {
             Matcher matcher = Tools.find(part, "(?<target>.+)获得技能(?<skill>\\d+)(\\((?<turn>\\d+)回合\\))?");
             List<Chara> target = parseChooser(matcher.group("target"));
             //这个技能是该角色给别人或者自己的的 例如幼精给精灵王
-
             SkillExcelVo givenVo = findSkillVoBySkillId(Integer.parseInt(matcher.group("skill")));
             if (givenVo.getSkillType() != SkillType.动态技能) {
                 throw new RuntimeException("技能" + givenVo.getSkillId() + "不是动态的");
             }
             return Action.buildFreeAction(() -> {
+                // 输出新增技能的提示
+                SkillExcelVo vo = findSkillVoBySkillId(givenVo.getSkillId());
+                Logger.INSTANCE.log(LogType.其他, target + "新增技能" + givenVo.getSkillId() + " : " +vo.getEffect());
+                // 新增技能
                 target.forEach(chara1 -> {
                     if (!switchChecker.stream().allMatch(Supplier::get)) {
                         return; //获得技能也可能有附加条件
@@ -243,13 +245,18 @@ public class SkillParser {
                         .filter(skill -> ((UniqueBuff<?>) skill).getId().equals(skillId))
                         .findFirst();
                 if (first.isEmpty()) {
-                    Logger.INSTANCE.log(LogType.警告, "未找到指定buff" + skillId);
+                    Logger.INSTANCE.log(LogType.警告, "未找到指定buff" + skillId + "，可能是技能尚未出现，无法叠层");
+                    return true;
                 }
                 UniqueBuff buff = (UniqueBuff) first.get();
                 buff.add(1);
                 return true;
             });
         }
+        /**
+         * 失去技能：直接失去skill
+         * 失去buff：失去由skill产生的buff
+         */
         if (part.matches(".*失去技能.*")) {
             Matcher matcher = Tools.find(part, "(?<target>(其他友方|自身|目标|敌方全体|ID\\d+|友方|队伍中.{3}|[a|e]?\\{.*}))" +
                     "失去技能(?<skillId>\\d+)");
@@ -259,9 +266,33 @@ public class SkillParser {
             return Action.buildFreeAction(() -> {
                 target.forEach(t -> {
                     t.skills.forEach(skill -> {
-                        if (skill.getId().equals(skillId)){
+                        if (!(skill instanceof Buff<?>) && skill.getId().equals(skillId) && skill.isEnable()) {
                             skill.disable();
+                            Logger.INSTANCE.log(LogType.测试用, t + "去除技能" + skillId);
+
                         }
+                    });
+                });
+                return true;
+            });
+        }
+        if (part.matches(".*失去buff.*")) {
+            Matcher matcher = Tools.find(part, "(?<target>(其他友方|自身|目标|敌方全体|ID\\d+|友方|队伍中.{3}|[a|e]?\\{.*}))" +
+                    "失去buff(?<skillId>\\d+)");
+            List<Chara> target = parseChooser(matcher.group("target"));
+            String skillId = matcher.group("skillId");
+
+            return Action.buildFreeAction(() -> {
+                target.forEach(t -> {
+                    t.skills.forEach(skill -> {
+                        if (skill instanceof Buff buff && buff.isEnable()) {
+                            if (buff.getId().equals(skillId)) {
+                                skill.disable();
+                                Logger.INSTANCE.log(LogType.测试用, t + "去除buff" + skillId);
+
+                            }
+                        }
+
                     });
                 });
                 return true;
@@ -302,6 +333,7 @@ public class SkillParser {
                 buff = BuffAction.create(chara, buffType)
                         .to(target)
                         .id(skillId + " " + partCnt)
+                        .skillId(skillId)
                         .multi(multi)
                         .lastedTurn(INFINITY)
                         .name("%s %s%s%s%%".formatted(vo, buffType, matcher.group("incDec"), Double.parseDouble(matcher.group("multi"))));
@@ -415,7 +447,7 @@ public class SkillParser {
         return DamageAction.create(type)
                 .multi(Double.parseDouble(matcher.group("multi")) / 100)
 //                .to(tar -> target)
-                .to(tar -> target1.equals("目标")?tar:target)
+                .to(tar -> target1.equals("目标") ? tar : target)
                 .times(times)
                 .damageBase(matcher.group("base") == null ? DamageBase.攻击 :
                         DamageBase.生命)

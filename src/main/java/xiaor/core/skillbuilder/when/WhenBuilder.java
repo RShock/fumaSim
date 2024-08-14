@@ -1,6 +1,7 @@
 package xiaor.core.skillbuilder.when;
 
 import lombok.NoArgsConstructor;
+import xiaor.core.charas.Chara;
 import xiaor.core.skillbuilder.action.Action;
 import xiaor.core.skillbuilder.skill.BaseSkill;
 import xiaor.core.skillbuilder.trigger.Trigger;
@@ -24,14 +25,14 @@ public class WhenBuilder {
     }
 
     public WhenBuilder act(Action action) {
-        if(this.action != null)throw new RuntimeException("重复赋值act,建议中间加上and");
+        if (this.action != null) throw new RuntimeException("重复赋值act,建议中间加上and");
         this.action = action;
         return this;
     }
 
-    public BaseSkill build(int skillId) {
-        if(preBuilder != this)
-            preBuilder.build(skillId);
+    public BaseSkill build(Chara chara, int skillId) {
+        if (preBuilder != this)
+            preBuilder.build(chara, skillId);
         this.action.setTime(turn);
         BaseSkill skill = BaseSkill.builder()
                 .name(name)
@@ -43,6 +44,7 @@ public class WhenBuilder {
                 .skillId(skillId)
                 .build();
         TriggerManager.registerSkill(skill);
+        chara.addSkill(skill);
         return skill;
     }
 
@@ -64,5 +66,10 @@ public class WhenBuilder {
     public WhenBuilder name(String skillName) {
         this.name = skillName;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return this.name + "||" +this.action.getName();
     }
 }

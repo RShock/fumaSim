@@ -11,7 +11,10 @@ public class GlobalDataManager {
     private static final GlobalDataManager manager = new GlobalDataManager();
 
     public static Integer getIntData(KeyEnum key) {
-        return manager.intData.get(key.toString());
+        if (manager.intData.containsKey(key.toString())) {
+            return manager.intData.get(key.toString());
+        }
+        return 0;
     }
 
     public static String getData(KeyEnum key) {
@@ -28,8 +31,8 @@ public class GlobalDataManager {
 
     public static int incIntData(KeyEnum key) {
         int data = manager.intData.get(key.toString());
-        manager.intData.put(key.toString(), data+1);
-        return data+1;
+        manager.intData.put(key.toString(), data + 1);
+        return data + 1;
     }
 
     public static void reset() {
