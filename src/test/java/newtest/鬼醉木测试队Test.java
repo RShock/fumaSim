@@ -85,22 +85,21 @@ public class 鬼醉木测试队Test {
     @Disabled
     @Test
     public void 鬼罪木队完全测试() throws IOException {
-        FullTest fullTest = new FullTest(Arrays.asList(睡托, 小白, 可巴, 星红, 可伊),
+        FullTest fullTest = new FullTest(Arrays.asList("性诞驯鹿 希依", "鲜血魔王 洛缇亚", "闪耀歌姬 黑白诺艾莉", "魔物终结 鬼醉木", "偶像经纪人 梅丝米奈雅"),
                 """
-                        2A 3A 4A 1A 5A
                         2A 3A 1A 4A 5A
                         2A 3A 1A 4A 5A
-                        2A 3A 4Q 1Q 5A
-                        2Q 3Q 5Q 1A 4A
-                                                
-                        2A 3A 1A 4A 5A
-                        2A 3A 4Q 1Q 5A
-                        2A 3A 1A 4A 5A
-                        2Q 3Q 5Q 1A 4A
-                        2A 3A 4Q 1Q 5A
                         2A 3A 1A 4A 5A
                         2A 3A 1A 4A 5A
-                        2Q 3Q 4Q 1Q 5Q
+                        2Q 3Q 1Q 4Q 5Q
+                        2A 3A 1A 4A 5A
+                        2A 3A 1A 4A 5A
+                        2A 3A 1A 4A 5A
+                        2Q 3Q 1Q 4Q 5Q
+                        2A 3A 1A 4A 5A
+                        2A 3A 1A 4A 5A
+                        2A 3A 1A 4A 5A
+                        2Q 3Q 1Q 4Q 5Q
                         """);
         fullTest.fullTest();
     }

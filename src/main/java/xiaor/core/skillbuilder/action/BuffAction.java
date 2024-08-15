@@ -82,12 +82,12 @@ public class BuffAction {
                 switch (buffType) {
                     case 攻击力 -> {
                         buff = tempBuff.trigger(攻击力计算)
-                                .cast(pack -> pack.addBuff(攻击力,pack.buff.getMulti()))
+                                .cast(pack -> pack.addBuff(攻击力, pack.buff.getMulti()))
                                 .build();
                         acceptor.shouldUpdateAtk();
                     }
                     case 普攻伤害 -> buff = tempBuff.trigger(普攻伤害计算)
-                            .cast(pack -> pack.addBuff(BuffType.普攻伤害,  pack.buff.getMulti()))
+                            .cast(pack -> pack.addBuff(BuffType.普攻伤害, pack.buff.getMulti()))
                             .build();
                     case 造成伤害 -> buff = tempBuff.trigger(伤害计算)
                             .cast(pack -> pack.addBuff(BuffType.造成伤害, pack.buff.getMulti()))
@@ -139,6 +139,10 @@ public class BuffAction {
                             .check(pack -> pack.checkAccepter(acceptor) && pack.caster.is(攻击者))
                             .cast(pack -> pack.addBuff(受到攻击者伤害, pack.buff.getMulti()))
                             .build();
+                    case 受到妨碍者伤害 -> buff = tempBuff.trigger(伤害计算)
+                            .check(pack -> pack.checkAccepter(acceptor) && pack.caster.is(妨碍者))
+                            .cast(pack -> pack.addBuff(受到妨碍者伤害, pack.buff.getMulti()))
+                            .build();
                     case 受到精灵王伤害 -> buff = tempBuff.trigger(伤害计算)
                             .check(pack -> pack.caster.getCharaId() == ExcelCharaProvider.searchIdByCharaName("精灵王 塞露西亚"))
                             .cast(pack -> pack.addBuff(受到精灵王伤害, pack.buff.getMulti()))
@@ -151,10 +155,10 @@ public class BuffAction {
                     case 受到连环陷阱属性伤害 -> {        // 特殊逻辑，和连环陷阱buff联动。代码写的很丑。
                         double level = TriggerManager.queryBuff(连环陷阱, caster).map(Buff::getMulti).orElse(0.0);
                         buff = tempBuff.trigger(伤害计算)
-                            .check(pack -> pack.checkAccepter(acceptor) && (pack.caster.is(Element.水属性) || pack.caster.is(Element.火属性)) )
-                            .cast(pack -> pack.addBuff(受到连环陷阱属性伤害, multi*level))
-                            .build();
-                        Logger.INSTANCE.log(LogType.其他, "实际连环陷阱层数附加："+ (int)level);
+                                .check(pack -> pack.checkAccepter(acceptor) && (pack.caster.is(Element.水属性) || pack.caster.is(Element.火属性)))
+                                .cast(pack -> pack.addBuff(受到连环陷阱属性伤害, multi * level))
+                                .build();
+                        Logger.INSTANCE.log(LogType.其他, "实际连环陷阱层数附加：" + (int) level);
                     }
                     case 必杀技CD -> {
                         return;
@@ -173,11 +177,12 @@ public class BuffAction {
                             .build();
                     case 受到治疗回复量 -> buff = tempBuff.trigger(没做)
                             .check(pack -> false)
-                            .cast(pack -> {})
+                            .cast(pack -> {
+                            })
                             .build();
                     //dot伤害比较独特需要仔细处理
                     case 持续伤害 -> {
-                        long dot =  (long) (caster.getCurrentAttack() * multi);
+                        long dot = (long) (caster.getCurrentAttack() * multi);
                         buff = tempBuff.trigger(回合结束)
                                 .check(pack -> true)
                                 .cast(pack -> DamageAction.create(DamageAction.DamageType.流血伤害)
@@ -188,13 +193,12 @@ public class BuffAction {
                     }
                     case 魔法少女之力, 连环陷阱, 妾身蛇后小白脸 -> // 睡托的特殊Buff，只有计数作用
                             buff = tempBuff.trigger(没做)
-                                .check(pack -> false)
-                                .cast(pack -> {})
-                                .build();
-                    case 触发伤害 -> buff = tempBuff.trigger(触发伤害计算)
-                            .check(pack ->
-                                    pack.checkAccepter(acceptor) && pack.checkCastor(caster)
-                            ).cast(pack -> pack.addBuff(触发伤害, pack.buff.getMulti()))
+                                    .check(pack -> false)
+                                    .cast(pack -> {
+                                    })
+                                    .build();
+                    case 触发伤害, 触发效果 -> buff = tempBuff.trigger(触发伤害计算)
+                            .cast(pack -> pack.addBuff(触发伤害, pack.buff.getMulti()))
                             .build();
                     default -> throw new RuntimeException("未支持的buff类型" + buffType);
                 }
@@ -213,7 +217,7 @@ public class BuffAction {
                     .maxLevel(maxLevel)
                     .incLv(level)
                     .currentLevel(level)
-                    .uniqueId(id + " " +acceptor.uniqueId());
+                    .uniqueId(id + " " + acceptor.uniqueId());
         } else if (isSwitchBuff) {
             tempBuff = SwitchBuff.<BuffCalPack>builder().enabledChecks(additionalCheckers);
         } else {

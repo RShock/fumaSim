@@ -67,7 +67,7 @@ public class 睡托测试队Test {
     public void 魔法少女队完全测试() throws IOException {
         FullTest fullTest = new FullTest(Arrays.asList(睡托, 小白, 可巴, 星红, 可伊),
                 """
-                        2A 3A 4A 5A 1A
+                        2A 3A 4A 1A 5A
                         2A 3A 1A 4A 5A
                         2A 3A 1A 4A 5A
                         2A 3A 4Q 1Q 5A

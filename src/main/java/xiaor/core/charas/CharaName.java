@@ -25,4 +25,11 @@ public class CharaName {
     public static final String 可巴 = "甜心可可 巴尔";
     public static final String 星红 = "双星之红 安丝蒂";
     public static final String 可伊 = "性诞恋歌 伊布力斯";
+
+    public static final String 性鹿 = "性诞驯鹿 希依";
+    public static final String 血魔 = "鲜血魔王 洛缇亚";
+    public static final String 闪黑 = "闪耀歌姬 黑白诺艾莉";
+    public static final String 鬼厨 = "魔物终结 鬼醉木";
+    public static final String 偶蛇 = "偶像经纪人 梅丝米奈雅";
+
 }

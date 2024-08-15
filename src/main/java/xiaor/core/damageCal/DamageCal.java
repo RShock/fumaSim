@@ -27,7 +27,7 @@ public class DamageCal {
     }
 
     public void finalDamage(Chara acceptor, double percent, DamageBase baseType, int times, TriggerEnum skillTypeEnum) {
-        Logger.INSTANCE.log(LogType.触发BUFF, "伤害倍率%s%%，伤害类型:%s，%s次".formatted(percent * 100, baseType, times));
+        Logger.INSTANCE.log(LogType.触发BUFF, "伤害倍率%s%%，伤害基准:%s，%s次".formatted(percent * 100, baseType, times));
         double baseDamage = percent * switch (baseType) {
             case 攻击 -> pack.caster.getCurrentAttack();
             case 生命 -> pack.caster.getCurrentMaxLife();
@@ -135,7 +135,6 @@ public class DamageCal {
         造成伤害增加,
         杂项,
         属性克制,
-        触发
     }
 
     private static final HashMap<BuffType, InternalBuffType> buffTypeMap = getBuffTypeMap();
@@ -148,6 +147,7 @@ public class DamageCal {
         buffMap.put(BuffType.造成伤害, 造成伤害增加);
         buffMap.put(BuffType.受到伤害, 易伤);
         buffMap.put(BuffType.受到攻击者伤害, 杂项);
+        buffMap.put(BuffType.受到妨碍者伤害, 杂项);
         buffMap.put(BuffType.受到精灵王伤害, 杂项);
         buffMap.put(BuffType.受到自身伤害, 杂项);
         buffMap.put(BuffType.受到风属性伤害, 属性易伤);
@@ -159,7 +159,7 @@ public class DamageCal {
         buffMap.put(BuffType.必杀技伤害, 杂项);
         buffMap.put(BuffType.受到普攻伤害, 杂项);
         buffMap.put(BuffType.受到必杀伤害, 杂项);
-        buffMap.put(BuffType.触发伤害, 触发);
+        buffMap.put(BuffType.触发伤害, 杂项);
         buffMap.put(BuffType.受到连环陷阱属性伤害, 属性易伤);
         return buffMap;
     }

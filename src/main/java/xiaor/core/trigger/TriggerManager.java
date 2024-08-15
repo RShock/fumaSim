@@ -89,8 +89,8 @@ public class TriggerManager {
         //普通for循环防止迭代器问题
         int size = skills.size();
 //        if (GameBoard.getInstance().getCurrentT() >= 6 && pack != null && ((MessagePack) pack).caster != null && ((MessagePack) pack).caster.toString().contains("希依") && trigger == TriggerEnum.行动后) {
-        if(trigger == TriggerEnum.释放必杀后){
-            Logger.INSTANCE.log(LogType.其他, "sth");
+        if (trigger == TriggerEnum.释放必杀后) {
+//            Logger.INSTANCE.log(LogType.其他, "sth");
 
         }
         for (int i = 0; i < size; i++) {
@@ -104,8 +104,8 @@ public class TriggerManager {
     }
 
     public static void registerSkill(Skill skill) {
-        if (Objects.equals(skill.getId(), "103013") && skill.getTrigger().equals(TriggerEnum.行动后)){
-            Logger.INSTANCE.log(LogType.触发BUFF,"注册103013事件");
+        if (Objects.equals(skill.getId(), "103013") && skill.getTrigger().equals(TriggerEnum.行动后)) {
+            Logger.INSTANCE.log(LogType.触发BUFF, "注册103013事件");
         }
         getInstance().skills.add(skill);
     }
